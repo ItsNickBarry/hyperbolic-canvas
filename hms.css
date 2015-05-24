@@ -1,21 +1,25 @@
 html, body {
   height: 100%;
   margin: 0;
-  background-color: black;
+  /*background-color: black;*/
 }
 
-div.hyperbolic-canvas {
-  height: 100%;
+div.holder {
+  height: 90%;
+  width: 90%;
+  border: solid 2px black;
 }
+
+/*not required because styling is added in the HTML*/
+/*div.hyperbolic-canvas {
+  height: 100px;
+  width: 100px;
+}*/
 
 div.hyperbolic-canvas div.viewport canvas {
-  display: block;
   background-color: #000080;
 }
 
 div.hyperbolic-canvas .viewport {
-  width: calc(100% - 40px);
-  height: calc(100% - 40px);
   background-color: #43464B;
-  border: solid 20px white;
 }
