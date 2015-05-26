@@ -1,6 +1,12 @@
 # Hyperbolic Canvas
 A Javascript implementation of the Poincaré disk model of the hyperbolic plane, on an HTML canvas.
 
+```
+For God's sake, please give it up. Fear it no less than the sensual passion, because it, too, may take up all your time and deprive you of your health, peace of mind and happiness in life.
+
+- Farkas Bolyai to his son János Bolyai, on hyperbolic geometry
+```
+
 Capable of the following operations:
 * Calculate hyperbolic distance of point from center
 * Calculate hyperbolic distance between points
@@ -59,6 +65,9 @@ The ResizeSensor class is provided by [Marc J. Schmidt][marcj] as a part of the 
 * Calculate hyperbolic distance between points
 * Draw hyperbolic line between points
 * Calculate Euclidean arclength between a point and a destination point given hyperbolic distance and hyperbolic line.
+
+The Y axis is not inverted as in a standard HTML canvas.
+Angle values are in radians.  Tau, defined as 2 * Pi, is exposed as HyperbolicCanvas.TAU and, if not already in use, Math.TAU.  An attempt to be more well-rounded.
 
 ## Issues
 I don't know how geometry works.  I don't know how math works.  I don't know how Javascript works.  Does anyone, really?  If you do, and you notice an oversight, please open a new issue.
