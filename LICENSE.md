@@ -1,5 +1,4 @@
-ResizeSensor.js Copyright (c) 2013 Marc J. Schmidt
-HC.js Copyright (c) 2015 Nick Barry
+Copyright (c) 2015 Nick Barry
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
