@@ -24,7 +24,6 @@ It is not recommended to apply styling beyond background color.
 */
 div.hyperbolic-canvas div.viewport {
   background-color: #2C001E;
-  /*padding: 40px;*/
 }
 
 /*
@@ -34,5 +33,4 @@ It is not recommended to apply styling beyond background color.
 */
 div.hyperbolic-canvas div.viewport canvas {
   background-color: #D6D3CF;
-  /*border: 40px solid black;*/
 }
