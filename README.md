@@ -1,4 +1,4 @@
-> > **For God's sake, please give it up. Fear it no less than the sensual passion, because it, too, may take up all your time and deprive you of your health, peace of mind and happiness in life.**
+> > **For God's sake, please give it up. Fear it no less than the sensual passion, because it, too, may take up all your time and deprive you of your health, peace of mind, and happiness in life.**
 >
 > Farkas Bolyai, to his son János Bolyai, on hyperbolic geometry
 
