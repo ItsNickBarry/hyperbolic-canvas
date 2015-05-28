@@ -1,33 +1,37 @@
+> > **For God's sake, please give it up. Fear it no less than the sensual passion, because it, too, may take up all your time and deprive you of your health, peace of mind and happiness in life.**
+>
+> Farkas Bolyai, to his son János Bolyai, on hyperbolic geometry
+
 # Hyperbolic Canvas
 A Javascript implementation of the Poincaré disk model of the hyperbolic plane, on an HTML canvas.
 
-```
-For God's sake, please give it up. Fear it no less than the sensual passion, because it, too, may take up all your time and deprive you of your health, peace of mind and happiness in life.
+Capable of:
 
-- Farkas Bolyai to his son János Bolyai, on hyperbolic geometry
-```
+- [x] Draw hyperbolic line between points
+- [x] Calculate hyperbolic distance between points (maybe ?  not sure if results are accurate)
+- [ ] Calculate Euclidean arclength between a point and a destination point given hyperbolic distance and hyperbolic line.
+- [ ] Draw polygon from path
+- [ ] Draw regular n-gon
+- [ ] Tesselate the plane with n-gons
+- [x] Not very much, really
+- [x] It's not done yet, and neither is the readme
+- [ ] ...
 
-Capable of the following operations:
-* Calculate hyperbolic distance of point from center
-* Calculate hyperbolic distance between points
-* Draw hyperbolic line between points
-* Calculate Euclidean arclength between a point and a destination point given hyperbolic distance and hyperbolic line.
+## Demonstrations
+* one
+* two
+* probably not three
+* let me know if you use this in a project, so I can populate this list
 
 ## Usage
 ### Simple Installation
-Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and load [HC.js][HC.js].  Width and height styling must be specified.  A ratio of 1:1 and absolute px values are recommended:
+Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and load [HC.js][HC.js].  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  A ratio of 1:1 and absolute px values are recommended:
 
 ```html
 <div class="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
 <div class="hyperbolic-canvas" style="width: 400px; height: 400px;"></div>
 
 <script type="application/javascript" src="lib/HC.js"></script>
-```
-
-Each of these divs will be be appended with its own hyperbolic Canvas object, all of which are exposed through the HyperbolicCanvas namespace:
-
-```javascript
-window.HyperbolicCanvas.canvases
 ```
 
 Additional styling, such as the following CSS, is required to differentiate elements graphically:
@@ -41,33 +45,26 @@ div.hyperbolic-canvas .viewport {
 }
 ```
 
-### Autoresize
-To allow the canvas to automatically resize to fill its containing div, use the "hyperbolic-canvas-autoresize" class, and load [ResizeSensor.js][ResizeSensor.js].  Width and height styling must be specified, in terms of percentage.  Parent element must, of course, have non-zero, non-fixed width and height:
+### Exposed Variables and Constants
+An array of all Canvas objects is exposed through the HyperbolicCanvas namespace:
 
-```html
-<div class="hyperbolic-canvas hyperbolic-canvas-autoresize" style="width: 100%; height: 100%;"></div>
-
-<script type="application/javascript" src="lib/ResizeSensor.js"></script>
-<script type="application/javascript" src="lib/HC.js"></script>
+```javascript
+window.HyperbolicCanvas.canvases
 ```
 
-The canvas will be cleared each time a resize occurs.
+### Object Classes and Their Functions
+The hyperbolic canvas makes use of three geometric object classes, defined relative to the Euclidean plane.
 
-The ResizeSensor class is provided by [Marc J. Schmidt][marcj] as a part of the [CSS Element Queries][elementqueries] library.
+#### Point
+A representation of a point on the Canvas, where the center is defined as (0, 0) and the radius is defined as 1, and the y axis is not inverted.
 
-[HC.js]: ./lib/HC.js
-[ResizeSensor.js]: ./lib/ResizeSensor.js
-[marcj]: https://github.com/marcj
-[elementqueries]: http://marcj.github.io/css-element-queries/
+#### Line
+The relationship between two Points.  Contains various functions which act on either the Euclidean or the hyperbolic plane.
 
-### Functions
-* Calculate hyperbolic distance of point from center
-* Calculate hyperbolic distance between points
-* Draw hyperbolic line between points
-* Calculate Euclidean arclength between a point and a destination point given hyperbolic distance and hyperbolic line.
+#### Circle
+A center Point and a radius.  Used mostly internally for the purpose of drawing hyperbolic lines.
 
-The Y axis is not inverted as in a standard HTML canvas.
-Angle values are in radians.  Tau, defined as 2 * Pi, is exposed as HyperbolicCanvas.TAU and, if not already in use, Math.TAU.  An attempt to be more well-rounded.
+### The Canvas Class and Its Functions
 
 ## Issues
 I don't know how geometry works.  I don't know how math works.  I don't know how Javascript works.  Does anyone, really?  If you do, and you notice an oversight, please open a new issue.
