@@ -8,12 +8,12 @@
     /*
     * test variables
     */
-    window.p1 = new HyperbolicCanvas.Point(.5, .5);
-    window.p2 = new HyperbolicCanvas.Point(.5, -.7);
-    window.p3 = new HyperbolicCanvas.Point(-.3, -.2);
-    window.p4 = new HyperbolicCanvas.Point(-.3, .5);
-    window.p5 = new HyperbolicCanvas.Point(.9, 0);
-    window.p6 = new HyperbolicCanvas.Point(0, .9);
+    window.p1 = HyperbolicCanvas.Point.xY(.5, .5);
+    window.p2 = HyperbolicCanvas.Point.xY(.5, -.7);
+    window.p3 = HyperbolicCanvas.Point.xY(-.3, -.2);
+    window.p4 = HyperbolicCanvas.Point.xY(-.3, .5);
+    window.p5 = HyperbolicCanvas.Point.xY(.9, 0);
+    window.p6 = HyperbolicCanvas.Point.xY(0, .9);
     window.l1 = HyperbolicCanvas.Line.pointPoint(p1, p2);
     window.l2 = HyperbolicCanvas.Line.pointPoint(p3, p2);
     window.l3 = HyperbolicCanvas.Line.pointPoint(p3, p4);
@@ -37,7 +37,7 @@
         var x = 1 - Math.random() * 2;
         var y = Math.sqrt( 1 - x * x);
         y = Math.random() > .5 ? y : y * -1;
-        points.push(new Point(x, y));
+        points.push(new Point({ x: x, y: y }));
       }
       var center = Circle.pointPointPoint(points[0], points[1], points[2]).center;
       if (center === false) {
