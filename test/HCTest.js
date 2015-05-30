@@ -29,7 +29,7 @@
     c.fillPolygon([p1,p2,p3,p4]);
 
     // c.ctx.strokeStyle = 'black';
-    // c.drawPolygon([p1,p2,p3,p4]);
+    c.drawPolygon([p1,p2,p3,p4]);
 
     // [l1,l2,l3,l4].forEach(function (l) {
     //   c.drawLine(l);
