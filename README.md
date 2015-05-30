@@ -10,7 +10,7 @@ Capable of:
 - [x] Draw hyperbolic line between points
 - [x] Calculate hyperbolic distance between points (maybe ?  not sure if results are accurate)
 - [ ] Calculate Euclidean arclength between a point and a destination point given hyperbolic distance and hyperbolic line.
-- [ ] Draw polygon from path
+- [x] Draw polygon from path
 - [ ] Draw regular n-gon
 - [ ] Tesselate the plane with n-gons
 - [x] Not very much, really
@@ -25,13 +25,13 @@ Capable of:
 
 ## Usage
 ### Simple Installation
-Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and load [HC.js][HC.js].  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  A ratio of 1:1 and absolute px values are recommended:
+Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and load [HyperbolicCanvas.js][HyperbolicCanvas.js].  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  A ratio of 1:1 and absolute px values are recommended:
 
 ```html
 <div class="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
 <div class="hyperbolic-canvas" style="width: 400px; height: 400px;"></div>
 
-<script type="application/javascript" src="lib/HC.js"></script>
+<script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
 ```
 
 Additional styling, such as the following CSS, is required to differentiate elements graphically:
@@ -53,7 +53,7 @@ window.HyperbolicCanvas.canvases
 ```
 
 ### Object Classes and Their Functions
-The hyperbolic canvas makes use of three geometric object classes, defined relative to the Euclidean plane.
+The hyperbolic canvas makes use of four geometric object classes, defined relative to the Euclidean plane.
 
 #### Point
 A representation of a point on the Canvas, where the center is defined as (0, 0) and the radius is defined as 1, and the y axis is not inverted.
@@ -63,6 +63,9 @@ The relationship between two Points.  Contains various functions which act on ei
 
 #### Circle
 A center Point and a radius.  Used mostly internally for the purpose of drawing hyperbolic lines.
+
+#### Polygon
+An ordered collection of Points.
 
 ### The Canvas Class and Its Functions
 
