@@ -5,30 +5,36 @@
   }
 
 
-    /*
-    * test variables
-    */
-    window.p1 = HyperbolicCanvas.Point.xY(.5, .5);
-    window.p2 = HyperbolicCanvas.Point.xY(.5, -.7);
-    window.p3 = HyperbolicCanvas.Point.xY(-.3, -.2);
-    window.p4 = HyperbolicCanvas.Point.xY(-.3, .5);
-    window.p5 = HyperbolicCanvas.Point.xY(.9, 0);
-    window.p6 = HyperbolicCanvas.Point.xY(0, .9);
-    window.l1 = HyperbolicCanvas.Line.pointPoint(p1, p2);
-    window.l2 = HyperbolicCanvas.Line.pointPoint(p3, p2);
-    window.l3 = HyperbolicCanvas.Line.pointPoint(p3, p4);
-    window.l4 = HyperbolicCanvas.Line.pointPoint(p1, p4);
-    window.l5 = HyperbolicCanvas.Line.pointPoint(p6, p5);
-    window.c = canvases[0];
+  var Point = window.Point = window.HyperbolicCanvas.Point;
+  var Line = window.Line = window.HyperbolicCanvas.Line;
+  var Circle = window.Circle = window.HyperbolicCanvas.Circle;
+  var Canvas = window.Canvas = window.HyperbolicCanvas.Canvas;
 
-    [l1,l2,l3,l4].forEach(function (l) {
-      c.drawLine(l);
-    });
 
-    window.Point = window.HyperbolicCanvas.Point;
-    window.Line = window.HyperbolicCanvas.Line;
-    window.Circle = window.HyperbolicCanvas.Circle;
+  window.HyperbolicCanvas.test = function () {
+    window.p1 = Point.xY(.5, .5);
+    window.p2 = Point.xY(.5, -.7);
+    window.p3 = Point.xY(-.3, -.2);
+    window.p4 = Point.xY(-.3, .5);
+    window.p5 = Point.xY(.9, 0);
+    window.p6 = Point.xY(0, .9);
+    window.l1 = Line.pointPoint(p1, p2);
+    window.l2 = Line.pointPoint(p3, p2);
+    window.l3 = Line.pointPoint(p3, p4);
+    window.l4 = Line.pointPoint(p1, p4);
+    window.l5 = Line.pointPoint(p6, p5);
+    window.c = HyperbolicCanvas.canvases[0];
 
+
+    c.fillPolygon([p1,p2,p3,p4]);
+
+    // c.ctx.strokeStyle = 'black';
+    // c.drawPolygon([p1,p2,p3,p4]);
+
+    // [l1,l2,l3,l4].forEach(function (l) {
+    //   c.drawLine(l);
+    // });
+  };
 
   window.circleTest = function () {
     for (var i = 0; i < 1000; i++) {
