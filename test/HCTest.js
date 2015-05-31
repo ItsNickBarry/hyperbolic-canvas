@@ -8,6 +8,7 @@
   var Point = window.Point = window.HyperbolicCanvas.Point;
   var Line = window.Line = window.HyperbolicCanvas.Line;
   var Circle = window.Circle = window.HyperbolicCanvas.Circle;
+  var Polygon = window.Polygon = window.HyperbolicCanvas.Polygon;
   var Canvas = window.Canvas = window.HyperbolicCanvas.Canvas;
 
 
@@ -24,6 +25,8 @@
     window.l4 = Line.pointPoint(p1, p4);
     window.l5 = Line.pointPoint(p6, p5);
     window.c = HyperbolicCanvas.canvases[0];
+    c.ctx.fillStyle = '#DD4814';
+    c.ctx.strokeStyle = '#DD4814';
 
 
     // c.fillPolygon([p1,p2,p3,p4]);
@@ -34,14 +37,14 @@
     // [l1,l2,l3,l4].forEach(function (l) {
     //   c.drawLine(l);
     // });
-    var v = HyperbolicCanvas.Polygon.fromN(5, Point.xY(.5,.5), 1, .000001)
+    var v = Polygon.fromN(5, Point.CENTER, 3, .000001)
     c.fillPolygon(v);
-    // var v = HyperbolicCanvas.Polygon.fromN(5, Point.CENTER, 2, .000001)
-    // c.ctx.fillStyle = 'red';
-    // c.fillPolygon(v);
-    // var v = HyperbolicCanvas.Polygon.fromN(5, Point.CENTER, 1, .000001)
-    // c.ctx.fillStyle = 'yellow';
-    // c.fillPolygon(v);
+    var v = Polygon.fromN(5, Point.CENTER, 2, .000001)
+    c.ctx.fillStyle = 'red';
+    c.fillPolygon(v);
+    var v = Polygon.fromN(5, Point.CENTER, 1, .000001)
+    c.ctx.fillStyle = 'yellow';
+    c.fillPolygon(v);
   };
 
   window.circleTest = function () {
