@@ -26,14 +26,22 @@
     window.c = HyperbolicCanvas.canvases[0];
 
 
-    c.fillPolygon([p1,p2,p3,p4]);
+    // c.fillPolygon([p1,p2,p3,p4]);
 
     // c.ctx.strokeStyle = 'black';
-    c.drawPolygon([p1,p2,p3,p4]);
+    // c.drawPolygon([p1,p2,p3,p4]);
 
     // [l1,l2,l3,l4].forEach(function (l) {
     //   c.drawLine(l);
     // });
+    var v = HyperbolicCanvas.Polygon.fromN(5, Point.xY(.5,.5), 1, .000001)
+    c.fillPolygon(v);
+    // var v = HyperbolicCanvas.Polygon.fromN(5, Point.CENTER, 2, .000001)
+    // c.ctx.fillStyle = 'red';
+    // c.fillPolygon(v);
+    // var v = HyperbolicCanvas.Polygon.fromN(5, Point.CENTER, 1, .000001)
+    // c.ctx.fillStyle = 'yellow';
+    // c.fillPolygon(v);
   };
 
   window.circleTest = function () {
