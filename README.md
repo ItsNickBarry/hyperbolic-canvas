@@ -1,9 +1,13 @@
 > > **For God's sake, please give it up. Fear it no less than the sensual passion, because it, too, may take up all your time and deprive you of your health, peace of mind, and happiness in life.**
 >
-> Farkas Bolyai, to his son János Bolyai, on hyperbolic geometry
+> [Farkas Bolyai][farkas], to his son [János Bolyai][jános], on [hyperbolic geometry][hyperbolicgeometry]
+
+[farkas]: https://en.wikipedia.org/wiki/Farkas_Bolyai
+[jános]: https://en.wikipedia.org/wiki/J%C3%A1nos_Bolyai
+[hyperbolicgeometry]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
 
 # Hyperbolic Canvas
-A Javascript implementation of the Poincaré disk model of the hyperbolic plane, on an HTML canvas.
+A Javascript implementation of the [Poincaré disk model][diskmodel] of the hyperbolic plane, on an HTML canvas.
 
 Capable of:
 
@@ -13,9 +17,10 @@ Capable of:
 - [x] Draw polygon from path
 - [x] Draw regular n-gon
 - [ ] Tesselate the plane with n-gons
-- [x] Not very much, really
 - [x] It's not done yet, and neither is the readme
 - [ ] ...
+
+[diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
 
 ## Demonstrations
 * one
@@ -25,7 +30,7 @@ Capable of:
 
 ## Usage
 ### Simple Installation
-Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and load [HyperbolicCanvas.js][HyperbolicCanvas.js].  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  A ratio of 1:1 and absolute px values are recommended:
+Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and load [HyperbolicCanvas.js][HyperbolicCanvas.js].  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
 
 ```html
 <div class="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
@@ -44,6 +49,10 @@ div.hyperbolic-canvas .viewport {
   background-color: #43464B;
 }
 ```
+See the [example HTML][html] and [example CSS][css] for a demonstration.
+
+[html]: ./example.html
+[css]: ./example.css
 
 ### Exposed Variables and Constants
 An array of all Canvas objects is exposed through the HyperbolicCanvas namespace:
@@ -52,12 +61,15 @@ An array of all Canvas objects is exposed through the HyperbolicCanvas namespace
 window.HyperbolicCanvas.canvases
 ```
 
-The constant TAU is defined on the Math object.  It is equivalent to `2 * Math.PI`.
+The constant [Tau][manifesto] is defined on the Math object as `2 * Math.PI`:
 
 ```javascript
 Math.TAU;
 // 6.283185307179586
+// you're welcome
 ```
+
+[manifesto]: http://tauday.com/tau-manifesto
 
 ### Object Classes and Their Functions
 The hyperbolic canvas makes use of four geometric object classes, defined relative to the Euclidean plane.
@@ -151,8 +163,9 @@ Instance functions:
 
 ```
 
-
 ### The Canvas Class and Its Functions
 
-## Issues
-I don't know how geometry works.  I don't know how math works.  I don't know how Javascript works.  Does anyone, really?  If you do, and you notice an oversight, please open a new issue.
+## Issues and Features
+To report problems, or request features, please open a new [issue][issue].
+
+[issue]: https://github.com/ItsNickBarry/hyperbolic-canvas/issues
