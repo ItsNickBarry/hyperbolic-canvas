@@ -11,7 +11,7 @@ Capable of:
 - [x] Calculate hyperbolic distance between points (maybe ?  not sure if results are accurate)
 - [ ] Calculate Euclidean arclength between a point and a destination point given hyperbolic distance and hyperbolic line.
 - [x] Draw polygon from path
-- [ ] Draw regular n-gon
+- [x] Draw regular n-gon
 - [ ] Tesselate the plane with n-gons
 - [x] Not very much, really
 - [x] It's not done yet, and neither is the readme
@@ -52,20 +52,105 @@ An array of all Canvas objects is exposed through the HyperbolicCanvas namespace
 window.HyperbolicCanvas.canvases
 ```
 
+The constant TAU is defined on the Math object.  It is equivalent to `2 * Math.PI`.
+
+```javascript
+Math.TAU;
+// 6.283185307179586
+```
+
 ### Object Classes and Their Functions
 The hyperbolic canvas makes use of four geometric object classes, defined relative to the Euclidean plane.
+// TODO explain how constructor functions work
 
 #### Point
 A representation of a point on the Canvas, where the center is defined as (0, 0) and the radius is defined as 1, and the y axis is not inverted.
 
+Constants:
+
+```javascript
+Point.CENTER;
+```
+
+Constructors:
+
+```javascript
+Point.fromCoordinates(x, y);
+
+Point.fromPolarCoordinates(radius, angle);
+
+Point.fromHyperbolicPolarCoordinates(radius, angle);
+
+Point.between(somePoint, someOtherPoint);
+```
+
+Instance functions:
+
+```javascript
+
+```
+
 #### Line
 The relationship between two Points.  Contains various functions which act on either the Euclidean or the hyperbolic plane.
+
+Constructors:
+
+```javascript
+Line.fromPointSlope(point, slope);
+
+Line.fromTwoPoints(somePoint, someOtherPoint);
+```
+
+Instance functions:
+
+```javascript
+
+```
 
 #### Circle
 A center Point and a radius.  Used mostly internally for the purpose of drawing hyperbolic lines.
 
+Constants:
+
+```javascript
+Circle.UNIT;
+```
+
+Constructors:
+
+```javascript
+Circle.fromCenterRadius(center, radius);
+
+Circle.fromHyperbolicCenterRadius(center, radius);
+
+Circle.fromTwoPoints(somePoint, someOtherPoint);
+
+Circle.fromThreePoints(somePoint, someOtherPoint, someOtherOtherPoint);
+```
+
+Instance functions:
+
+```javascript
+
+```
+
 #### Polygon
 An ordered collection of Points.
+
+Constructors:
+
+```javascript
+Polygon.fromVertices(verticesArray);
+
+Polygon.fromNCenterRadius(nSides, centerPoint, radius);
+```
+
+Instance functions:
+
+```javascript
+
+```
+
 
 ### The Canvas Class and Its Functions
 
