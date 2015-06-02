@@ -168,4 +168,4 @@ Instance functions:
 ## Issues and Features
 To report problems, or request features, please open a new [issue][issue].
 
-[issue]: https://github.com/ItsNickBarry/hyperbolic-canvas/issues
+[issue]: ./../../issues
