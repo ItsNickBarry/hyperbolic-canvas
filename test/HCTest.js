@@ -10,8 +10,10 @@
   var Circle = window.Circle = window.HyperbolicCanvas.Circle;
   var Polygon = window.Polygon = window.HyperbolicCanvas.Polygon;
   var Canvas = window.Canvas = window.HyperbolicCanvas.Canvas;
-
-
+  var bool = true;
+  window.HyperbolicCanvas.toggle = function () {
+    bool ^= true;
+  }
   window.HyperbolicCanvas.test = function () {
     window.p1 = Point.fromCoordinates(.5, .5);
     window.p2 = Point.fromCoordinates(.5, -.7);
@@ -28,6 +30,8 @@
     c.ctx.fillStyle = '#DD4814';
     c.ctx.strokeStyle = '#DD4814';
 
+    document.addEventListener('click', window.HyperbolicCanvas.toggle);
+
 
     // c.fillPolygon([p1,p2,p3,p4]);
 
@@ -37,14 +41,48 @@
     // [l1,l2,l3,l4].forEach(function (l) {
     //   c.drawLine(l);
     // });
-    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 3)
-    c.fillPolygon(v);
-    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 2)
-    c.ctx.fillStyle = 'red';
-    c.fillPolygon(v);
-    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 1)
-    c.ctx.fillStyle = 'yellow';
-    c.fillPolygon(v);
+    // var v = Polygon.fromNCenterRadius(5, Point.CENTER, 20)
+    // // c.ctx.fillStyle = 'green';
+    // c.fillPolygon(v);
+    // var v = Polygon.fromNCenterRadius(5, Point.CENTER, 2)
+    // c.ctx.fillStyle = 'red';
+    // c.fillPolygon(v);
+    // var v = Polygon.fromNCenterRadius(5, Point.CENTER, 1)
+    // c.ctx.fillStyle = 'yellow';
+    // c.fillPolygon(v);
+
+    // c.ctx.fillStyle = 'green';
+    // var c = window.c;
+    var n = 5;
+    var r = .5;
+    var p = Point.CENTER;
+    var count = 6;
+    var rotation = 0;
+    var fn = function () {
+      if (!bool) {
+        return false;
+      }
+      var polygons = [];
+      rotation += Math.TAU / (n * n * n);
+      rotation %= Math.TAU;
+      console.log("ROTATION: " + rotation)
+      for (var i = 0; i < count; i++) {
+        for (var j = 0; j < n; j++) {
+          var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
+          var gon = Polygon.fromNCenterRadius(n, p2, r, Math.TAU / n * j + Math.PI * i + rotation);
+          polygons.push(gon);
+        }
+      }
+      c.ctx.clearRect(0, 0, c.diameter, c.diameter);
+      // debugger
+      // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
+      polygons.forEach(c.fillPolygon.bind(c));
+    };
+    fn();
+    setInterval(fn, 1000);
+
+    // c.setStrokeStyle('black');
+    // polygons.forEach(c.drawPolygon.bind(c));
   };
 
   window.circleTest = function () {
