@@ -37,12 +37,12 @@
     // [l1,l2,l3,l4].forEach(function (l) {
     //   c.drawLine(l);
     // });
-    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 3, .000001)
+    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 3)
     c.fillPolygon(v);
-    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 2, .000001)
+    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 2)
     c.ctx.fillStyle = 'red';
     c.fillPolygon(v);
-    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 1, .000001)
+    var v = Polygon.fromNCenterRadius(5, Point.CENTER, 1)
     c.ctx.fillStyle = 'yellow';
     c.fillPolygon(v);
   };
