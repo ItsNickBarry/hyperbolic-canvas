@@ -23,10 +23,12 @@ Capable of:
 [diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
 
 ## Demonstrations
-* one
+* [Example][example]
 * two
 * probably not three
 * let me know if you use this in a project, so I can populate this list
+
+[example]: http://ItsNickBarry.github.io/hyperbolic-canvas/example.html
 
 ## Usage
 ### Simple Installation
