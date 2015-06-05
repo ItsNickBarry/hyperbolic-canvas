@@ -54,18 +54,17 @@
     // c.ctx.fillStyle = 'green';
     // var c = window.c;
     var n = 5;
-    var r = .5;
+    var r = 1;
     var p = Point.CENTER;
-    var count = 6;
+    var count = 3;
     var rotation = 0;
     var fn = function () {
       if (!bool) {
         return false;
       }
       var polygons = [];
-      rotation += Math.TAU / (n * n * n);
+      rotation += Math.TAU / (n * n * 2);
       rotation %= Math.TAU;
-      console.log("ROTATION: " + rotation)
       for (var i = 0; i < count; i++) {
         for (var j = 0; j < n; j++) {
           var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
@@ -74,7 +73,6 @@
         }
       }
       c.ctx.clearRect(0, 0, c.diameter, c.diameter);
-      // debugger
       // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
       polygons.forEach(c.fillPolygon.bind(c));
     };
@@ -82,7 +80,15 @@
     setInterval(fn, 1000);
 
     // c.setStrokeStyle('black');
-    // polygons.forEach(c.drawPolygon.bind(c));
+    // c.setFillStyle('black');
+
+    // var p = c.at(Point.fromCoordinates(.2, -.5))
+    // c.ctx.beginPath();
+    // c.ctx.arc(c.radius,c.radius,c.radius,0,Math.TAU)
+    // c.ctx.stroke();
+    // c.ctx.fillRect(p[0], p[1], 3, 3);
+    // c.ctx.fillText("A",p[0] + 5, p[1] + 15)
+    // c.ctx.fill();
   };
 
   window.circleTest = function () {
