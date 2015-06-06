@@ -32,32 +32,12 @@
 
     document.addEventListener('click', window.HyperbolicCanvas.toggle);
 
-
-    // c.fillPolygon([p1,p2,p3,p4]);
-
-    // c.ctx.strokeStyle = 'black';
-    // c.drawPolygon([p1,p2,p3,p4]);
-
-    // [l1,l2,l3,l4].forEach(function (l) {
-    //   c.drawLine(l);
-    // });
-    // var v = Polygon.fromNCenterRadius(5, Point.CENTER, 20)
-    // // c.ctx.fillStyle = 'green';
-    // c.fillPolygon(v);
-    // var v = Polygon.fromNCenterRadius(5, Point.CENTER, 2)
-    // c.ctx.fillStyle = 'red';
-    // c.fillPolygon(v);
-    // var v = Polygon.fromNCenterRadius(5, Point.CENTER, 1)
-    // c.ctx.fillStyle = 'yellow';
-    // c.fillPolygon(v);
-
-    // c.ctx.fillStyle = 'green';
-    // var c = window.c;
-    var n = 5;
+    var falses = 0;
+    var n = 6;
     var r = 1;
     var p = Point.CENTER;
     var count = 3;
-    var rotation = 0;
+    var rotation = 0.000001;
     var fn = function () {
       if (!bool) {
         return false;
@@ -66,6 +46,10 @@
       for (var i = 0; i < count; i++) {
         for (var j = 0; j < n; j++) {
           var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
+          if (p2 === false) {
+            falses +=1;
+            continue;
+          }
           var gon = Polygon.fromNCenterRadius(n, p2, r, Math.TAU / n * j + Math.PI * i + rotation);
           polygons.push(gon);
         }
@@ -74,11 +58,15 @@
       rotation %= Math.TAU;
       c.ctx.clearRect(0, 0, c.diameter, c.diameter);
       // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
-      polygons.forEach(c.fillPolygon.bind(c));
+      polygons.forEach(c.strokePolygon.bind(c));
+      console.log("falses: " + falses);
+      falses = 0;
     };
     fn();
     bool = false;
     setInterval(fn, 1000);
+
+    // c.fillPolygon(Polygon.fromNCenterRadius(5, Point.fromCoordinates(.5,.5), 2))
 
     // c.setStrokeStyle('black');
     // c.setFillStyle('black');
@@ -90,6 +78,13 @@
     // c.ctx.fillRect(p[0], p[1], 3, 3);
     // c.ctx.fillText("A",p[0] + 5, p[1] + 15)
     // c.ctx.fill();
+
+    // var cent = Point.fromCoordinates(.5, -.5);
+    // var cir = Circle.fromHyperbolicCenterRadius(cent, 2);
+    // c.drawCircle(cir);
+    // for (var i = 0; i < Math.TAU; i += (Math.TAU / 12)) {
+    //   c.drawLine(Line.fromTwoPoints(cent, cir.pointAt(i)));
+    // }
   };
 
   window.circleTest = function () {
