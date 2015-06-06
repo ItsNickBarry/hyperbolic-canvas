@@ -63,8 +63,6 @@
         return false;
       }
       var polygons = [];
-      rotation += Math.TAU / (n * n * 2);
-      rotation %= Math.TAU;
       for (var i = 0; i < count; i++) {
         for (var j = 0; j < n; j++) {
           var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
@@ -72,11 +70,14 @@
           polygons.push(gon);
         }
       }
+      rotation += Math.TAU / (n * n * 2);
+      rotation %= Math.TAU;
       c.ctx.clearRect(0, 0, c.diameter, c.diameter);
       // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
       polygons.forEach(c.fillPolygon.bind(c));
     };
     fn();
+    bool = false;
     setInterval(fn, 1000);
 
     // c.setStrokeStyle('black');
