@@ -11,13 +11,14 @@
   var Polygon = window.Polygon = window.HyperbolicCanvas.Polygon;
   var Canvas = window.Canvas = window.HyperbolicCanvas.Canvas;
   var reRender = true;
+
+
   window.HyperbolicCanvas.toggle = function () {
     reRender ^= true;
   }
   window.HyperbolicCanvas.test = function () {
-
     var sides = 3;
-    var rot = 0;
+    var rot = 1;
 
     window.q1 = Point.fromCoordinates(.5, .5);
     window.q2 = Point.fromCoordinates(-.5, .5);
@@ -42,10 +43,14 @@
     window.polYMinus = Polygon.fromNCenterRadius(sides, yMinus, .5, rot * 3 * Math.TAU / 4);
 
     window.c = HyperbolicCanvas.canvases[0];
+
+    document.addEventListener('click', window.HyperbolicCanvas.toggle);
+
+    c.setStrokeStyle('white');
+    c.strokeGrid(4);
     c.ctx.fillStyle = '#DD4814';
     c.ctx.strokeStyle = '#DD4814';
 
-    document.addEventListener('click', window.HyperbolicCanvas.toggle);
 
     // c.strokePolygonBoundaries(polCenter);
     // c.strokePolygonBoundaries(polQ1);
