@@ -15,25 +15,31 @@
     reRender ^= true;
   }
   window.HyperbolicCanvas.test = function () {
+
+    var sides = 3;
+    var rot = 0;
+
     window.q1 = Point.fromCoordinates(.5, .5);
     window.q2 = Point.fromCoordinates(-.5, .5);
     window.q3 = Point.fromCoordinates(-.5, -.5);
     window.q4 = Point.fromCoordinates(.5, -.5);
 
-    window.xPlus = Point.fromCoordinates(.5, .0001);
-    window.xMinus = Point.fromCoordinates(-.5, .0001);
-    window.yPlus = Point.fromCoordinates(0, .5001);
-    window.yMinus = Point.fromCoordinates(0, -.5001);
+    window.xPlus = Point.fromCoordinates(.5, .0);
+    window.xMinus = Point.fromCoordinates(-.5, .0);
+    window.yPlus = Point.fromCoordinates(0, .5);
+    window.yMinus = Point.fromCoordinates(0, -.5);
 
-    window.polQ1 = Polygon.fromNCenterRadius(5, q1, .5, 1 * Math.TAU / 8);
-    window.polQ2 = Polygon.fromNCenterRadius(5, q2, .5, 3 * Math.TAU / 8);
-    window.polQ3 = Polygon.fromNCenterRadius(5, q3, .5, 5 * Math.TAU / 8);
-    window.polQ4 = Polygon.fromNCenterRadius(5, q4, .5, 7 * Math.TAU / 8);
+    window.polCenter = Polygon.fromNCenterRadius(sides, Point.CENTER, 1)
 
-    window.polXPlus =  Polygon.fromNCenterRadius(5, xPlus, .5, 0 * Math.PI);
-    window.polXMinus = Polygon.fromNCenterRadius(5, xMinus, .5, 1 * Math.PI);
-    window.polYPlus =  Polygon.fromNCenterRadius(5, yPlus, .5, 2 * Math.PI);
-    window.polYMinus = Polygon.fromNCenterRadius(5, yMinus, .5, 3 * Math.PI);
+    window.polQ1 = Polygon.fromNCenterRadius(sides, q1, .5, rot * 1 * Math.TAU / 8);
+    window.polQ2 = Polygon.fromNCenterRadius(sides, q2, .5, rot * 3 * Math.TAU / 8);
+    window.polQ3 = Polygon.fromNCenterRadius(sides, q3, .5, rot * 5 * Math.TAU / 8);
+    window.polQ4 = Polygon.fromNCenterRadius(sides, q4, .5, rot * 7 * Math.TAU / 8);
+
+    window.polXPlus =  Polygon.fromNCenterRadius(sides, xPlus, .5, rot * 0 * Math.TAU / 4);
+    window.polYPlus =  Polygon.fromNCenterRadius(sides, yPlus, .5, rot * 1 * Math.TAU / 4);
+    window.polXMinus = Polygon.fromNCenterRadius(sides, xMinus, .5, rot * 2 * Math.TAU / 4);
+    window.polYMinus = Polygon.fromNCenterRadius(sides, yMinus, .5, rot * 3 * Math.TAU / 4);
 
     window.c = HyperbolicCanvas.canvases[0];
     c.ctx.fillStyle = '#DD4814';
@@ -41,20 +47,32 @@
 
     document.addEventListener('click', window.HyperbolicCanvas.toggle);
 
-    c.fillPolygon(polQ1);
-    c.fillPolygon(polQ2);
-    c.fillPolygon(polQ3);
-    c.fillPolygon(polQ4);
+    // c.strokePolygonBoundaries(polCenter);
+    // c.strokePolygonBoundaries(polQ1);
+    // c.strokePolygonBoundaries(polQ2);
+    // c.strokePolygonBoundaries(polQ3);
+    // c.strokePolygonBoundaries(polQ4);
+    c.strokePolygonBoundaries(polXPlus);
+    c.strokePolygonBoundaries(polXMinus);
+    c.strokePolygonBoundaries(polYPlus);
+    c.strokePolygonBoundaries(polYMinus);
+
+    c.setFillStyle('black')
+    // c.fillPolygon(polCenter);
+    // c.fillPolygon(polQ1);
+    // c.fillPolygon(polQ2);
+    // c.fillPolygon(polQ3);
+    // c.fillPolygon(polQ4);
     c.fillPolygon(polXPlus);
     c.fillPolygon(polXMinus);
     c.fillPolygon(polYPlus);
     c.fillPolygon(polYMinus);
 
     c.setStrokeStyle('black');
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(q1, .5));
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(q2, .5));
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(q3, .5));
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(q4, .5));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q1, .5));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q2, .5));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q3, .5));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q4, .5));
 
     c.strokeCircle(Circle.fromHyperbolicCenterRadius(xPlus, .5));
     c.strokeCircle(Circle.fromHyperbolicCenterRadius(xMinus, .5));
@@ -107,7 +125,7 @@
     // var cir = Circle.fromHyperbolicCenterRadius(cent, 2);
     // c.drawCircle(cir);
     // for (var i = 0; i < Math.TAU; i += (Math.TAU / 12)) {
-    //   c.drawLine(Line.fromTwoPoints(cent, cir.pointAt(i)));
+    //   c.strokeLine(Line.fromTwoPoints(cent, cir.pointAt(i)));
     // }
   };
 
