@@ -10,66 +10,90 @@
   var Circle = window.Circle = window.HyperbolicCanvas.Circle;
   var Polygon = window.Polygon = window.HyperbolicCanvas.Polygon;
   var Canvas = window.Canvas = window.HyperbolicCanvas.Canvas;
-  var bool = true;
+  var reRender = true;
   window.HyperbolicCanvas.toggle = function () {
-    bool ^= true;
+    reRender ^= true;
   }
   window.HyperbolicCanvas.test = function () {
-    window.p1 = Point.fromCoordinates(.5, .5);
-    window.p2 = Point.fromCoordinates(.5, -.7);
-    window.p3 = Point.fromCoordinates(-.3, -.2);
-    window.p4 = Point.fromCoordinates(-.3, .5);
-    window.p5 = Point.fromCoordinates(.9, 0);
-    window.p6 = Point.fromCoordinates(0, .9);
-    window.l1 = Line.fromTwoPoints(p1, p2);
-    window.l2 = Line.fromTwoPoints(p3, p2);
-    window.l3 = Line.fromTwoPoints(p3, p4);
-    window.l4 = Line.fromTwoPoints(p1, p4);
-    window.l5 = Line.fromTwoPoints(p6, p5);
+    window.q1 = Point.fromCoordinates(.5, .5);
+    window.q2 = Point.fromCoordinates(-.5, .5);
+    window.q3 = Point.fromCoordinates(-.5, -.5);
+    window.q4 = Point.fromCoordinates(.5, -.5);
+
+    window.xPlus = Point.fromCoordinates(.5, .0001);
+    window.xMinus = Point.fromCoordinates(-.5, .0001);
+    window.yPlus = Point.fromCoordinates(0, .5001);
+    window.yMinus = Point.fromCoordinates(0, -.5001);
+
+    window.polQ1 = Polygon.fromNCenterRadius(5, q1, .5, 1 * Math.TAU / 8);
+    window.polQ2 = Polygon.fromNCenterRadius(5, q2, .5, 3 * Math.TAU / 8);
+    window.polQ3 = Polygon.fromNCenterRadius(5, q3, .5, 5 * Math.TAU / 8);
+    window.polQ4 = Polygon.fromNCenterRadius(5, q4, .5, 7 * Math.TAU / 8);
+
+    window.polXPlus =  Polygon.fromNCenterRadius(5, xPlus, .5, 0 * Math.PI);
+    window.polXMinus = Polygon.fromNCenterRadius(5, xMinus, .5, 1 * Math.PI);
+    window.polYPlus =  Polygon.fromNCenterRadius(5, yPlus, .5, 2 * Math.PI);
+    window.polYMinus = Polygon.fromNCenterRadius(5, yMinus, .5, 3 * Math.PI);
+
     window.c = HyperbolicCanvas.canvases[0];
     c.ctx.fillStyle = '#DD4814';
     c.ctx.strokeStyle = '#DD4814';
 
     document.addEventListener('click', window.HyperbolicCanvas.toggle);
 
-    var falses = 0;
-    var n = 6;
-    var r = 1;
-    var p = Point.CENTER;
-    var count = 3;
-    var rotation = 0.000001;
-    var fn = function () {
-      if (!bool) {
-        return false;
-      }
-      var polygons = [];
-      for (var i = 0; i < count; i++) {
-        for (var j = 0; j < n; j++) {
-          var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
-          if (p2 === false) {
-            falses +=1;
-            continue;
-          }
-          var gon = Polygon.fromNCenterRadius(n, p2, r, Math.TAU / n * j + Math.PI * i + rotation);
-          polygons.push(gon);
-        }
-      }
-      rotation += Math.TAU / (n * n * 2);
-      rotation %= Math.TAU;
-      c.ctx.clearRect(0, 0, c.diameter, c.diameter);
-      // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
-      polygons.forEach(c.strokePolygon.bind(c));
-      console.log("falses: " + falses);
-      falses = 0;
-    };
-    fn();
-    bool = false;
-    setInterval(fn, 1000);
+    c.fillPolygon(polQ1);
+    c.fillPolygon(polQ2);
+    c.fillPolygon(polQ3);
+    c.fillPolygon(polQ4);
+    c.fillPolygon(polXPlus);
+    c.fillPolygon(polXMinus);
+    c.fillPolygon(polYPlus);
+    c.fillPolygon(polYMinus);
 
-    // c.fillPolygon(Polygon.fromNCenterRadius(5, Point.fromCoordinates(.5,.5), 2))
+    c.setStrokeStyle('black');
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(q1, .5));
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(q2, .5));
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(q3, .5));
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(q4, .5));
 
-    // c.setStrokeStyle('black');
-    // c.setFillStyle('black');
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(xPlus, .5));
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(xMinus, .5));
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(yPlus, .5));
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, .5));
+
+    // var falses = 0;
+    // var n = 6;
+    // var r = 1;
+    // var p = Point.CENTER;
+    // var count = 3;
+    // var rotation = 0.000001;
+    // var fn = function () {
+    //   if (!reRender) {
+    //     return false;
+    //   }
+    //   var polygons = [];
+    //   for (var i = 0; i < count; i++) {
+    //     for (var j = 0; j < n; j++) {
+    //       var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
+    //       if (p2 === false) {
+    //         falses +=1;
+    //         continue;
+    //       }
+    //       var gon = Polygon.fromNCenterRadius(n, p2, r, Math.TAU / n * j + Math.PI * i + rotation);
+    //       polygons.push(gon);
+    //     }
+    //   }
+    //   rotation += Math.TAU / (n * n * 2);
+    //   rotation %= Math.TAU;
+    //   c.ctx.clearRect(0, 0, c.diameter, c.diameter);
+    //   // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
+    //   polygons.forEach(c.strokePolygon.bind(c));
+    //   console.log("falses: " + falses);
+    //   falses = 0;
+    // };
+    // fn();
+    // reRender = false;
+    // setInterval(fn, 1000);
 
     // var p = c.at(Point.fromCoordinates(.2, -.5))
     // c.ctx.beginPath();
