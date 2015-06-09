@@ -19,6 +19,7 @@
   window.HyperbolicCanvas.test = function () {
     var sides = 3;
     var rot = 1;
+    var radius = .75
 
     window.q1 = Point.fromCoordinates(.5, .5);
     window.q2 = Point.fromCoordinates(-.5, .5);
@@ -32,22 +33,22 @@
 
     window.polCenter = Polygon.fromNCenterRadius(sides, Point.CENTER, 1)
 
-    window.polQ1 = Polygon.fromNCenterRadius(sides, q1, .5, rot * 1 * Math.TAU / 8);
-    window.polQ2 = Polygon.fromNCenterRadius(sides, q2, .5, rot * 3 * Math.TAU / 8);
-    window.polQ3 = Polygon.fromNCenterRadius(sides, q3, .5, rot * 5 * Math.TAU / 8);
-    window.polQ4 = Polygon.fromNCenterRadius(sides, q4, .5, rot * 7 * Math.TAU / 8);
+    window.polQ1 = Polygon.fromNCenterRadius(sides, q1, radius, rot * 1 * Math.TAU / 8);
+    window.polQ2 = Polygon.fromNCenterRadius(sides, q2, radius, rot * 3 * Math.TAU / 8);
+    window.polQ3 = Polygon.fromNCenterRadius(sides, q3, radius, rot * 5 * Math.TAU / 8);
+    window.polQ4 = Polygon.fromNCenterRadius(sides, q4, radius, rot * 7 * Math.TAU / 8);
 
-    window.polXPlus =  Polygon.fromNCenterRadius(sides, xPlus, .5, rot * 0 * Math.TAU / 4);
-    window.polYPlus =  Polygon.fromNCenterRadius(sides, yPlus, .5, rot * 1 * Math.TAU / 4);
-    window.polXMinus = Polygon.fromNCenterRadius(sides, xMinus, .5, rot * 2 * Math.TAU / 4);
-    window.polYMinus = Polygon.fromNCenterRadius(sides, yMinus, .5, rot * 3 * Math.TAU / 4);
+    window.polXPlus =  Polygon.fromNCenterRadius(sides, xPlus, radius, rot * 0 * Math.TAU / 4);
+    window.polYPlus =  Polygon.fromNCenterRadius(sides, yPlus, radius, rot * 1 * Math.TAU / 4);
+    window.polXMinus = Polygon.fromNCenterRadius(sides, xMinus, radius, rot * 2 * Math.TAU / 4);
+    window.polYMinus = Polygon.fromNCenterRadius(sides, yMinus, radius, rot * 3 * Math.TAU / 4);
 
     window.c = HyperbolicCanvas.canvases[0];
 
     document.addEventListener('click', window.HyperbolicCanvas.toggle);
 
     c.setStrokeStyle('white');
-    c.strokeGrid(4);
+    c.strokeGrid(2);
     c.ctx.fillStyle = '#DD4814';
     c.ctx.strokeStyle = '#DD4814';
 
@@ -79,10 +80,16 @@
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q3, .5));
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q4, .5));
 
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(xPlus, .5));
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(xMinus, .5));
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(yPlus, .5));
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, .5));
+    var xPlusCircle = Circle.fromHyperbolicCenterRadius(xPlus, radius);
+    c.strokeCircle(xPlusCircle);
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(xMinus, radius));
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(yPlus, radius));
+    c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, radius));
+
+    c.setStrokeStyle('white');
+    for (var i = 0; i < Math.TAU; i += Math.TAU / 12) {
+      c.strokeLine(Line.fromTwoPoints(xPlus, xPlusCircle.pointAt(i)))
+    }
 
     // var falses = 0;
     // var n = 6;

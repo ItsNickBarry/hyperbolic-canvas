@@ -168,6 +168,8 @@ Instance functions:
 ### The Canvas Class and Its Functions
 
 ## Issues and Features
+<!-- // TODO "edge cases" (ha!) in which a point sufficiently close to boundary is NaN due to floating point math -->
+
 To report problems, or request features, please open a new [issue][issue].
 
 [issue]: ./../../issues
