@@ -18,7 +18,7 @@
   }
   window.HyperbolicCanvas.test = function () {
     var sides = 3;
-    var rot = 1;
+    var rot = Math.PI;
     var radius = .75
 
     window.q1 = Point.fromCoordinates(.5, .5);
@@ -33,15 +33,15 @@
 
     window.polCenter = Polygon.fromNCenterRadius(sides, Point.CENTER, 1)
 
-    window.polQ1 = Polygon.fromNCenterRadius(sides, q1, radius, rot * 1 * Math.TAU / 8);
-    window.polQ2 = Polygon.fromNCenterRadius(sides, q2, radius, rot * 3 * Math.TAU / 8);
-    window.polQ3 = Polygon.fromNCenterRadius(sides, q3, radius, rot * 5 * Math.TAU / 8);
-    window.polQ4 = Polygon.fromNCenterRadius(sides, q4, radius, rot * 7 * Math.TAU / 8);
+    window.polQ1 = Polygon.fromNCenterRadius(sides, q1, radius, rot);
+    window.polQ2 = Polygon.fromNCenterRadius(sides, q2, radius, rot);
+    window.polQ3 = Polygon.fromNCenterRadius(sides, q3, radius, rot);
+    window.polQ4 = Polygon.fromNCenterRadius(sides, q4, radius, rot);
 
-    window.polXPlus =  Polygon.fromNCenterRadius(sides, xPlus, radius, rot * 0 * Math.TAU / 4);
-    window.polYPlus =  Polygon.fromNCenterRadius(sides, yPlus, radius, rot * 1 * Math.TAU / 4);
-    window.polXMinus = Polygon.fromNCenterRadius(sides, xMinus, radius, rot * 2 * Math.TAU / 4);
-    window.polYMinus = Polygon.fromNCenterRadius(sides, yMinus, radius, rot * 3 * Math.TAU / 4);
+    window.polXPlus =  Polygon.fromNCenterRadius(sides, xPlus, radius, rot);
+    window.polYPlus =  Polygon.fromNCenterRadius(sides, yPlus, radius, rot);
+    window.polXMinus = Polygon.fromNCenterRadius(sides, xMinus, radius, rot);
+    window.polYMinus = Polygon.fromNCenterRadius(sides, yMinus, radius, rot);
 
     window.c = HyperbolicCanvas.canvases[0];
 
