@@ -47,83 +47,78 @@
 
     document.addEventListener('click', window.HyperbolicCanvas.toggle);
 
-    c.setStrokeStyle('white');
-    c.strokeGrid(2);
-    c.ctx.fillStyle = '#DD4814';
-    c.ctx.strokeStyle = '#DD4814';
-
-
-    c.strokePolygonBoundaries(polCenter);
-    // c.strokePolygonBoundaries(polQ1);
-    // c.strokePolygonBoundaries(polQ2);
-    // c.strokePolygonBoundaries(polQ3);
-    // c.strokePolygonBoundaries(polQ4);
-    c.strokePolygonBoundaries(polXPlus);
-    c.strokePolygonBoundaries(polXMinus);
-    c.strokePolygonBoundaries(polYPlus);
-    c.strokePolygonBoundaries(polYMinus);
-
-    c.setFillStyle('black')
-    c.fillPolygon(polCenter);
-    // c.fillPolygon(polQ1);
-    // c.fillPolygon(polQ2);
-    // c.fillPolygon(polQ3);
-    // c.fillPolygon(polQ4);
-    c.fillPolygon(polXPlus);
-    c.fillPolygon(polXMinus);
-    c.fillPolygon(polYPlus);
-    c.fillPolygon(polYMinus);
-
-    c.setStrokeStyle('black');
-    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q1, .5));
-    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q2, .5));
-    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q3, .5));
-    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q4, .5));
-
-    var xPlusCircle = Circle.fromHyperbolicCenterRadius(xPlus, radius);
-    c.strokeCircle(xPlusCircle);
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(xMinus, radius));
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(yPlus, radius));
-    c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, radius));
-
     // c.setStrokeStyle('white');
-    // for (var i = 0; i < Math.TAU; i += Math.TAU / 12) {
-    //   c.strokeLine(Line.fromTwoPoints(xPlus, xPlusCircle.pointAt(i)))
-    // }
+    // c.strokeGrid(2);
+    // c.ctx.fillStyle = '#DD4814';
+    // c.ctx.strokeStyle = '#DD4814';
+    //
+    //
+    // c.strokePolygonBoundaries(polCenter);
+    // // c.strokePolygonBoundaries(polQ1);
+    // // c.strokePolygonBoundaries(polQ2);
+    // // c.strokePolygonBoundaries(polQ3);
+    // // c.strokePolygonBoundaries(polQ4);
+    // c.strokePolygonBoundaries(polXPlus);
+    // c.strokePolygonBoundaries(polXMinus);
+    // c.strokePolygonBoundaries(polYPlus);
+    // c.strokePolygonBoundaries(polYMinus);
+    //
+    // c.setFillStyle('black')
+    // c.fillPolygon(polCenter);
+    // // c.fillPolygon(polQ1);
+    // // c.fillPolygon(polQ2);
+    // // c.fillPolygon(polQ3);
+    // // c.fillPolygon(polQ4);
+    // c.fillPolygon(polXPlus);
+    // c.fillPolygon(polXMinus);
+    // c.fillPolygon(polYPlus);
+    // c.fillPolygon(polYMinus);
+    //
+    // c.setStrokeStyle('black');
+    // // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q1, .5));
+    // // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q2, .5));
+    // // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q3, .5));
+    // // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q4, .5));
+    //
+    // var xPlusCircle = Circle.fromHyperbolicCenterRadius(xPlus, radius);
+    // c.strokeCircle(xPlusCircle);
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(xMinus, radius));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yPlus, radius));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, radius));
 
-    // var falses = 0;
-    // var n = 6;
-    // var r = 1;
-    // var p = Point.CENTER;
-    // var count = 3;
-    // var rotation = 0.000001;
-    // var fn = function () {
-    //   if (!reRender) {
-    //     return false;
-    //   }
-    //   var polygons = [];
-    //   for (var i = 0; i < count; i++) {
-    //     for (var j = 0; j < n; j++) {
-    //       var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
-    //       if (p2 === false) {
-    //         falses +=1;
-    //         continue;
-    //       }
-    //       var gon = Polygon.fromNCenterRadius(n, p2, r, Math.TAU / n * j + Math.PI * i + rotation);
-    //       polygons.push(gon);
-    //     }
-    //   }
-    //   rotation += Math.TAU / (n * n * 2);
-    //   rotation %= Math.TAU;
-    //   c.ctx.clearRect(0, 0, c.diameter, c.diameter);
-    //   // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
-    //   polygons.forEach(c.strokePolygon.bind(c));
-    //   console.log("falses: " + falses);
-    //   falses = 0;
-    // };
-    // fn();
-    // reRender = false;
-    // setInterval(fn, 1000);
+    var falses = 0;
+    var n = 6;
+    var r = 1;
+    var p = Point.CENTER;
+    var count = 3;
+    var rotation = 0.000001;
+    var fn = function () {
+      if (!reRender) {
+        return false;
+      }
+      var polygons = [];
+      for (var i = 0; i < count; i++) {
+        for (var j = 0; j < n; j++) {
+          var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
+          if (p2 === false) {
+            falses +=1;
+            continue;
+          }
+          var gon = Polygon.fromNCenterRadius(n, p2, r, Math.TAU / n * j + Math.PI * i + rotation);
+          polygons.push(gon);
+        }
+      }
+      rotation += Math.TAU / (n * n * 2);
+      rotation %= Math.TAU;
+      c.ctx.clearRect(0, 0, c.diameter, c.diameter);
+      // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
+      polygons.forEach(c.fillPolygon.bind(c));
+      console.log("falses: " + falses);
+      falses = 0;
+    };
+    fn();
+    reRender = false;
+    setInterval(fn, 1000);
 
     // var p = c.at(Point.fromCoordinates(.2, -.5))
     // c.ctx.beginPath();
@@ -139,30 +134,5 @@
     // for (var i = 0; i < Math.TAU; i += (Math.TAU / 12)) {
     //   c.strokeLine(Line.fromTwoPoints(cent, cir.pointAt(i)));
     // }
-  };
-
-  window.circleTest = function () {
-    for (var i = 0; i < 1000; i++) {
-      var points = [];
-      for (var j = 0; j < 3; j++) {
-        var x = 1 - Math.random() * 2;
-        var y = Math.sqrt( 1 - x * x);
-        y = Math.random() > .5 ? y : y * -1;
-        points.push(new Point({ x: x, y: y }));
-      }
-      var center = Circle.fromThreePoints(points[0], points[1], points[2]).center;
-      if (center === false) {
-        return false;
-      }
-      console.log(i);
-      console.log(points[0])
-      console.log("d:" + Line.fromTwoPoints(center, points[0]).euclideanDistance());
-      console.log(points[1])
-      console.log("d:" + Line.fromTwoPoints(center, points[1]).euclideanDistance());
-      console.log(points[2])
-      console.log("d:" + Line.fromTwoPoints(center, points[2]).euclideanDistance());
-      console.log(center);
-    }
-    return true;
   };
 })();

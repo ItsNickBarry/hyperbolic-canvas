@@ -75,7 +75,7 @@ Math.TAU;
 
 ### Object Classes and Their Functions
 The hyperbolic canvas makes use of four geometric object classes, defined relative to the Euclidean plane.
-// TODO explain how constructor functions work
+<!-- // explain how constructor functions work -->
 
 #### Point
 A representation of a point on the Canvas, where the center is defined as (0, 0) and the radius is defined as 1, and the y axis is not inverted.
@@ -159,16 +159,22 @@ Polygon.fromVertices(verticesArray);
 Polygon.fromNCenterRadius(nSides, centerPoint, radius);
 ```
 
-Instance functions:
+Class function:
 
 ```javascript
 
 ```
 
+Instance functions:
+
+```javascript
+// none
+```
+
 ### The Canvas Class and Its Functions
 
 ## Issues and Features
-<!-- // TODO "edge cases" (ha!) in which a point sufficiently close to boundary is NaN due to floating point math -->
+<!-- // "edge cases" (ha!) in which a point sufficiently close to boundary is NaN due to floating point math -->
 
 To report problems, or request features, please open a new [issue][issue].
 
