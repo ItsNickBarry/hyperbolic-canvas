@@ -49,7 +49,7 @@
 
     // c.setStrokeStyle('white');
     // c.strokeGrid(2);
-    // c.ctx.fillStyle = '#DD4814';
+    c.ctx.fillStyle = '#DD4814';
     // c.ctx.strokeStyle = '#DD4814';
     //
     //
