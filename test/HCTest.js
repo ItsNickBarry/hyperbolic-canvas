@@ -47,10 +47,51 @@
 
     document.addEventListener('click', window.HyperbolicCanvas.toggle);
 
+    window.distanceTest = function () {
+      var small = .001;
+      var halfAxisDistance = xPlus.distanceFromCenter();
+
+      var xPlusPlus = xPlus.distantPoint(halfAxisDistance * 2, 0);
+      var xPlusMinus = xPlus.distantPoint(halfAxisDistance * 2, Math.PI);
+      var yPlusPlus = yPlus.distantPoint(halfAxisDistance * 2, Math.PI / 2);
+      var yPlusMinus = yPlus.distantPoint(halfAxisDistance * 2, 3 * Math.PI / 2);
+
+      var xMinusPlus = xMinus.distantPoint(halfAxisDistance * 2, 0);
+      var xMinusMinus = xMinus.distantPoint(halfAxisDistance * 2, Math.PI);
+      var yMinusPlus = yMinus.distantPoint(halfAxisDistance * 2, Math.PI / 2);
+      var yMinusMinus = yMinus.distantPoint(halfAxisDistance * 2, 3 * Math.PI / 2);
+
+      var sameAxisPass = (
+        Math.abs(xPlusPlus.y) < small &&
+        Math.abs(xPlusMinus.y) < small &&
+        Math.abs(yPlusPlus.x) < small &&
+        Math.abs(yPlusMinus.x) < small &&
+        Math.abs(xMinusPlus.y) < small &&
+        Math.abs(xMinusMinus.y) < small &&
+        Math.abs(yMinusPlus.x) < small &&
+        Math.abs(yMinusMinus.x) < small
+      )
+      var otherSidePass = (
+        xPlusMinus.x < 0 &&
+        yPlusMinus.y < 0 &&
+        xMinusPlus.x > 0 &&
+        yMinusPlus.y > 0
+      )
+      var sameSidePass = (
+        xPlusPlus.x > 0 &&
+        yPlusPlus.y > 0 &&
+        xMinusMinus.x < 0 &&
+        yMinusMinus.y < 0
+      )
+      console.log("Same axis? " + sameAxisPass);
+      console.log("Same side of other axis? " + sameSidePass);
+      console.log("Other side of other axis? " + otherSidePass);
+    }();
+
     // c.setStrokeStyle('white');
     // c.strokeGrid(2);
-    c.ctx.fillStyle = '#DD4814';
-    // c.ctx.strokeStyle = '#DD4814';
+    // c.ctx.fillStyle = '#DD4814';
+    c.ctx.strokeStyle = '#DD4814';
     //
     //
     // c.strokePolygonBoundaries(polCenter);
@@ -86,12 +127,11 @@
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yPlus, radius));
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, radius));
 
-    var falses = 0;
-    var n = 6;
+    var n = 5;
     var r = 1;
-    var p = Point.CENTER;
+    var p = Point.fromCoordinates(.0001, .0001);
     var count = 3;
-    var rotation = 0.000001;
+    var rotation = 0;
     var fn = function () {
       if (!reRender) {
         return false;
@@ -104,21 +144,22 @@
             falses +=1;
             continue;
           }
-          var gon = Polygon.fromNCenterRadius(n, p2, r, Math.TAU / n * j + Math.PI * i + rotation);
+          var gon = Polygon.fromNCenterRadius(n, p2, r);//, Math.TAU / n * j + Math.PI * i + rotation
           polygons.push(gon);
         }
       }
       rotation += Math.TAU / (n * n * 2);
       rotation %= Math.TAU;
-      c.ctx.clearRect(0, 0, c.diameter, c.diameter);
-      // c.setFillStyle("#" + Math.floor(Math.random() * 1000000));
+      c.clear();
       polygons.forEach(c.fillPolygon.bind(c));
-      console.log("falses: " + falses);
-      falses = 0;
+      polygons.forEach(function (p) {
+        c.strokePolygonBoundaries(p)
+        // c.setStrokeStyle("#" + Math.floor(Math.random() * 1000000));
+      });
     };
     fn();
     reRender = false;
-    setInterval(fn, 1000);
+    // setInterval(fn, 1000);
 
     // var p = c.at(Point.fromCoordinates(.2, -.5))
     // c.ctx.beginPath();
