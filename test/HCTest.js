@@ -17,9 +17,9 @@
     reRender ^= true;
   }
   window.HyperbolicCanvas.test = function () {
-    var sides = 4;
-    var rot = Math.PI;
-    var radius = .5;
+    var sides = 3;
+    var rot = 0;
+    // var radius = .5;
 
     window.q1 = Point.fromCoordinates(.5, .5);
     window.q2 = Point.fromCoordinates(-.5, .5);
@@ -31,7 +31,10 @@
     window.yPlus = Point.fromCoordinates(0, .5);
     window.yMinus = Point.fromCoordinates(0, -.5);
 
-    window.polCenter = Polygon.fromNCenterRadius(sides, Point.CENTER, radius)
+
+    var radius = xPlus.distanceFromCenter() / 2;
+
+    window.polCenter = Polygon.fromNCenterRadius(sides, Point.CENTER, radius, rot)
 
     window.polQ1 = Polygon.fromNCenterRadius(sides, q1, radius, rot);
     window.polQ2 = Polygon.fromNCenterRadius(sides, q2, radius, rot);
@@ -88,22 +91,22 @@
       console.log("Other side of other axis? " + otherSidePass);
     }();
 
-    // c.setStrokeStyle('white');
-    // c.strokeGrid(2);
-    // c.ctx.fillStyle = '#DD4814';
-    c.ctx.strokeStyle = '#DD4814';
-    //
-    //
+    c.setStrokeStyle('white');
+    c.strokeGrid(2);
+    c.ctx.fillStyle = '#DD4814';
+    c.ctx.strokeStyle = 'black';
+
+
     // c.strokePolygonBoundaries(polCenter);
-    // // c.strokePolygonBoundaries(polQ1);
-    // // c.strokePolygonBoundaries(polQ2);
-    // // c.strokePolygonBoundaries(polQ3);
-    // // c.strokePolygonBoundaries(polQ4);
+    // c.strokePolygonBoundaries(polQ1);
+    // c.strokePolygonBoundaries(polQ2);
+    // c.strokePolygonBoundaries(polQ3);
+    // c.strokePolygonBoundaries(polQ4);
     // c.strokePolygonBoundaries(polXPlus);
     // c.strokePolygonBoundaries(polXMinus);
     // c.strokePolygonBoundaries(polYPlus);
     // c.strokePolygonBoundaries(polYMinus);
-    //
+
     // c.setFillStyle('black')
     // c.fillPolygon(polCenter);
     // // c.fillPolygon(polQ1);
@@ -127,10 +130,10 @@
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yPlus, radius));
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, radius));
 
-    var n = 5;
+    var n = 3;
     var r = 1;
     var p = Point.fromCoordinates(.0001, .0001);
-    var count = 3;
+    var count = 2;
     var rotation = 0;
     var fn = function () {
       if (!reRender) {
@@ -140,11 +143,7 @@
       for (var i = 0; i < count; i++) {
         for (var j = 0; j < n; j++) {
           var p2 = p.distantPoint(i * r * 2, Math.TAU / n * j - rotation)
-          if (p2 === false) {
-            falses +=1;
-            continue;
-          }
-          var gon = Polygon.fromNCenterRadius(n, p2, r);//, Math.TAU / n * j + Math.PI * i + rotation
+          var gon = Polygon.fromNCenterRadius(n, p2, r, Math.TAU / n * j + Math.PI * i + rotation)
           polygons.push(gon);
         }
       }
@@ -153,13 +152,13 @@
       c.clear();
       polygons.forEach(c.fillPolygon.bind(c));
       polygons.forEach(function (p) {
-        c.strokePolygonBoundaries(p)
+        // c.strokePolygonBoundaries(p)
         // c.setStrokeStyle("#" + Math.floor(Math.random() * 1000000));
       });
     };
     fn();
     reRender = false;
-    // setInterval(fn, 1000);
+    setInterval(fn, 1000);
 
     // var p = c.at(Point.fromCoordinates(.2, -.5))
     // c.ctx.beginPath();
