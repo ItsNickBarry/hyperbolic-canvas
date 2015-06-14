@@ -4,7 +4,7 @@
     window.HyperbolicCanvas = {};
   }
 
-
+  var Angle = window.Angle = window.HyperbolicCanvas.Angle;
   var Point = window.Point = window.HyperbolicCanvas.Point;
   var Line = window.Line = window.HyperbolicCanvas.Line;
   var Circle = window.Circle = window.HyperbolicCanvas.Circle;
