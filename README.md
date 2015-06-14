@@ -7,7 +7,9 @@
 [hyperbolicgeometry]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
 
 # Warning
-This repository is as incomplete as its readme.  In particular, the Point.distantPoint function has some issues.
+This repository is incomplete.
+
+Due to the less-than-infinite precision of floating point numbers, bad things can happen, especially as points approach the border of the plane.
 
 Certain browsers do not provide support for the hyperbolic functions.  Check comptatibility [here][comptatibility].
 
