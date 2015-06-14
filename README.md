@@ -21,10 +21,9 @@ A Javascript implementation of the [Poincaré disk model][diskmodel] of the hype
 Capable of:
 
 - [x] Draw hyperbolic line between points
-- [x] Calculate hyperbolic distance between points (maybe ?  not sure if results are accurate)
-- [ ] Calculate Euclidean arclength between a point and a destination point given hyperbolic distance and hyperbolic line.
-- [x] Draw polygon from path
-- [x] Draw regular n-gon
+- [ ] Calculate hyperbolic distance between points (maybe ?  not sure if results are accurate)
+- [x] Draw polygon
+- [x] Generate and draw regular n-gon
 - [ ] Tesselate the plane with n-gons
 - [x] It's not done yet, and neither is the readme
 - [ ] ...
@@ -32,7 +31,7 @@ Capable of:
 [diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
 
 ## Demonstrations
-* [Example][example]
+* [Example][example] (a few regular congruent hexagons; they rotate when clicked)
 * two
 * probably not three
 * let me know if you use this in a project, so I can populate this list
@@ -50,16 +49,6 @@ Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and
 <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
 ```
 
-Additional styling, such as the following CSS, is required to differentiate elements graphically:
-```css
-div.hyperbolic-canvas div.viewport canvas {
-  background-color: #000080;
-}
-
-div.hyperbolic-canvas .viewport {
-  background-color: #43464B;
-}
-```
 See the [example HTML][html] and [example CSS][css] for a demonstration.
 
 [html]: ./example.html
@@ -105,30 +94,35 @@ Constants:
 
 ```javascript
 Point.CENTER;
+// the point at the center of the canvas, (0,0)
 ```
 
-Constructors:
+Factory methods:
 
 ```javascript
 Point.fromCoordinates(x, y);
+// generate a point given x and y coordinates, relative to the center of the unit circle
 
 Point.fromPolarCoordinates(radius, angle);
+// generate a point given polar coodinates, relative to the center of the unit circle
 
 Point.fromHyperbolicPolarCoordinates(radius, angle);
+// generate a point given polar coodinates, relative to the center of the unit circle, where the given distance is hyperbolic
 
 Point.between(somePoint, someOtherPoint);
+// generate the point between two other Points, in a Euclidean sense
 ```
 
 Instance functions:
 
 ```javascript
-
+TODO
 ```
 
 #### Line
 The relationship between two Points.  Contains various functions which act on either the Euclidean or the hyperbolic plane.
 
-Constructors:
+Factory methods:
 
 ```javascript
 Line.fromPointSlope(point, slope);
@@ -149,50 +143,70 @@ Constants:
 
 ```javascript
 Circle.UNIT;
+// the unit circle; center (0,0), radius 1
 ```
 
-Constructors:
+Factory methods:
 
 ```javascript
 Circle.fromCenterRadius(center, radius);
+// generate a circle with a given center point and Euclidean radius
 
 Circle.fromHyperbolicCenterRadius(center, radius);
+// generate a circle with a given center point and hyperbolic radius
 
 Circle.fromTwoPoints(somePoint, someOtherPoint);
+// generate a circle given two diametrically opposed points
 
 Circle.fromThreePoints(somePoint, someOtherPoint, someOtherOtherPoint);
+// generate a circle given three points
 ```
 
 Instance functions:
 
 ```javascript
-
+TODO
 ```
 
 #### Polygon
 An ordered collection of Points.
 
-Constructors:
+Factory methods:
 
 ```javascript
-Polygon.fromVertices(verticesArray);
+Polygon.fromVertices(vertices);
+// generate a polygon from a given ordered array of Point objects
 
-Polygon.fromNCenterRadius(nSides, centerPoint, radius);
+Polygon.fromNCenterRadius(n, center, radius);
+// generate a regular polygon with n sides, where each vertex is radius distance from the center Point
 ```
 
-Class function:
+<!-- Class functions:
 
 ```javascript
 
-```
+``` -->
 
 Instance functions:
 
 ```javascript
-// none
+TODO
 ```
 
 ### The Canvas Class and Its Functions
+The canvas class is used to draw hyperbolic lines and shapes.
+
+Instance functions:
+
+```javascript
+canvas.at(coordinates);
+// generate a Point given an array of coordinates [x, y] relative to the HTML canvas
+
+canvas.at(point);
+// generate an array of coordinates [x, y] relative to the HTML canvas given a Point
+
+TODO
+```
 
 ## Issues and Features
 <!-- // "edge cases" (ha!) in which a point sufficiently close to boundary is NaN due to floating point math -->
