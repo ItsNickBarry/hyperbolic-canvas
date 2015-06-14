@@ -9,6 +9,10 @@
 # Warning
 This repository is as incomplete as its readme.  In particular, the Point.distantPoint function has some issues.
 
+Certain browsers do not provide support for the hyperbolic functions.  Check comptatibility [here][comptatibility].
+
+[comptatibility]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atanh#Browser_compatibility
+
 # Hyperbolic Canvas
 A Javascript implementation of the [Poincaré disk model][diskmodel] of the hyperbolic plane, on an HTML canvas.
 
