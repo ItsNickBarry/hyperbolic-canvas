@@ -132,8 +132,8 @@
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, radius));
 
     var n = 6;
-    var r = .1;
-    var p = q2//Point.fromCoordinates(.0001, .0001);
+    var r = 1;
+    var p = Point.fromCoordinates(.0001, .0001);
     var count = 12;
     var rotation = 0;
     var fn = function () {
@@ -149,7 +149,6 @@
         }
       }
       rotation += Math.TAU / (n * n * 2);
-      rotation %= Math.TAU;
       c.clear();
       polygons.forEach(c.fillPolygon.bind(c));
       polygons.forEach(function (p) {
