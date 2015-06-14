@@ -6,6 +6,9 @@
 [jános]: https://en.wikipedia.org/wiki/J%C3%A1nos_Bolyai
 [hyperbolicgeometry]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
 
+# Warning
+This repository is as incomplete as its readme.  In particular, the Point.distantPoint function has some issues.
+
 # Hyperbolic Canvas
 A Javascript implementation of the [Poincaré disk model][diskmodel] of the hyperbolic plane, on an HTML canvas.
 

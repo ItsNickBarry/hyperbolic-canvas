@@ -16,6 +16,7 @@
   window.HyperbolicCanvas.toggle = function () {
     reRender ^= true;
   }
+
   window.HyperbolicCanvas.test = function () {
     var sides = 3;
     var rot = 0;
@@ -94,7 +95,7 @@
     c.setStrokeStyle('white');
     c.strokeGrid(2);
     c.ctx.fillStyle = '#DD4814';
-    c.ctx.strokeStyle = 'black';
+    // c.ctx.strokeStyle = 'black';
 
 
     // c.strokePolygonBoundaries(polCenter);
@@ -106,23 +107,23 @@
     // c.strokePolygonBoundaries(polXMinus);
     // c.strokePolygonBoundaries(polYPlus);
     // c.strokePolygonBoundaries(polYMinus);
-
+    //
     // c.setFillStyle('black')
     // c.fillPolygon(polCenter);
-    // // c.fillPolygon(polQ1);
-    // // c.fillPolygon(polQ2);
-    // // c.fillPolygon(polQ3);
-    // // c.fillPolygon(polQ4);
+    // c.fillPolygon(polQ1);
+    // c.fillPolygon(polQ2);
+    // c.fillPolygon(polQ3);
+    // c.fillPolygon(polQ4);
     // c.fillPolygon(polXPlus);
     // c.fillPolygon(polXMinus);
     // c.fillPolygon(polYPlus);
     // c.fillPolygon(polYMinus);
     //
     // c.setStrokeStyle('black');
-    // // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q1, .5));
-    // // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q2, .5));
-    // // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q3, .5));
-    // // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q4, .5));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q1, radius));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q2, radius));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q3, radius));
+    // c.strokeCircle(Circle.fromHyperbolicCenterRadius(q4, radius));
     //
     // var xPlusCircle = Circle.fromHyperbolicCenterRadius(xPlus, radius);
     // c.strokeCircle(xPlusCircle);
@@ -130,9 +131,9 @@
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yPlus, radius));
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, radius));
 
-    var n = 3;
+    var n = 6;
     var r = 1;
-    var p = Point.fromCoordinates(.0001, .0001);
+    var p = Point.CENTER//Point.fromCoordinates(.0001, .0001);
     var count = 2;
     var rotation = 0;
     var fn = function () {
@@ -155,10 +156,11 @@
         // c.strokePolygonBoundaries(p)
         // c.setStrokeStyle("#" + Math.floor(Math.random() * 1000000));
       });
+      c.strokeGrid(2);
     };
     fn();
     reRender = false;
-    setInterval(fn, 1000);
+    setInterval(fn, 200);
 
     // var p = c.at(Point.fromCoordinates(.2, -.5))
     // c.ctx.beginPath();
