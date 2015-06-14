@@ -84,7 +84,19 @@ Math.TAU;
 
 ### Object Classes and Their Functions
 The hyperbolic canvas makes use of four geometric object classes, defined relative to the Euclidean plane.
-<!-- // explain how constructor functions work -->
+
+#### Angle
+A non-function object which contains convenience functions related to angles.
+
+Functions:
+
+```javascript
+Angle.normalize(angle);
+
+Angle.fromDegrees(degrees);
+
+Angle.toDegrees(radians);
+```
 
 #### Point
 A representation of a point on the Canvas, where the center is defined as (0, 0) and the radius is defined as 1, and the y axis is not inverted.
