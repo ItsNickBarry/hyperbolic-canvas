@@ -132,9 +132,9 @@
     // c.strokeCircle(Circle.fromHyperbolicCenterRadius(yMinus, radius));
 
     var n = 6;
-    var r = 1;
-    var p = Point.CENTER//Point.fromCoordinates(.0001, .0001);
-    var count = 2;
+    var r = .1;
+    var p = q2//Point.fromCoordinates(.0001, .0001);
+    var count = 12;
     var rotation = 0;
     var fn = function () {
       if (!reRender) {
