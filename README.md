@@ -126,8 +126,10 @@ Factory methods:
 
 ```javascript
 Line.fromPointSlope(point, slope);
+// generate a line given a point and a slope
 
 Line.fromTwoPoints(somePoint, someOtherPoint);
+// generate a line through two Points
 ```
 
 Instance functions:

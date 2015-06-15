@@ -92,8 +92,8 @@
       console.log("Other side of other axis? " + otherSidePass);
     }();
 
-    c.setStrokeStyle('white');
-    c.strokeGrid(2);
+    // c.setStrokeStyle('white');
+    // c.strokeGrid(2);
     c.ctx.fillStyle = '#DD4814';
     // c.ctx.strokeStyle = 'black';
 
@@ -155,7 +155,7 @@
         // c.strokePolygonBoundaries(p)
         // c.setStrokeStyle("#" + Math.floor(Math.random() * 1000000));
       });
-      c.strokeGrid(2);
+      // c.strokeGrid(2);
     };
     fn();
     reRender = false;
