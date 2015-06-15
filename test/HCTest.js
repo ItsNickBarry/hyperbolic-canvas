@@ -158,7 +158,7 @@
       // c.strokeGrid(2);
     };
     fn();
-    reRender = false;
+    // reRender = false;
     setInterval(fn, 200);
 
     // var p = c.at(Point.fromCoordinates(.2, -.5))
