@@ -81,6 +81,7 @@ Functions:
 
 ```javascript
 Angle.normalize(angle);
+// return the equivalent angle a where 0 < a < Tau
 
 Angle.fromDegrees(degrees);
 
@@ -100,13 +101,13 @@ Point.CENTER;
 Factory methods:
 
 ```javascript
-Point.fromCoordinates(x, y);
+Point.givenCoordinates(x, y);
 // generate a point given x and y coordinates, relative to the center of the unit circle
 
-Point.fromPolarCoordinates(radius, angle);
+Point.givenPolarCoordinates(radius, angle);
 // generate a point given polar coodinates, relative to the center of the unit circle
 
-Point.fromHyperbolicPolarCoordinates(radius, angle);
+Point.givenHyperbolicPolarCoordinates(radius, angle);
 // generate a point given polar coodinates, relative to the center of the unit circle, where the given distance is hyperbolic
 
 Point.between(somePoint, someOtherPoint);
@@ -125,10 +126,10 @@ The relationship between two Points.  Contains various functions which act on ei
 Factory methods:
 
 ```javascript
-Line.fromPointSlope(point, slope);
+Line.givenPointSlope(point, slope);
 // generate a line given a point and a slope
 
-Line.fromTwoPoints(somePoint, someOtherPoint);
+Line.givenTwoPoints(somePoint, someOtherPoint);
 // generate a line through two Points
 ```
 
@@ -151,16 +152,16 @@ Circle.UNIT;
 Factory methods:
 
 ```javascript
-Circle.fromCenterRadius(center, radius);
+Circle.givenCenterRadius(center, radius);
 // generate a circle with a given center point and Euclidean radius
 
-Circle.fromHyperbolicCenterRadius(center, radius);
+Circle.givenHyperbolicCenterRadius(center, radius);
 // generate a circle with a given center point and hyperbolic radius
 
-Circle.fromTwoPoints(somePoint, someOtherPoint);
+Circle.givenTwoPoints(somePoint, someOtherPoint);
 // generate a circle given two diametrically opposed points
 
-Circle.fromThreePoints(somePoint, someOtherPoint, someOtherOtherPoint);
+Circle.givenThreePoints(somePoint, someOtherPoint, someOtherOtherPoint);
 // generate a circle given three points
 ```
 
@@ -176,10 +177,10 @@ An ordered collection of Points.
 Factory methods:
 
 ```javascript
-Polygon.fromVertices(vertices);
+Polygon.givenVertices(vertices);
 // generate a polygon from a given ordered array of Point objects
 
-Polygon.fromNCenterRadius(n, center, radius);
+Polygon.givenNCenterRadius(n, center, radius);
 // generate a regular polygon with n sides, where each vertex is radius distance from the center Point
 ```
 
