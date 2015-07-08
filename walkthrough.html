@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hyperbolic Canvas Example</title>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
+    <title>Hyperbolic Canvas Walkthrough</title>
     <link rel="stylesheet" type="text/css" href="example.css">
   </head>
   <body>
-    <div class="hyperbolic-canvas"></div>
-
+    <h1>Walkthrough</h1>
+    <div class="step">
+      <p>
+        asdf
+      </p>
+      <div class="hyperbolic-canvas"></div>
+    </div>
     <script type="application/javascript" src="lib/Angle.js"></script>
     <script type="application/javascript" src="lib/Point.js"></script>
     <script type="application/javascript" src="lib/Line.js"></script>
@@ -15,7 +20,13 @@
     <script type="application/javascript" src="lib/Polygon.js"></script>
     <script type="application/javascript" src="lib/Canvas.js"></script>
     <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
-    <!-- TODO combine Javascripts into single file for easy loading -->
-    <script type="text/javascript" src="example.js"></script>
+    <!-- TODO combine Javascripts into single file for easy loading and remove test script -->
+    <script type="text/javascript">
+      if (document.readyState != 'loading'){
+        window.HyperbolicCanvas.test();
+      } else {
+        document.addEventListener('DOMContentLoaded', window.HyperbolicCanvas.test);
+      }
+    </script>
   </body>
 </html>
