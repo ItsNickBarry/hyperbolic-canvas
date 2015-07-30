@@ -22,6 +22,7 @@
 
         var polygon = HyperbolicCanvas.Polygon.givenVertices(tempVertices);
         canvas.fillPolygon(polygon);
+        canvas.strokePolygonBoundaries(polygon);
       } else if (vertices.length == 1) {
         var line = HyperbolicCanvas.Line.givenTwoPoints(vertices[0], point);
         canvas.strokeLine(line);
