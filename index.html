@@ -1,16 +1,86 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Hyperbolic Canvas</title>
-  </head>
-  <body>
-    Hyperbolic Canvas main page
+<html lang="en">
+<head>
 
-    usage: objects
-    usage: canvas
-    games
-    art
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Your page title here :)</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-  </body>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/hyperbolic-canvas.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body class="home">
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <nav class="row">
+      <div class="nav-button three columns">
+        <a href="#">Hyperbolic Geometry</a>
+      </div>
+      <div class="nav-button three columns">
+        <a href="#">Documentation</a>
+      </div>
+      <div class="nav-button three columns">
+        <a href="#">Gallery</a>
+      </div>
+      <div class="nav-button three columns">
+        <a href="#">Arcade</a>
+      </div>
+    </nav>
+    <!-- <div class="row">
+      <a class="three columns" href="#">HyperbolicGemoetry</a>
+      <a class="three columns" href="#">Documentation</a>
+      <a class="three columns" href="#">Gallery</a>
+      <a class="three columns" href="#">Arcade</a>
+    </div> -->
+
+    <div class="row">
+      <div id="blockquote" class="eight columns offset-by-two">
+        <p class="text">
+          For God's sake, please give it up. Fear it no less than the sensual passion, because it, too, may take up all your time and deprive you of your health, peace of mind, and happiness in life.
+        </p>
+        <span class="attribution">
+          <a href="https://en.wikipedia.org/wiki/Farkas_Bolyai">Farkas Bolyai</a>, to his son <a href="https://en.wikipedia.org/wiki/J%C3%A1nos_Bolyai">János Bolyai</a> on <a href="https://en.wikipedia.org/wiki/Hyperbolic_geometry">hyperbolic geometry</a>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <hyperbolic-canvas id="example">
+
+  <!-- Scripts
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script type="application/javascript" src="lib/Angle.js"></script>
+  <script type="application/javascript" src="lib/Point.js"></script>
+  <script type="application/javascript" src="lib/Line.js"></script>
+  <script type="application/javascript" src="lib/Circle.js"></script>
+  <script type="application/javascript" src="lib/Polygon.js"></script>
+  <script type="application/javascript" src="lib/Canvas.js"></script>
+  <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
+
+  <script type="application/javascript" src="example.js"></script>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
 </html>

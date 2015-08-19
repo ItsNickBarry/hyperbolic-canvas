@@ -1,0 +1,80 @@
+body.home {
+  /*background-image: url(../images/background.png);*/
+  background-color: gray;
+}
+
+hyperbolic-canvas#example {
+  display: block;
+  position: fixed;
+  z-index: -1;
+  left: 0px;
+  top: 0px;
+  height: 10000%;
+  width: 200%;
+  /*transform: translateX(calc(-50%));*/
+}
+
+hyperbolic-canvas#example .viewport {
+  transform: translate(calc(-50%), calc(-25%));
+
+}
+
+.container {
+  margin-top: 50px;
+}
+
+.nav-button {
+  background-color: white;
+  height: 100%;
+}
+
+nav {
+  margin: 13px 0 0 0;
+  height: 50px;
+}
+
+.nav-button a {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  height: 100%;
+  width: 100%;
+}
+
+.nav-button a:hover {
+  text-decoration: underline;
+}
+
+#blockquote {
+  background-color: white;
+  padding: 20px;
+  margin-top: 50px;
+}
+
+/*
+Each hyperbolic-canvas div must be of non-zero size.
+A size with a 1:1 ratio is recommended.
+In this case, it expands to fill its container.
+*/
+hyperbolic-canvas {
+  height: 10000px;
+}
+
+/*
+A viewport div is automatically appended into each hyperbolic-canvas div.
+It is automatically scaled to fill its parent, and cropped to a 1:1 ratio.
+It is not recommended to apply styling beyond background color.
+*/
+hyperbolic-canvas div.viewport {
+  background-color: #2C001E;
+}
+
+/*
+An HTML canvas is automatically appended into each viewport div.
+It is automatically scaled to fit its parent.
+It is not recommended to apply styling beyond background color.
+*/
+hyperbolic-canvas div.viewport canvas {
+  background-color: #D6D3CF;
+}
