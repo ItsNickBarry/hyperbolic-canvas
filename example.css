@@ -13,9 +13,9 @@ Each hyperbolic-canvas div must be of non-zero size.
 A size with a 1:1 ratio is recommended.
 In this case, it expands to fill the page.
 */
-hyperbolic-canvas {
-  height: 100%;
-  width: 100%;
+div.hyperbolic-canvas {
+  height: 32px;
+  width: 32px;
 }
 
 /*
@@ -23,7 +23,7 @@ A viewport div is automatically appended into each hyperbolic-canvas div.
 It is automatically scaled to fill its parent, and cropped to a 1:1 ratio.
 It is not recommended to apply styling beyond background color.
 */
-hyperbolic-canvas div.viewport {
+div.hyperbolic-canvas div.viewport {
   background-color: #2C001E;
 }
 
@@ -32,6 +32,6 @@ An HTML canvas is automatically appended into each viewport div.
 It is automatically scaled to fit its parent.
 It is not recommended to apply styling beyond background color.
 */
-hyperbolic-canvas div.viewport canvas {
+div.hyperbolic-canvas div.viewport canvas {
   background-color: #D6D3CF;
 }

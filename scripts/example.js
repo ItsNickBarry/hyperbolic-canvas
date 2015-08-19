@@ -25,14 +25,14 @@
           polygons.push(gon);
         }
       }
-      rotation += Math.TAU / (sideCount * sideCount * sideCount * 2);
+      rotation += Math.TAU / (sideCount * sideCount * 2);
       canvas.clear();
       polygons.forEach(function (polygon) {
         canvas.fillPolygon(polygon);
       });
     };
     fn();
-    setInterval(fn, 200);
+    setInterval(fn, 700);
   };
 
   var toggleRender = function () {
