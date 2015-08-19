@@ -1,7 +1,7 @@
 ;
 (function () {
   var fn = function () {
-    var canvas = HyperbolicCanvas.canvases[0];
+    var canvas = HyperbolicCanvas.canvases['hand-drawn-polygon'];
     canvas.setFillStyle('#DD4814');
 
     var vertices = [];

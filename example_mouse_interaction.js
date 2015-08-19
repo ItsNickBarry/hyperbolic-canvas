@@ -1,7 +1,7 @@
 ;
 (function () {
   var fn = function () {
-    var canvas = HyperbolicCanvas.canvases[0];
+    var canvas = HyperbolicCanvas.canvases['mouse-interaction'];
 
     var maxN = 12;
     var n = 3;

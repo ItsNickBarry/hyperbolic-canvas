@@ -4,7 +4,7 @@
 
   var render = function () {
 
-    var canvas = HyperbolicCanvas.canvases[0];
+    var canvas = HyperbolicCanvas.canvases['example'];
 
     canvas.setFillStyle('#DD4814');
 
@@ -25,14 +25,14 @@
           polygons.push(gon);
         }
       }
-      rotation += Math.TAU / (sideCount * sideCount * 2);
+      rotation += Math.TAU / (sideCount * sideCount * sideCount * 2);
       canvas.clear();
       polygons.forEach(function (polygon) {
         canvas.fillPolygon(polygon);
       });
     };
     fn();
-    setInterval(fn, 700);
+    setInterval(fn, 200);
   };
 
   var toggleRender = function () {
