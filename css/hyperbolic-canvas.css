@@ -11,7 +11,7 @@ body.about .row {
   background-color: white;
 }*/
 
-div.hyperbolic-canvas#example {
+div.hyperbolic-canvas#hexagons {
   display: block;
   position: fixed;
   z-index: -1;
@@ -22,7 +22,7 @@ div.hyperbolic-canvas#example {
   /*transform: translateX(calc(-50%));*/
 }
 
-div.hyperbolic-canvas#example .viewport {
+div.hyperbolic-canvas#hexagons .viewport {
   transform: translate(calc(-50%), calc(-25%));
 
 }

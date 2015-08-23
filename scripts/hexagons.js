@@ -4,7 +4,7 @@
 
   var render = function () {
 
-    var canvas = HyperbolicCanvas.canvases['example'];
+    var canvas = HyperbolicCanvas.canvases['hexagons'];
 
     canvas.setFillStyle('#DD4814');
 

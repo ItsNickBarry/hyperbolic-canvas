@@ -1,11 +1,14 @@
 # Hyperbolic Canvas
 A Javascript implementation of the [Poincaré disk model][diskmodel] of the hyperbolic plane, on an HTML canvas.
 
+Examples can be found on the [project site][gh-pages].
+
 Due to the less-than-infinite precision of floating point numbers, bad things can happen, especially as points approach the border of the plane.
 
 Certain browsers do not provide support for the hyperbolic functions.
 
 [diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
+[gh-pages]: https://ItsNickBarry.github.io/hyperbolic-canvas
 
 ## Usage
 ### Simple Installation
