@@ -3,6 +3,14 @@ body.home {
   background-color: gray;
 }
 
+/*body.about {
+  background-image: url(../images/background.png);
+}
+
+body.about .row {
+  background-color: white;
+}*/
+
 div.hyperbolic-canvas#example {
   display: block;
   position: fixed;
@@ -33,23 +41,27 @@ nav {
   height: 50px;
 }
 
-.nav-button a {
-  display: block;
+a {
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.nav-button a {
+  font-family: Raleway;
+  display: block;
   text-align: center;
   vertical-align: middle;
   height: 100%;
   width: 100%;
 }
 
-.nav-button a:hover {
-  text-decoration: underline;
-}
-
 #blockquote {
   background-color: white;
   padding: 20px;
-  margin-top: 50px;
+  margin-top: 15%;
 }
 
 /*

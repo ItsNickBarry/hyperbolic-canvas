@@ -1,11 +1,3 @@
-> > **For God's sake, please give it up. Fear it no less than the sensual passion, because it, too, may take up all your time and deprive you of your health, peace of mind, and happiness in life.**
->
-> [Farkas Bolyai][farkas], to his son [János Bolyai][jános], on [hyperbolic geometry][hyperbolicgeometry]
-
-[farkas]: https://en.wikipedia.org/wiki/Farkas_Bolyai
-[jános]: https://en.wikipedia.org/wiki/J%C3%A1nos_Bolyai
-[hyperbolicgeometry]: https://en.wikipedia.org/wiki/Hyperbolic_geometry
-
 # Hyperbolic Canvas
 A Javascript implementation of the [Poincaré disk model][diskmodel] of the hyperbolic plane, on an HTML canvas.
 
@@ -14,12 +6,6 @@ Due to the less-than-infinite precision of floating point numbers, bad things ca
 Certain browsers do not provide support for the hyperbolic functions.
 
 [diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
-
-## Demonstrations
-* [Example][example] (a few regular congruent hexagons; they rotate when clicked)
-* let me know if you use this in a project, so I can populate this list
-
-[example]: http://ItsNickBarry.github.io/hyperbolic-canvas/example.html
 
 ## Usage
 ### Simple Installation
@@ -41,7 +27,7 @@ Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and
 See the [example HTML][html] and [example CSS][css] for a demonstration.
 
 [html]: ./example.html
-[css]: ./example.css
+[css]: ./css/example.css
 
 ### Exposed Variables and Constants
 An array of all Canvas objects is exposed through the `HyperbolicCanvas` namespace:
