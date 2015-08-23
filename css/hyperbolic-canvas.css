@@ -1,44 +1,9 @@
-body.home {
-  /*background-image: url(../images/background.png);*/
-  background-color: gray;
-}
-
-/*body.about {
+body {
   background-image: url(../images/background.png);
-}
-
-body.about .row {
-  background-color: white;
-}*/
-
-div.hyperbolic-canvas#hexagons {
-  display: block;
-  position: fixed;
-  z-index: -1;
-  left: 0px;
-  top: 0px;
-  height: 10000%;
-  width: 200%;
-  /*transform: translateX(calc(-50%));*/
-}
-
-div.hyperbolic-canvas#hexagons .viewport {
-  transform: translate(calc(-50%), calc(-25%));
-
-}
-
-.container {
-  margin-top: 50px;
-}
-
-.nav-button {
-  background-color: white;
-  height: 100%;
 }
 
 nav {
   margin: 13px 0 0 0;
-  height: 50px;
 }
 
 a {
@@ -50,18 +15,45 @@ a:hover {
 }
 
 .nav-button a {
-  font-family: Raleway;
+  /*font-family: Raleway;*/
   display: block;
   text-align: center;
-  vertical-align: middle;
-  height: 100%;
-  width: 100%;
+  padding: 10px 0px;
 }
 
-#blockquote {
+div.hyperbolic-canvas#hexagons {
+  display: block;
+  position: fixed;
+  z-index: -1;
+  left: 0px;
+  top: 0px;
+  height: 10000%;
+  width: 200%;
+}
+
+div.hyperbolic-canvas#hexagons div.viewport {
+  transform: translate(calc(-50%), calc(-25%));
+}
+
+div.blockquote {
   background-color: white;
   padding: 20px;
   margin-top: 15%;
+}
+
+div.container {
+  margin-top: 50px;
+}
+
+div.nav-button {
+  background-color: white;
+  height: 100%;
+}
+
+div.content {
+  background-color: white;
+  padding: 13px;
+  margin-top: 50px;
 }
 
 /*
@@ -88,6 +80,6 @@ An HTML canvas is automatically appended into each viewport div.
 It is automatically scaled to fit its parent.
 It is not recommended to apply styling beyond background color.
 */
-div.hyperbolic-canvas div.viewport canvas {
+div.hyperbolic-canvas div.viewport canvas.hyperbolic {
   background-color: #D6D3CF;
 }
