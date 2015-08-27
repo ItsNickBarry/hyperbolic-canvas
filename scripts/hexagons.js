@@ -12,6 +12,7 @@
     var radius = 1;
     var count = 12;
     var rotation = 0;
+    var rotationInterval = Math.TAU / (sideCount * sideCount * sideCount * sideCount * 2)
 
     var fn = function () {
       if (!reRender) {
@@ -25,14 +26,14 @@
           polygons.push(gon);
         }
       }
-      rotation += Math.TAU / (sideCount * sideCount * 2);
+      rotation += rotationInterval;
       canvas.clear();
       polygons.forEach(function (polygon) {
         canvas.fillPolygon(polygon);
       });
     };
     fn();
-    setInterval(fn, 700);
+    setInterval(fn, 100);
   };
 
   var toggleRender = function () {
