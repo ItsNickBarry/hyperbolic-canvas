@@ -3,20 +3,27 @@ A Javascript implementation of the [Poincaré disk model][diskmodel] of the hype
 
 Examples can be found on the [project site][gh-pages].
 
+[diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
+[gh-pages]: https://ItsNickBarry.github.io/hyperbolic-canvas
+
+## Warning
+<!-- // "edge cases" (ha!) in which a point sufficiently close to boundary is NaN due to floating point math -->
+
 Due to the less-than-infinite precision of floating point numbers, bad things can happen, especially as points approach the border of the plane.
 
 Certain browsers do not provide support for the hyperbolic functions.
 
-[diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
-[gh-pages]: https://ItsNickBarry.github.io/hyperbolic-canvas
+To report problems, or request features, please open a new [issue][issue].
+
+[issue]: ./../../issues
 
 ## Usage
 ### Simple Installation
-Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and load [HyperbolicCanvas.js][HyperbolicCanvas.js].  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
+Add one or more divs with the class "hyperbolic-canvas" and unique ids to an HTML document, and load all files in the lib directory.  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
 
 ```html
-<div class="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
-<div class="hyperbolic-canvas" style="width: 400px; height: 400px;"></div>
+<div class="hyperbolic-canvas" id="hexagons" style="width: 600px; height: 600px;"></div>
+<div class="hyperbolic-canvas" id="mouse-interaction" style="width: 400px; height: 400px;"></div>
 
 <script type="application/javascript" src="lib/Angle.js"></script>
 <script type="application/javascript" src="lib/Point.js"></script>
@@ -25,6 +32,14 @@ Add one or more divs with the class "hyperbolic-canvas" to an HTML document, and
 <script type="application/javascript" src="lib/Polygon.js"></script>
 <script type="application/javascript" src="lib/Canvas.js"></script>
 <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
+```
+
+Attach a script to each canvas by defining it as a function on the `HyperbolicCanvas.scripts` object.  The index must match the canvas id.
+
+```javascript
+HyperbolicCanvas.scripts['hexagons'] = function (canvas) {
+  // interact with canvas here
+}
 ```
 
 See the [example HTML][html] and [example CSS][css] for a demonstration.
@@ -298,10 +313,3 @@ Canvas.prototype.strokeLine(line, infinite);
 Canvas.prototype.strokePolygonBoundaries(polygon);
 // stroke the ideal hyperbolic lines which bind a given polygon.
 ```
-
-## Issues and Features
-<!-- // "edge cases" (ha!) in which a point sufficiently close to boundary is NaN due to floating point math -->
-
-To report problems, or request features, please open a new [issue][issue].
-
-[issue]: ./../../issues
