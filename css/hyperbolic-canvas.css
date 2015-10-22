@@ -1,5 +1,6 @@
 body {
   background-image: url(../images/background.png);
+  background-attachment: fixed;
 }
 
 nav {
@@ -43,17 +44,22 @@ div.blockquote {
 
 div.container {
   margin-top: 50px;
-}
-
-div.nav-button {
-  background-color: white;
-  height: 100%;
+  margin-bottom: 50px;
 }
 
 div.content {
   background-color: white;
   padding: 13px;
   margin-top: 50px;
+}
+
+div.example:hover {
+  background: #FBECE7;
+}
+
+div.nav-button {
+  background-color: white;
+  height: 100%;
 }
 
 /*
