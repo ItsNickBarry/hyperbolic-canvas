@@ -8,8 +8,6 @@
   }
 
   HyperbolicCanvas.scripts['hexagons'] = function (canvas) {
-    var reRender = true;
-
     var render = function () {
       canvas.setFillStyle('#DD4814');
 
@@ -20,9 +18,6 @@
       var rotationInterval = Math.TAU / (sideCount * sideCount * sideCount * sideCount * 2)
 
       var fn = function () {
-        if (!reRender) {
-          return false;
-        }
         var polygons = [];
         for (var i = 0; i < count; i++) {
           for (var j = 0; j < sideCount; j++) {
@@ -41,11 +36,6 @@
       setInterval(fn, 100);
     };
 
-    var toggleRender = function () {
-      reRender ^= true;
-    };
-
-    document.addEventListener('click', toggleRender);
     render();
   }
 })();
