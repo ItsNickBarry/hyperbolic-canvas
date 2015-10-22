@@ -19,11 +19,11 @@ To report problems, or request features, please open a new [issue][issue].
 
 ## Usage
 ### Simple Installation
-Add one or more divs with the class "hyperbolic-canvas" and unique ids to an HTML document, and load all files in the lib directory.  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
+Add one or more divs with the class "hyperbolic-canvas" and unique-per-canvas data-name attributes to an HTML document, and load all files in the lib directory.  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
 
 ```html
-<div class="hyperbolic-canvas" id="hexagons" style="width: 600px; height: 600px;"></div>
-<div class="hyperbolic-canvas" id="mouse-interaction" style="width: 400px; height: 400px;"></div>
+<div class="hyperbolic-canvas" data-name="hexagons" data-script="hexagons" style="width: 600px; height: 600px;"></div>
+<div class="hyperbolic-canvas" data-name="mouse-interaction" data-script="mouse-interaction" style="width: 400px; height: 400px;"></div>
 
 <script type="application/javascript" src="lib/Angle.js"></script>
 <script type="application/javascript" src="lib/Point.js"></script>
@@ -34,7 +34,7 @@ Add one or more divs with the class "hyperbolic-canvas" and unique ids to an HTM
 <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
 ```
 
-Attach a script to each canvas by defining it as a function on the `HyperbolicCanvas.scripts` object.  The index must match the canvas id.
+Optionally attach a script to each canvas by defining it as a function on the `HyperbolicCanvas.scripts` object.  The index must match the canvas data-script attribute.
 
 ```javascript
 HyperbolicCanvas.scripts['hexagons'] = function (canvas) {

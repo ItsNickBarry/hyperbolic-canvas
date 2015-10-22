@@ -21,7 +21,7 @@ a:hover {
   padding: 10px 0px;
 }
 
-div.hyperbolic-canvas#hexagons {
+div.hyperbolic-canvas#background-canvas {
   display: block;
   position: fixed;
   z-index: -1;
@@ -31,7 +31,7 @@ div.hyperbolic-canvas#hexagons {
   width: 200%;
 }
 
-div.hyperbolic-canvas#hexagons div.viewport {
+div.hyperbolic-canvas#background-canvas div.viewport {
   transform: translate(calc(-50%), calc(-25%));
 }
 
