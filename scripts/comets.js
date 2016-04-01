@@ -30,7 +30,7 @@
         var newComets = [];
 
         oldComets.forEach(function (comet) {
-          if (comet.distanceFromCenter() <= spawnDistance) {
+          if (comet.getHyperbolicRadius() <= spawnDistance) {
             var newComet = comet.distantPoint(.05);
             newComets.push(newComet);
             canvas.fillCircle(window.HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(newComet, .1));

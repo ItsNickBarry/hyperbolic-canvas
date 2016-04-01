@@ -110,11 +110,18 @@ Instance functions:
 Point.prototype.equals(otherPoint);
 // determine whether x and y properties of the point match those of another point
 
-Point.prototype.angle();
+Point.prototype.getAngle();
 // calculate the angle at which the point is located relative to the unit circle
 
-Point.prototype.distanceFromCenter();
+Point.prototype.getEuclideanRadius();
+// calculate the Euclidean distance of the point from the center of the canvas
+
+Point.prototype.getHyperbolicRadius();
 // calculate the hyperbolic distance of the point from the center of the canvas
+
+Point.prototype.getX();
+
+Point.prototype.getY();
 
 Point.prototype.distantPoint(distance, direction);
 // calculate the point's relative point a given hyperbolic distance away at a given angle
