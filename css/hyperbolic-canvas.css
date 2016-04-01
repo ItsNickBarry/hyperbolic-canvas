@@ -22,7 +22,7 @@ a:hover {
   padding: 10px 0px;
 }
 
-div.hyperbolic-canvas#background-canvas {
+div#hyperbolic-canvas.background-canvas {
   display: block;
   position: fixed;
   z-index: -1;
@@ -32,7 +32,7 @@ div.hyperbolic-canvas#background-canvas {
   width: 200%;
 }
 
-div.hyperbolic-canvas#background-canvas div.viewport {
+div#hyperbolic-canvas.background-canvas div.viewport {
   transform: translate(calc(-50%), calc(-25%));
 }
 
@@ -67,7 +67,7 @@ Each hyperbolic-canvas div must be of non-zero size.
 A size with a 1:1 ratio is recommended.
 In this case, it expands to fill its container.
 */
-div.hyperbolic-canvas {
+div#hyperbolic-canvas {
   height: 100%;
   width: 100%;
 }
@@ -77,7 +77,7 @@ A viewport div is automatically appended into each hyperbolic-canvas div.
 It is automatically scaled to fill its parent, and cropped to a 1:1 ratio.
 It is not recommended to apply styling beyond background color.
 */
-div.hyperbolic-canvas div.viewport {
+div#hyperbolic-canvas div.viewport {
   background-color: #2C001E;
 }
 
@@ -86,6 +86,6 @@ An HTML canvas is automatically appended into each viewport div.
 It is automatically scaled to fit its parent.
 It is not recommended to apply styling beyond background color.
 */
-div.hyperbolic-canvas div.viewport canvas.hyperbolic {
+div#hyperbolic-canvas div.viewport canvas.hyperbolic {
   background-color: #D6D3CF;
 }

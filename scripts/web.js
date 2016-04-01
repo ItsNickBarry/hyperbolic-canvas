@@ -3,11 +3,8 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
-  if (typeof HyperbolicCanvas.scripts === "undefined") {
-    window.HyperbolicCanvas.scripts = {};
-  }
 
-  HyperbolicCanvas.scripts['web'] = function (canvas) {
+  var script = function (canvas) {
     var fn = function () {
       var unitCircle = HyperbolicCanvas.Circle.givenCenterRadius(HyperbolicCanvas.Point.CENTER, .9999);
 
@@ -47,4 +44,7 @@
 
     fn();
   };
+
+  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'web');
+  script(canvas);
 })();

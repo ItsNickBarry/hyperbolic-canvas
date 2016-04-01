@@ -3,15 +3,13 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
-  if (typeof HyperbolicCanvas.scripts === "undefined") {
-    window.HyperbolicCanvas.scripts = {};
-  }
 
-  HyperbolicCanvas.scripts['comets'] = function (canvas) {
+  var maxComets = 0;
+  var put = function(n){ comets.push(HyperbolicCanvas.Point.givenPolarCoordinates(.5, n));}
+  var script = function (canvas) {
     var fn = function () {
       var location = null;
-      var comets = [];
-      var maxComets = 10;
+      comets = [];
       var spawnDistance = 3;
 
       canvas.setFillStyle('#DD4814');
@@ -21,8 +19,8 @@
         canvas.clear();
 
         if (location && comets.length < maxComets && Math.random() > .01) {
-          var spawnPoint = location.distantPoint(.0001, Math.random() * Math.TAU);
-          comets.push(spawnPoint);
+          // var spawnPoint = location.distantPoint(.0001, Math.random() * Math.TAU);
+          comets.push(location);
           // console.log(spawnPoint);
           // console.log(location);
           // debugger
@@ -36,6 +34,8 @@
             var newComet = comet.distantPoint(.05);
             newComets.push(newComet);
             canvas.fillCircle(window.HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(newComet, .1));
+          } else {
+            maxComets -= 1;
           }
         });
 
@@ -48,14 +48,23 @@
           y = event.clientY;
         }
         var point = canvas.at([x, y]);
-        location = point.isOnPlane ? point : null;
+        // location = point.isOnPlane ? point : null;
+        if (point.isOnPlane) {
+          location = point;
+          maxComets += 1;
+        } else {
+          location = null;
+        }
       };
 
-      canvas.canvas.addEventListener('mousemove', resetLocation);
+      canvas.canvas.addEventListener('click', resetLocation);
 
-      setInterval(step, 200);
+      setInterval(step, 50);
     };
 
     fn();
   };
+
+  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'comets');
+  script(canvas);
 })();

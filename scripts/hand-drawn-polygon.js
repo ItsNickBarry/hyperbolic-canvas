@@ -3,12 +3,8 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
-  if (typeof HyperbolicCanvas.scripts === "undefined") {
-    window.HyperbolicCanvas.scripts = {};
-  }
 
-
-  HyperbolicCanvas.scripts['hand-drawn-polygon'] = function (canvas) {
+  var script = function (canvas) {
     var fn = function () {
       canvas.setFillStyle('#DD4814');
 
@@ -50,4 +46,7 @@
 
     fn();
   };
+
+  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'hand-drawn-polygon');
+  script(canvas);
 })();

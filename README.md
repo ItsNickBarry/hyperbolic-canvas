@@ -19,7 +19,7 @@ To report problems, or request features, please open a new [issue][issue].
 
 ## Usage
 ### Simple Installation
-Add one or more divs with the class "hyperbolic-canvas" and unique-per-canvas data-name attributes to an HTML document, and load all files in the lib directory.  A Canvas object will be automatically created to correspond with each such div.  Width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
+Load all files in the lib directory, and pass a unique selector of a div element, as well as a canvas name, to the function `HyperbolicCanvas.create`.  Nonzero width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
 
 ```html
 <div class="hyperbolic-canvas" data-name="hexagons" data-script="hexagons" style="width: 600px; height: 600px;"></div>
@@ -34,18 +34,15 @@ Add one or more divs with the class "hyperbolic-canvas" and unique-per-canvas da
 <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
 ```
 
-Optionally attach a script to each canvas by defining it as a function on the `HyperbolicCanvas.scripts` object.  The index must match the canvas data-script attribute.
+Retain the canvas object as returned by `HyperbolicCanvas.create` or retrieve it from `HyperbolicCanvas.canvases[name]` using the name passed to the creation function, and pass it to a custom script
 
 ```javascript
-HyperbolicCanvas.scripts['hexagons'] = function (canvas) {
+var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'main-canvas');
+var script = function (canvas) {
   // interact with canvas here
 }
+script(canvas);
 ```
-
-See the [example HTML][html] and [example CSS][css] for a demonstration.
-
-[html]: ./example.html
-[css]: ./css/example.css
 
 ### Exposed Variables and Constants
 An array of all Canvas objects is exposed through the `HyperbolicCanvas` namespace:
@@ -147,7 +144,7 @@ Class functions:
 Line.intersect(someLine, someOtherLine);
 // calculate the point of intersection of two Euclidean lines
 
-Line.hypebrolicIntersect(someLine, someOtherLine);
+Line.hyperbolicIntersect(someLine, someOtherLine);
 // calculate the point of intersection of two hyperbolic lines
 ```
 
