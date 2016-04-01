@@ -8,7 +8,7 @@
     var fn = function () {
       var maxN = 12;
       var n = 3;
-      var location = HyperbolicCanvas.Point.CENTER;
+      var location = HyperbolicCanvas.Point.ORIGIN;
       var rotation = 0;
       var rotationInterval = Math.TAU / 800;
       var radius = 1;

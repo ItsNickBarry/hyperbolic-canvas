@@ -84,7 +84,7 @@ A representation of a point on the Canvas, where the center is defined as (0, 0)
 Constants:
 
 ```javascript
-Point.CENTER;
+Point.ORIGIN;
 // the point at the center of the canvas, (0,0)
 ```
 
@@ -158,7 +158,7 @@ Line.hyperbolicIntersect(someLine, someOtherLine);
 Instance functions:
 
 ```javascript
-Line.prototype.arcCircle();
+Line.prototype.getArc();
 // returns the circle whose arc matches the hyperbolic geodesic through the line's points
 
 Line.prototype.containsPoint(point);
@@ -179,16 +179,16 @@ Line.prototype.perpindicularBisector();
 Line.prototype.perpindicularSlope();
 // return the opposite reciprocal of the slope of the Euclidean line
 
-Line.prototype.midpoint();
+Line.prototype.getEuclideanMidpoint();
 // return the point between the Euclidean line segment's two endpoints
 
-Line.prototype.euclideanDistance();
+Line.prototype.getEuclideanDistance();
 // calculate the length of the Euclidean line segment
 
 Line.prototype.hyperbolicDistance();
 // calculate the length of the hyperbolic line segment
 
-Line.prototype.unitCircleIntersects();
+Line.prototype.getUnitCircleIntersects();
 // calculate the Euclidean line's points of intersection with the unit circle
 ```
 
@@ -249,7 +249,7 @@ Circle.prototype.tangentAtAngle(angle);
 Circle.prototype.tangentAtPoint(point);
 // calculate the line which passes through a given point and is perpindicular to the line through the point and the circle's center
 
-Circle.prototype.unitCircleIntersects();
+Circle.prototype.getUnitCircleIntersects();
 // calculate the circle's points of intersection with the unit circle
 ```
 

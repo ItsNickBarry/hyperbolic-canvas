@@ -6,7 +6,7 @@
 
   var script = function (canvas) {
     var fn = function () {
-      var unitCircle = HyperbolicCanvas.Circle.givenCenterRadius(HyperbolicCanvas.Point.CENTER, .9999);
+      var unitCircle = HyperbolicCanvas.Circle.givenCenterRadius(HyperbolicCanvas.Point.ORIGIN, .9999);
 
       var location = null;
       var angles = [];
