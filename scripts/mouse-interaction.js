@@ -53,8 +53,8 @@
         }
       };
 
-      canvas.canvas.addEventListener('click', incrementN);
-      canvas.canvas.addEventListener('mousemove', resetLocation);
+      canvas.getCanvasElement().addEventListener('click', incrementN);
+      canvas.getCanvasElement().addEventListener('mousemove', resetLocation);
       document.addEventListener('wheel', scroll);
 
       setInterval(render, 40);

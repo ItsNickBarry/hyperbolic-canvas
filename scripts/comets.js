@@ -57,7 +57,7 @@
         }
       };
 
-      canvas.canvas.addEventListener('click', resetLocation);
+      canvas.getCanvasElement().addEventListener('click', resetLocation);
 
       setInterval(step, 50);
     };

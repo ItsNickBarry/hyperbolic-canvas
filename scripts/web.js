@@ -37,7 +37,7 @@
         location = point.isOnPlane ? point : null;
       };
 
-      canvas.canvas.addEventListener('mousemove', resetLocation);
+      canvas.getCanvasElement().addEventListener('mousemove', resetLocation);
 
       setInterval(step, 66);
     };

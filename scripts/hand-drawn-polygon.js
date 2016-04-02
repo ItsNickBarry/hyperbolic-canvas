@@ -40,8 +40,8 @@
         }
       };
 
-      canvas.canvas.addEventListener('click', addVertex);
-      canvas.canvas.addEventListener('mousemove', render);
+      canvas.getCanvasElement().addEventListener('click', addVertex);
+      canvas.getCanvasElement().addEventListener('mousemove', render);
     };
 
     fn();
