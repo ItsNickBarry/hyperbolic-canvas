@@ -10,7 +10,7 @@
     var fn = function () {
       var location = null;
       comets = [];
-      var spawnDistance = 3;
+      var spawnDistance = 30;
 
       canvas.setFillStyle('#DD4814');
 
@@ -19,11 +19,7 @@
         canvas.clear();
 
         if (location && comets.length < maxComets && Math.random() > .01) {
-          // var spawnPoint = location.distantPoint(.0001, Math.random() * Math.TAU);
           comets.push(location);
-          // console.log(spawnPoint);
-          // console.log(location);
-          // debugger
         }
 
         var oldComets = comets;
@@ -31,7 +27,9 @@
 
         oldComets.forEach(function (comet) {
           if (comet.getHyperbolicRadius() <= spawnDistance) {
-            var newComet = comet.distantPoint(.05);
+
+            var newComet = comet.distantPoint(.05, comet.direction);
+
             newComets.push(newComet);
             canvas.fillCircle(window.HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(newComet, .1));
           } else {
@@ -48,7 +46,7 @@
           y = event.clientY;
         }
         var point = canvas.at([x, y]);
-        // location = point.isOnPlane ? point : null;
+        point.direction = point.getAngle() + Math.PI;
         if (point.isOnPlane) {
           location = point;
           maxComets += 1;
