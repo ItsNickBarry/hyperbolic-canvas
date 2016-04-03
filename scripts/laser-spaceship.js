@@ -5,7 +5,7 @@
   }
 
   var randomColor = function () {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
   };
 
   var script = function (canvas) {
@@ -51,8 +51,7 @@
         strokeStyle: 'white'
       });
       canvas.strokeLine(
-        HyperbolicCanvas.Line.givenTwoPoints(location, front),
-        true
+        HyperbolicCanvas.Line.givenTwoPoints(front, location.distantPoint(30))
       );
       ctx.setLineDash([]);
       canvas.setContextProperties(defaultProperties);
