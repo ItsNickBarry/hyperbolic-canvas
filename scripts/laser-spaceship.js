@@ -4,63 +4,89 @@
     window.HyperbolicCanvas = {};
   }
 
+  var randomColor = function () {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  };
+
   var script = function (canvas) {
     var keysDown = {};
     var keysUp = {};
 
     var ctx = canvas.getContext();
-
-    canvas.setContextProperties({
-      lineWidth: 3,
+    var defaultProperties = {
+      lineJoin: 'round',
+      lineWidth: 2,
       shadowBlur: 20,
-      shadowColor: '#DD4814',
-      strokeStyle: '#DD4814'
-    });
+      shadowColor: 'white',
+      strokeStyle: '#DD4814',
+      fillStyle: '#333333',
+    };
+
+    canvas.setContextProperties(defaultProperties);
 
     var heading =  0;
     var headingIncrement = Math.TAU / 100;
-    var velocity = 0;
-    var velocityIncrement = .005;
+    // why does initial velocity have to be > 0 to make bullets follow right heading?
+    var velocity = .001;
+    var velocityIncrement = .001;
     var maxVelocity = .05;
 
     var wingAngle = Math.TAU / 3;
 
+    var bullets = [];
+
     var location = HyperbolicCanvas.Point.givenCoordinates(-.5, .5);
+    var front;
 
     var drawShip = function () {
-      var front = location.distantPoint(.3, heading);
-      var left = location.distantPoint(.15, heading + wingAngle);
-      var right = location.distantPoint(.15, heading - wingAngle);
-
-      var lines = [
-        HyperbolicCanvas.Line.givenTwoPoints(front, left),
-        HyperbolicCanvas.Line.givenTwoPoints(front, right),
-        HyperbolicCanvas.Line.givenTwoPoints(left, right),
-        HyperbolicCanvas.Line.givenTwoPoints(location, left),
-        HyperbolicCanvas.Line.givenTwoPoints(location, right),
-        HyperbolicCanvas.Line.givenTwoPoints(location, front),
-      ];
-
-      for (var i = 0; i < lines.length; i++) {
-        canvas.strokeLine(lines[i]);
-      }
+      front = location.distantPoint(.1, heading);
+      var left = location.distantPoint(.05, heading + wingAngle);
+      var right = location.distantPoint(.05, heading - wingAngle);
 
       // draw heading line
       ctx.setLineDash([5]);
+      canvas.setContextProperties({
+        lineWidth: 1,
+        shadowBlur: 0,
+        strokeStyle: 'white'
+      });
       canvas.strokeLine(
         HyperbolicCanvas.Line.givenTwoPoints(location, front),
         true
       );
       ctx.setLineDash([]);
+      canvas.setContextProperties(defaultProperties);
+
+      canvas.strokePolygon(HyperbolicCanvas.Polygon.givenVertices([
+        front,
+        left,
+        location,
+        right,
+      ]));
+    };
+
+    var drawBullets = function () {
+      for (var i in bullets) {
+        var bullet = bullets[i];
+
+        // use reach bullet's random color
+        // canvas.setContextProperties({
+        //   fillStyle: bullet.color
+        // });
+
+        canvas.fillCircle(
+          HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(bullet, .01)
+        );
+      }
     };
 
     var render = function (event) {
       canvas.clear();
       drawShip();
+      drawBullets();
     };
 
     var fn = function () {
-
   		if (37 in keysDown || 65 in keysDown) {
         heading += headingIncrement;
       }
@@ -82,23 +108,39 @@
         }
   		}
 
-      if (32 in keysDown) {
-        //laser
-      }
-
       location = location.distantPoint(velocity, heading);
       heading = HyperbolicCanvas.Angle.normalize(location.direction);
+
+      // update bullet locations
+      var newBullets = [];
+      for (var i in bullets) {
+        var bullet = bullets[i];
+        var newBullet = bullet.distantPoint(.1);
+        newBullet.color = bullet.color;
+        if (newBullet.getEuclideanRadius() < .99) {
+          newBullets.push(newBullet);
+        }
+      }
+      bullets = newBullets;
 
       render();
     };
 
     setInterval(fn, 60);
 
-    // canvas.getCanvasElement().addEventListener('click', onClick);
-    // document.addEventListener('wheel', scroll);
-
     addEventListener("keydown", function (e) {
-      keysDown[e.keyCode] = true;
+      if (e.keyCode === 32) {
+        // only fire on keydown, don't store in keysDown
+        var bullet = HyperbolicCanvas.Point.givenCoordinates(
+          front.getX(),
+          front.getY()
+        );
+        bullet.direction = front.direction;
+        bullet.color = randomColor();
+        bullets.push(bullet);
+      } else {
+        keysDown[e.keyCode] = true;
+      }
     }, false);
 
     addEventListener("keyup", function (e) {
