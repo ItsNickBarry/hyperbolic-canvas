@@ -34,11 +34,11 @@
       if (event) {
         x = event.clientX;
         y = event.clientY;
-      }
-      var point = canvas.at([x, y]);
-      point.direction = point.getAngle() + Math.PI;
-      if (point.isOnPlane) {
-        comets.push(point);
+        var point = canvas.at([x, y]);
+        point.setDirection(HyperbolicCanvas.Angle.opposite(point.getAngle()));
+        if (point.isOnPlane) {
+          comets.push(point);
+        }
       }
     };
 
