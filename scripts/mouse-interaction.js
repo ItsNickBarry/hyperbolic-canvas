@@ -13,7 +13,7 @@
       var rotationInterval = Math.TAU / 800;
       var radius = 1;
 
-      canvas.setFillStyle('#DD4814');
+      canvas.setContextProperties({ fillStyle: '#DD4814' });
 
       var render = function (event) {
         canvas.clear();

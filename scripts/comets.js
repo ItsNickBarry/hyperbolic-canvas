@@ -8,7 +8,7 @@
     comets = [];
     var spawnDistance = .99;
 
-    canvas.setFillStyle('#DD4814');
+    canvas.setContextProperties({ fillStyle: '#DD4814' });
 
     var step = function (event) {
       canvas.clear();

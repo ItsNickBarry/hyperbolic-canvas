@@ -6,7 +6,7 @@
 
   var script = function (canvas) {
     var fn = function () {
-      canvas.setFillStyle('#DD4814');
+      canvas.setContextProperties({ fillStyle: '#DD4814' });
 
       var vertices = [];
 
@@ -29,7 +29,7 @@
           canvas.strokePolygonBoundaries(polygon);
         } else if (vertices.length == 1) {
           var line = HyperbolicCanvas.Line.givenTwoPoints(vertices[0], point);
-          canvas.strokeLine(line);
+          canvas.strokeHyperbolicLine(line);
         }
       };
 

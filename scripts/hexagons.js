@@ -5,7 +5,7 @@
   }
 
   var script = function (canvas) {
-    canvas.setFillStyle('#DD4814');
+    canvas.setContextProperties({ fillStyle: '#DD4814' });
 
     var sideCount = 6;
     var radius = .9;

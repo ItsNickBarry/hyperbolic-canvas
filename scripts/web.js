@@ -22,7 +22,7 @@
           angles.forEach(function (angle, index, array) {
             var point = unitCircle.pointAt(angle);
             var line = HyperbolicCanvas.Line.givenTwoPoints(location, point);
-            canvas.strokeLine(line, true);
+            canvas.strokeHyperbolicLine(line, true);
             array[index] = array[index] + (Math.random()) * .1;
           });
         }

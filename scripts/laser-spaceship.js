@@ -55,7 +55,7 @@
         shadowBlur: 0,
         strokeStyle: 'white'
       });
-      canvas.strokeLine(
+      canvas.strokeHyperbolicLine(
         HyperbolicCanvas.Line.givenTwoPoints(front, location.distantPoint(30))
       );
       canvas.setContextProperties(defaultProperties);

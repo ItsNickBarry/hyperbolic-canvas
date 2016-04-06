@@ -61,7 +61,7 @@
         circles = [];
 
         for (var i = 0; i < 14; i++) {
-          canvas.setFillStyle(colors[i]);
+          canvas.setContextProperties({ fillStyle: colors[i] });
           var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
             location,
             maxRadius / (i + 1)

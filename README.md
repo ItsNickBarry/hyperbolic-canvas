@@ -294,7 +294,7 @@ Canvas.prototype.at(point);
 Canvas.prototype.getContext();
 // return the 2d context of the underlying HTML canvas
 
-Canvas.prototype.strokeLineThroughIdealPoints(someAngle, someOtherAngle);
+Canvas.prototype.strokeHyperbolicLineThroughIdealPoints(someAngle, someOtherAngle);
 // stroke the line through the ideal points at given angles
 
 Canvas.prototype.clear();
@@ -311,7 +311,7 @@ Canvas.prototype.fillAndStrokePolygon(polygon);
 Canvas.prototype.strokePolygon(polygon);
 // fill and/or stroke the given object
 
-Canvas.prototype.strokeLine(line, infinite);
+Canvas.prototype.strokeHyperbolicLine(line, infinite);
 // stroke the hyperbolic line, extending to the edges of the canvas if the boolean infinite is true
 
 Canvas.prototype.strokePolygonBoundaries(polygon);
