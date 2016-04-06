@@ -205,7 +205,7 @@ Circle.UNIT;
 Factory methods:
 
 ```javascript
-Circle.givenCenterRadius(center, radius);
+Circle.givenEuclideanCenterRadius(center, radius);
 // generate a circle with a given center point and Euclidean radius
 
 Circle.givenHyperbolicCenterRadius(center, radius);
@@ -231,10 +231,10 @@ Instance functions:
 Circle.prototype.equals(otherCircle);
 // determine whether the circle's center and radius match those of another circle
 
-Circle.prototype.angleAt(point);
+Circle.prototype.euclideanAngleAt(point);
 // calculate the angle of a point relative to the circle's center
 
-Circle.prototype.pointAt(angle);
+Circle.prototype.euclideanPointAt(angle);
 // calculate the point on a circle at a given angle relative to its center
 
 Circle.prototype.xAtY(y);

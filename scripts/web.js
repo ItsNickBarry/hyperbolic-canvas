@@ -6,7 +6,7 @@
 
   var script = function (canvas) {
     var fn = function () {
-      var unitCircle = HyperbolicCanvas.Circle.givenCenterRadius(HyperbolicCanvas.Point.ORIGIN, .9999);
+      var unitCircle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(HyperbolicCanvas.Point.ORIGIN, .9999);
 
       var location = null;
       var angles = [];
@@ -20,7 +20,7 @@
 
         if (location) {
           angles.forEach(function (angle, index, array) {
-            var point = unitCircle.pointAt(angle);
+            var point = unitCircle.euclideanPointAt(angle);
             var line = HyperbolicCanvas.Line.givenTwoPoints(location, point);
             canvas.strokeHyperbolicLine(line, true);
             array[index] = array[index] + (Math.random()) * .1;
