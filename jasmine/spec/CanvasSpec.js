@@ -97,7 +97,7 @@ describe('Canvas', function () {
       var coordinates = [canvas.getRadius() * 3 / 2, canvas.getRadius() / 2];
       var point = canvas.at(coordinates);
       expect(point).toBeDefined();
-      expect(point.__proto__).toEqual(HyperbolicCanvas.Point.prototype);
+      expect(point).toBeA(HyperbolicCanvas.Point);
     });
   });
 
@@ -106,7 +106,7 @@ describe('Canvas', function () {
       var point = HyperbolicCanvas.Point.givenCoordinates(.5, .5);
       var coordinates = canvas.at(point);
       expect(coordinates).toBeDefined();
-      expect(coordinates.__proto__).toEqual(Array.prototype);
+      expect(coordinates).toBeA(Array);
       expect(coordinates.length).toEqual(2);
     });
   });

@@ -102,12 +102,12 @@
 
       for (var i = 0; i < 3; i++) {
         circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(location, i + 1);
-        ctx.setLineDash([circle.getCircumference() * .1, circle.getCircumference() * .9]);
+        ctx.setLineDash([circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * .9]);
         canvas.strokeCircle(circle);
       }
       for (var i = 0; i < 3; i++) {
         circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(location, i + .5);
-        ctx.setLineDash([circle.getCircumference() * .1, circle.getCircumference() * 9.9]);
+        ctx.setLineDash([circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * 9.9]);
         canvas.strokeCircle(circle);
       }
 

@@ -148,7 +148,7 @@ Line.givenTwoPoints(somePoint, someOtherPoint);
 
 Class functions:
 ```javascript
-Line.intersect(someLine, someOtherLine);
+Line.euclideanIntersect(someLine, someOtherLine);
 // calculate the point of intersection of two Euclidean lines
 
 Line.hyperbolicIntersect(someLine, someOtherLine);
