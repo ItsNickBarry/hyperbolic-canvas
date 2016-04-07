@@ -94,7 +94,7 @@ Factory methods:
 Point.givenCoordinates(x, y);
 // generate a point given x and y coordinates, relative to the center of the unit circle
 
-Point.givenPolarCoordinates(radius, angle);
+Point.givenEuclideanPolarCoordinates(radius, angle);
 // generate a point given polar coodinates, relative to the center of the unit circle
 
 Point.givenHyperbolicPolarCoordinates(radius, angle);

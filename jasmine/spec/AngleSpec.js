@@ -18,10 +18,10 @@ describe('Angle', function () {
 
   it('should find the slope of an angle', function () {
     [0, Math.PI, Math.TAU].forEach(function (angle) {
-      expect(Angle.toSlope(angle)).toApproximate(0);
+      expect(Angle.toSlope(angle)).toBeCloseTo(0, jasmine.expectedPrecision);
     });
     [Math.TAU / 8, Math.TAU * 5 / 8].forEach(function (angle) {
-      expect(Angle.toSlope(angle)).toApproximate(1);
+      expect(Angle.toSlope(angle)).toBeCloseTo(1, jasmine.expectedPrecision);
     });
     [Math.PI / 2, Math.PI * 3 / 2].forEach(function (angle) {
       expect(Angle.toSlope(angle)).toBeGreaterThan(1e9);
@@ -34,7 +34,7 @@ describe('Angle', function () {
       [1, Math.TAU / 8],
       [-1, Math.TAU / -8],
     ].forEach(function (pair) {
-      expect(Angle.fromSlope(pair[0])).toApproximate(pair[1]);
+      expect(Angle.fromSlope(pair[0])).toBeCloseTo(pair[1], jasmine.expectedPrecision);
     });
   });
 
@@ -47,6 +47,20 @@ describe('Angle', function () {
       [Math.PI * -3, Math.PI],
     ].forEach(function (pair) {
       expect(Angle.normalize(pair[0])).toEqual(pair[1]);
+    });
+  });
+
+  it('should generate a random angle', function () {
+    var angle = Angle.random();
+    expect(angle).toBeGreaterThan(0);
+    expect(angle).toBeLessThan(Math.TAU);
+  });
+
+  it('should generate a random angle in a given quadrant', function () {
+    [1, 2, 3, 4].forEach(function (q) {
+      var angle = Angle.random(q);
+      expect(angle).toBeGreaterThan(Math.PI / 2 * (q - 1));
+      expect(angle).toBeLessThan(Math.PI / 2 * q);
     });
   });
 });

@@ -95,7 +95,7 @@
         }
         location = canvas.at([x, y]);
         if (!location.isOnPlane()) {
-          location = HyperbolicCanvas.Point.givenPolarCoordinates(
+          location = HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
             .9999,
             location.getAngle()
           );
