@@ -14,7 +14,7 @@
     var rotationDenominator = Math.pow(sideCount, 4) * 3;
     var rotationInterval = Math.TAU / rotationDenominator;
 
-    var fn = function () {
+    var render = function () {
       var polygons = [];
       for (var i = 0; i < ringCount; i++) {
         for (var j = 0; j < sideCount; j++) {
@@ -36,9 +36,9 @@
       polygons.forEach(function (polygon) {
         canvas.fillPolygon(polygon);
       });
+      requestAnimationFrame(render);
     };
-    fn();
-    setInterval(fn, 100);
+    requestAnimationFrame(render);
   };
 
   var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'hexagons');

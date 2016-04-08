@@ -12,7 +12,6 @@
 
     var step = function (event) {
       canvas.clear();
-      canvas.strokeGrid(2);
 
       var oldComets = comets;
       var newComets = [];
@@ -20,7 +19,9 @@
       for (var i = 0; i < oldComets.length; i++) {
         comet = oldComets[i];
         if (comet.getEuclideanRadius() <= spawnDistance) {
-          var newComet = comet.distantPoint(.05);
+          var distance = comet.distance || (Math.random() * .05 + .01);
+          var newComet = comet.distantPoint(distance);
+          newComet.distance = distance;
 
           newComets.push(newComet);
           canvas.fillAndStrokeCircle(HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(newComet, .02));
@@ -28,6 +29,7 @@
       }
 
       comets = newComets;
+      requestAnimationFrame(step);
     };
 
     var onClick = function (event) {
@@ -44,7 +46,7 @@
 
     canvas.getCanvasElement().addEventListener('click', onClick);
 
-    setInterval(step, 50);
+    requestAnimationFrame(step);
   };
 
   var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'comets');

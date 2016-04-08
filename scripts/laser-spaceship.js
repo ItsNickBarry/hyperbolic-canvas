@@ -181,9 +181,10 @@
       bullets = newBullets;
 
       render();
+      requestAnimationFrame(fn);
     };
 
-    setInterval(fn, 100);
+    fn();
 
     addEventListener("keydown", function (e) {
       // if (e.keyCode === 32) {
