@@ -21,8 +21,8 @@ describe('Canvas', function () {
     });
 
     it('should have one child div', function () {
-      expect(el.children.length).toEqual(1);
-      expect(el.firstChild.tagName.toLowerCase()).toEqual('div');
+      expect(el.children.length).toBe(1);
+      expect(el.firstChild.tagName.toLowerCase()).toBe('div');
     });
   });
 
@@ -36,13 +36,37 @@ describe('Canvas', function () {
       expect(el).toBeDefined();
     });
 
-    it('should have one child canvas', function () {
-      expect(el.children.length).toEqual(1);
-      expect(el.firstChild.tagName.toLowerCase()).toEqual('canvas');
+    it('should have one child div', function () {
+      expect(el.children.length).toBe(1);
+      expect(el.firstChild.tagName.toLowerCase()).toBe('div');
     });
 
     it('should have "viewport" class', function () {
-      expect(el.className).toEqual('viewport');
+      expect(el.className).toBe('viewport');
+    });
+  });
+
+  describe('backdrop element', function () {
+    var el;
+    beforeEach(function () {
+      el = canvas.getBackdropElement();
+    });
+
+    it('should be defined', function () {
+      expect(el).toBeDefined();
+    });
+
+    it('should have "backdrop" class', function () {
+      expect(el.className).toBe('backdrop');
+    });
+
+    it('should have border-radius style', function () {
+      expect(el.style['border-radius']).not.toBe('');
+    });
+
+    it('should have one child canvas', function () {
+      expect(el.children.length).toBe(1);
+      expect(el.firstChild.tagName.toLowerCase()).toBe('canvas');
     });
   });
 
@@ -57,19 +81,19 @@ describe('Canvas', function () {
     });
 
     it('should have "hyperbolic" class', function () {
-      expect(el.className).toEqual('hyperbolic');
+      expect(el.className).toBe('hyperbolic');
     });
 
-    it('should have border-radius style', function () {
-      expect(el.style['border-radius']).toBeDefined();
+    it('should have absolute position style', function () {
+      expect(el.style['position']).toBe('absolute');
     });
   });
 
   it('should have a radius and diameter', function () {
     expect(canvas.getRadius()).toBeDefined();
     expect(canvas.getDiameter()).toBeDefined();
-    expect(canvas.getDiameter()).toEqual(canvas.getRadius() * 2);
-  })
+    expect(canvas.getDiameter()).toBe(canvas.getRadius() * 2);
+  });
 
   it('should have a canvas context', function () {
     expect(canvas.getContext()).toBeDefined();
@@ -88,7 +112,7 @@ describe('Canvas', function () {
     canvas.setContextProperties(properties);
 
     for (var property in properties) {
-      expect(ctx[property]).toEqual(properties[property]);
+      expect(ctx[property]).toBe(properties[property]);
     }
   });
 
@@ -107,7 +131,7 @@ describe('Canvas', function () {
       var coordinates = canvas.at(point);
       expect(coordinates).toBeDefined();
       expect(coordinates).toBeA(Array);
-      expect(coordinates.length).toEqual(2);
+      expect(coordinates.length).toBe(2);
     });
   });
 });

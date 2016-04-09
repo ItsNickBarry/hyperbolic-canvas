@@ -86,6 +86,6 @@ An HTML canvas is automatically appended into each viewport div.
 It is automatically scaled to fit its parent.
 It is not recommended to apply styling beyond background color.
 */
-div#hyperbolic-canvas div.viewport canvas.hyperbolic {
+div#hyperbolic-canvas div.viewport div.backdrop {
   background-color: #D6D3CF;
 }
