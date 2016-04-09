@@ -26,10 +26,10 @@ describe('Canvas', function () {
     });
   });
 
-  describe('viewport element', function () {
+  describe('backdrop element', function () {
     var el;
     beforeEach(function () {
-      el = canvas.getViewportElement();
+      el = canvas.getBackdropElement();
     });
 
     it('should be defined', function () {
@@ -41,23 +41,23 @@ describe('Canvas', function () {
       expect(el.firstChild.tagName.toLowerCase()).toBe('div');
     });
 
-    it('should have "viewport" class', function () {
-      expect(el.className).toBe('viewport');
+    it('should have "backdrop" class', function () {
+      expect(el.className).toBe('backdrop');
     });
   });
 
-  describe('backdrop element', function () {
+  describe('underlay element', function () {
     var el;
     beforeEach(function () {
-      el = canvas.getBackdropElement();
+      el = canvas.getUnderlayElement();
     });
 
     it('should be defined', function () {
       expect(el).toBeDefined();
     });
 
-    it('should have "backdrop" class', function () {
-      expect(el.className).toBe('backdrop');
+    it('should have "underlay" class', function () {
+      expect(el.className).toBe('underlay');
     });
 
     it('should have border-radius style', function () {

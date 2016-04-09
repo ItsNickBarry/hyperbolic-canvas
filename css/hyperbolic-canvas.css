@@ -32,7 +32,7 @@ div#hyperbolic-canvas.background-canvas {
   width: 200%;
 }
 
-div#hyperbolic-canvas.background-canvas div.viewport {
+div#hyperbolic-canvas.background-canvas div.backdrop {
   transform: translate(calc(-50%), calc(-25%));
 }
 
@@ -73,19 +73,19 @@ div#hyperbolic-canvas {
 }
 
 /*
-A viewport div is automatically appended into each hyperbolic-canvas div.
+A backdrop div is automatically appended into each hyperbolic-canvas div.
 It is automatically scaled to fill its parent, and cropped to a 1:1 ratio.
 It is not recommended to apply styling beyond background color.
 */
-div#hyperbolic-canvas div.viewport {
+div#hyperbolic-canvas div.backdrop {
   background-color: #2C001E;
 }
 
 /*
-An HTML canvas is automatically appended into each viewport div.
+An HTML canvas is automatically appended into each backdrop div.
 It is automatically scaled to fit its parent.
 It is not recommended to apply styling beyond background color.
 */
-div#hyperbolic-canvas div.viewport div.backdrop {
+div#hyperbolic-canvas div.backdrop div.underlay {
   background-color: #D6D3CF;
 }
