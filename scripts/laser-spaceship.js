@@ -14,6 +14,7 @@
 
     var ctx = canvas.getContext();
     var defaultProperties = {
+      lineDash: [],
       lineJoin: 'round',
       lineWidth: 2,
       shadowBlur: 20,
@@ -49,8 +50,8 @@
       var right = location.distantPoint(.05, heading - wingAngle);
 
       // draw heading line
-      ctx.setLineDash([5]);
       canvas.setContextProperties({
+        lineDash: [5],
         lineWidth: 1,
         shadowBlur: 0,
         strokeStyle: 'white'
@@ -59,7 +60,6 @@
         HyperbolicCanvas.Line.givenTwoPoints(front, location.distantPoint(30))
       );
       canvas.setContextProperties(defaultProperties);
-      ctx.setLineDash([]);
 
       canvas.strokePolygon(HyperbolicCanvas.Polygon.givenVertices([
         front,
@@ -102,16 +102,19 @@
 
       for (var i = 0; i < 3; i++) {
         circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(location, i + 1);
-        ctx.setLineDash([circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * .9]);
+        canvas.setContextProperties({
+          lineDash: [circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * .9]
+        });
         canvas.strokeCircle(circle);
       }
       for (var i = 0; i < 3; i++) {
         circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(location, i + .5);
-        ctx.setLineDash([circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * 9.9]);
+        canvas.setContextProperties({
+          lineDash: [circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * 9.9]
+        });
         canvas.strokeCircle(circle);
       }
 
-      ctx.setLineDash([]);
       canvas.setContextProperties(defaultProperties);
     };
 
