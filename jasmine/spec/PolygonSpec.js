@@ -14,9 +14,22 @@ describe('Polygon', function () {
       polygon = Polygon.givenVertices(vertices);
     });
 
-    it('should have n vertices', function () {
-      expect(polygon.getVertices()).toBeDefined();
-      expect(polygon.getVertices().length).toBe(n);
+    it('should have n vertices of type Point', function () {
+      var vertices = polygon.getVertices();
+      expect(vertices.length).toBe(n);
+      expect(vertices).toBeDefined();
+      vertices.forEach(function (vertex) {
+        expect(vertex).toBeA(HyperbolicCanvas.Point);
+      });
+    });
+
+    it('should have n lines of type Line', function () {
+      var lines = polygon.getLines();
+      expect(lines.length).toBe(n);
+      expect(lines).toBeA(Array);
+      lines.forEach(function (line) {
+        expect(line).toBeA(HyperbolicCanvas.Line);
+      });
     });
   });
 
@@ -32,15 +45,28 @@ describe('Polygon', function () {
       polygon = Polygon.givenNCenterRadius(n, center, radius);
     });
 
-    it('should have n vertices', function () {
-      expect(polygon.getVertices()).toBeDefined();
-      expect(polygon.getVertices().length).toBe(n);
+    it('should have n vertices of type Point', function () {
+      var vertices = polygon.getVertices();
+      expect(vertices.length).toBe(n);
+      expect(vertices).toBeDefined();
+      vertices.forEach(function (vertex) {
+        expect(vertex).toBeA(HyperbolicCanvas.Point);
+      });
     });
 
     it('should be regular', function () {
       for (var vertex in polygon.getVertices()) {
         // TODO
       }
+    });
+
+    it('should have n lines of type Line', function () {
+      var lines = polygon.getLines();
+      expect(lines.length).toBe(n);
+      expect(lines).toBeA(Array);
+      lines.forEach(function (line) {
+        expect(line).toBeA(HyperbolicCanvas.Line);
+      });
     });
   });
 });
