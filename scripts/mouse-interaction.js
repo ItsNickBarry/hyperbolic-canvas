@@ -20,8 +20,10 @@
       var polygon = HyperbolicCanvas.Polygon.givenNCenterRadius(n, location, radius, rotation);
 
       if (polygon) {
-        canvas.fillPolygon(polygon);
-        canvas.strokePolygonBoundaries(polygon);
+        var path = canvas.pathForHyperbolic(polygon);
+        canvas.fill(path);
+        // path = canvas.pathForHyperbolic(polygon, { extendBoundaries: true });
+        canvas.stroke(path);
       }
       rotation += rotationInterval;
       if (rotation > Math.TAU) {

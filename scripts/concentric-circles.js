@@ -66,7 +66,8 @@
           maxRadius / (i + 1)
         );
         if (circle) {
-          canvas.fillCircle(circle);
+          var path = canvas.pathForHyperbolic(circle);
+          canvas.fill(path);
         }
       }
     };

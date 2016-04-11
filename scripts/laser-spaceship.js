@@ -56,29 +56,24 @@
         shadowBlur: 0,
         strokeStyle: 'white'
       });
-      canvas.strokeHyperbolicLine(
+      var path = canvas.pathForHyperbolic(
         HyperbolicCanvas.Line.givenTwoPoints(front, location.distantPoint(30))
       );
+      canvas.stroke(path);
       canvas.setContextProperties(defaultProperties);
 
-      canvas.strokePolygon(HyperbolicCanvas.Polygon.givenVertices([
+      // draw ship
+      path = canvas.pathForHyperbolic(HyperbolicCanvas.Polygon.givenVertices([
         front,
         left,
         location,
         right,
       ]));
-
-      // canvas.setContextProperties({
-      //   strokeStyle: 'teal',
-      //   lineWidth: 2,
-      // });
-      // canvas.strokeCircle(HyperbolicCanvas.Circle.givenThreePoints(
-      //   front, left, right
-      // ));
-      // canvas.setContextProperties(defaultProperties);
+      canvas.stroke(path);
     };
 
     var drawBullets = function () {
+      var path;
       for (var i in bullets) {
         var bullet = bullets[i];
 
@@ -87,10 +82,12 @@
         //   fillStyle: bullet.color
         // });
 
-        canvas.fillCircle(
-          HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(bullet, .01)
+        path = canvas.pathForHyperbolic(
+          HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(bullet, .01),
+          { basePath: path }
         );
       }
+      canvas.fill(path);
     };
 
     var drawRangeCircles = function () {
@@ -105,14 +102,14 @@
         canvas.setContextProperties({
           lineDash: [circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * .9]
         });
-        canvas.strokeCircle(circle);
+        canvas.stroke(canvas.pathForHyperbolic(circle));
       }
       for (var i = 0; i < 3; i++) {
         circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(location, i + .5);
         canvas.setContextProperties({
           lineDash: [circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * 9.9]
         });
-        canvas.strokeCircle(circle);
+        canvas.stroke(canvas.pathForHyperbolic(circle));
       }
 
       canvas.setContextProperties(defaultProperties);

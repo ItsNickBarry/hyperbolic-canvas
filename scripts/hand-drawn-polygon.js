@@ -15,18 +15,21 @@
       var point = canvas.at([event.clientX, event.clientY]);
 
       if (vertices.length >= 2) {
-        var tempVertices = [];
-        vertices.forEach(function (v) {
-          tempVertices.push(v);
-        });
-        tempVertices.push(point);
+        vertices.push(point);
 
-        var polygon = HyperbolicCanvas.Polygon.givenVertices(tempVertices);
-        canvas.fillPolygon(polygon);
-        canvas.strokePolygonBoundaries(polygon);
+        var polygon = HyperbolicCanvas.Polygon.givenVertices(vertices);
+        var path = canvas.pathForHyperbolic(polygon);
+        canvas.fill(path);
+
+        path = canvas.pathForHyperbolic(polygon, { extendBoundaries: true });
+        canvas.stroke(path);
+        
+        vertices.pop();
+
       } else if (vertices.length == 1) {
         var line = HyperbolicCanvas.Line.givenTwoPoints(vertices[0], point);
-        canvas.strokeHyperbolicLine(line);
+        var path = canvas.pathForHyperbolic(line);
+        canvas.stroke(path);
       }
     };
 

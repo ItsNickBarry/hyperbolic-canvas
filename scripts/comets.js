@@ -16,6 +16,8 @@
       var oldComets = comets;
       var newComets = [];
 
+      var path = new Path2D();
+
       for (var i = 0; i < oldComets.length; i++) {
         comet = oldComets[i];
         if (comet.getEuclideanRadius() <= spawnDistance) {
@@ -24,9 +26,11 @@
           newComet.distance = distance;
 
           newComets.push(newComet);
-          canvas.fillAndStrokeCircle(HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(newComet, .02));
+          var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(newComet, .02);
+          path = canvas.pathForHyperbolic(circle, { basePath: path });
         }
       }
+      canvas.fillAndStroke(path);
 
       comets = newComets;
       requestAnimationFrame(step);

@@ -32,10 +32,15 @@
         }
       }
       rotation += rotationInterval;
+
       canvas.clear();
+
+      var path;
       polygons.forEach(function (polygon) {
-        canvas.fillPolygon(polygon);
+        path = canvas.pathForHyperbolic(polygon, { basePath: path });
       });
+      canvas.fill(path);
+
       requestAnimationFrame(render);
     };
     requestAnimationFrame(render);

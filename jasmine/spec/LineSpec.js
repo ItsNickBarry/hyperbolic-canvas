@@ -461,6 +461,10 @@ describe('Line', function () {
     });
   });
 
+  describe('given angles of ideal points', function () {
+    // TODO
+  });
+
   describe('hyperbolic intersect', function () {
     var otherLine;
 

@@ -18,12 +18,14 @@
       canvas.clear();
 
       if (location) {
+        var path = new Path2D();
         angles.forEach(function (angle, index, array) {
           var point = unitCircle.euclideanPointAt(angle);
           var line = HyperbolicCanvas.Line.givenTwoPoints(location, point);
-          canvas.strokeHyperbolicLine(line, true);
+          path = canvas.pathForHyperbolic(line, { basePath: path, infinite: true });
           array[index] = array[index] + (Math.random()) * .1;
         });
+        canvas.stroke(path);
       }
       requestAnimationFrame(step)
     };
