@@ -5,6 +5,7 @@
   }
 
   var script = function (canvas) {
+    var counter = 0;
     canvas.setContextProperties({ fillStyle: '#DD4814' });
 
     var sideCount = 6;
@@ -15,6 +16,12 @@
     var rotationInterval = Math.TAU / rotationDenominator;
 
     var render = function () {
+      if (counter < 4) {
+        counter += 1;
+        requestAnimationFrame(render);
+        return;
+      }
+      counter = 0;
       var polygons = [];
       for (var i = 0; i < ringCount; i++) {
         for (var j = 0; j < sideCount; j++) {
