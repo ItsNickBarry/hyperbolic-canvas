@@ -18,10 +18,10 @@ describe('Angle', function () {
 
   it('should find the slope of an angle', function () {
     [0, Math.PI, Math.TAU].forEach(function (angle) {
-      expect(Angle.toSlope(angle)).toBeCloseTo(0, jasmine.precision);
+      expect(Angle.toSlope(angle)).toApproximate(0);
     });
     [Math.TAU / 8, Math.TAU * 5 / 8].forEach(function (angle) {
-      expect(Angle.toSlope(angle)).toBeCloseTo(1, jasmine.precision);
+      expect(Angle.toSlope(angle)).toApproximate(1);
     });
     [Math.PI / 2, Math.PI * 3 / 2].forEach(function (angle) {
       expect(Angle.toSlope(angle)).toBeGreaterThan(1e9);
@@ -34,7 +34,7 @@ describe('Angle', function () {
       [1, Math.TAU / 8],
       [-1, Math.TAU / -8],
     ].forEach(function (pair) {
-      expect(Angle.fromSlope(pair[0])).toBeCloseTo(pair[1], jasmine.precision);
+      expect(Angle.fromSlope(pair[0])).toApproximate(pair[1]);
     });
   });
 

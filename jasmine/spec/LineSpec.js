@@ -19,9 +19,9 @@ describe('Line', function () {
         expect(line.equals(clone)).toBe(true);
 
         expect(line.getEuclideanDistance())
-          .toBeCloseTo(clone.getEuclideanDistance(), jasmine.precision);
+          .toApproximate(clone.getEuclideanDistance());
         expect(line.getHyperbolicDistance())
-          .toBeCloseTo(clone.getHyperbolicDistance(), jasmine.precision);
+          .toApproximate(clone.getHyperbolicDistance());
 
         expect(line.containsPoint(clone.getP0())).toBe(true);
         expect(clone.containsPoint(line.getP0())).toBe(true);
@@ -94,14 +94,14 @@ describe('Line', function () {
         var y = Math.random() * 2 - 1;
         var x = line.euclideanXAtY(y);
         expect(typeof x).toBe('number');
-        expect(line.euclideanYAtX(x)).toBeCloseTo(y, jasmine.precision);
+        expect(line.euclideanYAtX(x)).toApproximate(y);
       });
 
       it('should have y value for any x value', function () {
         var x = Math.random() * 2 - 1;
         var y = line.euclideanYAtX(x);
         expect(typeof y).toBe('number');
-        expect(line.euclideanXAtY(y)).toBeCloseTo(x, jasmine.precision);
+        expect(line.euclideanXAtY(y)).toApproximate(x);
       });
     });
 
@@ -193,7 +193,7 @@ describe('Line', function () {
           var angle1 = HyperbolicCanvas.Angle.opposite(
             midpoint.angleTo(line.getP1())
           );
-          expect(angle0).toBeCloseTo(angle1, jasmine.precision);
+          expect(angle0).toApproximate(angle1);
         });
 
         it('should have unit circle intersects with opposite angles', function () {
@@ -202,10 +202,10 @@ describe('Line', function () {
           expect(intersects.length).toBe(2);
           expect(HyperbolicCanvas.Angle.normalize(
             intersects[0].getAngle() - intersects[1].getAngle()
-          )).toBeCloseTo(Math.PI, jasmine.precision);
+          )).toApproximate(Math.PI);
           intersects.forEach(function (intersect) {
             expect(intersect).toBeA(HyperbolicCanvas.Point);
-            expect(intersect.getEuclideanRadius()).toBeCloseTo(1, jasmine.precision);
+            expect(intersect.getEuclideanRadius()).toApproximate(1);
           });
         });
       });
@@ -257,7 +257,7 @@ describe('Line', function () {
           var angle1 = HyperbolicCanvas.Angle.opposite(
             midpoint.angleTo(line.getP1())
           );
-          expect(angle0).toBeCloseTo(angle1, jasmine.precision);
+          expect(angle0).toApproximate(angle1);
         });
 
         it('should have unit circle intersects with opposite angles', function () {
@@ -266,10 +266,10 @@ describe('Line', function () {
           expect(intersects.length).toBe(2);
           expect(HyperbolicCanvas.Angle.normalize(
             intersects[0].getAngle() - intersects[1].getAngle()
-          )).toBeCloseTo(Math.PI, jasmine.precision);
+          )).toApproximate(Math.PI);
           intersects.forEach(function (intersect) {
             expect(intersect).toBeA(HyperbolicCanvas.Point);
-            expect(intersect.getEuclideanRadius()).toBeCloseTo(1, jasmine.precision);
+            expect(intersect.getEuclideanRadius()).toApproximate(1);
           });
         });
       });
@@ -313,7 +313,7 @@ describe('Line', function () {
         var angle1 = HyperbolicCanvas.Angle.opposite(
           midpoint.angleTo(line.getP1())
         );
-        expect(angle0).toBeCloseTo(angle1, jasmine.precision);
+        expect(angle0).toApproximate(angle1);
       });
 
       it('should have unit circle intersects', function () {
@@ -322,7 +322,7 @@ describe('Line', function () {
         expect(intersects.length).toBe(2);
         intersects.forEach(function (intersect){
           expect(intersect).toBeA(HyperbolicCanvas.Point);
-          expect(intersect.getEuclideanRadius()).toBeCloseTo(1, jasmine.precision);
+          expect(intersect.getEuclideanRadius()).toApproximate(1);
         });
       });
     });

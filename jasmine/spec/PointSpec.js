@@ -32,15 +32,15 @@ describe('Point', function () {
       expect(point.equals(clone)).toBe(true);
 
       expect(clone.getX())
-        .toBeCloseTo(point.getX(), jasmine.precision);
+        .toApproximate(point.getX());
       expect(clone.getY())
-        .toBeCloseTo(point.getY(), jasmine.precision);
+        .toApproximate(point.getY());
       expect(clone.getAngle())
-        .toBeCloseTo(point.getAngle(), jasmine.precision);
+        .toApproximate(point.getAngle());
       expect(clone.getEuclideanRadius())
-        .toBeCloseTo(point.getEuclideanRadius(), jasmine.precision);
+        .toApproximate(point.getEuclideanRadius());
       expect(clone.getHyperbolicRadius())
-        .toBeCloseTo(point.getHyperbolicRadius(), jasmine.precision);
+        .toApproximate(point.getHyperbolicRadius());
     });
 
     it('should set and get direction', function () {
@@ -158,14 +158,14 @@ describe('Point', function () {
       });
 
       it('should calculate angle of hyperbolic geodesic towards self from perspective of other Point', function () {
-        expect(point.angleFrom(distantPoint)).toBeCloseTo(
+        expect(point.angleFrom(distantPoint)).toApproximate(
           HyperbolicCanvas.Angle.opposite(distantPoint.getDirection()),
           jasmine.precision
         );
       });
 
       it('should calculate angle of hyperbolic geodesic towards other Point from perspective of self', function () {
-        expect(point.angleTo(distantPoint)).toBeCloseTo(
+        expect(point.angleTo(distantPoint)).toApproximate(
           direction,
           jasmine.precision
         );
