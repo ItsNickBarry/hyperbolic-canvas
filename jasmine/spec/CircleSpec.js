@@ -108,6 +108,8 @@ describe('Circle', function () {
           angle = HyperbolicCanvas.Angle.random();
           point = circle.hyperbolicPointAt(angle);
           expect(point).toBeA(HyperbolicCanvas.Point);
+
+          // TODO this is often off by Math.PI
           expect(circle.hyperbolicAngleAt(point)).toApproximate(angle);
         });
       });
@@ -174,18 +176,65 @@ describe('Circle', function () {
   });
 
   describe('intersects', function () {
+    var c0, c1;
+    beforeEach(function () {
+      c0 = Circle.givenEuclideanCenterRadius(
+        HyperbolicCanvas.Point.random(),
+        Math.random()
+      );
+    });
     describe('where Circles are too far apart to intersect', function () {
-
+      beforeEach(function () {
+        c1 = Circle.givenEuclideanCenterRadius(
+          c0.getEuclideanCenter().euclideanDistantPoint(
+            2,
+            HyperbolicCanvas.Angle.random()
+          ),
+          1
+        );
+      });
+      
+      it('should be false', function () {
+        expect(Circle.intersects(c0, c1)).toBe(false);
+      });
     });
 
     describe('where one Circle is contained within the other', function () {
+      beforeEach(function () {
+        var r = c0.getEuclideanRadius();
+        c1 = Circle.givenEuclideanCenterRadius(
+          c0.getEuclideanCenter().euclideanDistantPoint(
+            (r / 2) * Math.random(),
+            HyperbolicCanvas.Angle.random()
+          ),
+          (r / 2) * Math.random()
+        );
+      });
 
+      it('should be false', function () {
+        expect(Circle.intersects(c0, c1)).toBe(false);
+      });
     });
 
     describe('where Circles intersect', function () {
-      var c0, c1;
       beforeEach(function () {
-        c0 = Circle.givenEuclideanCenterRadius();
+        var center = c0.getEuclideanCenter().euclideanDistantPoint(
+          c0.getEuclideanRadius(),
+          HyperbolicCanvas.Angle.random()
+        );
+        c1 = Circle.givenEuclideanCenterRadius(
+          center,
+          c0.getEuclideanRadius()
+        );
+      });
+
+      it('should be an Array of two Points', function () {
+        var intersects = Circle.intersects(c0, c1);
+        expect(intersects).toBeA(Array);
+        expect(intersects.length).toBe(2);
+        intersects.forEach(function (intersect) {
+          expect(intersect).toBeA(HyperbolicCanvas.Point);
+        });
       });
     });
   });
