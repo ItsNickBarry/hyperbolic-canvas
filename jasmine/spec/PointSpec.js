@@ -15,11 +15,11 @@ describe('Point', function () {
     });
 
     it('should have Cartesian coordinates, angle, and Euclidean and hyperbolic radii', function () {
-      expect(typeof point.getX()               ).toBe('number');
-      expect(typeof point.getY()               ).toBe('number');
-      expect(typeof point.getAngle()           ).toBe('number');
-      expect(typeof point.getEuclideanRadius() ).toBe('number');
-      expect(typeof point.getHyperbolicRadius()).toBe('number');
+      expect(point.getX()               ).toBeARealNumber();
+      expect(point.getY()               ).toBeARealNumber();
+      expect(point.getAngle()           ).toBeARealNumber();
+      expect(point.getEuclideanRadius() ).toBeARealNumber();
+      expect(point.getHyperbolicRadius()).toBeARealNumber();
     });
 
     it('should be equal to identical Point', function () {
@@ -66,15 +66,13 @@ describe('Point', function () {
 
       it('should calculate Euclidean distance to other Point', function () {
         var d = point.euclideanDistanceTo(otherPoint);
-        expect(typeof d).toBe('number');
-        expect(d).not.toBeNaN();
+        expect(d).toBeARealNumber();
       });
 
       it('should calculate Euclidean angle towards and away from other Point', function () {
         var angleTo = point.euclideanAngleTo(otherPoint);
         var angleFrom = point.euclideanAngleFrom(otherPoint);
-        expect(typeof angleTo).toBe('number');
-        expect(angleTo).not.toBeNaN();
+        expect(angleTo).toBeARealNumber()
         expect(angleFrom).toApproximate(
           HyperbolicCanvas.Angle.opposite(angleTo)
         );
@@ -82,17 +80,14 @@ describe('Point', function () {
 
       it('should calculate hyperbolic distance to other Point', function () {
         var d = point.hyperbolicDistanceTo(otherPoint);
-        expect(typeof d).toBe('number');
-        expect(d).not.toBeNaN();
+        expect(d).toBeARealNumber();
       });
 
       it('should calculate hyperbolic angle towards and away from other Point', function () {
         var angleTo = point.hyperbolicAngleTo(otherPoint);
         var angleFrom = point.hyperbolicAngleFrom(otherPoint);
-        expect(typeof angleTo).toBe('number');
-        expect(angleTo).not.toBeNaN();
-        expect(typeof angleFrom).toBe('number');
-        expect(angleFrom).not.toBeNaN();
+        expect(angleTo).toBeARealNumber();
+        expect(angleFrom).toBeARealNumber();
       });
     });
 

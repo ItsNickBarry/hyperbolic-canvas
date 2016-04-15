@@ -93,14 +93,14 @@ describe('Line', function () {
       it('should have x value for any y value', function () {
         var y = Math.random() * 2 - 1;
         var x = line.euclideanXAtY(y);
-        expect(typeof x).toBe('number');
+        expect(x).toBeARealNumber();
         expect(line.euclideanYAtX(x)).toApproximate(y);
       });
 
       it('should have y value for any x value', function () {
         var x = Math.random() * 2 - 1;
         var y = line.euclideanYAtX(x);
-        expect(typeof y).toBe('number');
+        expect(y).toBeARealNumber();
         expect(line.euclideanXAtY(y)).toApproximate(x);
       });
     });
@@ -479,7 +479,7 @@ describe('Line', function () {
 
   describe('random slope', function () {
     it('should be number', function () {
-      expect(typeof Line.randomSlope() === 'number').toBe(true);
+      expect(Line.randomSlope()).toBeARealNumber();
     });
   });
 

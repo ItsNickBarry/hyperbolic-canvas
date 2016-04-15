@@ -20,5 +20,14 @@ beforeEach(function () {
         }
       }
     },
+    toBeARealNumber: function () {
+      return {
+        compare: function (actual) {
+          return {
+            pass: typeof actual === 'number' && !isNaN(actual)
+          }
+        }
+      }
+    },
   });
 });
