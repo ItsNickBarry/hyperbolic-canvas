@@ -123,7 +123,7 @@ Point.prototype.getX();
 
 Point.prototype.getY();
 
-Point.prototype.distantPoint(distance, direction);
+Point.prototype.hyperbolicDistantPoint(distance, direction);
 // calculate the point's relative point a given hyperbolic distance away at a given angle
 // the returned distant point has an additional property "direction" which indicates the angle one would be facing, having traveled from the point to the distant point
 // if this function is called without a "direction" argument, the point is checked for a "direction" attribute

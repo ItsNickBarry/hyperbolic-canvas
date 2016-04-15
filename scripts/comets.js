@@ -22,7 +22,7 @@
         comet = oldComets[i];
         if (comet.getEuclideanRadius() <= spawnDistance) {
           var distance = comet.distance || (Math.random() * .05 + .01);
-          var newComet = comet.distantPoint(distance);
+          var newComet = comet.hyperbolicDistantPoint(distance);
           newComet.distance = distance;
 
           newComets.push(newComet);

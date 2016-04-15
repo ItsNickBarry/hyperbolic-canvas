@@ -45,9 +45,9 @@
     var front;
 
     var drawShip = function () {
-      front = location.distantPoint(.1, heading);
-      var left = location.distantPoint(.05, heading + wingAngle);
-      var right = location.distantPoint(.05, heading - wingAngle);
+      front = location.hyperbolicDistantPoint(.1, heading);
+      var left = location.hyperbolicDistantPoint(.05, heading + wingAngle);
+      var right = location.hyperbolicDistantPoint(.05, heading - wingAngle);
 
       // draw heading line
       canvas.setContextProperties({
@@ -57,7 +57,7 @@
         strokeStyle: 'white'
       });
       var path = canvas.pathForHyperbolic(
-        HyperbolicCanvas.Line.givenTwoPoints(front, location.distantPoint(30))
+        HyperbolicCanvas.Line.givenTwoPoints(front, location.hyperbolicDistantPoint(30))
       );
       canvas.stroke(path);
       canvas.setContextProperties(defaultProperties);
@@ -164,7 +164,7 @@
         framesSinceBullet +=1;
       }
 
-      location = location.distantPoint(velocity, heading);
+      location = location.hyperbolicDistantPoint(velocity, heading);
       heading = location.getDirection();
       velocity *= .99;
 
@@ -172,7 +172,7 @@
       var newBullets = [];
       for (var i in bullets) {
         var bullet = bullets[i];
-        var newBullet = bullet.distantPoint(.1);
+        var newBullet = bullet.hyperbolicDistantPoint(.1);
         newBullet.color = bullet.color;
         if (newBullet.getEuclideanRadius() < .99) {
           newBullets.push(newBullet);

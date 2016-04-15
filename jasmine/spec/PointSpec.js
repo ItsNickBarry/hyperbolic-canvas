@@ -91,7 +91,31 @@ describe('Point', function () {
       });
     });
 
-    describe('when calculating distant Point', function () {
+    describe('when calculating Euclidean distant Point', function () {
+      var distance, direction, distantPoint;
+      beforeEach(function () {
+        distance = Math.random();
+        direction = HyperbolicCanvas.Angle.random();
+        distantPoint = point.euclideanDistantPoint(distance, direction);
+      });
+
+      it('should calculate location of distant point along Euclidean geodesic', function () {
+        expect(distantPoint).toBeA(Point);
+      });
+
+      it('should store angle of travel', function () {
+        expect(distantPoint.getDirection()).toBe(direction);
+      });
+
+      it('should be reversible', function () {
+        expect(distantPoint.euclideanDistantPoint(
+          distance,
+          HyperbolicCanvas.Angle.opposite(direction)
+        ).equals(point)).toBe(true);
+      });
+    });
+
+    describe('when calculating hyperbolic distant Point', function () {
       var distance, direction;
       describe('in general', function () {
         beforeEach(function () {
@@ -101,30 +125,30 @@ describe('Point', function () {
 
         it('should calculate location of distant point along hyperbolic geodesic', function () {
           // TODO check the math?
-          var distantPoint = point.distantPoint(distance, direction);
-          expect(distantPoint).toBeDefined();
+          var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
+          expect(hyperbolicDistantPoint).toBeA(Point);
         });
 
         it('should store instantaneous angle of travel at destination on distant Point', function () {
-          var distantPoint = point.distantPoint(distance, direction);
-          expect(distantPoint.getDirection()).toBeDefined();
+          var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
+          expect(hyperbolicDistantPoint.getDirection()).toBeARealNumber();
         });
 
         it('should calculate accurate distant Point regardless of number of intermediate steps', function () {
-          var distantPoint0 = point.distantPoint(distance * 3, direction);
-          var distantPoint1 = point.distantPoint(distance, direction)
-                                   .distantPoint(distance)
-                                   .distantPoint(distance);
-          expect(distantPoint0.equals(distantPoint1)).toBe(true);
+          var hyperbolicDistantPoint0 = point.hyperbolicDistantPoint(distance * 3, direction);
+          var hyperbolicDistantPoint1 = point.hyperbolicDistantPoint(distance, direction)
+                                   .hyperbolicDistantPoint(distance)
+                                   .hyperbolicDistantPoint(distance);
+          expect(hyperbolicDistantPoint0.equals(hyperbolicDistantPoint1)).toBe(true);
         });
 
         it('should be reversible', function () {
-          var distantPoint0 = point.distantPoint(distance, direction);
-          var distantPoint1 = distantPoint0.distantPoint(
+          var hyperbolicDistantPoint0 = point.hyperbolicDistantPoint(distance, direction);
+          var hyperbolicDistantPoint1 = hyperbolicDistantPoint0.hyperbolicDistantPoint(
             distance,
-            HyperbolicCanvas.Angle.opposite(distantPoint0.getDirection())
+            HyperbolicCanvas.Angle.opposite(hyperbolicDistantPoint0.getDirection())
           );
-          expect(point.equals(distantPoint1)).toBe(true);
+          expect(point.equals(hyperbolicDistantPoint1)).toBe(true);
         });
       });
 
@@ -134,12 +158,12 @@ describe('Point', function () {
           it('should calculate Point away from origin', function () {
             distance = Math.random();
             direction = point.getAngle();
-            var distantPoint = point.distantPoint(distance, direction);
-            expect(distantPoint.getAngle()).toBe(direction);
-            expect(distantPoint.getDirection()).toBe(direction);
-            expect(distantPoint.quadrant()).toBe(point.quadrant());
+            var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
+            expect(hyperbolicDistantPoint.getAngle()).toBe(direction);
+            expect(hyperbolicDistantPoint.getDirection()).toBe(direction);
+            expect(hyperbolicDistantPoint.quadrant()).toBe(point.quadrant());
 
-            expect(distantPoint.getHyperbolicRadius()).toBe(
+            expect(hyperbolicDistantPoint.getHyperbolicRadius()).toBe(
               point.getHyperbolicRadius() + distance
             );
           });
@@ -152,58 +176,58 @@ describe('Point', function () {
 
           it('should calculate Point towards but not across origin', function () {
             distance = Math.random() * point.getHyperbolicRadius();
-            var distantPoint = point.distantPoint(distance, direction);
-            expect(distantPoint.getAngle()).toBe(point.getAngle());
-            expect(distantPoint.quadrant()).toBe(point.quadrant());
-            expect(distantPoint.getDirection()).toBe(direction);
+            var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
+            expect(hyperbolicDistantPoint.getAngle()).toBe(point.getAngle());
+            expect(hyperbolicDistantPoint.quadrant()).toBe(point.quadrant());
+            expect(hyperbolicDistantPoint.getDirection()).toBe(direction);
 
-            expect(distantPoint.getHyperbolicRadius()).toBe(
+            expect(hyperbolicDistantPoint.getHyperbolicRadius()).toBe(
               point.getHyperbolicRadius() - distance
             );
           });
 
           it('should calculate Point towards and across origin', function () {
             distance = (Math.random() + 1) * point.getHyperbolicRadius();
-            var distantPoint = point.distantPoint(distance, direction);
-            expect(distantPoint.getAngle()).toBe(direction);
-            expect(distantPoint.quadrant() % 4).toBe((point.quadrant() + 2) % 4);
-            expect(distantPoint.getDirection()).toBe(direction);
+            var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
+            expect(hyperbolicDistantPoint.getAngle()).toBe(direction);
+            expect(hyperbolicDistantPoint.quadrant() % 4).toBe((point.quadrant() + 2) % 4);
+            expect(hyperbolicDistantPoint.getDirection()).toBe(direction);
 
-            expect(distantPoint.getHyperbolicRadius()).toBe(
+            expect(hyperbolicDistantPoint.getHyperbolicRadius()).toBe(
               distance - point.getHyperbolicRadius()
             );
           });
 
           it('should calculate origin', function () {
             distance = point.getHyperbolicRadius();
-            var distantPoint = point.distantPoint(distance, direction);
-            expect(distantPoint.getX()).toBe(0);
-            expect(distantPoint.getY()).toBe(0);
-            expect(distantPoint.getEuclideanRadius()).toBe(0);
-            expect(distantPoint.getHyperbolicRadius()).toBe(0);
-            expect(distantPoint.getDirection()).toBe(direction);
+            var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
+            expect(hyperbolicDistantPoint.getX()).toBe(0);
+            expect(hyperbolicDistantPoint.getY()).toBe(0);
+            expect(hyperbolicDistantPoint.getEuclideanRadius()).toBe(0);
+            expect(hyperbolicDistantPoint.getHyperbolicRadius()).toBe(0);
+            expect(hyperbolicDistantPoint.getDirection()).toBe(direction);
           });
         });
       });
     });
 
     describe('when comparing to distant Point', function () {
-      var distance, direction, distantPoint;
+      var distance, direction, hyperbolicDistantPoint;
       beforeEach(function () {
         distance = Math.random();
         direction = HyperbolicCanvas.Angle.random();
-        distantPoint = point.distantPoint(distance, direction);
+        hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
       });
 
       it('should calculate angle of hyperbolic geodesic towards self from perspective of other Point', function () {
-        expect(point.hyperbolicAngleFrom(distantPoint)).toApproximate(
-          HyperbolicCanvas.Angle.opposite(distantPoint.getDirection()),
+        expect(point.hyperbolicAngleFrom(hyperbolicDistantPoint)).toApproximate(
+          HyperbolicCanvas.Angle.opposite(hyperbolicDistantPoint.getDirection()),
           jasmine.precision
         );
       });
 
       it('should calculate angle of hyperbolic geodesic towards other Point from perspective of self', function () {
-        expect(point.hyperbolicAngleTo(distantPoint)).toApproximate(
+        expect(point.hyperbolicAngleTo(hyperbolicDistantPoint)).toApproximate(
           direction,
           jasmine.precision
         );

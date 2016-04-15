@@ -50,7 +50,20 @@ describe('Circle', function () {
   });
 
   describe('intersects', function () {
+    describe('where Circles are too far apart to intersect', function () {
 
+    });
+
+    describe('where one Circle is contained within the other', function () {
+
+    });
+
+    describe('where Circles intersect', function () {
+      var c0, c1;
+      beforeEach(function () {
+        c0 = Circle.givenEuclideanCenterRadius();
+      });
+    });
   });
 
   describe('UNIT', function () {

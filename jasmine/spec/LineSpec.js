@@ -51,7 +51,7 @@ describe('Line', function () {
           HyperbolicCanvas.Point.random(),
           line.getSlope()
         );
-        expect(line.isParallelTo(otherLine));
+        expect(line.isParallelTo(otherLine)).toBe(true);
       });
 
       it('should have a perpindicular slope', function () {
