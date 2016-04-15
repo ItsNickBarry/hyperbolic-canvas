@@ -100,7 +100,7 @@ Point.givenEuclideanPolarCoordinates(radius, angle);
 Point.givenHyperbolicPolarCoordinates(radius, angle);
 // generate a point given polar coodinates, relative to the center of the unit circle, where the given distance is hyperbolic
 
-Point.between(somePoint, someOtherPoint);
+Point.euclideanBetween(somePoint, someOtherPoint);
 // generate the point between two other Points, in a Euclidean sense
 ```
 
@@ -182,7 +182,7 @@ Line.prototype.perpindicularSlope();
 Line.prototype.getEuclideanMidpoint();
 // return the point between the Euclidean line segment's two endpoints
 
-Line.prototype.getEuclideanDistance();
+Line.prototype.getEuclideanLength();
 // calculate the length of the Euclidean line segment
 
 Line.prototype.hyperbolicDistance();

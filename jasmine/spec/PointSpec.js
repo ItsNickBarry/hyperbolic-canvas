@@ -53,6 +53,25 @@ describe('Point', function () {
       expect(point.quadrant()).toBe(quadrant);
     });
 
+    describe('relative to other Point', function () {
+      var otherPoint;
+      beforeEach(function () {
+        otherPoint = Point.random();
+      });
+
+      it('should calculate Euclidean distance to other Point', function () {
+        var d = point.euclideanDistanceTo(otherPoint);
+        expect(d).toBeDefined();
+        expect(d).not.toBeNaN();
+      });
+
+      it('should calculate hyperbolic distance to other Point', function () {
+        var d = point.hyperbolicDistanceTo(otherPoint);
+        expect(d).toBeDefined();
+        expect(d).not.toBeNaN();
+      });
+    });
+
     describe('when calculating distant Point', function () {
       var distance, direction;
       describe('in general', function () {
@@ -173,17 +192,34 @@ describe('Point', function () {
     });
   });
 
-  describe('between two other Points', function () {
+  describe('between two other Points along Euclidean geodesic', function () {
     var p0, p1;
     beforeEach(function () {
       p0 = Point.random();
       p1 = Point.random();
-      point = Point.between(p0, p1);
+      point = Point.euclideanBetween(p0, p1);
     });
 
     it('should have mean Cartesian coordinates', function () {
       expect(point.getX()).toBe((p0.getX() + p1.getX()) / 2);
       expect(point.getY()).toBe((p0.getY() + p1.getY()) / 2);
+    });
+  });
+
+  describe('between two other points along hyperbolic geodesic', function () {
+    var p0, p1;
+    beforeEach(function () {
+      p0 = Point.random();
+      p1 = Point.random();
+      point = Point.hyperbolicBetween(p0, p1);
+    });
+
+    it('should be equidistant to other points at half total distance', function () {
+      var d = p0.hyperbolicDistanceTo(p1);
+      var d0 = point.hyperbolicDistanceTo(p0);
+      var d1 = point.hyperbolicDistanceTo(p1);
+      expect(d0).toApproximate(d1);
+      expect(d0 + d1).toApproximate(d);
     });
   });
 

@@ -18,10 +18,10 @@ describe('Line', function () {
         expect(clone).not.toBe(line);
         expect(line.equals(clone)).toBe(true);
 
-        expect(line.getEuclideanDistance())
-          .toApproximate(clone.getEuclideanDistance());
-        expect(line.getHyperbolicDistance())
-          .toApproximate(clone.getHyperbolicDistance());
+        expect(line.getEuclideanLength())
+          .toApproximate(clone.getEuclideanLength());
+        expect(line.getHyperbolicLength())
+          .toApproximate(clone.getHyperbolicLength());
 
         expect(line.containsPoint(clone.getP0())).toBe(true);
         expect(clone.containsPoint(line.getP0())).toBe(true);
@@ -172,18 +172,20 @@ describe('Line', function () {
           //expect(line.getArc()).toBeA(Line);
         });
 
-        it('should have Euclidean distance', function () {
-          expect(line.getEuclideanDistance()).toBeDefined();
+        it('should have Euclidean length', function () {
+          expect(line.getEuclideanLength()).toBeDefined();
         });
 
         it('should have Euclidean midpoint', function () {
           expect(line.getEuclideanMidpoint()).toBeDefined();
         });
 
-        it('should have hyperbolic distance', function () {
-          var d = line.getHyperbolicDistance();
-          expect(d).toBeDefined();
+        it('should have hyperbolic length', function () {
+          var d = line.getHyperbolicLength();
           expect(d).not.toBeNaN();
+          expect(d).toApproximate(
+            line.getP0().hyperbolicDistanceTo(line.getP1())
+          );
         });
 
         it('should have hyperbolic midpoint', function () {
@@ -236,18 +238,20 @@ describe('Line', function () {
           //expect(line.getArc()).toBeA(Line);
         });
 
-        it('should have Euclidean distance', function () {
-          expect(line.getEuclideanDistance()).toBeDefined();
+        it('should have Euclidean length', function () {
+          expect(line.getEuclideanLength()).toBeDefined();
         });
 
         it('should have Euclidean midpoint', function () {
           expect(line.getEuclideanMidpoint()).toBeDefined();
         });
 
-        it('should have hyperbolic distance', function () {
-          var d = line.getHyperbolicDistance();
-          expect(d).toBeDefined();
+        it('should have hyperbolic length', function () {
+          var d = line.getHyperbolicLength();
           expect(d).not.toBeNaN();
+          expect(d).toApproximate(
+            line.getP0().hyperbolicDistanceTo(line.getP1())
+          );
         });
 
         it('should have hyperbolic midpoint', function () {
@@ -292,18 +296,20 @@ describe('Line', function () {
         expect(line.getArc()).toBeA(HyperbolicCanvas.Circle);
       });
 
-      it('should have Euclidean distance', function () {
-        expect(line.getEuclideanDistance()).toBeDefined();
+      it('should have Euclidean length', function () {
+        expect(line.getEuclideanLength()).toBeDefined();
       });
 
       it('should have Euclidean midpoint', function () {
         expect(line.getEuclideanMidpoint()).toBeDefined();
       });
 
-      it('should have hyperbolic distance', function () {
-        var d = line.getHyperbolicDistance();
-        expect(d).toBeDefined();
+      it('should have hyperbolic length', function () {
+        var d = line.getHyperbolicLength();
         expect(d).not.toBeNaN();
+        expect(d).toApproximate(
+          line.getP0().hyperbolicDistanceTo(line.getP1())
+        );
       });
 
       it('should have hyperbolic midpoint', function () {
@@ -348,16 +354,16 @@ describe('Line', function () {
       expect(line.getArc()).toBe(false);
     });
 
-    it('should have Euclidean distance', function () {
-      expect(line.getEuclideanDistance()).toBeDefined();
+    it('should have Euclidean length', function () {
+      expect(line.getEuclideanLength()).toBeDefined();
     });
 
     it('should have Euclidean midpoint', function () {
       expect(line.getEuclideanMidpoint()).toBeDefined();
     });
 
-    it('should not have hyperbolic distance', function () {
-      var d = line.getHyperbolicDistance();
+    it('should not have hyperbolic length', function () {
+      var d = line.getHyperbolicLength();
       expect(d).toBeDefined();
       expect(d).toBeNaN();
     });
