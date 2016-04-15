@@ -3,7 +3,119 @@ describe('Circle', function () {
   var circle;
 
   describe('in general', function () {
+    beforeEach(function () {
+      circle = Circle.givenHyperbolicCenterRadius(
+        HyperbolicCanvas.Point.random(),
+        Math.random() * 10
+      );
+    });
 
+    it('should be clonable', function () {
+      var clone = circle.clone();
+      expect(clone).toBeA(Circle);
+      expect(clone).not.toBe(circle);
+      expect(circle.equals(clone)).toBe(true);
+
+      expect(
+        circle.getEuclideanCenter().equals(clone.getEuclideanCenter())
+      ).toBe(true);
+      expect(circle.getEuclideanRadius())
+        .toApproximate(clone.getEuclideanRadius());
+      expect(
+        circle.getHyperbolicCenter().equals(clone.getHyperbolicCenter())
+      ).toBe(true);
+      expect(circle.getHyperbolicRadius())
+        .toApproximate(clone.getHyperbolicRadius());
+    });
+
+    it('should equal equivalent Circle', function () {
+      var otherCircle = Circle.givenHyperbolicCenterRadius(
+        circle.getHyperbolicCenter(),
+        circle.getHyperbolicRadius()
+      );
+      expect(circle.equals(otherCircle)).toBe(true);
+    });
+
+    it('should have Euclidean area', function () {
+      expect(circle.getEuclideanArea()).toBeARealNumber();
+    });
+
+    it('should have Euclidean center', function () {
+      expect(circle.getEuclideanCenter()).toBeA(HyperbolicCanvas.Point);
+    });
+
+    it('should have Euclidean circumference', function () {
+      expect(circle.getEuclideanCircumference()).toBeARealNumber();
+    });
+
+    it('should have Euclidean diameter', function () {
+      expect(circle.getEuclideanDiameter()).toBeARealNumber();
+    });
+
+    it('should have Euclidean radius', function () {
+      expect(circle.getEuclideanRadius()).toBeARealNumber();
+    });
+
+    it('should have hyperbolic area', function () {
+      expect(circle.getHyperbolicArea()).toBeARealNumber();
+    });
+
+    it('should have hyperbolic center', function () {
+      expect(circle.getHyperbolicCenter()).toBeA(HyperbolicCanvas.Point);
+    });
+
+    it('should have hyperbolic circumference', function () {
+      expect(circle.getHyperbolicCircumference()).toBeARealNumber();
+    });
+
+    it('should have hyperbolic diameter', function () {
+      expect(circle.getHyperbolicDiameter()).toBeARealNumber();
+    });
+
+    it('should have hyperbolic radius', function () {
+      expect(circle.getHyperbolicRadius()).toBeARealNumber();
+    });
+
+    it('should not have unit circle intersects', function () {
+      expect(circle.getUnitCircleIntersects()).toBe(false);
+    });
+
+    describe('when mapping angles from center to Points on edge', function () {
+      var angle, point;
+      describe('along Euclidean geodesics', function () {
+        it('should have angle from center towards Point', function () {
+          point = HyperbolicCanvas.Point.random();
+          angle = circle.euclideanAngleAt(point);
+          expect(angle).toBeARealNumber();
+        });
+
+        it('should have Point on edge at given angle', function () {
+          angle = HyperbolicCanvas.Angle.random();
+          point = circle.euclideanPointAt(angle);
+          expect(point).toBeA(HyperbolicCanvas.Point);
+          expect(circle.euclideanAngleAt(point)).toApproximate(angle);
+        });
+      });
+
+      describe('along hyperbolic geodesics', function () {
+        it('should have angle from center towards Point', function () {
+          point = HyperbolicCanvas.Point.random();
+          angle = circle.hyperbolicAngleAt(point);
+          expect(angle).toBeARealNumber();
+        });
+
+        it('should have Point on edge at given angle', function () {
+          angle = HyperbolicCanvas.Angle.random();
+          point = circle.hyperbolicPointAt(angle);
+          expect(point).toBeA(HyperbolicCanvas.Point);
+          expect(circle.hyperbolicAngleAt(point)).toApproximate(angle);
+        });
+      });
+    });
+
+    // TODO xAtY, yAtX; better to return Array of Points than Array of x or y values?
+    // TODO (Euclidean | hyperbolic) tangent at (Euclidean | hyperbolic) (angle | Point)
+    //      potentially 8 different functions
   });
 
   describe('given Euclidean center and radius', function () {
@@ -13,6 +125,10 @@ describe('Circle', function () {
         Math.random()
       );
     });
+
+    it('should be a Circle', function () {
+      expect(circle).toBeA(Circle);
+    });
   });
 
   describe('given hyperbolic center and radius', function () {
@@ -21,6 +137,10 @@ describe('Circle', function () {
         HyperbolicCanvas.Point.random(),
         Math.random() * 10
       );
+    });
+
+    it('should be a Circle', function () {
+      expect(circle).toBeA(Circle);
     });
 
       // only one guaranteed to have hyperbolic values
@@ -33,6 +153,10 @@ describe('Circle', function () {
         HyperbolicCanvas.Point.random()
       );
     });
+
+    it('should be a Circle', function () {
+      expect(circle).toBeA(Circle);
+    });
   });
 
   describe('given three points', function () {
@@ -44,8 +168,8 @@ describe('Circle', function () {
       );
     });
 
-    it('should ', function () {
-
+    it('should be a Circle', function () {
+      expect(circle).toBeA(Circle);
     });
   });
 

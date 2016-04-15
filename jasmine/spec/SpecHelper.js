@@ -1,3 +1,5 @@
+const EXPECTED_ACCURACY = 1e-6;
+
 beforeEach(function () {
   jasmine.precision = 6;
   jasmine.addMatchers({
@@ -5,7 +7,7 @@ beforeEach(function () {
       return {
         compare: function (actual, expected) {
           return {
-            pass: Math.abs(actual - expected) < 1e-6 ||
+            pass: Math.abs(actual - expected) < EXPECTED_ACCURACY ||
                   isNaN(actual) && isNaN(expected)
           }
         }
@@ -24,7 +26,10 @@ beforeEach(function () {
       return {
         compare: function (actual) {
           return {
-            pass: typeof actual === 'number' && !isNaN(actual)
+            pass: typeof actual === 'number' &&
+                  !isNaN(actual) &&
+                  actual !== Infinity &&
+                  actual !== -Infinity
           }
         }
       }
