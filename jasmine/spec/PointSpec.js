@@ -9,6 +9,11 @@ describe('Point', function () {
       point = Point.random(quadrant);
     });
 
+    it('should be on plane', function () {
+      expect(point.isOnPlane()).toBe(true);
+      expect(point.getEuclideanRadius()).toBeLessThan(1);
+    });
+
     it('should have Cartesian coordinates, angle, and Euclidean and hyperbolic radii', function () {
       expect(typeof point.getX()               ).toBe('number');
       expect(typeof point.getY()               ).toBe('number');
@@ -61,14 +66,33 @@ describe('Point', function () {
 
       it('should calculate Euclidean distance to other Point', function () {
         var d = point.euclideanDistanceTo(otherPoint);
-        expect(d).toBeDefined();
+        expect(typeof d).toBe('number');
         expect(d).not.toBeNaN();
+      });
+
+      it('should calculate Euclidean angle towards and away from other Point', function () {
+        var angleTo = point.euclideanAngleTo(otherPoint);
+        var angleFrom = point.euclideanAngleFrom(otherPoint);
+        expect(typeof angleTo).toBe('number');
+        expect(angleTo).not.toBeNaN();
+        expect(angleFrom).toApproximate(
+          HyperbolicCanvas.Angle.opposite(angleTo)
+        );
       });
 
       it('should calculate hyperbolic distance to other Point', function () {
         var d = point.hyperbolicDistanceTo(otherPoint);
-        expect(d).toBeDefined();
+        expect(typeof d).toBe('number');
         expect(d).not.toBeNaN();
+      });
+
+      it('should calculate hyperbolic angle towards and away from other Point', function () {
+        var angleTo = point.hyperbolicAngleTo(otherPoint);
+        var angleFrom = point.hyperbolicAngleFrom(otherPoint);
+        expect(typeof angleTo).toBe('number');
+        expect(angleTo).not.toBeNaN();
+        expect(typeof angleFrom).toBe('number');
+        expect(angleFrom).not.toBeNaN();
       });
     });
 
@@ -177,14 +201,14 @@ describe('Point', function () {
       });
 
       it('should calculate angle of hyperbolic geodesic towards self from perspective of other Point', function () {
-        expect(point.angleFrom(distantPoint)).toApproximate(
+        expect(point.hyperbolicAngleFrom(distantPoint)).toApproximate(
           HyperbolicCanvas.Angle.opposite(distantPoint.getDirection()),
           jasmine.precision
         );
       });
 
       it('should calculate angle of hyperbolic geodesic towards other Point from perspective of self', function () {
-        expect(point.angleTo(distantPoint)).toApproximate(
+        expect(point.hyperbolicAngleTo(distantPoint)).toApproximate(
           direction,
           jasmine.precision
         );

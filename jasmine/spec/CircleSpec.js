@@ -80,8 +80,6 @@ describe('Circle', function () {
     });
 
     it('should calculate angle towards Point along Euclidean geodesic', function () {
-      // this is syllogistic given the current implementation, but the math
-      // should be tested by the Point specs
       var point = HyperbolicCanvas.Point.random();
       expect(circle.euclideanAngleAt(point)).toApproximate(point.getAngle());
     });

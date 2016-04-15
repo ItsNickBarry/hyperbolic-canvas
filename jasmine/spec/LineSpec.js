@@ -191,9 +191,9 @@ describe('Line', function () {
         it('should have hyperbolic midpoint', function () {
           var midpoint = line.getHyperbolicMidpoint();
           expect(midpoint).toBeA(HyperbolicCanvas.Point);
-          var angle0 = midpoint.angleTo(line.getP0());
+          var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
           var angle1 = HyperbolicCanvas.Angle.opposite(
-            midpoint.angleTo(line.getP1())
+            midpoint.hyperbolicAngleTo(line.getP1())
           );
           expect(angle0).toApproximate(angle1);
         });
@@ -257,9 +257,9 @@ describe('Line', function () {
         it('should have hyperbolic midpoint', function () {
           var midpoint = line.getHyperbolicMidpoint();
           expect(midpoint).toBeA(HyperbolicCanvas.Point);
-          var angle0 = midpoint.angleTo(line.getP0());
+          var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
           var angle1 = HyperbolicCanvas.Angle.opposite(
-            midpoint.angleTo(line.getP1())
+            midpoint.hyperbolicAngleTo(line.getP1())
           );
           expect(angle0).toApproximate(angle1);
         });
@@ -315,9 +315,9 @@ describe('Line', function () {
       it('should have hyperbolic midpoint', function () {
         var midpoint = line.getHyperbolicMidpoint();
         expect(midpoint).toBeA(HyperbolicCanvas.Point);
-        var angle0 = midpoint.angleTo(line.getP0());
+        var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
         var angle1 = HyperbolicCanvas.Angle.opposite(
-          midpoint.angleTo(line.getP1())
+          midpoint.hyperbolicAngleTo(line.getP1())
         );
         expect(angle0).toApproximate(angle1);
       });
