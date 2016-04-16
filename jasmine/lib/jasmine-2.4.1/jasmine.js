@@ -910,9 +910,10 @@ getJasmineRequireObj().Env = function(j$) {
       }
     };
 
-    this.it = function (description, fn, timeout) {
+    this.it = function (description, fn, overrideRepeat, timeout) {
+      var count = overrideRepeat ^ jasmine.repeat ? jasmine.testRunCount : 1;
       this.describe(description, function () {
-        for (var i = 0; i < jasmine.TEST_RUN_COUNT; i++) {
+        for (var i = 0; i < count; i++) {
           this.sit('(run #' + (i + 1) + ')', fn, timeout);
         }
       }.bind(this));

@@ -5,22 +5,27 @@ describe('Jasmine', function () {
     n = Math.random();
   });
 
-  it('should have DISPLAY_SYMBOLS property', function () {
-    expect(jasmine.DISPLAY_SYMBOLS).toBeDefined();
-    expect(jasmine.DISPLAY_SYMBOLS).toBeA(Boolean);
-  });
+  it('should have displaySymbols property', function () {
+    expect(jasmine.displaySymbols).toBeDefined();
+    expect(jasmine.displaySymbols).toBeA(Boolean);
+  }, true);
 
-  it('should have TEST_RUN_COUNT property', function () {
-    expect(jasmine.TEST_RUN_COUNT).toBeDefined();
-    expect(jasmine.TEST_RUN_COUNT).toBeARealNumber();
-  });
+  it('should have repeat property', function () {
+    expect(jasmine.repeat).toBeDefined();
+    expect(jasmine.repeat).toBeA(Boolean);
+  }, true);
+
+  it('should have testRunCount property', function () {
+    expect(jasmine.testRunCount).toBeDefined();
+    expect(jasmine.testRunCount).toBeARealNumber();
+  }, true);
 
   it('should generate multiple unique numbers for a single spec', function () {
     expect(randomNumbers[n]).toBeUndefined();
     randomNumbers[n] = n;
   });
 
-  it('should have generated TEST_RUN_COUNT numbers', function () {
-    expect(Object.keys(randomNumbers).length).toBe(jasmine.TEST_RUN_COUNT);
-  });
+  it('should have generated testRunCount numbers', function () {
+    expect(Object.keys(randomNumbers).length).toBe(jasmine.testRunCount);
+  }, true);
 });

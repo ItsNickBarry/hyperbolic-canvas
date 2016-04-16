@@ -1,5 +1,9 @@
-jasmine.TEST_RUN_COUNT = 10;
-jasmine.DISPLAY_SYMBOLS = false;
+// display visualization of specs at top of page or not
+jasmine.displaySymbols = false;
+// number of times to run specs if set to repeat
+jasmine.testRunCount = 10;
+// whether to repeat by default (repeat if `repeat ^ overrideRepeat`)
+jasmine.repeat = true;
 
 const EXPECTED_ACCURACY = 1e-6;
 

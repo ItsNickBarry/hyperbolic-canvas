@@ -114,7 +114,7 @@ jasmineRequire.HtmlReporter = function(j$) {
         symbols = find('.jasmine-symbol-summary');
       }
 
-      if (jasmine.DISPLAY_SYMBOLS) {
+      if (jasmine.displaySymbols) {
         symbols.appendChild(createDom('li', {
             className: noExpectations(result) ? 'jasmine-empty' : 'jasmine-' + result.status,
             id: 'spec_' + result.id,
