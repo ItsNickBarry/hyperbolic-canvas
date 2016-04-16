@@ -2,8 +2,6 @@
 jasmine.displaySymbols = false;
 // number of times to run specs if set to repeat
 jasmine.testRunCount = 10;
-// whether to repeat by default (repeat if `repeat ^ overrideRepeat`)
-jasmine.repeat = true;
 
 const EXPECTED_ACCURACY = 1e-6;
 
