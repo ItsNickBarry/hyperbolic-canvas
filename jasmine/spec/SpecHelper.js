@@ -1,4 +1,4 @@
-jasmine.TEST_RUN_COUNT = 9;
+jasmine.TEST_RUN_COUNT = 5;
 
 const EXPECTED_ACCURACY = 1e-6;
 

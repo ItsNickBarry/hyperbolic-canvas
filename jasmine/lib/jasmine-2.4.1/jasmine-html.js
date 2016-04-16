@@ -363,7 +363,10 @@ jasmineRequire.HtmlReporter = function(j$) {
     }
 
     function specHref(result) {
-      return addToExistingQueryString('spec', result.fullName);
+      return addToExistingQueryString(
+        'spec',
+        result.fullName.replace(/ \(run #\d\)/, '')
+      );
     }
 
     function seedHref(seed) {
