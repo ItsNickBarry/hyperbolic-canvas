@@ -392,26 +392,26 @@ describe('Point', function () {
       point = Point.ORIGIN;
     });
 
-    it('should be defined', function () {
-      expect(point).toBeDefined();
-    });
+    it('should be Point', function () {
+      expect(point).toBeA(Point);
+    }, true);
 
     it('should have Cartesian coordinates (0, 0)', function () {
       expect(point.getX()).toEqual(0);
       expect(point.getY()).toEqual(0);
-    });
+    }, true);
 
     it('should have Euclidean and hyperbolic radii of 0', function () {
       expect(point.getEuclideanRadius()).toEqual(0);
       expect(point.getHyperbolicRadius()).toEqual(0);
-    });
+    }, true);
 
     it('should have angle of 0', function () {
       expect(point.getAngle()).toEqual(0);
-    });
+    }, true);
 
     it('should be on hyperbolic plane', function () {
       expect(point.isOnPlane()).toBe(true);
-    });
+    }, true);
   });
 });

@@ -193,7 +193,7 @@ describe('Circle', function () {
           1
         );
       });
-      
+
       it('should be false', function () {
         expect(Circle.intersects(c0, c1)).toBe(false);
       });
@@ -244,26 +244,30 @@ describe('Circle', function () {
       circle = Circle.UNIT;
     });
 
+    it('should be Circle', function () {
+      expect(circle).toBeA(Circle);
+    }, true);
+
     it('should have Euclidean and hyperbolic center at origin', function () {
       expect(circle.getEuclideanCenter()).toBe(HyperbolicCanvas.Point.ORIGIN);
       expect(circle.getHyperbolicCenter()).toBe(HyperbolicCanvas.Point.ORIGIN);
-    });
+    }, true);
 
     it('should have Euclidean area of pi', function () {
       expect(circle.getEuclideanArea()).toBe(Math.PI);
-    });
+    }, true);
 
     it('should have Euclidean circumference of tau', function () {
       expect(circle.getEuclideanCircumference()).toBe(Math.TAU);
-    });
+    }, true);
 
     it('should have Euclidean radius of 1', function () {
       expect(circle.getEuclideanRadius()).toBe(1);
-    });
+    }, true);
 
     it('should have Euclidean diameter of 2', function () {
       expect(circle.getEuclideanDiameter()).toBe(2);
-    });
+    }, true);
 
     it('should calculate angle towards Point along Euclidean geodesic', function () {
       var point = HyperbolicCanvas.Point.random();
@@ -279,19 +283,19 @@ describe('Circle', function () {
 
     it('should have hyperbolic area of infinity', function () {
       expect(circle.getHyperbolicArea()).toBe(Infinity);
-    });
+    }, true);
 
     it('should have hyperbolic circumference of infinity', function () {
       expect(circle.getHyperbolicCircumference()).toBe(Infinity);
-    });
+    }, true);
 
     it('should have hyperbolic radius of infinity', function () {
       expect(circle.getHyperbolicRadius()).toBe(Infinity);
-    });
+    }, true);
 
     it('should have hyperbolic diameter of infinity', function () {
       expect(circle.getHyperbolicDiameter()).toBe(Infinity);
-    });
+    }, true);
 
     it('should calculate angle towards Point along hyperbolic geodesic', function () {
       var point = HyperbolicCanvas.Point.random();

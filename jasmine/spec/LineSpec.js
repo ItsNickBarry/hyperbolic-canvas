@@ -488,17 +488,17 @@ describe('Line', function () {
       line = Line.X_AXIS;
     });
 
-    it('should be defined', function () {
-      expect(line).toBeDefined();
-    });
+    it('should be Line', function () {
+      expect(line).toBeA(Line);
+    }, true);
 
     it('should include origin', function () {
       expect(line.containsPoint(HyperbolicCanvas.Point.ORIGIN)).toBe(true);
-    });
+    }, true);
 
     it('should have a slope of 0', function () {
       expect(line.getSlope()).toBe(0);
-    });
+    }, true);
   });
 
   describe('Y_AXIS', function () {
@@ -506,16 +506,16 @@ describe('Line', function () {
       line = Line.Y_AXIS;
     });
 
-    it('should be defined', function () {
-      expect(line).toBeDefined();
-    });
+    it('should be Line', function () {
+      expect(line).toBeA(Line);
+    }, true);
 
     it('should include origin', function () {
       expect(line.containsPoint(HyperbolicCanvas.Point.ORIGIN)).toBe(true);
-    });
+    }, true);
 
-    it('should have a slope of infinity', function () {
+    it('should have slope of infinity', function () {
       expect(line.getSlope()).toBe(Infinity);
-    });
+    }, true);
   });
 });
