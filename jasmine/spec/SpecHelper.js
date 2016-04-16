@@ -1,3 +1,5 @@
+jasmine.TEST_RUN_COUNT = 9;
+
 const EXPECTED_ACCURACY = 1e-6;
 
 beforeEach(function () {

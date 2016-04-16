@@ -910,7 +910,13 @@ getJasmineRequireObj().Env = function(j$) {
       }
     };
 
-    this.it = function(description, fn, timeout) {
+    this.it = function (description, fn, timeout) {
+      for (var i = 0; i < jasmine.TEST_RUN_COUNT; i++) {
+        this.sit(description + ' (run #' + (i + 1) + ')', fn, timeout);
+      }
+    };
+
+    this.sit = function(description, fn, timeout) {
       var spec = specFactory(description, fn, currentDeclarationSuite, timeout);
       if (currentDeclarationSuite.markedPending) {
         spec.pend();
