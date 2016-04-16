@@ -114,12 +114,14 @@ jasmineRequire.HtmlReporter = function(j$) {
         symbols = find('.jasmine-symbol-summary');
       }
 
-      symbols.appendChild(createDom('li', {
-          className: noExpectations(result) ? 'jasmine-empty' : 'jasmine-' + result.status,
-          id: 'spec_' + result.id,
-          title: result.fullName
-        }
-      ));
+      if (jasmine.DISPLAY_SYMBOLS) {
+        symbols.appendChild(createDom('li', {
+            className: noExpectations(result) ? 'jasmine-empty' : 'jasmine-' + result.status,
+            id: 'spec_' + result.id,
+            title: result.fullName
+          }
+        ));
+      }
 
       if (result.status == 'failed') {
         failureCount++;
@@ -365,7 +367,7 @@ jasmineRequire.HtmlReporter = function(j$) {
     function specHref(result) {
       return addToExistingQueryString(
         'spec',
-        result.fullName.replace(/ \(run #\d\)/, '')
+        result.fullName.replace(/ \(run #\d*\)/, '')
       );
     }
 

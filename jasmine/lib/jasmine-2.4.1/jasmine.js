@@ -911,9 +911,11 @@ getJasmineRequireObj().Env = function(j$) {
     };
 
     this.it = function (description, fn, timeout) {
-      for (var i = 0; i < jasmine.TEST_RUN_COUNT; i++) {
-        this.sit(description + ' (run #' + (i + 1) + ')', fn, timeout);
-      }
+      this.describe(description, function () {
+        for (var i = 0; i < jasmine.TEST_RUN_COUNT; i++) {
+          this.sit('(run #' + (i + 1) + ')', fn, timeout);
+        }
+      }.bind(this));
     };
 
     this.sit = function(description, fn, timeout) {

@@ -7,6 +7,21 @@
   <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.4.1/jasmine_favicon.png">
   <link rel="stylesheet" href="lib/jasmine-2.4.1/jasmine.css">
 
+  <style media="screen">
+    /* pass: #007069 */
+    /* fail: #CA3A11 */
+
+    .jasmine-specs .jasmine-passed {
+      /* hide passing runs */
+      display: none;
+    }
+    .jasmine-specs .jasmine-failed {
+      /* highlight failing runs */
+      border: solid 1px #CA3A11;
+      margin-top: 1px;
+    }
+  </style>
+
   <script src="lib/jasmine-2.4.1/jasmine.js"></script>
   <script src="lib/jasmine-2.4.1/jasmine-html.js"></script>
   <script src="lib/jasmine-2.4.1/boot.js"></script>

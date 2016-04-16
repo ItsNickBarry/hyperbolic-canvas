@@ -5,6 +5,11 @@ describe('Jasmine', function () {
     n = Math.random();
   });
 
+  it('should have DISPLAY_SYMBOLS property', function () {
+    expect(jasmine.DISPLAY_SYMBOLS).toBeDefined();
+    expect(jasmine.DISPLAY_SYMBOLS).toBeA(Boolean);
+  });
+
   it('should have TEST_RUN_COUNT property', function () {
     expect(jasmine.TEST_RUN_COUNT).toBeDefined();
     expect(jasmine.TEST_RUN_COUNT).toBeARealNumber();
