@@ -6,7 +6,6 @@ jasmine.testRunCount = 10;
 const EXPECTED_ACCURACY = 1e-6;
 
 beforeEach(function () {
-  jasmine.precision = 6;
   jasmine.addMatchers({
     toApproximate: function () {
       return {
@@ -22,7 +21,11 @@ beforeEach(function () {
       return {
         compare: function (actual, expected) {
           return {
-            pass: actual.__proto__ === expected.prototype
+            pass: actual instanceof Object
+                  ?
+                  actual instanceof expected
+                  :
+                  actual.__proto__ === expected.prototype
           }
         }
       }

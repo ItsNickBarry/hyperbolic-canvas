@@ -17,12 +17,12 @@ describe('Canvas', function () {
     });
 
     it('should be defined', function () {
-      expect(el).toBeDefined();
+      expect(el).toBeA(HTMLElement);
     }, true);
 
-    it('should have one child div', function () {
+    it('should have one child div element', function () {
       expect(el.children.length).toBe(1);
-      expect(el.firstChild.tagName.toLowerCase()).toBe('div');
+      expect(el.firstChild).toBeA(HTMLDivElement);
     }, true);
   });
 
@@ -32,13 +32,13 @@ describe('Canvas', function () {
       el = canvas.getBackdropElement();
     });
 
-    it('should be defined', function () {
-      expect(el).toBeDefined();
+    it('should be div element', function () {
+      expect(el).toBeA(HTMLDivElement);
     }, true);
 
-    it('should have one child div', function () {
+    it('should have one child div element', function () {
       expect(el.children.length).toBe(1);
-      expect(el.firstChild.tagName.toLowerCase()).toBe('div');
+      expect(el.firstChild).toBeA(HTMLDivElement);
     }, true);
 
     it('should have "backdrop" class', function () {
@@ -52,8 +52,8 @@ describe('Canvas', function () {
       el = canvas.getUnderlayElement();
     });
 
-    it('should be defined', function () {
-      expect(el).toBeDefined();
+    it('should be div element', function () {
+      expect(el).toBeA(HTMLDivElement);
     }, true);
 
     it('should have "underlay" class', function () {
@@ -64,9 +64,9 @@ describe('Canvas', function () {
       expect(el.style['border-radius']).not.toBe('');
     }, true);
 
-    it('should have one child canvas', function () {
+    it('should have one child canvas element', function () {
       expect(el.children.length).toBe(1);
-      expect(el.firstChild.tagName.toLowerCase()).toBe('canvas');
+      expect(el.firstChild).toBeA(HTMLCanvasElement);
     }, true);
   });
 
@@ -76,8 +76,8 @@ describe('Canvas', function () {
       el = canvas.getCanvasElement();
     });
 
-    it('should be defined', function () {
-      expect(el).toBeDefined();
+    it('should be canvas element', function () {
+      expect(el).toBeA(HTMLCanvasElement);
     }, true);
 
     it('should have "hyperbolic" class', function () {
@@ -90,13 +90,13 @@ describe('Canvas', function () {
   });
 
   it('should have a radius and diameter', function () {
-    expect(canvas.getRadius()).toBeDefined();
-    expect(canvas.getDiameter()).toBeDefined();
+    expect(canvas.getRadius()).toBeARealNumber();
+    expect(canvas.getDiameter()).toBeARealNumber();
     expect(canvas.getDiameter()).toBe(canvas.getRadius() * 2);
   }, true);
 
   it('should have a canvas context', function () {
-    expect(canvas.getContext()).toBeDefined();
+    expect(canvas.getContext()).toBeA(CanvasRenderingContext2D);
   }, true);
 
   it('should set context properties', function () {

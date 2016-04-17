@@ -16,8 +16,8 @@ describe('Polygon', function () {
 
     it('should have n vertices of type Point', function () {
       var vertices = polygon.getVertices();
+      expect(vertices).toBeA(Array);
       expect(vertices.length).toBe(n);
-      expect(vertices).toBeDefined();
       vertices.forEach(function (vertex) {
         expect(vertex).toBeA(HyperbolicCanvas.Point);
       });
@@ -47,8 +47,8 @@ describe('Polygon', function () {
 
     it('should have n vertices of type Point', function () {
       var vertices = polygon.getVertices();
+      expect(vertices).toBeA(Array);
       expect(vertices.length).toBe(n);
-      expect(vertices).toBeDefined();
       vertices.forEach(function (vertex) {
         expect(vertex).toBeA(HyperbolicCanvas.Point);
       });

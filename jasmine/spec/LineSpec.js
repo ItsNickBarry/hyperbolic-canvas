@@ -173,11 +173,11 @@ describe('Line', function () {
         });
 
         it('should have Euclidean length', function () {
-          expect(line.getEuclideanLength()).toBeDefined();
+          expect(line.getEuclideanLength()).toBeARealNumber();
         });
 
         it('should have Euclidean midpoint', function () {
-          expect(line.getEuclideanMidpoint()).toBeDefined();
+          expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
         });
 
         it('should have hyperbolic length', function () {
@@ -239,11 +239,11 @@ describe('Line', function () {
         });
 
         it('should have Euclidean length', function () {
-          expect(line.getEuclideanLength()).toBeDefined();
+          expect(line.getEuclideanLength()).toBeARealNumber();
         });
 
         it('should have Euclidean midpoint', function () {
-          expect(line.getEuclideanMidpoint()).toBeDefined();
+          expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
         });
 
         it('should have hyperbolic length', function () {
@@ -297,11 +297,11 @@ describe('Line', function () {
       });
 
       it('should have Euclidean length', function () {
-        expect(line.getEuclideanLength()).toBeDefined();
+        expect(line.getEuclideanLength()).toBeARealNumber();
       });
 
       it('should have Euclidean midpoint', function () {
-        expect(line.getEuclideanMidpoint()).toBeDefined();
+        expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
       });
 
       it('should have hyperbolic length', function () {
@@ -355,16 +355,16 @@ describe('Line', function () {
     });
 
     it('should have Euclidean length', function () {
-      expect(line.getEuclideanLength()).toBeDefined();
+      expect(line.getEuclideanLength()).toBeARealNumber();
     });
 
     it('should have Euclidean midpoint', function () {
-      expect(line.getEuclideanMidpoint()).toBeDefined();
+      expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
     });
 
     it('should not have hyperbolic length', function () {
       var d = line.getHyperbolicLength();
-      expect(d).toBeDefined();
+      expect(d).toBeA(Number);
       expect(d).toBeNaN();
     });
 
@@ -384,12 +384,12 @@ describe('Line', function () {
     });
 
     it('should have point and slope', function () {
-      expect(line.getP0()).toBeDefined();
-      expect(line.getSlope()).toBeDefined();
+      expect(line.getP0()).toBeA(HyperbolicCanvas.Point);
+      expect(line.getSlope()).toBeARealNumber();
     });
 
     it('should have second point', function () {
-      expect(line.getP1()).toBeDefined();
+      expect(line.getP1()).toBeA(HyperbolicCanvas.Point);
     });
   });
 
@@ -402,12 +402,12 @@ describe('Line', function () {
     });
 
     it('should have two points', function () {
-      expect(line.getP0()).toBeDefined();
-      expect(line.getP1()).toBeDefined();
+      expect(line.getP0()).toBeA(HyperbolicCanvas.Point);
+      expect(line.getP1()).toBeA(HyperbolicCanvas.Point);
     });
 
     it('should have slope', function () {
-      expect(line.getSlope()).toBeDefined();
+      expect(line.getSlope()).toBeARealNumber();
     });
   });
 
@@ -441,8 +441,10 @@ describe('Line', function () {
         );
       });
 
-      it('should exist', function () {
-        expect(Line.euclideanIntersect(line, otherLine)).toBeDefined();
+      it('should be Point', function () {
+        expect(
+          Line.euclideanIntersect(line, otherLine)
+        ).toBeA(HyperbolicCanvas.Point);
       });
     });
 
@@ -451,8 +453,10 @@ describe('Line', function () {
         otherLine = Line.X_AXIS;
       });
 
-      it('should exist', function () {
-        expect(Line.euclideanIntersect(line, otherLine)).toBeDefined();
+      it('should be Point', function () {
+        expect(
+          Line.euclideanIntersect(line, otherLine)
+        ).toBeA(HyperbolicCanvas.Point);
       });
     });
 
@@ -461,8 +465,10 @@ describe('Line', function () {
         otherLine = Line.Y_AXIS;
       });
 
-      it('should exist', function () {
-        expect(Line.euclideanIntersect(line, otherLine)).toBeDefined();
+      it('should be Point', function () {
+        expect(
+          Line.euclideanIntersect(line, otherLine)
+        ).toBeA(HyperbolicCanvas.Point);
       });
     });
   });

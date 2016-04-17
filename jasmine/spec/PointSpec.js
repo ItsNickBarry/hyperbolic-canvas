@@ -125,30 +125,30 @@ describe('Point', function () {
 
         it('should calculate location of distant point along hyperbolic geodesic', function () {
           // TODO check the math?
-          var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
-          expect(hyperbolicDistantPoint).toBeA(Point);
+          var distantPoint = point.hyperbolicDistantPoint(distance, direction);
+          expect(distantPoint).toBeA(Point);
         });
 
         it('should store instantaneous angle of travel at destination on distant Point', function () {
-          var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
-          expect(hyperbolicDistantPoint.getDirection()).toBeARealNumber();
+          var distantPoint = point.hyperbolicDistantPoint(distance, direction);
+          expect(distantPoint.getDirection()).toBeARealNumber();
         });
 
         it('should calculate accurate distant Point regardless of number of intermediate steps', function () {
-          var hyperbolicDistantPoint0 = point.hyperbolicDistantPoint(distance * 3, direction);
-          var hyperbolicDistantPoint1 = point.hyperbolicDistantPoint(distance, direction)
+          var distantPoint0 = point.hyperbolicDistantPoint(distance * 3, direction);
+          var distantPoint1 = point.hyperbolicDistantPoint(distance, direction)
                                    .hyperbolicDistantPoint(distance)
                                    .hyperbolicDistantPoint(distance);
-          expect(hyperbolicDistantPoint0.equals(hyperbolicDistantPoint1)).toBe(true);
+          expect(distantPoint0.equals(distantPoint1)).toBe(true);
         });
 
         it('should be reversible', function () {
-          var hyperbolicDistantPoint0 = point.hyperbolicDistantPoint(distance, direction);
-          var hyperbolicDistantPoint1 = hyperbolicDistantPoint0.hyperbolicDistantPoint(
+          var distantPoint0 = point.hyperbolicDistantPoint(distance, direction);
+          var distantPoint1 = distantPoint0.hyperbolicDistantPoint(
             distance,
-            HyperbolicCanvas.Angle.opposite(hyperbolicDistantPoint0.getDirection())
+            HyperbolicCanvas.Angle.opposite(distantPoint0.getDirection())
           );
-          expect(point.equals(hyperbolicDistantPoint1)).toBe(true);
+          expect(point.equals(distantPoint1)).toBe(true);
         });
       });
 
@@ -158,12 +158,12 @@ describe('Point', function () {
           it('should calculate Point away from origin', function () {
             distance = Math.random();
             direction = point.getAngle();
-            var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
-            expect(hyperbolicDistantPoint.getAngle()).toBe(direction);
-            expect(hyperbolicDistantPoint.getDirection()).toBe(direction);
-            expect(hyperbolicDistantPoint.quadrant()).toBe(point.quadrant());
+            var distantPoint = point.hyperbolicDistantPoint(distance, direction);
+            expect(distantPoint.getAngle()).toBe(direction);
+            expect(distantPoint.getDirection()).toBe(direction);
+            expect(distantPoint.quadrant()).toBe(point.quadrant());
 
-            expect(hyperbolicDistantPoint.getHyperbolicRadius()).toBe(
+            expect(distantPoint.getHyperbolicRadius()).toBe(
               point.getHyperbolicRadius() + distance
             );
           });
@@ -176,60 +176,58 @@ describe('Point', function () {
 
           it('should calculate Point towards but not across origin', function () {
             distance = Math.random() * point.getHyperbolicRadius();
-            var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
-            expect(hyperbolicDistantPoint.getAngle()).toBe(point.getAngle());
-            expect(hyperbolicDistantPoint.quadrant()).toBe(point.quadrant());
-            expect(hyperbolicDistantPoint.getDirection()).toBe(direction);
+            var distantPoint = point.hyperbolicDistantPoint(distance, direction);
+            expect(distantPoint.getAngle()).toBe(point.getAngle());
+            expect(distantPoint.quadrant()).toBe(point.quadrant());
+            expect(distantPoint.getDirection()).toBe(direction);
 
-            expect(hyperbolicDistantPoint.getHyperbolicRadius()).toBe(
+            expect(distantPoint.getHyperbolicRadius()).toBe(
               point.getHyperbolicRadius() - distance
             );
           });
 
           it('should calculate Point towards and across origin', function () {
             distance = (Math.random() + 1) * point.getHyperbolicRadius();
-            var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
-            expect(hyperbolicDistantPoint.getAngle()).toBe(direction);
-            expect(hyperbolicDistantPoint.quadrant() % 4).toBe((point.quadrant() + 2) % 4);
-            expect(hyperbolicDistantPoint.getDirection()).toBe(direction);
+            var distantPoint = point.hyperbolicDistantPoint(distance, direction);
+            expect(distantPoint.getAngle()).toBe(direction);
+            expect(distantPoint.quadrant() % 4).toBe((point.quadrant() + 2) % 4);
+            expect(distantPoint.getDirection()).toBe(direction);
 
-            expect(hyperbolicDistantPoint.getHyperbolicRadius()).toBe(
+            expect(distantPoint.getHyperbolicRadius()).toBe(
               distance - point.getHyperbolicRadius()
             );
           });
 
           it('should calculate origin', function () {
             distance = point.getHyperbolicRadius();
-            var hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
-            expect(hyperbolicDistantPoint.getX()).toBe(0);
-            expect(hyperbolicDistantPoint.getY()).toBe(0);
-            expect(hyperbolicDistantPoint.getEuclideanRadius()).toBe(0);
-            expect(hyperbolicDistantPoint.getHyperbolicRadius()).toBe(0);
-            expect(hyperbolicDistantPoint.getDirection()).toBe(direction);
+            var distantPoint = point.hyperbolicDistantPoint(distance, direction);
+            expect(distantPoint.getX()).toBe(0);
+            expect(distantPoint.getY()).toBe(0);
+            expect(distantPoint.getEuclideanRadius()).toBe(0);
+            expect(distantPoint.getHyperbolicRadius()).toBe(0);
+            expect(distantPoint.getDirection()).toBe(direction);
           });
         });
       });
     });
 
     describe('when comparing to distant Point', function () {
-      var distance, direction, hyperbolicDistantPoint;
+      var distance, direction, distantPoint;
       beforeEach(function () {
         distance = Math.random();
         direction = HyperbolicCanvas.Angle.random();
-        hyperbolicDistantPoint = point.hyperbolicDistantPoint(distance, direction);
+        distantPoint = point.hyperbolicDistantPoint(distance, direction);
       });
 
       it('should calculate angle of hyperbolic geodesic towards self from perspective of other Point', function () {
-        expect(point.hyperbolicAngleFrom(hyperbolicDistantPoint)).toApproximate(
-          HyperbolicCanvas.Angle.opposite(hyperbolicDistantPoint.getDirection()),
-          jasmine.precision
+        expect(point.hyperbolicAngleFrom(distantPoint)).toApproximate(
+          HyperbolicCanvas.Angle.opposite(distantPoint.getDirection())
         );
       });
 
       it('should calculate angle of hyperbolic geodesic towards other Point from perspective of self', function () {
-        expect(point.hyperbolicAngleTo(hyperbolicDistantPoint)).toApproximate(
-          direction,
-          jasmine.precision
+        expect(point.hyperbolicAngleTo(distantPoint)).toApproximate(
+          direction
         );
       });
     });
@@ -277,14 +275,14 @@ describe('Point', function () {
     });
 
     it('should have Cartesian coordinates',function () {
-      expect(point.getX()).toBeDefined();
-      expect(point.getY()).toBeDefined();
+      expect(point.getX()).toBeARealNumber();
+      expect(point.getY()).toBeARealNumber();
     });
 
     it('should have angle and Euclidean and hyperbolic radii', function () {
-      expect(point.getAngle()).toBeDefined();
-      expect(point.getEuclideanRadius()).toBeDefined();
-      expect(point.getHyperbolicRadius()).toBeDefined();
+      expect(point.getAngle()).toBeARealNumber();
+      expect(point.getEuclideanRadius()).toBeARealNumber();
+      expect(point.getHyperbolicRadius()).toBeARealNumber();
     });
   });
 
@@ -298,13 +296,13 @@ describe('Point', function () {
       });
 
       it('should have angle and Euclidean radius', function () {
-        expect(point.getAngle()).toBeDefined();
-        expect(point.getEuclideanRadius()).toBeDefined();
+        expect(point.getAngle()).toBeARealNumber();
+        expect(point.getEuclideanRadius()).toBeARealNumber();
       });
 
       it('should have Cartesian coordinates',function () {
-        expect(point.getX()).toBeDefined();
-        expect(point.getY()).toBeDefined();
+        expect(point.getX()).toBeARealNumber();
+        expect(point.getY()).toBeARealNumber();
       });
 
       it('should equal Point defined by opposite angle and negative radius', function () {
@@ -334,7 +332,7 @@ describe('Point', function () {
       });
     });
 
-    describe('with radius < 1', function () {
+    describe('with 0 <= radius < 1', function () {
       beforeEach(function () {
         point = Point.givenEuclideanPolarCoordinates(
           Math.random(),
@@ -343,7 +341,7 @@ describe('Point', function () {
       });
 
       it('should have hyperbolic radius', function () {
-        expect(point.getHyperbolicRadius()).toBeDefined();
+        expect(point.getHyperbolicRadius()).toBeARealNumber();
       });
 
       it('should be on hyperbolic plane', function () {
@@ -361,17 +359,18 @@ describe('Point', function () {
     });
 
     it('should have angle and hyperbolic radius', function () {
-      expect(point.getAngle()).toBeDefined();
-      expect(point.getHyperbolicRadius()).toBeDefined();
+      expect(point.getAngle()).toBeARealNumber();
+      expect(point.getHyperbolicRadius()).toBeARealNumber();
     });
 
     it('should have Euclidean radius', function () {
-      expect(point.getEuclideanRadius()).toBeDefined();
+      expect(point.getEuclideanRadius()).toBeARealNumber();
+      expect(point.getEuclideanRadius()).toBeLessThan(1);
     });
 
     it('should have Cartesian coordinates',function () {
-      expect(point.getX()).toBeDefined();
-      expect(point.getY()).toBeDefined();
+      expect(point.getX()).toBeARealNumber();
+      expect(point.getY()).toBeARealNumber();
     });
 
     it('should be on hyperbolic plane', function () {
@@ -397,17 +396,17 @@ describe('Point', function () {
     }, true);
 
     it('should have Cartesian coordinates (0, 0)', function () {
-      expect(point.getX()).toEqual(0);
-      expect(point.getY()).toEqual(0);
+      expect(point.getX()).toBe(0);
+      expect(point.getY()).toBe(0);
     }, true);
 
     it('should have Euclidean and hyperbolic radii of 0', function () {
-      expect(point.getEuclideanRadius()).toEqual(0);
-      expect(point.getHyperbolicRadius()).toEqual(0);
+      expect(point.getEuclideanRadius()).toBe(0);
+      expect(point.getHyperbolicRadius()).toBe(0);
     }, true);
 
     it('should have angle of 0', function () {
-      expect(point.getAngle()).toEqual(0);
+      expect(point.getAngle()).toBe(0);
     }, true);
 
     it('should be on hyperbolic plane', function () {

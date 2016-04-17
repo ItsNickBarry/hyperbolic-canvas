@@ -7,12 +7,10 @@ describe('Jasmine', function () {
   });
 
   it('should have displaySymbols property', function () {
-    expect(jasmine.displaySymbols).toBeDefined();
     expect(jasmine.displaySymbols).toBeA(Boolean);
   }, true);
 
   it('should have testRunCount property', function () {
-    expect(jasmine.testRunCount).toBeDefined();
     expect(jasmine.testRunCount).toBeARealNumber();
   }, true);
 
