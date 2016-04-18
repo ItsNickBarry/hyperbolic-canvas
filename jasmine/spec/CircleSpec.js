@@ -109,8 +109,47 @@ describe('Circle', function () {
           point = circle.hyperbolicPointAt(angle);
           expect(point).toBeA(HyperbolicCanvas.Point);
 
-          // TODO this is often off by Math.PI
           expect(circle.hyperbolicAngleAt(point)).toApproximate(angle);
+        });
+      });
+    });
+
+    describe('when calculating Points at given x or y coordinate', function () {
+      var euclideanCenter, euclideanRadius, hyperbolicCenter, hyperbolicRadius;
+      beforeEach(function () {
+        euclideanCenter = circle.getEuclideanCenter();
+        euclideanRadius = circle.getEuclideanRadius();
+        hyperbolicCenter = circle.getHyperbolicCenter();
+        hyperbolicRadius = circle.getHyperbolicRadius();
+      });
+
+      it('should have two Points with a given x coordinate within Euclidean radius of center', function () {
+        var x = euclideanCenter.getX() +
+                euclideanRadius * (Math.random() - .5) * 1.99;
+        var points = circle.pointsAtX(x);
+
+        expect(points).toBeA(Array);
+        expect(points.length).toBe(2);
+
+        points.forEach(function (point) {
+          expect(point).toBeA(HyperbolicCanvas.Point);
+          expect(point.euclideanDistanceTo(euclideanCenter)).toApproximate(euclideanRadius);
+          expect(point.hyperbolicDistanceTo(circle.getHyperbolicCenter())).toApproximate(hyperbolicRadius);
+        });
+      });
+
+      it('should have two Points with a given y coordinate within Euclidean radius of center', function () {
+        var y = euclideanCenter.getY() +
+                euclideanRadius * (Math.random() - .5) * 1.99;
+        var points = circle.pointsAtY(y);
+
+        expect(points).toBeA(Array);
+        expect(points.length).toBe(2);
+
+        points.forEach(function (point) {
+          expect(point).toBeA(HyperbolicCanvas.Point);
+          expect(point.euclideanDistanceTo(euclideanCenter)).toApproximate(euclideanRadius);
+          expect(point.hyperbolicDistanceTo(circle.getHyperbolicCenter())).toApproximate(hyperbolicRadius);
         });
       });
     });

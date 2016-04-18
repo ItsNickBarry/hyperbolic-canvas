@@ -153,7 +153,6 @@ describe('Point', function () {
       });
 
       describe('along diameter of hyperbolic plane', function () {
-        // TODO check paths almost along diameter, but not quite
         describe('away from origin', function () {
           it('should calculate Point away from origin', function () {
             distance = Math.random();
