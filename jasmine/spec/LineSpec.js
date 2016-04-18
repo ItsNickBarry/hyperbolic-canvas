@@ -411,6 +411,25 @@ describe('Line', function () {
     });
   });
 
+  describe('given angles of ideal points', function () {
+    beforeEach(function () {
+      line = Line.givenAnglesOfIdealPoints(
+        HyperbolicCanvas.Angle.random(),
+        HyperbolicCanvas.Angle.random()
+      );
+    });
+
+    it('should have two ideal points', function () {
+      var p0 = line.getP0();
+      var p1 = line.getP1();
+
+      expect(p0).toBeA(HyperbolicCanvas.Point);
+      expect(p1).toBeA(HyperbolicCanvas.Point);
+      expect(p0.isIdeal()).toBe(true);
+      expect(p1.isIdeal()).toBe(true);
+    });
+  });
+
   describe('Euclidean intersect', function () {
     var otherLine;
     beforeEach(function () {
@@ -471,10 +490,6 @@ describe('Line', function () {
         ).toBeA(HyperbolicCanvas.Point);
       });
     });
-  });
-
-  describe('given angles of ideal points', function () {
-    // TODO
   });
 
   describe('hyperbolic intersect', function () {

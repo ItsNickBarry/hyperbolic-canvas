@@ -14,6 +14,10 @@ describe('Point', function () {
       expect(point.getEuclideanRadius()).toBeLessThan(1);
     });
 
+    it('should not be ideal', function () {
+      expect(point.isIdeal()).toBe(false);
+    });
+
     it('should have Cartesian coordinates, angle, and Euclidean and hyperbolic radii', function () {
       expect(point.getX()               ).toBeARealNumber();
       expect(point.getY()               ).toBeARealNumber();
@@ -229,6 +233,22 @@ describe('Point', function () {
           direction
         );
       });
+    });
+  });
+
+  describe('generated at random on unit circle', function () {
+    beforeEach(function () {
+      point = HyperbolicCanvas.Circle.UNIT.hyperbolicPointAt(
+        HyperbolicCanvas.Angle.random()
+      );
+    });
+
+    it('should have Euclidean radius of 1', function () {
+      expect(point.getEuclideanRadius()).toApproximate(1);
+    });
+
+    it('should be ideal', function () {
+      expect(point.isIdeal()).toBe(true);
     });
   });
 

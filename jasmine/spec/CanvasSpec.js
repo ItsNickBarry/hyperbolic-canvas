@@ -139,4 +139,6 @@ describe('Canvas', function () {
       });
     });
   });
+
+  // TODO should return Path2D when trying for various objects
 });

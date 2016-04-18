@@ -133,8 +133,10 @@ describe('Circle', function () {
 
         points.forEach(function (point) {
           expect(point).toBeA(HyperbolicCanvas.Point);
-          expect(point.euclideanDistanceTo(euclideanCenter)).toApproximate(euclideanRadius);
-          expect(point.hyperbolicDistanceTo(circle.getHyperbolicCenter())).toApproximate(hyperbolicRadius);
+          expect(point.euclideanDistanceTo(euclideanCenter))
+            .toApproximate(euclideanRadius);
+          expect(point.hyperbolicDistanceTo(hyperbolicCenter))
+            .toApproximate(hyperbolicRadius);
         });
       });
 
@@ -148,8 +150,10 @@ describe('Circle', function () {
 
         points.forEach(function (point) {
           expect(point).toBeA(HyperbolicCanvas.Point);
-          expect(point.euclideanDistanceTo(euclideanCenter)).toApproximate(euclideanRadius);
-          expect(point.hyperbolicDistanceTo(circle.getHyperbolicCenter())).toApproximate(hyperbolicRadius);
+          expect(point.euclideanDistanceTo(euclideanCenter))
+            .toApproximate(euclideanRadius);
+          expect(point.hyperbolicDistanceTo(hyperbolicCenter))
+            .toApproximate(hyperbolicRadius);
         });
       });
     });
