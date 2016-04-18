@@ -54,9 +54,14 @@ describe('Polygon', function () {
       });
     });
 
-    it('should be regular', function () {
-      for (var vertex in polygon.getVertices()) {
-        // TODO
+    it('should have lines of equal hyperbolic length', function () {
+      var lengths = [];
+      polygon.getLines().forEach(function (line) {
+        lengths.push(line.getHyperbolicLength());
+      });
+      var n = lengths.length;
+      for (var i = 0; i < n; i++) {
+        expect(lengths[i]).toApproximate(lengths[(i + 1) % n]);
       }
     });
 
