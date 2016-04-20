@@ -59,11 +59,11 @@
 
       circles = [];
 
-      for (var i = 0; i < 14; i++) {
+      for (var i = 26; i > 0; i--) {
         canvas.setContextProperties({ fillStyle: colors[i] });
         var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
           location,
-          maxRadius / (i + 1)
+          i * .5
         );
         if (circle) {
           var path = canvas.pathForHyperbolic(circle);
