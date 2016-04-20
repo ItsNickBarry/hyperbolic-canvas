@@ -394,20 +394,37 @@ describe('Line', function () {
   });
 
   describe('given two points', function () {
-    beforeEach(function () {
-      line = Line.givenTwoPoints(
-        HyperbolicCanvas.Point.random(),
-        HyperbolicCanvas.Point.random()
-      );
+    describe('on hyperbolic plane', function () {
+      beforeEach(function () {
+        line = Line.givenTwoPoints(
+          HyperbolicCanvas.Point.random(),
+          HyperbolicCanvas.Point.random()
+        );
+      });
+
+      it('should have two points', function () {
+        expect(line.getP0()).toBeA(HyperbolicCanvas.Point);
+        expect(line.getP1()).toBeA(HyperbolicCanvas.Point);
+      });
+
+      it('should have slope', function () {
+        expect(line.getSlope()).toBeARealNumber();
+      });
     });
 
-    it('should have two points', function () {
-      expect(line.getP0()).toBeA(HyperbolicCanvas.Point);
-      expect(line.getP1()).toBeA(HyperbolicCanvas.Point);
-    });
+    describe('including one ideal point', function () {
+      beforeEach(function () {
+        line = Line.givenTwoPoints(
+          HyperbolicCanvas.Point.random(),
+          HyperbolicCanvas.Circle.UNIT.hyperbolicPointAt(
+            HyperbolicCanvas.Angle.random()
+          )
+        );
+      });
 
-    it('should have slope', function () {
-      expect(line.getSlope()).toBeARealNumber();
+      it('should have infinite hyperbolic length', function () {
+        expect(line.getHyperbolicLength()).toBe(Infinity);
+      });
     });
   });
 
