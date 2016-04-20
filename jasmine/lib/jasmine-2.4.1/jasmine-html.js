@@ -258,9 +258,11 @@ jasmineRequire.HtmlReporter = function(j$) {
         for (var i = 0; i < resultsTree.children.length; i++) {
           var resultNode = resultsTree.children[i];
           if (resultNode.type == 'suite') {
+            var description = resultNode.result.description.match(/(.*)( \(\d* runs\))/);
             var suiteListNode = createDom('ul', {className: 'jasmine-suite', id: 'suite-' + resultNode.result.id},
               createDom('li', {className: 'jasmine-suite-detail'},
-                createDom('a', {href: specHref(resultNode.result)}, resultNode.result.description)
+                createDom('a', {href: specHref(resultNode.result)}, description ? description[1] : resultNode.result.description),
+                createDom('span', {className: 'run-count'}, description ? description[2] : '')
               )
             );
 
@@ -367,7 +369,7 @@ jasmineRequire.HtmlReporter = function(j$) {
     function specHref(result) {
       return addToExistingQueryString(
         'spec',
-        result.fullName.replace(/ \(run #\d*\)/, '')
+        result.fullName.replace(/ \(run #\d*\)/, '').replace(/ \(\d* runs\)/, '')
       );
     }
 
