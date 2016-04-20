@@ -428,6 +428,10 @@ describe('Line', function () {
       expect(p0.isIdeal()).toBe(true);
       expect(p1.isIdeal()).toBe(true);
     });
+
+    it('should have length of infinity', function () {
+      expect(line.getHyperbolicLength()).toBe(Infinity);
+    });
   });
 
   describe('Euclidean intersect', function () {
