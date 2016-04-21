@@ -914,7 +914,7 @@ getJasmineRequireObj().Env = function(j$) {
       // true == 1
       var count = repeatCountOverride || jasmine.testRunCount || 1;
       var runCountDescription = count == 1 ? '' : ' (' + count + ' runs)';
-      this.describe(description + runCountDescription, function () {
+      this.describe('✓ ' + description + runCountDescription, function () {
         for (var i = 0; i < count; i++) {
           this.sit('(run #' + (i + 1) + ')', fn, timeout);
         }
