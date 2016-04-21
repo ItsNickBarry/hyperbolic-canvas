@@ -114,7 +114,7 @@ describe('Circle', function () {
       });
     });
 
-    describe('when calculating Points at given x or y coordinate', function () {
+    describe('given coordinate', function () {
       var euclideanCenter, euclideanRadius, hyperbolicCenter, hyperbolicRadius;
       beforeEach(function () {
         euclideanCenter = circle.getEuclideanCenter();
@@ -123,42 +123,179 @@ describe('Circle', function () {
         hyperbolicRadius = circle.getHyperbolicRadius();
       });
 
-      it('should have two Points with a given x coordinate within Euclidean radius of center', function () {
-        var x = euclideanCenter.getX() +
-                euclideanRadius * (Math.random() - .5) * 1.99;
-        var points = circle.pointsAtX(x);
+      describe('x', function () {
+        var x;
+        describe('within Euclidean radius of center', function () {
+          beforeEach(function () {
+            x = euclideanCenter.getX() +
+                euclideanRadius * Math.random() * (Math.random() - .5 ? 1 : -1);
+          });
 
-        expect(points).toBeA(Array);
-        expect(points.length).toBe(2);
+          it('should have two y values', function () {
+            var values = circle.yAtX(x);
 
-        points.forEach(function (point) {
-          expect(point).toBeA(HyperbolicCanvas.Point);
-          expect(point.euclideanDistanceTo(euclideanCenter))
-            .toApproximate(euclideanRadius);
-          expect(point.hyperbolicDistanceTo(hyperbolicCenter))
-            .toApproximate(hyperbolicRadius);
+            expect(values).toBeA(Array);
+            expect(values.length).toBe(2);
+
+            values.forEach(function (value) {
+              expect(value).toBeARealNumber();
+            });
+          });
+
+          it('should have two Points', function () {
+            var points = circle.pointsAtX(x);
+
+            expect(points).toBeA(Array);
+            expect(points.length).toBe(2);
+
+            points.forEach(function (point) {
+              expect(point).toBeA(HyperbolicCanvas.Point);
+              expect(point.euclideanDistanceTo(euclideanCenter))
+                .toApproximate(euclideanRadius);
+              expect(point.hyperbolicDistanceTo(hyperbolicCenter))
+                .toApproximate(hyperbolicRadius);
+            });
+          });
+        });
+
+        describe('at Euclidean radius from center', function () {
+          beforeEach(function () {
+            x = euclideanCenter.getX() +
+                euclideanRadius * (Math.random() > .5 ? 1 : -1);
+          });
+
+          it('should have one y value', function () {
+            var values = circle.yAtX(x);
+
+            expect(values).toBeA(Array);
+            expect(values.length).toBe(1);
+            expect(values[0]).toBeARealNumber();
+          });
+
+          it('should have one Point', function () {
+            var points = circle.pointsAtX(x);
+
+            expect(points).toBeA(Array);
+            expect(points.length).toBe(1);
+            expect(points[0]).toBeA(HyperbolicCanvas.Point);
+            expect(points[0].euclideanDistanceTo(euclideanCenter))
+              .toApproximate(euclideanRadius);
+            expect(points[0].hyperbolicDistanceTo(hyperbolicCenter))
+              .toApproximate(hyperbolicRadius);
+          });
+        });
+
+        describe('outside of Euclidean radius from center', function () {
+          beforeEach(function () {
+            x = euclideanCenter.getX() +
+                euclideanRadius * (
+                  Math.random() > .5 ? 1 + Math.random() : -1 - Math.random()
+                );
+          });
+
+          it('should have zero y values', function () {
+            var values = circle.yAtX(x);
+
+            expect(values).toBeA(Array);
+            expect(values.length).toBe(0);
+          });
+
+          it('should have zero Points', function () {
+            var points = circle.pointsAtX(x);
+
+            expect(points).toBeA(Array);
+            expect(points.length).toBe(0);
+          });
         });
       });
 
-      it('should have two Points with a given y coordinate within Euclidean radius of center', function () {
-        var y = euclideanCenter.getY() +
-                euclideanRadius * (Math.random() - .5) * 1.99;
-        var points = circle.pointsAtY(y);
+      describe('y', function () {
+        var y;
+        describe('within Euclidean radius of center', function () {
+          beforeEach(function () {
+            y = euclideanCenter.getY() +
+                euclideanRadius * Math.random() * (Math.random() > .5 ? 1 : -1);
+          });
 
-        expect(points).toBeA(Array);
-        expect(points.length).toBe(2);
+          it('should have two x values', function () {
+            var values = circle.xAtY(y);
 
-        points.forEach(function (point) {
-          expect(point).toBeA(HyperbolicCanvas.Point);
-          expect(point.euclideanDistanceTo(euclideanCenter))
-            .toApproximate(euclideanRadius);
-          expect(point.hyperbolicDistanceTo(hyperbolicCenter))
-            .toApproximate(hyperbolicRadius);
+            expect(values).toBeA(Array);
+            expect(values.length).toBe(2);
+
+            values.forEach(function (value) {
+              expect(value).toBeARealNumber();
+            });
+          });
+
+          it('should have two Points', function () {
+            var points = circle.pointsAtY(y);
+
+            expect(points).toBeA(Array);
+            expect(points.length).toBe(2);
+
+            points.forEach(function (point) {
+              expect(point).toBeA(HyperbolicCanvas.Point);
+              expect(point.euclideanDistanceTo(euclideanCenter))
+                .toApproximate(euclideanRadius);
+              expect(point.hyperbolicDistanceTo(hyperbolicCenter))
+                .toApproximate(hyperbolicRadius);
+            });
+          });
+        });
+
+        describe('at Euclidean radius from center', function () {
+          beforeEach(function () {
+            y = euclideanCenter.getY() +
+                euclideanRadius * (Math.random() > .5 ? 1 : -1);
+          });
+
+          it('should have one x value', function () {
+            var values = circle.xAtY(y);
+
+            expect(values).toBeA(Array);
+            expect(values.length).toBe(1);
+            expect(values[0]).toBeARealNumber();
+          });
+
+          it('should have one Point', function () {
+            var points = circle.pointsAtY(y);
+
+            expect(points).toBeA(Array);
+            expect(points.length).toBe(1);
+            expect(points[0]).toBeA(HyperbolicCanvas.Point);
+            expect(points[0].euclideanDistanceTo(euclideanCenter))
+              .toApproximate(euclideanRadius);
+            expect(points[0].hyperbolicDistanceTo(hyperbolicCenter))
+              .toApproximate(hyperbolicRadius);
+          });
+        });
+
+        describe('outside of Euclidean radius from center', function () {
+          beforeEach(function () {
+            y = euclideanCenter.getY() +
+                euclideanRadius * (
+                  Math.random() > .5 ? 1 + Math.random() : -1 - Math.random()
+                );
+          });
+
+          it('should have zero x values', function () {
+            var values = circle.xAtY(y);
+
+            expect(values).toBeA(Array);
+            expect(values.length).toBe(0);
+          });
+
+          it('should have zero Points', function () {
+            var points = circle.pointsAtY(y);
+
+            expect(points).toBeA(Array);
+            expect(points.length).toBe(0);
+          });
         });
       });
     });
 
-    // TODO xAtY, yAtX; better to return Array of Points than Array of x or y values?
     // TODO (Euclidean | hyperbolic) tangent at (Euclidean | hyperbolic) (angle | Point)
     //      potentially 8 different functions
   });

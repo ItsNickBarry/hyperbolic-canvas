@@ -131,6 +131,7 @@ describe('Point', function () {
           // TODO check the math?
           var distantPoint = point.hyperbolicDistantPoint(distance, direction);
           expect(distantPoint).toBeA(Point);
+          expect(distantPoint.isOnPlane()).toBe(true);
         });
 
         it('should store instantaneous angle of travel at destination on distant Point', function () {
