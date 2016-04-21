@@ -62,6 +62,14 @@ describe('Point', function () {
       expect(point.quadrant()).toBe(quadrant);
     });
 
+    it('should have opposite Point', function () {
+      var opposite = point.opposite();
+      expect(opposite.getEuclideanRadius())
+        .toApproximate(point.getEuclideanRadius());
+      expect(opposite.getAngle())
+        .toApproximate(HyperbolicCanvas.Angle.opposite(point.getAngle()));
+    });
+
     describe('relative to other Point', function () {
       var otherPoint;
       beforeEach(function () {
@@ -237,22 +245,6 @@ describe('Point', function () {
     });
   });
 
-  describe('generated at random on unit circle', function () {
-    beforeEach(function () {
-      point = HyperbolicCanvas.Circle.UNIT.hyperbolicPointAt(
-        HyperbolicCanvas.Angle.random()
-      );
-    });
-
-    it('should have Euclidean radius of 1', function () {
-      expect(point.getEuclideanRadius()).toApproximate(1);
-    });
-
-    it('should be ideal', function () {
-      expect(point.isIdeal()).toBe(true);
-    });
-  });
-
   describe('between two other Points along Euclidean geodesic', function () {
     var p0, p1;
     beforeEach(function () {
@@ -403,6 +395,28 @@ describe('Point', function () {
         HyperbolicCanvas.Angle.opposite(point.getAngle())
       );
       expect(point.equals(otherPoint)).toBe(true);
+    });
+  });
+
+  describe('given ideal angle', function () {
+    beforeEach(function () {
+      point = Point.givenIdealAngle(HyperbolicCanvas.Angle.random());
+    });
+
+    it('should be Point', function () {
+      expect(point).toBeA(Point);
+    });
+
+    it('should not be on plane', function () {
+      expect(point.isOnPlane()).toBe(false);
+    });
+
+    it('should be ideal', function () {
+      expect(point.isIdeal()).toBe(true);
+    });
+
+    it('should have Euclidean radius of 1', function () {
+      expect(point.getEuclideanRadius()).toApproximate(1);
     });
   });
 

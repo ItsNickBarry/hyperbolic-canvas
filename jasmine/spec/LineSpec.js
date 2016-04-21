@@ -165,11 +165,8 @@ describe('Line', function () {
           expect(line.isOnPlane()).toBe(true);
         });
 
-        it('should not have an arc', function () {
-          // TODO return arc of type Line instead?
-          // will it return itself?  clone of itself?
-          expect(line.getArc()).toBe(false);
-          //expect(line.getArc()).toBeA(Line);
+        it('should have geodesic Line', function () {
+          expect(line.getArc()).toBeA(Line);
         });
 
         it('should have Euclidean length', function () {
@@ -231,11 +228,8 @@ describe('Line', function () {
           expect(line.isOnPlane()).toBe(true);
         });
 
-        it('should not have an arc', function () {
-          // TODO return arc of type Line instead?
-          // will it return itself?  clone of itself?
-          expect(line.getArc()).toBe(false);
-          //expect(line.getArc()).toBeA(Line);
+        it('should have geodesic Line', function () {
+          expect(line.getArc()).toBeA(Line);
         });
 
         it('should have Euclidean length', function () {
@@ -416,7 +410,7 @@ describe('Line', function () {
       beforeEach(function () {
         line = Line.givenTwoPoints(
           HyperbolicCanvas.Point.random(),
-          HyperbolicCanvas.Circle.UNIT.hyperbolicPointAt(
+          HyperbolicCanvas.Point.givenIdealAngle(
             HyperbolicCanvas.Angle.random()
           )
         );
@@ -424,6 +418,10 @@ describe('Line', function () {
 
       it('should have infinite hyperbolic length', function () {
         expect(line.getHyperbolicLength()).toBe(Infinity);
+      });
+
+      it('should be ideal', function () {
+        expect(line.isIdeal()).toBe(true);
       });
     });
   });
@@ -444,6 +442,10 @@ describe('Line', function () {
       expect(p1).toBeA(HyperbolicCanvas.Point);
       expect(p0.isIdeal()).toBe(true);
       expect(p1.isIdeal()).toBe(true);
+    });
+
+    it('should be ideal', function () {
+      expect(line.isIdeal()).toBe(true);
     });
 
     it('should have length of infinity', function () {
@@ -515,8 +517,75 @@ describe('Line', function () {
 
   describe('hyperbolic intersect', function () {
     var otherLine;
+    beforeEach(function () {
+      line = Line.givenTwoPoints(
+        HyperbolicCanvas.Point.random(),
+        HyperbolicCanvas.Point.random()
+      );
+    });
 
-    // TODO
+    describe('of parallel lines', function () {
+      beforeEach(function () {
+        otherLine = Line.givenTwoPoints(
+          line.getP0().opposite(),
+          line.getP1().opposite()
+        );
+      });
+
+      it('should not exist', function () {
+        expect(Line.hyperbolicIntersect(line, otherLine)).toBe(false);
+      });
+    });
+
+    describe('of non-parallel lines', function () {
+      var expectedIntersect;
+      beforeEach(function () {
+        // calculate some point on line
+        var angleAlongLine = line.getP0().hyperbolicAngleTo(line.getP1());
+        var lengthOfLine = line.getHyperbolicLength();
+        expectedIntersect = line.getP0().hyperbolicDistantPoint(
+          lengthOfLine / 2,
+          angleAlongLine
+        );
+      });
+
+      describe('with curved hyperbolic geodesics', function () {
+        beforeEach(function () {
+          var p0 = HyperbolicCanvas.Point.random();
+          var angleAlongOtherLine = expectedIntersect.hyperbolicAngleTo(p0);
+          var p1 = expectedIntersect.hyperbolicDistantPoint(
+            expectedIntersect.hyperbolicDistanceTo(p0) / 2,
+            expectedIntersect.hyperbolicAngleTo(p0)
+          );
+
+          otherLine = Line.givenTwoPoints(p0, p1);
+        });
+
+        it('should be Point on plane', function () {
+          var intersect = Line.hyperbolicIntersect(line, otherLine);
+          expect(intersect).toBeA(HyperbolicCanvas.Point);
+          expect(intersect.isOnPlane()).toBe(true);
+          expect(intersect.equals(expectedIntersect)).toBe(true);
+        });
+      });
+
+      describe('with curved and straight hyperbolic geodesics', function () {
+        beforeEach(function () {
+          var angle = expectedIntersect.getAngle();
+          otherLine = Line.givenTwoPoints(
+            expectedIntersect.hyperbolicDistantPoint(Math.random() * 10, angle),
+            expectedIntersect.hyperbolicDistantPoint(Math.random() * 10, angle)
+          );
+        });
+
+        it('should be Point on plane', function () {
+          var intersect = Line.hyperbolicIntersect(line, otherLine);
+          expect(intersect).toBeA(HyperbolicCanvas.Point);
+          expect(intersect.isOnPlane()).toBe(true);
+          expect(intersect.equals(expectedIntersect)).toBe(true);
+        });
+      });
+    });
   });
 
   describe('random slope', function () {
