@@ -355,16 +355,14 @@ describe('Line', function () {
     });
 
     it('should not have hyperbolic length', function () {
-      var d = line.getHyperbolicLength();
-      expect(d).toBeA(Number);
-      expect(d).toBeNaN();
+      var l = line.getHyperbolicLength();
+      expect(l).toBeA(Number);
+      expect(l).toBeNaN();
     });
 
     it('should not have hyperbolic midpoint', function () {
       expect(line.getHyperbolicMidpoint()).toBe(false);
     });
-
-    // TODO unit circle intersects for line not on plane?
   });
 
   describe('given point and slope', function () {

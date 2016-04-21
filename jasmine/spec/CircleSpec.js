@@ -2,7 +2,7 @@ describe('Circle', function () {
   var Circle = HyperbolicCanvas.Circle;
   var circle;
 
-  describe('in general', function () {
+  describe('on hyperbolic plane', function () {
     beforeEach(function () {
       circle = Circle.givenHyperbolicCenterRadius(
         HyperbolicCanvas.Point.random(),
@@ -114,7 +114,7 @@ describe('Circle', function () {
       });
     });
 
-    describe('given coordinate', function () {
+    describe('at coordinate', function () {
       var euclideanCenter, euclideanRadius, hyperbolicCenter, hyperbolicRadius;
       beforeEach(function () {
         euclideanCenter = circle.getEuclideanCenter();
@@ -298,6 +298,56 @@ describe('Circle', function () {
 
     // TODO (Euclidean | hyperbolic) tangent at (Euclidean | hyperbolic) (angle | Point)
     //      potentially 8 different functions
+  });
+
+  describe('not on hyperbolic plane', function () {
+    beforeEach(function () {
+      var center = HyperbolicCanvas.Point.random()
+      circle = Circle.givenEuclideanCenterRadius(
+        center,
+        (1 - center.getEuclideanRadius()) * (1 + Math.random())
+      );
+    });
+
+    it('should have Euclidean area', function () {
+      expect(circle.getEuclideanArea()).toBeARealNumber();
+    });
+
+    it('should have Euclidean center', function () {
+      expect(circle.getEuclideanCenter()).toBeA(HyperbolicCanvas.Point);
+    });
+
+    it('should have Euclidean circumference', function () {
+      expect(circle.getEuclideanCircumference()).toBeARealNumber();
+    });
+
+    it('should have Euclidean diameter', function () {
+      expect(circle.getEuclideanDiameter()).toBeARealNumber();
+    });
+
+    it('should have Euclidean radius', function () {
+      expect(circle.getEuclideanRadius()).toBeARealNumber();
+    });
+
+    it('should not have hyperbolic area', function () {
+      expect(circle.getHyperbolicArea()).toBeNaN();
+    });
+
+    it('should not have hyperbolic center', function () {
+      expect(circle.getHyperbolicCenter()).toBe(false);
+    });
+
+    it('should not have hyperbolic circumference', function () {
+      expect(circle.getHyperbolicCircumference()).toBeNaN();
+    });
+
+    it('should not have hyperbolic diameter', function () {
+      expect(circle.getHyperbolicDiameter()).toBeNaN();
+    });
+
+    it('should not have hyperbolic radius', function () {
+      expect(circle.getHyperbolicRadius()).toBeNaN();
+    });
   });
 
   describe('given Euclidean center and radius', function () {

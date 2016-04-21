@@ -349,7 +349,6 @@ describe('Point', function () {
       });
 
       it('should not have hyperbolic radius', function () {
-        // TODO determine return type for invalid hyperbolic radius
         expect(point.getHyperbolicRadius()).toBeNaN();
       });
 
