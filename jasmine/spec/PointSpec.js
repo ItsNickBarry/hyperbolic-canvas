@@ -70,6 +70,20 @@ describe('Point', function () {
         .toApproximate(HyperbolicCanvas.Angle.opposite(point.getAngle()));
     });
 
+    it('should have Point rotated about origin', function () {
+      var angle = HyperbolicCanvas.Angle.random();
+      var rotatedPoint = point.rotateAboutOrigin(angle);
+      expect(rotatedPoint).toBeA(Point);
+      expect(rotatedPoint.getEuclideanRadius()).toApproximate(
+        point.getEuclideanRadius()
+      );
+      expect(rotatedPoint.getAngle()).toApproximate(
+        HyperbolicCanvas.Angle.normalize(point.getAngle() + angle)
+      );
+      var rotatedBackPoint = rotatedPoint.rotateAboutOrigin(angle * -1);
+      expect(rotatedBackPoint.equals(point)).toBe(true);
+    });
+
     describe('relative to other Point', function () {
       var otherPoint;
       beforeEach(function () {
