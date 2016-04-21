@@ -158,7 +158,7 @@ Line.hyperbolicIntersect(someLine, someOtherLine);
 Instance functions:
 
 ```javascript
-Line.prototype.getArc();
+Line.prototype.getHyperbolicGeodesic();
 // returns the circle whose arc matches the hyperbolic geodesic through the line's points
 
 Line.prototype.containsPoint(point);

@@ -165,8 +165,8 @@ describe('Line', function () {
           expect(line.isOnPlane()).toBe(true);
         });
 
-        it('should have geodesic Line', function () {
-          expect(line.getArc()).toBeA(Line);
+        it('should have hyperbolic geodesic Line', function () {
+          expect(line.getHyperbolicGeodesic()).toBeA(Line);
         });
 
         it('should have Euclidean length', function () {
@@ -228,8 +228,8 @@ describe('Line', function () {
           expect(line.isOnPlane()).toBe(true);
         });
 
-        it('should have geodesic Line', function () {
-          expect(line.getArc()).toBeA(Line);
+        it('should have hyperbolic geodesic Line', function () {
+          expect(line.getHyperbolicGeodesic()).toBeA(Line);
         });
 
         it('should have Euclidean length', function () {
@@ -285,9 +285,8 @@ describe('Line', function () {
         expect(line.isOnPlane()).toBe(true);
       });
 
-      it('should have an arc', function () {
-        expect(line.getArc()).toBeTruthy();
-        expect(line.getArc()).toBeA(HyperbolicCanvas.Circle);
+      it('should have hyperbolic geodesic Circle', function () {
+        expect(line.getHyperbolicGeodesic()).toBeA(HyperbolicCanvas.Circle);
       });
 
       it('should have Euclidean length', function () {
@@ -343,9 +342,8 @@ describe('Line', function () {
       expect(line.isOnPlane()).toBe(false);
     });
 
-    it('should not have an arc', function () {
-      // TODO use NaN or undefined?
-      expect(line.getArc()).toBe(false);
+    it('should not have hyperbolic geodesic', function () {
+      expect(line.getHyperbolicGeodesic()).toBe(false);
     });
 
     it('should have Euclidean length', function () {
