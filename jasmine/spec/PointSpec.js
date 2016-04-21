@@ -150,10 +150,13 @@ describe('Point', function () {
         });
 
         it('should calculate location of distant point along hyperbolic geodesic', function () {
-          // TODO check the math?
           var distantPoint = point.hyperbolicDistantPoint(distance, direction);
           expect(distantPoint).toBeA(Point);
           expect(distantPoint.isOnPlane()).toBe(true);
+
+          expect(
+            point.hyperbolicDistanceTo(distantPoint)
+          ).toApproximate(distance);
         });
 
         it('should store instantaneous angle of travel at destination on distant Point', function () {

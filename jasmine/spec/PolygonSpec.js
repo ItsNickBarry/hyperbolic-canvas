@@ -63,41 +63,102 @@ describe('Polygon', function () {
   });
 
   describe('given side count, center, radius', function () {
-    // TODO euclidean version
-    var n, center, radius;
+    var n, center, radius, rotation;
     beforeEach(function () {
       n = Math.floor(Math.random() * 10) + 3;
       center = HyperbolicCanvas.Point.random();
-      radius = Math.random() * 10;
-      polygon = Polygon.givenNCenterRadius(n, center, radius);
+      rotation = HyperbolicCanvas.Angle.random();
     });
 
-    it('should have n vertices of type Point', function () {
-      var vertices = polygon.getVertices();
-      expect(vertices).toBeA(Array);
-      expect(vertices.length).toBe(n);
-      vertices.forEach(function (vertex) {
-        expect(vertex).toBeA(HyperbolicCanvas.Point);
+    describe('in Euclidean context', function () {
+      beforeEach(function () {
+        radius = Math.random();
+        polygon = Polygon.givenEuclideanNCenterRadius(
+          n,
+          center,
+          radius,
+          rotation
+        );
+      });
+
+      it('should have n vertices of type Point', function () {
+        var vertices = polygon.getVertices();
+        expect(vertices).toBeA(Array);
+        expect(vertices.length).toBe(n);
+        vertices.forEach(function (vertex) {
+          expect(vertex).toBeA(HyperbolicCanvas.Point);
+        });
+      });
+
+      it('should have first vertex at given rotation angle', function () {
+        expect(
+          polygon.getVertices()[0].euclideanAngleFrom(center)
+        ).toApproximate(rotation);
+      });
+
+      it('should have n lines of type Line', function () {
+        var lines = polygon.getLines();
+        expect(lines.length).toBe(n);
+        expect(lines).toBeA(Array);
+        lines.forEach(function (line) {
+          expect(line).toBeA(HyperbolicCanvas.Line);
+        });
+      });
+
+      it('should have lines of equal Euclidean length', function () {
+        var lengths = [];
+        polygon.getLines().forEach(function (line) {
+          lengths.push(line.getEuclideanLength());
+        });
+        var n = lengths.length;
+        for (var i = 0; i < n; i++) {
+          expect(lengths[i]).toApproximate(lengths[(i + 1) % n]);
+        }
       });
     });
 
-    it('should have lines of equal hyperbolic length', function () {
-      var lengths = [];
-      polygon.getLines().forEach(function (line) {
-        lengths.push(line.getHyperbolicLength());
+    describe('in hyperbolic context', function () {
+      beforeEach(function () {
+        radius = Math.random() * 10;
+        polygon = Polygon.givenHyperbolicNCenterRadius(
+          n,
+          center,
+          radius,
+          rotation
+        );
       });
-      var n = lengths.length;
-      for (var i = 0; i < n; i++) {
-        expect(lengths[i]).toApproximate(lengths[(i + 1) % n]);
-      }
-    });
 
-    it('should have n lines of type Line', function () {
-      var lines = polygon.getLines();
-      expect(lines.length).toBe(n);
-      expect(lines).toBeA(Array);
-      lines.forEach(function (line) {
-        expect(line).toBeA(HyperbolicCanvas.Line);
+      it('should have n vertices of type Point', function () {
+        var vertices = polygon.getVertices();
+        expect(vertices).toBeA(Array);
+        expect(vertices.length).toBe(n);
+        vertices.forEach(function (vertex) {
+          expect(vertex).toBeA(HyperbolicCanvas.Point);
+        });
+      });
+
+      it('should have first vertex at given rotation angle', function () {
+        expect(polygon.getVertices()[0].getAngle()).toApproximate(rotation);
+      });
+
+      it('should have n lines of type Line', function () {
+        var lines = polygon.getLines();
+        expect(lines.length).toBe(n);
+        expect(lines).toBeA(Array);
+        lines.forEach(function (line) {
+          expect(line).toBeA(HyperbolicCanvas.Line);
+        });
+      });
+
+      it('should have lines of equal hyperbolic length', function () {
+        var lengths = [];
+        polygon.getLines().forEach(function (line) {
+          lengths.push(line.getHyperbolicLength());
+        });
+        var n = lengths.length;
+        for (var i = 0; i < n; i++) {
+          expect(lengths[i]).toApproximate(lengths[(i + 1) % n]);
+        }
       });
     });
   });
