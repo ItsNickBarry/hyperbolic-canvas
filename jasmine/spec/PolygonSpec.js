@@ -138,7 +138,9 @@ describe('Polygon', function () {
       });
 
       it('should have first vertex at given rotation angle', function () {
-        expect(polygon.getVertices()[0].getAngle()).toApproximate(rotation);
+        expect(
+          polygon.getVertices()[0].hyperbolicAngleFrom(center)
+        ).toApproximate(rotation);
       });
 
       it('should have n lines of type Line', function () {
