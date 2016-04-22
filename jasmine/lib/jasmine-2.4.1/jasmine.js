@@ -3461,5 +3461,5 @@ getJasmineRequireObj().interface = function(jasmine, env) {
 };
 
 getJasmineRequireObj().version = function() {
-  return '2.4.1';
+  return '2.4.1+';
 };
