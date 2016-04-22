@@ -195,8 +195,18 @@ describe('Line', function () {
           expect(angle0).toApproximate(angle1);
         });
 
-        it('should have unit circle intersects with opposite angles', function () {
-          var intersects = line.getUnitCircleIntersects();
+        it('should have ideal Points', function () {
+          var idealPoints = line.getIdealPoints();
+          expect(idealPoints).toBeA(Array);
+          expect(idealPoints.length).toBe(2);
+          idealPoints.forEach(function (point) {
+            expect(point).toBeA(HyperbolicCanvas.Point);
+            expect(point.isIdeal()).toBe(true);
+          });
+        });
+
+        it('should have Euclidean unit circle intersects with opposite angles', function () {
+          var intersects = line.getEuclideanUnitCircleIntersects();
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
           expect(HyperbolicCanvas.Angle.normalize(
@@ -204,6 +214,8 @@ describe('Line', function () {
           )).toApproximate(Math.PI);
           intersects.forEach(function (intersect) {
             expect(intersect).toBeA(HyperbolicCanvas.Point);
+            expect(intersect.getX()).toBeARealNumber();
+            expect(intersect.getY()).toBeARealNumber();
             expect(intersect.getEuclideanRadius()).toApproximate(1);
           });
         });
@@ -258,8 +270,18 @@ describe('Line', function () {
           expect(angle0).toApproximate(angle1);
         });
 
-        it('should have unit circle intersects with opposite angles', function () {
-          var intersects = line.getUnitCircleIntersects();
+        it('should have ideal Points', function () {
+          var idealPoints = line.getIdealPoints();
+          expect(idealPoints).toBeA(Array);
+          expect(idealPoints.length).toBe(2);
+          idealPoints.forEach(function (point) {
+            expect(point).toBeA(HyperbolicCanvas.Point);
+            expect(point.isIdeal()).toBe(true);
+          });
+        });
+
+        it('should have Euclidean unit circle intersects with opposite angles', function () {
+          var intersects = line.getEuclideanUnitCircleIntersects();
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
           expect(HyperbolicCanvas.Angle.normalize(
@@ -267,6 +289,8 @@ describe('Line', function () {
           )).toApproximate(Math.PI);
           intersects.forEach(function (intersect) {
             expect(intersect).toBeA(HyperbolicCanvas.Point);
+            expect(intersect.getX()).toBeARealNumber();
+            expect(intersect.getY()).toBeARealNumber();
             expect(intersect.getEuclideanRadius()).toApproximate(1);
           });
         });
@@ -315,12 +339,24 @@ describe('Line', function () {
         expect(angle0).toApproximate(angle1);
       });
 
-      it('should have unit circle intersects', function () {
-        var intersects = line.getUnitCircleIntersects();
+      it('should have ideal Points', function () {
+        var idealPoints = line.getIdealPoints();
+        expect(idealPoints).toBeA(Array);
+        expect(idealPoints.length).toBe(2);
+        idealPoints.forEach(function (point) {
+          expect(point).toBeA(HyperbolicCanvas.Point);
+          expect(point.isIdeal()).toBe(true);
+        });
+      });
+
+      it('should have Euclidean unit circle intersects', function () {
+        var intersects = line.getEuclideanUnitCircleIntersects();
         expect(intersects).toBeA(Array);
         expect(intersects.length).toBe(2);
         intersects.forEach(function (intersect){
           expect(intersect).toBeA(HyperbolicCanvas.Point);
+          expect(intersect.getX()).toBeARealNumber();
+          expect(intersect.getY()).toBeARealNumber();
           expect(intersect.getEuclideanRadius()).toApproximate(1);
         });
       });
@@ -362,6 +398,10 @@ describe('Line', function () {
 
     it('should not have hyperbolic midpoint', function () {
       expect(line.getHyperbolicMidpoint()).toBe(false);
+    });
+
+    it('should not have ideal Points', function () {
+      expect(line.getIdealPoints()).toBe(false);
     });
   });
 
@@ -423,6 +463,28 @@ describe('Line', function () {
 
         it('should have geodesic Circle', function () {
           expect(line.getHyperbolicGeodesic()).toBeA(HyperbolicCanvas.Circle);
+        });
+
+        it('should have ideal Points', function () {
+          var idealPoints = line.getIdealPoints();
+          expect(idealPoints).toBeA(Array);
+          expect(idealPoints.length).toBe(2);
+          idealPoints.forEach(function (point) {
+            expect(point).toBeA(HyperbolicCanvas.Point);
+            expect(point.isIdeal()).toBe(true);
+          });
+        });
+
+        it('should have Euclidean unit circle intersects', function () {
+          var intersects = line.getEuclideanUnitCircleIntersects();
+          expect(intersects).toBeA(Array);
+          expect(intersects.length).toBe(2);
+          intersects.forEach(function (intersect){
+            expect(intersect).toBeA(HyperbolicCanvas.Point);
+            expect(intersect.getX()).toBeARealNumber();
+            expect(intersect.getY()).toBeARealNumber();
+            expect(intersect.getEuclideanRadius()).toApproximate(1);
+          });
         });
       });
 

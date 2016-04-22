@@ -188,7 +188,7 @@ Line.prototype.getEuclideanLength();
 Line.prototype.hyperbolicDistance();
 // calculate the length of the hyperbolic line segment
 
-Line.prototype.getUnitCircleIntersects();
+Line.prototype.getEuclideanUnitCircleIntersects();
 // calculate the Euclidean line's points of intersection with the unit circle
 ```
 
