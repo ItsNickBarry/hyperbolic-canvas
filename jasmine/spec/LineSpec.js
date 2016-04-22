@@ -403,49 +403,115 @@ describe('Line', function () {
     });
 
     describe('including one ideal point', function () {
-      beforeEach(function () {
-        line = Line.givenTwoPoints(
-          HyperbolicCanvas.Point.random(),
-          HyperbolicCanvas.Point.givenIdealAngle(
-            HyperbolicCanvas.Angle.random()
-          )
-        );
+      describe('generated at random', function () {
+        beforeEach(function () {
+          line = Line.givenTwoPoints(
+            HyperbolicCanvas.Point.random(),
+            HyperbolicCanvas.Point.givenIdealAngle(
+              HyperbolicCanvas.Angle.random()
+            )
+          );
+        });
+
+        it('should be ideal', function () {
+          expect(line.isIdeal()).toBe(true);
+        });
+
+        it('should have hyperbolic length of infinity', function () {
+          expect(line.getHyperbolicLength()).toBe(Infinity);
+        });
+
+        it('should have geodesic Circle', function () {
+          expect(line.getHyperbolicGeodesic()).toBeA(HyperbolicCanvas.Circle);
+        });
       });
 
-      it('should have infinite hyperbolic length', function () {
-        expect(line.getHyperbolicLength()).toBe(Infinity);
-      });
+      describe('along diameter of plane', function () {
+        beforeEach(function () {
+          var p = HyperbolicCanvas.Point.random();
+          line = Line.givenTwoPoints(
+            p,
+            HyperbolicCanvas.Point.givenIdealAngle(p.getAngle())
+          );
+        });
 
-      it('should be ideal', function () {
-        expect(line.isIdeal()).toBe(true);
+        it('should be ideal', function () {
+          expect(line.isIdeal()).toBe(true);
+        });
+
+        it('should have hyperbolic length of infinity', function () {
+          expect(line.getHyperbolicLength()).toBe(Infinity);
+        });
+
+        it('should have geodesic Line', function () {
+          expect(line.getHyperbolicGeodesic()).toBeA(Line);
+        });
       });
     });
   });
 
   describe('given angles of ideal points', function () {
-    beforeEach(function () {
-      line = Line.givenAnglesOfIdealPoints(
-        HyperbolicCanvas.Angle.random(),
-        HyperbolicCanvas.Angle.random()
-      );
+    describe('generated at random', function () {
+      beforeEach(function () {
+        line = Line.givenAnglesOfIdealPoints(
+          HyperbolicCanvas.Angle.random(),
+          HyperbolicCanvas.Angle.random()
+        );
+      });
+
+      it('should have two ideal points', function () {
+        var p0 = line.getP0();
+        var p1 = line.getP1();
+
+        expect(p0).toBeA(HyperbolicCanvas.Point);
+        expect(p1).toBeA(HyperbolicCanvas.Point);
+        expect(p0.isIdeal()).toBe(true);
+        expect(p1.isIdeal()).toBe(true);
+      });
+
+      it('should be ideal', function () {
+        expect(line.isIdeal()).toBe(true);
+      });
+
+      it('should have hyperbolic length of infinity', function () {
+        expect(line.getHyperbolicLength()).toBe(Infinity);
+      });
+
+      it('should have geodesic Circle', function () {
+        expect(line.getHyperbolicGeodesic()).toBeA(HyperbolicCanvas.Circle);
+      });
     });
 
-    it('should have two ideal points', function () {
-      var p0 = line.getP0();
-      var p1 = line.getP1();
+    describe('along diameter of plane', function () {
+      beforeEach(function () {
+        var angle = HyperbolicCanvas.Angle.random();
+        line = Line.givenAnglesOfIdealPoints(
+          angle,
+          HyperbolicCanvas.Angle.opposite(angle)
+        );
+      });
 
-      expect(p0).toBeA(HyperbolicCanvas.Point);
-      expect(p1).toBeA(HyperbolicCanvas.Point);
-      expect(p0.isIdeal()).toBe(true);
-      expect(p1.isIdeal()).toBe(true);
-    });
+      it('should have two ideal points', function () {
+        var p0 = line.getP0();
+        var p1 = line.getP1();
 
-    it('should be ideal', function () {
-      expect(line.isIdeal()).toBe(true);
-    });
+        expect(p0).toBeA(HyperbolicCanvas.Point);
+        expect(p1).toBeA(HyperbolicCanvas.Point);
+        expect(p0.isIdeal()).toBe(true);
+        expect(p1.isIdeal()).toBe(true);
+      });
 
-    it('should have length of infinity', function () {
-      expect(line.getHyperbolicLength()).toBe(Infinity);
+      it('should be ideal', function () {
+        expect(line.isIdeal()).toBe(true);
+      });
+
+      it('should have hyperbolic length of infinity', function () {
+        expect(line.getHyperbolicLength()).toBe(Infinity);
+      });
+
+      it('should have geodesic Line', function () {
+        expect(line.getHyperbolicGeodesic()).toBeA(Line);
+      });
     });
   });
 
