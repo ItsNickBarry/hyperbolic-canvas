@@ -243,10 +243,10 @@ Circle.prototype.xAtY(y);
 Circle.prototype.yAtX(x);
 // calculate the y coordinates of the points on the circle with a given x coordinate
 
-Circle.prototype.tangentAtAngle(angle);
+Circle.prototype.euclideanTangentAtAngle(angle);
 // calculate the tangent line to the circle at a given angle
 
-Circle.prototype.tangentAtPoint(point);
+Circle.prototype.euclideanTangentAtPoint(point);
 // calculate the line which passes through a given point and is perpindicular to the line through the point and the circle's center
 
 Circle.prototype.getUnitCircleIntersects();

@@ -80,6 +80,16 @@ describe('Circle', function () {
       expect(circle.getUnitCircleIntersects()).toBe(false);
     });
 
+    it('should have Euclidean tangent line at given angle', function () {
+      var angle = HyperbolicCanvas.Angle.random();
+      expect(circle.euclideanTangentAtAngle(angle)).toBeA(HyperbolicCanvas.Line);
+    });
+
+    it('should have Euclidean tangent line at angle of given Point', function () {
+      var point = HyperbolicCanvas.Point.random();
+      expect(circle.euclideanTangentAtPoint(point)).toBeA(HyperbolicCanvas.Line);
+    });
+
     describe('when mapping angles from center to Points on edge', function () {
       var angle, point;
       describe('along Euclidean geodesics', function () {
@@ -295,9 +305,6 @@ describe('Circle', function () {
         });
       });
     });
-
-    // TODO (Euclidean | hyperbolic) tangent at (Euclidean | hyperbolic) (angle | Point)
-    //      potentially 8 different functions
   });
 
   describe('not on hyperbolic plane', function () {
