@@ -173,10 +173,10 @@ Line.prototype.xAtY(y);
 Line.prototype.yAtX(x);
 // return the y coordinate of the point on the Euclidean line at a given x coordinate
 
-Line.prototype.perpindicularBisector();
+Line.prototype.euclideanPerpindicularBisector();
 // return the line which is the perpindicular bisector of the Euclidean line segment
 
-Line.prototype.perpindicularSlope();
+Line.prototype.euclideanPerpindicularSlope();
 // return the opposite reciprocal of the slope of the Euclidean line
 
 Line.prototype.getEuclideanMidpoint();

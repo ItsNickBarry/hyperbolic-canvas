@@ -55,24 +55,24 @@ describe('Line', function () {
       });
 
       it('should have a perpindicular slope', function () {
-        expect(line.perpindicularSlope()).toBe(-1 / line.getSlope());
+        expect(line.euclideanPerpindicularSlope()).toBe(-1 / line.getSlope());
       });
 
       it('should have perpindicular lines', function () {
-        var perpindicularLine = line.perpindicularLineAt(
+        var perpindicularLine = line.euclideanPerpindicularLineAt(
           HyperbolicCanvas.Point.random()
         );
         expect(perpindicularLine).toBeA(Line);
-        expect(perpindicularLine.getSlope()).toBe(line.perpindicularSlope());
+        expect(perpindicularLine.getSlope()).toBe(line.euclideanPerpindicularSlope());
         expect(Line.euclideanIntersect(line, perpindicularLine)).toBeA(
           HyperbolicCanvas.Point
         );
       });
 
       it('should have a perpindicular bisector', function () {
-        var bisector = line.perpindicularBisector();
+        var bisector = line.euclideanPerpindicularBisector();
         expect(bisector).toBeA(Line);
-        expect(bisector.getSlope()).toBe(line.perpindicularSlope());
+        expect(bisector.getSlope()).toBe(line.euclideanPerpindicularSlope());
         var intersect = Line.euclideanIntersect(line, bisector);
         expect(line.containsPoint(intersect)).toBe(true);
         expect(bisector.containsPoint(intersect)).toBe(true);
@@ -111,7 +111,7 @@ describe('Line', function () {
       });
 
       it('should have a perpindicular slope', function () {
-        expect(line.perpindicularSlope()).toBe(Infinity);
+        expect(line.euclideanPerpindicularSlope()).toBe(Infinity);
       });
 
       it('should have x value of true for only one y value', function () {
@@ -130,7 +130,7 @@ describe('Line', function () {
       });
 
       it('should have a perpindicular slope', function () {
-        expect(line.perpindicularSlope()).toBe(0);
+        expect(line.euclideanPerpindicularSlope()).toBe(0);
       });
 
       it('should have single x value for any y value', function () {
@@ -169,12 +169,62 @@ describe('Line', function () {
           expect(line.getHyperbolicGeodesic()).toBeA(Line);
         });
 
+        it('should equal hyperbolic Line with same geodesic', function () {
+          var pointOnLine = line.getP0().hyperbolicDistantPoint(
+            line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
+            line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
+          );
+
+          var otherLine = Line.givenTwoPoints(line.getP1(), pointOnLine);
+
+          expect(line.hyperbolicEquals(otherLine)).toBe(true);
+        });
+
         it('should have Euclidean length', function () {
           expect(line.getEuclideanLength()).toBeARealNumber();
         });
 
         it('should have Euclidean midpoint', function () {
           expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
+        });
+
+        it('should have Euclidean intersects with Circle', function () {
+          var radius = Math.random() * 5;
+          var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+            line.getP0().euclideanDistantPoint(
+              radius * Math.random(),
+              HyperbolicCanvas.Angle.random()
+            ),
+            radius
+          );
+
+          var intersects = line.euclideanIntersectsWithCircle(circle);
+
+          expect(intersects).toBeA(Array);
+          expect(intersects.length).toBe(2);
+          expect(
+            Line.givenTwoPoints(intersects[0], intersects[1]).equals(line)
+          ).toBe(true);
+        });
+
+        it('should have hyperbolic intersects with Circle', function () {
+          var radius = Math.random() * 5;
+          var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+            line.getP0().hyperbolicDistantPoint(
+              radius * Math.random(),
+              HyperbolicCanvas.Angle.random()
+            ),
+            radius
+          );
+
+          var intersects = line.hyperbolicIntersectsWithCircle(circle)
+
+          expect(intersects).toBeA(Array);
+          expect(intersects.length).toBe(2);
+
+          expect(
+            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(line)
+          ).toBe(true);
         });
 
         it('should have hyperbolic length', function () {
@@ -244,12 +294,62 @@ describe('Line', function () {
           expect(line.getHyperbolicGeodesic()).toBeA(Line);
         });
 
+        it('should equal hyperbolic Line with same geodesic', function () {
+          var pointOnLine = line.getP0().hyperbolicDistantPoint(
+            line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
+            line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
+          );
+
+          var otherLine = Line.givenTwoPoints(line.getP1(), pointOnLine);
+
+          expect(line.hyperbolicEquals(otherLine)).toBe(true);
+        });
+
         it('should have Euclidean length', function () {
           expect(line.getEuclideanLength()).toBeARealNumber();
         });
 
         it('should have Euclidean midpoint', function () {
           expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
+        });
+
+        it('should have Euclidean intersects with Circle', function () {
+          var radius = Math.random() * 5;
+          var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+            line.getP0().euclideanDistantPoint(
+              radius * Math.random(),
+              HyperbolicCanvas.Angle.random()
+            ),
+            radius
+          );
+
+          var intersects = line.euclideanIntersectsWithCircle(circle);
+
+          expect(intersects).toBeA(Array);
+          expect(intersects.length).toBe(2);
+          expect(
+            Line.givenTwoPoints(intersects[0], intersects[1]).equals(line)
+          ).toBe(true);
+        });
+
+        it('should have hyperbolic intersects with Circle', function () {
+          var radius = Math.random() * 5;
+          var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+            line.getP0().hyperbolicDistantPoint(
+              radius * Math.random(),
+              HyperbolicCanvas.Angle.random()
+            ),
+            radius
+          );
+
+          var intersects = line.hyperbolicIntersectsWithCircle(circle)
+
+          expect(intersects).toBeA(Array);
+          expect(intersects.length).toBe(2);
+
+          expect(
+            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(line)
+          ).toBe(true);
         });
 
         it('should have hyperbolic length', function () {
@@ -313,12 +413,63 @@ describe('Line', function () {
         expect(line.getHyperbolicGeodesic()).toBeA(HyperbolicCanvas.Circle);
       });
 
+      it('should equal hyperbolic Line with same geodesic', function () {
+        var pointOnLine = line.getP0().hyperbolicDistantPoint(
+          line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
+          line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
+        );
+
+        var otherLine = Line.givenTwoPoints(line.getP1(), pointOnLine);
+
+        expect(line.hyperbolicEquals(otherLine)).toBe(true);
+      });
+
       it('should have Euclidean length', function () {
         expect(line.getEuclideanLength()).toBeARealNumber();
       });
 
       it('should have Euclidean midpoint', function () {
         expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
+      });
+
+      it('should have Euclidean intersects with Circle', function () {
+        var radius = Math.random() * 5;
+        var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+          line.getP0().euclideanDistantPoint(
+            radius * Math.random(),
+            HyperbolicCanvas.Angle.random()
+          ),
+          radius
+        );
+
+        var intersects = line.euclideanIntersectsWithCircle(circle);
+
+        expect(intersects).toBeA(Array);
+        expect(intersects.length).toBe(2);
+
+        expect(
+          Line.givenTwoPoints(intersects[0], intersects[1]).equals(line)
+        ).toBe(true);
+
+        it('should have hyperbolic intersects with Circle', function () {
+          var radius = Math.random() * 5;
+          var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+            line.getP0().hyperbolicDistantPoint(
+              radius * Math.random(),
+              HyperbolicCanvas.Angle.random()
+            ),
+            radius
+          );
+
+          var intersects = line.hyperbolicIntersectsWithCircle(circle)
+
+          expect(intersects).toBeA(Array);
+          expect(intersects.length).toBe(2);
+
+          expect(
+            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(line)
+          ).toBe(true);
+        });
       });
 
       it('should have hyperbolic length', function () {
