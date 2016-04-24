@@ -11,6 +11,46 @@
 (function() {
 
   /**
+   * Seed the random number generator before Jasmine is loaded
+   */
+   var randomSeed = function () {
+     return Math.random().toString(16).replace('0.', '');
+   };
+
+   var getQueryVariable = function (variable) {
+     // https://css-tricks.com/snippets/javascript/get-url-variables/
+     var query = window.location.search.substring(1);
+     var vars = query.split("&");
+     for (var i=0;i<vars.length;i++) {
+       var pair = vars[i].split("=");
+       if(pair[0] == variable){return pair[1];}
+     }
+     return(false);
+   };
+
+   var setSeed = function (seed) {
+     var queryString;
+     if (location.search) {
+       if (window.pageLoadSeed) {
+         queryString = location.search.replace(
+           /seed=\w*|\z/,
+           'seed=' + seed
+         );
+       } else {
+         queryString = location.search + '&seed=' + seed
+       }
+     } else {
+       queryString = '?seed=' + seed;
+     }
+     location.replace(queryString);
+   }
+
+   window.pageLoadSeed = getQueryVariable('seed');
+   Math.seed = Math.seedrandom(
+     window.pageLoadSeed ? window.pageLoadSeed : randomSeed()
+   );
+
+  /**
    * ## Require &amp; Instantiate
    *
    * Require Jasmine's core files. Specifically, this requires and attaches all of Jasmine's code to the `jasmine` reference.
@@ -72,6 +112,19 @@
     onRaiseExceptionsClick: function() { queryString.navigateWithNewParam("catch", !env.catchingExceptions()); },
     onThrowExpectationsClick: function() { queryString.navigateWithNewParam("throwFailures", !env.throwingExpectationFailures()); },
     onRandomClick: function() { queryString.navigateWithNewParam("random", !env.randomTests()); },
+    onReloadNewSeedClick: function () {
+      setSeed(randomSeed());
+    },
+    onReloadOldSeedClick: function () {
+      location.replace(location.search.replace(
+        /seed=\w*|\z/,
+        'seed=' + Math.seed
+      ));
+    },
+    onSeedSubmit: function (event) {
+      event.preventDefault();
+      setSeed(event.target.querySelector('#jasmine-seed-display').value);
+    },
     addToExistingQueryString: function(key, value) { return queryString.fullStringWithNewParam(key, value); },
     getContainer: function() { return document.body; },
     createElement: function() { return document.createElement.apply(document, arguments); },

@@ -42,9 +42,13 @@ jasmineRequire.HtmlReporter = function(j$) {
       onRaiseExceptionsClick = options.onRaiseExceptionsClick || function() {},
       onThrowExpectationsClick = options.onThrowExpectationsClick || function() {},
       onRandomClick = options.onRandomClick || function() {},
+      onReloadNewSeedClick = options.onReloadNewSeedClick || function() {},
+      onReloadOldSeedClick = options.onReloadOldSeedClick || function() {},
+      onSeedSubmit = options.onSeedSubmit || function() {},
       addToExistingQueryString = options.addToExistingQueryString || defaultQueryString,
       timer = options.timer || noopTimer,
       results = [],
+      runCount = options.runCount || 1,
       specsExecuted = 0,
       failureCount = 0,
       pendingSpecCount = 0,
@@ -159,42 +163,50 @@ jasmineRequire.HtmlReporter = function(j$) {
         createDom('div', { className: 'jasmine-run-options' },
           createDom('span', { className: 'jasmine-trigger' }, 'Options'),
           createDom('div', { className: 'jasmine-payload' },
-            createDom('div', { className: 'jasmine-exceptions' },
+            createDom('div', { className: 'jasmine-reload-new-seed' },
               createDom('input', {
-                className: 'jasmine-raise',
-                id: 'jasmine-raise-exceptions',
-                type: 'checkbox'
+                className: 'jasmine-reload-new-seed',
+                id: 'jasmine-reload-new-seed',
+                type: 'button',
+                value: '→'
               }),
-              createDom('label', { className: 'jasmine-label', 'for': 'jasmine-raise-exceptions' }, 'raise exceptions')),
-            createDom('div', { className: 'jasmine-throw-failures' },
+              createDom('label', { className: 'jasmine-label', 'for': 'jasmine-reload-new-seed' }, 'reload with new seed')),
+            createDom('div', { className: 'jasmine-reload-old-seed' },
               createDom('input', {
-                className: 'jasmine-throw',
-                id: 'jasmine-throw-failures',
-                type: 'checkbox'
+                className: 'jasmine-reload-old-seed',
+                id: 'jasmine-reload-old-seed',
+                type: 'button',
+                value: '→'
               }),
-              createDom('label', { className: 'jasmine-label', 'for': 'jasmine-throw-failures' }, 'stop spec on expectation failure')),
-            createDom('div', { className: 'jasmine-random-order' },
+              createDom('label', { className: 'jasmine-label', 'for': 'jasmine-reload-old-seed' }, 'reload with old seed')),
+            createDom('form', { className: 'jasmine-seed-display' },
               createDom('input', {
-                className: 'jasmine-random',
-                id: 'jasmine-random-order',
-                type: 'checkbox'
+                className: 'jasmine-seed-display-submit',
+                id: 'jasmine-seed-display-submit',
+                type: 'submit',
+                value: '→'
               }),
-              createDom('label', { className: 'jasmine-label', 'for': 'jasmine-random-order' }, 'run tests in random order'))
+              createDom('input', {
+                className: 'jasmine-seed-display',
+                id: 'jasmine-seed-display',
+                type: 'text',
+                placeholder: 'new seed'
+              }),
+              createDom('label', { className: 'jasmine-label', 'for': 'jasmine-seed-display' }))
           )
         ));
 
-      var raiseCheckbox = find('#jasmine-raise-exceptions');
+      var reloadNewSeedButton = find('#jasmine-reload-new-seed');
+      reloadNewSeedButton.onclick = onReloadNewSeedClick;
 
-      raiseCheckbox.checked = !env.catchingExceptions();
-      raiseCheckbox.onclick = onRaiseExceptionsClick;
+      var reloadOldSeedButton = find('#jasmine-reload-old-seed');
+      reloadOldSeedButton.onclick = onReloadOldSeedClick;
 
-      var throwCheckbox = find('#jasmine-throw-failures');
-      throwCheckbox.checked = env.throwingExpectationFailures();
-      throwCheckbox.onclick = onThrowExpectationsClick;
+      var seedDisplayForm = find('form.jasmine-seed-display');
+      seedDisplayForm.onsubmit = onSeedSubmit;
 
-      var randomCheckbox = find('#jasmine-random-order');
-      randomCheckbox.checked = env.randomTests();
-      randomCheckbox.onclick = onRandomClick;
+      var seedDisplay = find('#jasmine-seed-display');
+      seedDisplay.value = Math.seed;
 
       var optionsMenu = find('.jasmine-run-options'),
           optionsTrigger = optionsMenu.querySelector('.jasmine-trigger'),

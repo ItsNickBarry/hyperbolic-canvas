@@ -38,10 +38,6 @@
     #jasmine-modifications > * {
       padding: 0px 9px 0px 9px;
     }
-    #jasmine-modifications .content {
-      display: flex;
-      flex-flow: row;
-    }
     #jasmine-modifications .text {
       padding-right: 10px;
     }
@@ -51,64 +47,33 @@
     a:hover {
       color: #8A4182;
     }
+
+    /* options */
+    #jasmine-reload-new-seed,
+    #jasmine-reload-old-seed,
+    #jasmine-seed-display-submit
+    {
+      background: none;
+      border: none;
+      color: #8A4182;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0px;
+      padding: 0px;
+    }
+    #jasmine-reload-new-seed:hover,
+    #jasmine-reload-old-seed:hover,
+    #jasmine-seed-display-submit:hover
+    {
+      color: #007069;
+    }
+
   </style>
 
+  <!-- load seeded random number generator -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.0/seedrandom.min.js"></script>
-  <script type="text/javascript">
-    var randomSeed = function () {
-      return Math.random().toString(16).replace('0.', '')
-    };
 
-    var getQueryVariable = function (variable) {
-      // https://css-tricks.com/snippets/javascript/get-url-variables/
-      var query = window.location.search.substring(1);
-      var vars = query.split("&");
-      for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
-      }
-      return(false);
-    }
-
-    window.pageLoadSeed = getQueryVariable('seed');
-    Math.seed = Math.seedrandom(
-      window.pageLoadSeed ? window.pageLoadSeed : randomSeed()
-    );
-
-    var onDOMContentLoaded = function (event) {
-      document.querySelector('.seed-display').value = Math.seed;
-      document.querySelector('.reload.new-seed').addEventListener('click', function () {
-        var newSeed = randomSeed();
-        var string;
-        if (location.search) {
-          if (window.pageLoadSeed) {
-            string = location.search.replace(
-              /seed=\w*|\z/,
-              'seed=' + newSeed
-            );
-          } else {
-            string = location.search + '&seed=' + newSeed
-          }
-        } else {
-          string = '?seed=' + newSeed;
-        }
-        location.replace(string);
-      });
-      document.querySelector('.reload.old-seed').addEventListener('click', function () {
-        location.replace(location.search.replace(
-          /seed=\w*|\z/,
-          'seed=' + Math.seed
-        ));
-      });
-    };
-
-    if (document.readyState != 'loading'){
-      onDOMContentLoaded();
-    } else {
-      document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
-    }
-  </script>
-
+  <!-- load Jasmine -->
   <script src="lib/jasmine-2.4.1/jasmine.js"></script>
   <script src="lib/jasmine-2.4.1/jasmine-html.js"></script>
   <script src="lib/jasmine-2.4.1/boot.js"></script>
@@ -132,7 +97,6 @@
   <script src="spec/LineSpec.js"></script>
   <script src="spec/CircleSpec.js"></script>
   <script src="spec/PolygonSpec.js"></script>
-
 </head>
 
 <body>
@@ -147,12 +111,6 @@
         <p>
           Uses <a href="https://github.com/davidbau/seedrandom">seedrandom.js</a> by David Bau.
         </p>
-      </div>
-      <div class="seed">
-        <button class="reload old-seed">Reload With Old Seed</button>
-        <button class="reload new-seed">Reload With New Seed</button>
-        <br>
-        <output class="seed-display" name="seed"></output>
       </div>
     </div>
   </div>
