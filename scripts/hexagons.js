@@ -12,7 +12,7 @@
     var radius = .9;
     var ringCount = 4;
     var rotation = 0;
-    var rotationDenominator = Math.pow(sideCount, 4) * 3;
+    var rotationDenominator = Math.pow(sideCount, 4) * 6;
     var rotationInterval = Math.TAU / rotationDenominator;
 
     var render = function () {
@@ -29,7 +29,7 @@
             i * radius * 2,
             Math.TAU / sideCount * j + (i % 2 === 0 ? rotation : rotation * -1)
           );
-          var gon = HyperbolicCanvas.Polygon.givenNCenterRadius(
+          var gon = HyperbolicCanvas.Polygon.givenHyperbolicNCenterRadius(
             sideCount,
             center,
             radius,

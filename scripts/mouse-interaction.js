@@ -17,7 +17,7 @@
     var render = function (event) {
       canvas.clear();
 
-      var polygon = HyperbolicCanvas.Polygon.givenNCenterRadius(n, location, radius, rotation);
+      var polygon = HyperbolicCanvas.Polygon.givenHyperbolicNCenterRadius(n, location, radius, rotation);
 
       if (polygon) {
         var path = canvas.pathForHyperbolic(polygon);

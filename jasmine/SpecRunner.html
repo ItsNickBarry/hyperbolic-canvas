@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="lib/jasmine-2.4.1/jasmine.css">
 
   <style media="screen">
+    /* jasmine: #8A4182 */
     /* pass: #007069 */
     /* fail: #CA3A11 */
     /* background: rgb(238, 238, 238) */
@@ -34,13 +35,21 @@
       color: rgb(51, 51, 51);
       font-family: Monaco, "Lucida Console", monospace;
     }
-    #jasmine-modifications .content {
+    #jasmine-modifications > * {
       padding: 0px 9px 0px 9px;
+    }
+    #jasmine-modifications .content {
       display: flex;
       flex-flow: row;
     }
     #jasmine-modifications .text {
       padding-right: 10px;
+    }
+    a {
+      color: #007069;
+    }
+    a:hover {
+      color: #8A4182;
     }
   </style>
 
@@ -60,7 +69,7 @@
       }
       return(false);
     }
-    
+
     window.pageLoadSeed = getQueryVariable('seed');
     Math.seed = Math.seedrandom(
       window.pageLoadSeed ? window.pageLoadSeed : randomSeed()
@@ -129,6 +138,7 @@
 <body>
   <div id="jasmine-modifications">
     <h1>Hyperbolic Canvas Specifications</h1>
+    <a href="../index.html">back</a>
     <div class="content">
       <div class="text">
         <p>
@@ -141,7 +151,8 @@
       <div class="seed">
         <button class="reload old-seed">Reload With Old Seed</button>
         <button class="reload new-seed">Reload With New Seed</button>
-        <input class="seed-display" name="seed"></input>
+        <br>
+        <output class="seed-display" name="seed"></output>
       </div>
     </div>
   </div>

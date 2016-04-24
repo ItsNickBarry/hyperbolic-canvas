@@ -262,7 +262,7 @@ Factory methods:
 Polygon.givenVertices(vertices);
 // generate a polygon from a given ordered array of Point objects
 
-Polygon.givenNCenterRadius(n, center, radius);
+Polygon.givenHyperbolicNCenterRadius(n, center, radius);
 // generate a regular polygon with n sides, where each vertex is radius distance from the center Point
 ```
 
