@@ -1,7 +1,5 @@
-// number of times to run specs if set to repeat
-jasmine.testRunCount = 10;
 // display visualization of specs at top of page or not
-jasmine.displaySymbols = jasmine.testRunCount <= 10;
+jasmine.displaySymbols = jasmine.runCount <= 10;
 
 const EXPECTED_ACCURACY = 1e-6;
 

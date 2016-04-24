@@ -11,7 +11,7 @@ describe('Jasmine', function () {
   }, true);
 
   it('should have testRunCount property', function () {
-    expect(jasmine.testRunCount).toBeARealNumber();
+    expect(jasmine.runCount).toBeARealNumber();
   }, true);
 
   it('should generate multiple unique numbers for a single spec', function () {

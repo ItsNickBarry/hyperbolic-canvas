@@ -44,6 +44,7 @@ jasmineRequire.HtmlReporter = function(j$) {
       onRandomClick = options.onRandomClick || function() {},
       onReloadNewSeedClick = options.onReloadNewSeedClick || function() {},
       onReloadOldSeedClick = options.onReloadOldSeedClick || function() {},
+      onRunCountSubmit = options.onRunCountSubmit || function() {},
       onSeedSubmit = options.onSeedSubmit || function() {},
       addToExistingQueryString = options.addToExistingQueryString || defaultQueryString,
       timer = options.timer || noopTimer,
@@ -165,7 +166,6 @@ jasmineRequire.HtmlReporter = function(j$) {
           createDom('div', { className: 'jasmine-payload' },
             createDom('div', { className: 'jasmine-reload-new-seed' },
               createDom('input', {
-                className: 'jasmine-reload-new-seed',
                 id: 'jasmine-reload-new-seed',
                 type: 'button',
                 value: '→'
@@ -173,7 +173,6 @@ jasmineRequire.HtmlReporter = function(j$) {
               createDom('label', { className: 'jasmine-label', 'for': 'jasmine-reload-new-seed' }, 'reload with new seed')),
             createDom('div', { className: 'jasmine-reload-old-seed' },
               createDom('input', {
-                className: 'jasmine-reload-old-seed',
                 id: 'jasmine-reload-old-seed',
                 type: 'button',
                 value: '→'
@@ -181,18 +180,29 @@ jasmineRequire.HtmlReporter = function(j$) {
               createDom('label', { className: 'jasmine-label', 'for': 'jasmine-reload-old-seed' }, 'reload with old seed')),
             createDom('form', { className: 'jasmine-seed-display' },
               createDom('input', {
-                className: 'jasmine-seed-display-submit',
+                className: 'submit',
                 id: 'jasmine-seed-display-submit',
                 type: 'submit',
                 value: '→'
               }),
               createDom('input', {
-                className: 'jasmine-seed-display',
                 id: 'jasmine-seed-display',
                 type: 'text',
                 placeholder: 'new seed'
               }),
-              createDom('label', { className: 'jasmine-label', 'for': 'jasmine-seed-display' }))
+              createDom('label', { className: 'jasmine-label', 'for': 'jasmine-seed-display' })),
+            createDom('form', { className: 'jasmine-run-count-display' },
+              createDom('input', {
+                className: 'submit',
+                id: 'jasmine-run-count-display-submit',
+                type: 'submit',
+                value: '→'
+              }),
+              createDom('input', {
+                id: 'jasmine-run-count-display',
+                type: 'text',
+                placeholder: 'set run count'
+              }))
           )
         ));
 
@@ -201,6 +211,12 @@ jasmineRequire.HtmlReporter = function(j$) {
 
       var reloadOldSeedButton = find('#jasmine-reload-old-seed');
       reloadOldSeedButton.onclick = onReloadOldSeedClick;
+      
+      var runCountDisplayForm = find('form.jasmine-run-count-display');
+      runCountDisplayForm.onsubmit = onRunCountSubmit;
+
+      var runCountDisplay = find('#jasmine-run-count-display');
+      runCountDisplay.value = jasmine.runCount;
 
       var seedDisplayForm = find('form.jasmine-seed-display');
       seedDisplayForm.onsubmit = onSeedSubmit;

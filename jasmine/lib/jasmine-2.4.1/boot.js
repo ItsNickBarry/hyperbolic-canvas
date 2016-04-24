@@ -9,9 +9,15 @@
  */
 
 (function() {
+  /**
+   * ## Require &amp; Instantiate
+   *
+   * Require Jasmine's core files. Specifically, this requires and attaches all of Jasmine's code to the `jasmine` reference.
+   */
+  window.jasmine = jasmineRequire.core(jasmineRequire);
 
   /**
-   * Seed the random number generator before Jasmine is loaded
+   * Seed the random number generator, setup helper functions, and attach variables to Jasmine
    */
    var randomSeed = function () {
      return Math.random().toString(16).replace('0.', '');
@@ -28,34 +34,30 @@
      return(false);
    };
 
-   var setSeed = function (seed) {
+   var setQueryVariable = function (variable, value) {
      var queryString;
+     var regexp = new RegExp(variable + '=\\w*|\\z');
      if (location.search) {
-       if (window.pageLoadSeed) {
+       if (getQueryVariable(variable)) {
          queryString = location.search.replace(
-           /seed=\w*|\z/,
-           'seed=' + seed
+           regexp,
+           variable + '=' + value
          );
        } else {
-         queryString = location.search + '&seed=' + seed
+         queryString = location.search + '&' + variable + '=' + value
        }
      } else {
-       queryString = '?seed=' + seed;
+       queryString = '?' + variable + '=' + value;
      }
      location.replace(queryString);
-   }
+   };
 
    window.pageLoadSeed = getQueryVariable('seed');
    Math.seed = Math.seedrandom(
      window.pageLoadSeed ? window.pageLoadSeed : randomSeed()
    );
-
-  /**
-   * ## Require &amp; Instantiate
-   *
-   * Require Jasmine's core files. Specifically, this requires and attaches all of Jasmine's code to the `jasmine` reference.
-   */
-  window.jasmine = jasmineRequire.core(jasmineRequire);
+   jasmine.pageLoadSeed = pageLoadSeed;
+   jasmine.runCount = parseInt(getQueryVariable('run-count') || 1);
 
   /**
    * Since this is being run in a browser and the results should populate to an HTML page, require the HTML-specific Jasmine code, injecting the same reference.
@@ -113,17 +115,24 @@
     onThrowExpectationsClick: function() { queryString.navigateWithNewParam("throwFailures", !env.throwingExpectationFailures()); },
     onRandomClick: function() { queryString.navigateWithNewParam("random", !env.randomTests()); },
     onReloadNewSeedClick: function () {
-      setSeed(randomSeed());
+      setQueryVariable('seed', randomSeed());
     },
     onReloadOldSeedClick: function () {
-      location.replace(location.search.replace(
-        /seed=\w*|\z/,
-        'seed=' + Math.seed
-      ));
+      setQueryVariable('seed', Math.seed);
+    },
+    onRunCountSubmit: function (event) {
+      event.preventDefault();
+      setQueryVariable(
+        'run-count',
+        event.target.querySelector('#jasmine-run-count-display').value
+      );
     },
     onSeedSubmit: function (event) {
       event.preventDefault();
-      setSeed(event.target.querySelector('#jasmine-seed-display').value);
+      setQueryVariable(
+        'seed',
+        event.target.querySelector('#jasmine-seed-display').value
+      );
     },
     addToExistingQueryString: function(key, value) { return queryString.fullStringWithNewParam(key, value); },
     getContainer: function() { return document.body; },
