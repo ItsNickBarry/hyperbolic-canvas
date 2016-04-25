@@ -21,9 +21,18 @@
 
       if (polygon) {
         var path = canvas.pathForHyperbolic(polygon);
-        canvas.fill(path);
-        // path = canvas.pathForHyperbolic(polygon, { extendBoundaries: true });
-        canvas.stroke(path);
+
+        polygon.getVertices().forEach(function (v) {
+          var angle = location.hyperbolicAngleTo(v);
+          path = canvas.pathForHyperbolic(HyperbolicCanvas.Polygon.givenHyperbolicNCenterRadius(
+            n,
+            location.hyperbolicDistantPoint(radius * 1.5, angle),
+            radius / 2,
+            angle + rotation
+          ), { basePath: path });
+        });
+
+        canvas.fillAndStroke(path);
       }
       rotation += rotationInterval;
       if (rotation > Math.TAU) {

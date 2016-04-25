@@ -21,9 +21,9 @@
         var path = canvas.pathForHyperbolic(polygon);
         canvas.fill(path);
 
-        path = canvas.pathForHyperbolic(polygon, { extendBoundaries: true });
+        path = canvas.pathForHyperbolic(polygon, { infinite: true });
         canvas.stroke(path);
-        
+
         vertices.pop();
 
       } else if (vertices.length == 1) {
