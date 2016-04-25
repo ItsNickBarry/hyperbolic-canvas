@@ -9,6 +9,7 @@
  */
 
 (function() {
+
   /**
    * ## Require &amp; Instantiate
    *
@@ -19,45 +20,64 @@
   /**
    * Seed the random number generator, setup helper functions, and attach variables to Jasmine
    */
-   var randomSeed = function () {
-     return Math.random().toString(16).replace('0.', '');
-   };
+  var getQueryVariable = function (variable) {
+    // https://css-tricks.com/snippets/javascript/get-url-variables/
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+      if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+  };
 
-   var getQueryVariable = function (variable) {
-     // https://css-tricks.com/snippets/javascript/get-url-variables/
-     var query = window.location.search.substring(1);
-     var vars = query.split("&");
-     for (var i=0;i<vars.length;i++) {
-       var pair = vars[i].split("=");
-       if(pair[0] == variable){return pair[1];}
-     }
-     return(false);
-   };
+  var setQueryVariable = function (variable, value) {
+    var queryString;
+    var regexp = new RegExp(variable + '=\\w*|\\z');
+    if (!value) {
+      queryString = location.search.replace(
+        regexp,
+        ''
+      );
+    } else if (location.search) {
+      if (getQueryVariable(variable)) {
+        queryString = location.search.replace(
+          regexp,
+          variable + '=' + value
+        );
+      } else {
+        queryString = location.search + '&' + variable + '=' + value
+      }
+    } else {
+      queryString = '?' + variable + '=' + value;
+    }
+    location.replace(queryString);
+  };
 
-   var setQueryVariable = function (variable, value) {
-     var queryString;
-     var regexp = new RegExp(variable + '=\\w*|\\z');
-     if (location.search) {
-       if (getQueryVariable(variable)) {
-         queryString = location.search.replace(
-           regexp,
-           variable + '=' + value
-         );
-       } else {
-         queryString = location.search + '&' + variable + '=' + value
-       }
-     } else {
-       queryString = '?' + variable + '=' + value;
-     }
-     location.replace(queryString);
-   };
+  var getQueryVariable = function (variable) {
+    // https://css-tricks.com/snippets/javascript/get-url-variables/
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+      if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+  };
 
-   window.pageLoadSeed = getQueryVariable('seed');
-   Math.seed = Math.seedrandom(
-     window.pageLoadSeed ? window.pageLoadSeed : randomSeed()
-   );
-   jasmine.pageLoadSeed = pageLoadSeed;
-   jasmine.runCount = parseInt(getQueryVariable('run-count') || 1);
+  var randomSeed = function () {
+    return Math.random().toString(16).slice(-8);
+  };
+
+  var pageLoadSeed = getQueryVariable('seed');
+  console.log('page loaded with seed: ' + pageLoadSeed);
+
+  Math.seed = Math.seedrandom(
+    pageLoadSeed ? pageLoadSeed : randomSeed()
+  );
+
+  console.log('set seed to: ' + Math.seed);
+  jasmine.runCount = parseInt(getQueryVariable('run-count') || 1);
 
   /**
    * Since this is being run in a browser and the results should populate to an HTML page, require the HTML-specific Jasmine code, injecting the same reference.
@@ -115,7 +135,7 @@
     onThrowExpectationsClick: function() { queryString.navigateWithNewParam("throwFailures", !env.throwingExpectationFailures()); },
     onRandomClick: function() { queryString.navigateWithNewParam("random", !env.randomTests()); },
     onReloadNewSeedClick: function () {
-      setQueryVariable('seed', randomSeed());
+      setQueryVariable('seed', false);
     },
     onReloadOldSeedClick: function () {
       setQueryVariable('seed', Math.seed);

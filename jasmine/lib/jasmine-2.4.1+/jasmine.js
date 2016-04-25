@@ -458,7 +458,7 @@ if (typeof window == void 0 && typeof exports == 'object') {
 getJasmineRequireObj().Order = function() {
   function Order(options) {
     this.random = 'random' in options ? options.random : true;
-    var seed = this.seed = options.seed || generateSeed();
+    var seed = this.seed = options.seed || Math.seed;
     this.sort = this.random ? randomOrder : naturalOrder;
 
     function naturalOrder(items) {
@@ -473,9 +473,9 @@ getJasmineRequireObj().Order = function() {
       return copy;
     }
 
-    function generateSeed() {
-      return String(Math.random()).slice(-5);
-    }
+    // function generateSeed() {
+    //   return String(Math.random()).slice(-5);
+    // }
 
     // Bob Jenkins One-at-a-Time Hash algorithm is a non-cryptographic hash function
     // used to get a different output when the key changes slighly.
