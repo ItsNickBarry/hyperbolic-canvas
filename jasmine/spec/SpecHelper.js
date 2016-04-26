@@ -9,7 +9,8 @@ beforeEach(function () {
       return {
         compare: function (actual, expected) {
           return {
-            pass: Math.abs(actual - expected) < EXPECTED_ACCURACY ||
+            pass: actual === expected ||
+                  Math.abs(actual - expected) < EXPECTED_ACCURACY ||
                   isNaN(actual) && isNaN(expected)
           }
         }
