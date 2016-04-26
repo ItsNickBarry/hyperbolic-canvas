@@ -248,14 +248,17 @@ describe('Line', function () {
           expect(angle0).toApproximate(angle1);
         });
 
-        it('should have ideal Points', function () {
+        it('should have ideal Points and Line', function () {
           var idealPoints = line.getIdealPoints();
+          var idealLine = line.getIdealLine();
           expect(idealPoints).toBeA(Array);
           expect(idealPoints.length).toBe(2);
           idealPoints.forEach(function (point) {
             expect(point).toBeA(HyperbolicCanvas.Point);
             expect(point.isIdeal()).toBe(true);
           });
+          expect(idealLine.getP0()).toBe(idealPoints[0]);
+          expect(idealLine.getP1()).toBe(idealPoints[1]);
         });
 
         it('should have Euclidean unit circle intersects with opposite angles', function () {
@@ -373,14 +376,17 @@ describe('Line', function () {
           expect(angle0).toApproximate(angle1);
         });
 
-        it('should have ideal Points', function () {
+        it('should have ideal Points and Line', function () {
           var idealPoints = line.getIdealPoints();
+          var idealLine = line.getIdealLine();
           expect(idealPoints).toBeA(Array);
           expect(idealPoints.length).toBe(2);
           idealPoints.forEach(function (point) {
             expect(point).toBeA(HyperbolicCanvas.Point);
             expect(point.isIdeal()).toBe(true);
           });
+          expect(idealLine.getP0()).toBe(idealPoints[0]);
+          expect(idealLine.getP1()).toBe(idealPoints[1]);
         });
 
         it('should have Euclidean unit circle intersects with opposite angles', function () {
@@ -493,14 +499,17 @@ describe('Line', function () {
         expect(angle0).toApproximate(angle1);
       });
 
-      it('should have ideal Points', function () {
+      it('should have ideal Points and Line', function () {
         var idealPoints = line.getIdealPoints();
+        var idealLine = line.getIdealLine();
         expect(idealPoints).toBeA(Array);
         expect(idealPoints.length).toBe(2);
         idealPoints.forEach(function (point) {
           expect(point).toBeA(HyperbolicCanvas.Point);
           expect(point.isIdeal()).toBe(true);
         });
+        expect(idealLine.getP0()).toBe(idealPoints[0]);
+        expect(idealLine.getP1()).toBe(idealPoints[1]);
       });
 
       it('should have Euclidean unit circle intersects', function () {

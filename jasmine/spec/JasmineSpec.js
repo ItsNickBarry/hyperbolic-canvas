@@ -8,7 +8,7 @@ describe('Jasmine', function () {
 
   it('should have defined random seed on the Math object', function () {
     expect(Math.seed).toBeDefined();
-  });
+  }, true);
 
   it('should have displaySymbols property', function () {
     expect(jasmine.displaySymbols).toBeA(Boolean);
