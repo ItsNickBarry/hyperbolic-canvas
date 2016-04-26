@@ -28,8 +28,8 @@
     var heading =  0;
     var headingIncrement = Math.TAU / 100;
     // why does initial velocity have to be > 0 to make bullets follow right heading?
-    var velocity = .001;
-    var velocityIncrement = .001;
+    var velocity = .002;
+    var velocityIncrement = .002;
     var maxVelocity = .05;
 
     var wingAngle = Math.TAU / 3;
@@ -122,7 +122,14 @@
       drawRangeCircles();
     };
 
+    var shouldRender = true;
     var fn = function () {
+      if (shouldRender) {
+        shouldRender ^= true;
+        requestAnimationFrame(fn);
+        return;
+      }
+      shouldRender ^= true;
       boost = 16 in keysDown ? 3 : 1;
 
   		if (37 in keysDown || 65 in keysDown) {
