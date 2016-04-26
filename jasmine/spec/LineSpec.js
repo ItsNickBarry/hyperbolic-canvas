@@ -195,7 +195,7 @@ describe('Line', function () {
               radius * Math.random(),
               HyperbolicCanvas.Angle.random()
             ),
-            radius
+            radius + 1
           );
 
           var intersects = line.euclideanIntersectsWithCircle(circle);
@@ -214,16 +214,19 @@ describe('Line', function () {
               radius * Math.random(),
               HyperbolicCanvas.Angle.random()
             ),
-            radius
+            radius + 1
           );
 
-          var intersects = line.hyperbolicIntersectsWithCircle(circle)
+          var intersects = line.hyperbolicIntersectsWithCircle(circle);
 
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
 
           expect(
-            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(line)
+            Line.givenTwoPoints(
+              intersects[0],
+              intersects[1]
+            ).hyperbolicEquals(line)
           ).toBe(true);
         });
 
@@ -320,7 +323,7 @@ describe('Line', function () {
               radius * Math.random(),
               HyperbolicCanvas.Angle.random()
             ),
-            radius
+            radius + 1
           );
 
           var intersects = line.euclideanIntersectsWithCircle(circle);
@@ -339,7 +342,7 @@ describe('Line', function () {
               radius * Math.random(),
               HyperbolicCanvas.Angle.random()
             ),
-            radius
+            radius + 1
           );
 
           var intersects = line.hyperbolicIntersectsWithCircle(circle)
@@ -458,7 +461,7 @@ describe('Line', function () {
               radius * Math.random(),
               HyperbolicCanvas.Angle.random()
             ),
-            radius
+            radius + 1
           );
 
           var intersects = line.hyperbolicIntersectsWithCircle(circle)

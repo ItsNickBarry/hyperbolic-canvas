@@ -138,7 +138,7 @@ describe('Circle', function () {
         describe('within Euclidean radius of center', function () {
           beforeEach(function () {
             x = euclideanCenter.getX() +
-                euclideanRadius * Math.random() * (Math.random() - .5 ? 1 : -1);
+                euclideanRadius * (Math.random() - .5);
           });
 
           it('should have two y values', function () {
@@ -224,7 +224,7 @@ describe('Circle', function () {
         describe('within Euclidean radius of center', function () {
           beforeEach(function () {
             y = euclideanCenter.getY() +
-                euclideanRadius * Math.random() * (Math.random() > .5 ? 1 : -1);
+                euclideanRadius * (Math.random() - .5);
           });
 
           it('should have two x values', function () {
