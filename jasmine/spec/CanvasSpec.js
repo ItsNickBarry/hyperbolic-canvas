@@ -140,5 +140,76 @@ describe('Canvas', function () {
     });
   });
 
-  // TODO should return Path2D when trying for various objects
+  describe('when generating path', function () {
+    var object;
+    beforeEach(function () {
+      object = HyperbolicCanvas.Line.givenTwoPoints(
+        HyperbolicCanvas.Point.random(),
+        HyperbolicCanvas.Point.random()
+      );
+    });
+
+    it('should return CanvasRenderingContext2D by default', function () {
+      expect(
+        canvas.pathForEuclidean(object)
+      ).toBeA(CanvasRenderingContext2D);
+      expect(
+        canvas.pathForHyperbolic(object)
+      ).toBeA(CanvasRenderingContext2D);
+    }, true);
+
+    describe('with Path2D available to current browser', function () {
+      it('should return input if given', function () {
+        var options = { path2D: true, path: new Path2D() };
+        expect(
+          canvas.pathForEuclidean(object, options)
+        ).toBe(options.path);
+        expect(
+          canvas.pathForHyperbolic(object, options)
+        ).toBe(options.path);
+      }, true);
+
+      it('should return Path2D if requested', function () {
+        var options = { path2D: true, path: false };
+        expect(
+          canvas.pathForEuclidean(object, options)
+        ).toBeA(Path2D);
+        expect(
+          canvas.pathForHyperbolic(object, options)
+        ).toBeA(Path2D);
+      }, true);
+    });
+
+    describe('with Path2D unavailable to current browser', function () {
+      var _Path2D;
+      beforeAll(function () {
+        _Path2D = window.Path2D;
+        window.Path2D = undefined;
+      });
+
+      afterAll(function () {
+        window.Path2D = _Path2D;
+      });
+
+      it('should return input if given', function () {
+        var options = { path2D: false, path: canvas.getContext() };
+        expect(
+          canvas.pathForEuclidean(object, options)
+        ).toBe(options.path);
+        expect(
+          canvas.pathForHyperbolic(object, options)
+        ).toBe(options.path);
+      }, true);
+
+      it('should return CanvasRenderingContext2D if Path2D is requested', function () {
+        var options = { path2D: true, path: false };
+        expect(
+          canvas.pathForEuclidean(object, options)
+        ).toBeA(CanvasRenderingContext2D);
+        expect(
+          canvas.pathForHyperbolic(object, options)
+        ).toBeA(CanvasRenderingContext2D);
+      }, true);
+    });
+  });
 });

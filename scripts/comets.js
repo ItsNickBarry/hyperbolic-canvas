@@ -16,7 +16,7 @@
       var oldComets = comets;
       var newComets = [];
 
-      var path = new Path2D();
+      var path;
 
       for (var i = 0; i < oldComets.length; i++) {
         comet = oldComets[i];
@@ -27,7 +27,7 @@
 
           newComets.push(newComet);
           var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(newComet, .02);
-          path = canvas.pathForHyperbolic(circle, { basePath: path });
+          path = canvas.pathForHyperbolic(circle, { path2D: true, path: path });
         }
       }
       canvas.fillAndStroke(path);

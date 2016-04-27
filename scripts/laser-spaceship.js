@@ -25,10 +25,9 @@
 
     canvas.setContextProperties(defaultProperties);
 
-    var heading =  0;
+    var heading = HyperbolicCanvas.Angle.random();
     var headingIncrement = Math.TAU / 100;
-    // why does initial velocity have to be > 0 to make bullets follow right heading?
-    var velocity = .002;
+    var velocity = 0;
     var velocityIncrement = .002;
     var maxVelocity = .05;
 
@@ -41,7 +40,10 @@
     var bulletCooldown = 200;
 
 
-    var location = HyperbolicCanvas.Point.givenCoordinates(-.5, .5);
+    var location = HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
+      .5,
+      HyperbolicCanvas.Angle.opposite(heading)
+    );
     var front;
 
     var drawShip = function () {
@@ -84,10 +86,12 @@
 
         path = canvas.pathForHyperbolic(
           HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(bullet, .01),
-          { basePath: path }
+          { path2D: true, path: path }
         );
       }
-      canvas.fill(path);
+      if(path){
+        canvas.fill(path);
+      }
     };
 
     var drawRangeCircles = function () {

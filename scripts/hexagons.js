@@ -44,7 +44,7 @@
 
       var path;
       polygons.forEach(function (polygon) {
-        path = canvas.pathForHyperbolic(polygon, { basePath: path });
+        path = canvas.pathForHyperbolic(polygon, { path2D: true, path: path });
       });
       canvas.fill(path);
 

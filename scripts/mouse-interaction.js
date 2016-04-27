@@ -29,7 +29,7 @@
             location.hyperbolicDistantPoint(radius * 1.5, angle),
             radius / 2,
             angle + rotation
-          ), { basePath: path });
+          ), { path2D: true, path: path });
         });
 
         canvas.fillAndStroke(path);
