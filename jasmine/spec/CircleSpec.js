@@ -80,6 +80,22 @@ describe('Circle', function () {
       expect(circle.getUnitCircleIntersects()).toBe(false);
     });
 
+    it('should contain Point within its radius', function () {
+      var point = circle.getEuclideanCenter().euclideanDistantPoint(
+        circle.getEuclideanRadius() * .9 * Math.random(),
+        HyperbolicCanvas.Angle.random()
+      );
+      expect(circle.containsPoint(point)).toBe(true);
+    });
+
+    it('should include Point on its circumference', function () {
+      var point = circle.getEuclideanCenter().euclideanDistantPoint(
+        circle.getEuclideanRadius(),
+        HyperbolicCanvas.Angle.random()
+      );
+      expect(circle.includesPoint(point)).toBe(true);
+    });
+
     it('should have Euclidean tangent line at given angle', function () {
       var angle = HyperbolicCanvas.Angle.random();
       expect(circle.euclideanTangentAtAngle(angle)).toBeA(HyperbolicCanvas.Line);

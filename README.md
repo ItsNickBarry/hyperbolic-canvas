@@ -161,7 +161,7 @@ Instance functions:
 Line.prototype.getHyperbolicGeodesic();
 // returns the circle whose arc matches the hyperbolic geodesic through the line's points
 
-Line.prototype.containsPoint(point);
+Line.prototype.euclideanIncludesPoint(point);
 // determine whether a point lies on the Euclidean line
 
 Line.prototype.equals(otherLine);
