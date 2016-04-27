@@ -46,12 +46,12 @@ describe('Line', function () {
         )).toBe(true);
       });
 
-      it('should be parallel to Line with same slope', function () {
+      it('should be parallel to Line with same slope in Euclidean context', function () {
         var otherLine = Line.givenPointSlope(
           HyperbolicCanvas.Point.random(),
           line.getSlope()
         );
-        expect(line.isParallelTo(otherLine)).toBe(true);
+        expect(line.isEuclideanParallelTo(otherLine)).toBe(true);
       });
 
       it('should have a perpindicular slope', function () {
@@ -522,6 +522,14 @@ describe('Line', function () {
           expect(intersect.getY()).toBeARealNumber();
           expect(intersect.getEuclideanRadius()).toApproximate(1);
         });
+      });
+
+      it('should be parallel to Line with which it does not intersect in hyperbolic context', function () {
+        var otherLine = Line.givenTwoPoints(
+          line.getP0().opposite(),
+          line.getP1().opposite()
+        );
+        expect(line.isHyperbolicParallelTo(otherLine)).toBe(true);
       });
     });
   });
