@@ -305,35 +305,57 @@ The canvas class is used to draw hyperbolic lines and shapes.
 Instance functions:
 
 ```javascript
+Canvas.prototype.getUnderlayElement();
+// return the div behind the canvas element, which is used to visually delineate
+// the hyperbolic plane
+
+Canvas.prototype.getContainerElement();
+// return the element which contains all Hyperbolic Canvas elements
+
+Canvas.prototype.getCanvasElement();
+// return the HTML canvas element
+
+Canvas.prototype.getBackdropElement();
+// return the div which is the direct parent of the canvas element
+
+Canvas.prototype.getContext();
+// return the CanvasRenderingContext2D of the underlying canvas
+
+Canvas.prototype.getRadius();
+// return the radius of the HTML canvas
+
+Canvas.prototype.getDiameter();
+// return the diameter of the HTML canvas
+
+Canvas.prototype.setContextProperties(properties);
+// set the properties of the 2d context of the underlying HTML canvas
+// also supports lineDash
+
 Canvas.prototype.at(coordinates);
 // generate a Point given an array of coordinates [x, y] relative to the HTML canvas
 
 Canvas.prototype.at(point);
 // generate an array of coordinates [x, y] relative to the HTML canvas given a Point
 
-Canvas.prototype.getContext();
-// return the 2d context of the underlying HTML canvas
-
-Canvas.prototype.strokeHyperbolicLineThroughIdealPoints(someAngle, someOtherAngle);
-// stroke the line through the ideal points at given angles
-
 Canvas.prototype.clear();
 // clear the canvas
 
-Canvas.prototype.strokeGrid(n);
-// stroke a grid on the canvas with n divisions of each axis
+Canvas.prototype.fill(path);
+Canvas.prototype.stroke(path);
+Canvas.prototype.fillAndStroke(path);
+// call fill() and/or stroke() on the context of the underlying canvas
+// optionally with a Path2D
 
-Canvas.prototype.fillCircle(circle);
-Canvas.prototype.fillAndStrokeCircle(circle);
-Canvas.prototype.strokeCircle(circle);
-Canvas.prototype.fillPolygon(polygon);
-Canvas.prototype.fillAndStrokePolygon(polygon);
-Canvas.prototype.strokePolygon(polygon);
-// fill and/or stroke the given object
+Canvas.prototype.pathForReferenceAngles(n, rotation, options);
+// generate path for lines on the canvas betwen n radial slices, offset by rotation
 
-Canvas.prototype.strokeHyperbolicLine(line, infinite);
-// stroke the hyperbolic line, extending to the edges of the canvas if the boolean infinite is true
+Canvas.prototype.pathForReferenceGrid(n, options);
+// generate path for a grid on the canvas with n divisions of each axis
 
-Canvas.prototype.strokePolygonBoundaries(polygon);
-// stroke the ideal hyperbolic lines which bind a given polygon.
+Canvas.prototype.pathForReferenceRings(n, d, options);
+// generate path for n rings on the canvas with increasing radius in increments of r
+
+Canvas.prototype.pathForEuclidean(object, options);
+Canvas.prototype.pathForHyperbolic(object, options);
+// generate Euclidean or hyperbolic path for a given object
 ```
