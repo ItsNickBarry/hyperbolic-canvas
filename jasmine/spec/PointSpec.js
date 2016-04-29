@@ -308,10 +308,20 @@ describe('Point', function () {
       expect(point.getY()).toBeARealNumber();
     });
 
-    it('should have angle and Euclidean and hyperbolic radii', function () {
+    it('should have angle', function () {
       expect(point.getAngle()).toBeARealNumber();
+    });
+    
+    it('should have Euclidean radius', function () {
       expect(point.getEuclideanRadius()).toBeARealNumber();
+    });
+    
+    it('should have hyperbolic radius', function () {
       expect(point.getHyperbolicRadius()).toBeARealNumber();
+    });
+    
+    it('should not be ideal', function () {
+      expect(point.isIdeal()).toBe(false);
     });
   });
 
