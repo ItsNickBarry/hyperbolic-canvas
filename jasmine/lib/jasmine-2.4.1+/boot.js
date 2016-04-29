@@ -154,6 +154,21 @@
         event.target.querySelector('#jasmine-seed-display').value
       );
     },
+    runAllHref: function (event) {
+      var runCount = getQueryVariable('run-count');
+      var seed = getQueryVariable('seed');
+      var href = '?';
+      if (runCount) {
+        href += 'run-count=' + runCount;
+      }
+      if (runCount && seed) {
+        href += '&';
+      }
+      if (seed) {
+        href += 'seed=' + seed;
+      }
+      return href;
+    },
     addToExistingQueryString: function(key, value) { return queryString.fullStringWithNewParam(key, value); },
     getContainer: function() { return document.body; },
     createElement: function() { return document.createElement.apply(document, arguments); },

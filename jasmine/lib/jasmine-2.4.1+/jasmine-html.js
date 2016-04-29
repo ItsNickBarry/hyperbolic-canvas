@@ -46,6 +46,7 @@ jasmineRequire.HtmlReporter = function(j$) {
       onReloadOldSeedClick = options.onReloadOldSeedClick || function() {},
       onRunCountSubmit = options.onRunCountSubmit || function() {},
       onSeedSubmit = options.onSeedSubmit || function() {},
+      runAllHref = options.runAllHref || function() {},
       addToExistingQueryString = options.addToExistingQueryString || defaultQueryString,
       timer = options.timer || noopTimer,
       results = [],
@@ -241,7 +242,7 @@ jasmineRequire.HtmlReporter = function(j$) {
         var skippedMessage = 'Ran ' + specsExecuted + ' of ' + totalSpecsDefined + ' specs - run all';
         alert.appendChild(
           createDom('span', {className: 'jasmine-bar jasmine-skipped'},
-            createDom('a', {href: '?', title: 'Run all specs'}, skippedMessage)
+            createDom('a', {href: runAllHref(), title: 'Run all specs'}, skippedMessage)
           )
         );
       }
