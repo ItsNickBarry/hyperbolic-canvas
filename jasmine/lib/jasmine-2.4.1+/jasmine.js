@@ -345,6 +345,8 @@ getJasmineRequireObj().Spec = function(j$) {
 
   Spec.prototype.execute = function(onComplete, enabled) {
     var self = this;
+    
+    Math.seedrandom(Math.seed.toString() + self.getFullName());
 
     this.onStart(this);
 
