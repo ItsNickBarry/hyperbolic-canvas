@@ -1,7 +1,7 @@
 # Hyperbolic Canvas
 A Javascript implementation of the [Poincaré disk model][diskmodel] of the hyperbolic plane, on an HTML canvas.
 
-Examples can be found on the [project site][gh-pages].
+Usage xamples can be found on the [project site][gh-pages].
 
 [diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
 [gh-pages]: https://ItsNickBarry.github.io/hyperbolic-canvas
@@ -18,7 +18,7 @@ To report problems, or request features, please open a new [issue][issue].
 [issue]: ./../../issues
 
 ## Usage
-### Simple Installation
+### Installation
 Load all files in the lib directory, and pass a unique selector of a div element, as well as a canvas name, to the function `HyperbolicCanvas.create`.  Nonzero width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
 
 ```html
@@ -61,8 +61,10 @@ Math.TAU;
 
 [manifesto]: http://tauday.com/tau-manifesto
 
-### Object Classes and Their Functions
+### Geometric Object Classes and Their Functions
 The hyperbolic canvas makes use of several geometric object classes, defined relative to the Euclidean plane.
+
+When instantiating objects, it is **not recommended to call the constructor directly**.  Instead, use the provided factory methods.
 
 #### Angle
 A non-function object which contains convenience functions related to angles.
@@ -102,6 +104,10 @@ Point.givenHyperbolicPolarCoordinates(radius, angle);
 
 Point.euclideanBetween(somePoint, someOtherPoint);
 // generate the point between two other Points, in a Euclidean sense
+
+Point.hyperbolicBetween(somePoint, someOtherPoint);
+// generate the point between tow other Points, in a hyperbolic sense
+// will return false if either Point is not on the hyperbolic plane
 ```
 
 Instance functions:
@@ -136,6 +142,14 @@ Point.prototype.isOnPlane();
 #### Line
 The relationship between two Points.  Contains various functions which act on either the Euclidean or the hyperbolic plane.  Can represent a line, line segment, or ray.
 
+Constants:
+
+```javascript
+Line.X_AXIS;
+
+Line.Y_AXIS;
+```
+
 Factory methods:
 
 ```javascript
@@ -144,6 +158,9 @@ Line.givenPointSlope(point, slope);
 
 Line.givenTwoPoints(somePoint, someOtherPoint);
 // generate a line through two Points
+
+Line.givenAnglesOfIdealPoints(someAngle, someOtherAngle);
+// generate a line through two ideal Points at given angles
 ```
 
 Class functions:
@@ -166,6 +183,9 @@ Line.prototype.euclideanIncludesPoint(point);
 
 Line.prototype.equals(otherLine);
 // determine whether the line's slope matches that of another line, and the line contains a point of another line
+
+Line.prototype.hyperbolicEquals(otherLine);
+// determine whether the Line shares a hyperbolic geodesic with given other Line
 
 Line.prototype.xAtY(y);
 // return the x coordinate of the point on the Euclidean line at a given y coordinate
