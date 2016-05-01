@@ -1,7 +1,7 @@
 # Hyperbolic Canvas
 A Javascript implementation of the [Poincaré disk model][diskmodel] of the hyperbolic plane, on an HTML canvas.
 
-Usage xamples can be found on the [project site][gh-pages].
+Usage examples can be found on the [project site][gh-pages].
 
 [diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
 [gh-pages]: https://ItsNickBarry.github.io/hyperbolic-canvas
@@ -13,7 +13,7 @@ Due to the less-than-infinite precision of floating point numbers, bad things ca
 
 Certain browsers do not provide support for the hyperbolic functions.
 
-To report problems, or request features, please open a new [issue][issue].
+To report problems or request features, please open a new [issue][issue].
 
 [issue]: ./../../issues
 
@@ -22,8 +22,7 @@ To report problems, or request features, please open a new [issue][issue].
 Load all files in the lib directory, and pass a unique selector of a div element, as well as a canvas name, to the function `HyperbolicCanvas.create`.  Nonzero width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
 
 ```html
-<div class="hyperbolic-canvas" data-name="hexagons" data-script="hexagons" style="width: 600px; height: 600px;"></div>
-<div class="hyperbolic-canvas" data-name="mouse-interaction" data-script="mouse-interaction" style="width: 400px; height: 400px;"></div>
+<div id="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
 
 <script type="application/javascript" src="lib/Angle.js"></script>
 <script type="application/javascript" src="lib/Point.js"></script>
@@ -45,7 +44,7 @@ script(canvas);
 ```
 
 ### Exposed Variables and Constants
-An array of all Canvas objects is exposed through the `HyperbolicCanvas` namespace:
+An object containing all Canvas objects is exposed through the `HyperbolicCanvas` namespace.
 
 ```javascript
 window.HyperbolicCanvas.canvases;
@@ -102,6 +101,9 @@ Point.givenEuclideanPolarCoordinates(radius, angle);
 Point.givenHyperbolicPolarCoordinates(radius, angle);
 // generate a point given polar coodinates, relative to the center of the unit circle, where the given distance is hyperbolic
 
+Point.givenIdealAngle(angle);
+// generate an ideal point at the given angle, relative to the unit circle
+
 Point.euclideanBetween(somePoint, someOtherPoint);
 // generate the point between two other Points, in a Euclidean sense
 
@@ -129,11 +131,17 @@ Point.prototype.getX();
 
 Point.prototype.getY();
 
+Point.prototype.euclideanDistantPoint(distance, direction);
+// calculate the point's relative point a given Euclidean distance away at a given angle, along a Euclidean geodesic
+
 Point.prototype.hyperbolicDistantPoint(distance, direction);
-// calculate the point's relative point a given hyperbolic distance away at a given angle
+// calculate the point's relative point a given hyperbolic distance away at a given angle, along a hyperbolic geodesic
 // the returned distant point has an additional property "direction" which indicates the angle one would be facing, having traveled from the point to the distant point
 // if this function is called without a "direction" argument, the point is checked for a "direction" attribute
 // if neither a "direction" argument nor attribute exists, the point's angle() is used
+
+Point.prototype.isIdeal();
+// determine whether the point lies on the boundary of the unit circle
 
 Point.prototype.isOnPlane();
 // determine whether the point lies within the bounds of the unit circle
@@ -213,13 +221,13 @@ Line.prototype.getEuclideanUnitCircleIntersects();
 ```
 
 #### Circle
-A center Point and a radius.  Used mostly internally for the purpose of drawing hyperbolic lines.
+A Euclidean center Point and a Euclidean radius; potentially also a hyperbolic center Point and a hyperbolic radius.
 
 Constants:
 
 ```javascript
 Circle.UNIT;
-// the unit circle; center (0,0), radius 1
+// the unit circle; center (0,0), Euclidean radius 1, hyperbolic radius Infinity
 ```
 
 Factory methods:
@@ -235,14 +243,14 @@ Circle.givenTwoPoints(somePoint, someOtherPoint);
 // generate a circle given two diametrically opposed points
 
 Circle.givenThreePoints(somePoint, someOtherPoint, someOtherOtherPoint);
-// generate a circle given three points
+// generate a circle given three points on its edge
 ```
 
 Class functions:
 
 ```javascript
 Circle.intersect(someCircle, someOtherCircle);
-// calculate the points of intersection beween two circles
+// calculate the points of intersection between two circles
 ```
 
 Instance functions:
@@ -251,17 +259,37 @@ Instance functions:
 Circle.prototype.equals(otherCircle);
 // determine whether the circle's center and radius match those of another circle
 
+Circle.prototype.getEuclideanArea();
+Circle.prototype.getHyperbolicArea();
+Circle.prototype.getEuclideanCenter();
+Circle.prototype.getHyperbolicCenter();
+Circle.prototype.getEuclideanCircumference();
+Circle.prototype.getHyperbolicCircumference();
+Circle.prototype.getEuclideanDiameter();
+Circle.prototype.getHyperbolicDiameter();
+// return the Euclidean or hyperbolic property of the circle
+
+Circle.prototype.containsPoint(point);
+// determine whether the circle contains the given point within its bounds
+
+Circle.prototype.includesPoint(point);
+// determine whether the given point lies on the edge of the circle
+
 Circle.prototype.euclideanAngleAt(point);
-// calculate the angle of a point relative to the circle's center
+Circle.prototype.hyperbolicAngleAt(point);
+// calculate the angle of a point relative to the circle's center, in a Euclidean or hyperbolic context
 
 Circle.prototype.euclideanPointAt(angle);
-// calculate the point on a circle at a given angle relative to its center
+Circle.prototype.hyperbolicPointAt(angle);
+// calculate the point on a circle at a given angle relative to its center, in a Euclidean or hyperbolic context
+
+Circle.prototype.pointsAtX(x);
+Circle.prototype.pointsAtY(y);
+// return the point or points on the edge of the circle with the given x or y coordinate
 
 Circle.prototype.xAtY(y);
-// calculate the x coordinates of the points on the circle with a given y coordinate
-
 Circle.prototype.yAtX(x);
-// calculate the y coordinates of the points on the circle with a given x coordinate
+// calculate the x or y coordinate of the points on the edge of the circle with a given y or x coordinate, respectively
 
 Circle.prototype.euclideanTangentAtAngle(angle);
 // calculate the tangent line to the circle at a given angle
@@ -282,8 +310,14 @@ Factory methods:
 Polygon.givenVertices(vertices);
 // generate a polygon from a given ordered array of Point objects
 
+Polygon.givenAnglesOfIdealVertices(angles);
+// generate an ideal polygon with vertices at the given angles, relative to the unit circle
+
+Polygon.givenEuclideanNCenterRadius(n, center, radius);
+// generate a regular polygon with n sides, where each vertex is radius Euclidean distance from the center Point
+
 Polygon.givenHyperbolicNCenterRadius(n, center, radius);
-// generate a regular polygon with n sides, where each vertex is radius distance from the center Point
+// generate a regular polygon with n sides, where each vertex is radius hyperbolic distance from the center Point
 ```
 
 <!-- Class functions:
@@ -295,8 +329,11 @@ Polygon.givenHyperbolicNCenterRadius(n, center, radius);
 Instance functions:
 
 ```javascript
-Polygon.prototype.rotate(angle);
-// return the rotation of the polygon the given angle about the center of the unit circle
+Polygon.prototype.getLines();
+// return the lines between the polygon's vertices
+
+Polygon.prototype.getVertices();
+// return the polygon's vertices
 ```
 
 ### The Canvas Class and Its Functions
