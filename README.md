@@ -75,8 +75,17 @@ Angle.normalize(angle);
 // return the equivalent angle a where 0 < a < Tau
 
 Angle.fromDegrees(degrees);
-
 Angle.toDegrees(radians);
+// convert between primary- and secondary-school mathematics
+
+Angle.opposite(angle);
+
+Angle.toSlope(angle);
+Angle.fromSlope(slope);
+// convert between angle and slope of Line
+
+Angle.random(quadrant);
+// return a random angle, optionally within a given quadrant [1 - 4]
 ```
 
 #### Point
