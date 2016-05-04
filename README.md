@@ -131,6 +131,9 @@ Point.prototype.equals(otherPoint);
 Point.prototype.getAngle();
 // calculate the angle at which the point is located relative to the unit circle
 
+Point.prototype.getDirection();
+// if this Point was calculated as a result of hyperbolicDistantPoint, return the angle of continued travel along the same geodesic, otherwise return the result of getAngle
+
 Point.prototype.getEuclideanRadius();
 // calculate the Euclidean distance of the point from the center of the canvas
 
@@ -140,6 +143,18 @@ Point.prototype.getHyperbolicRadius();
 Point.prototype.getX();
 
 Point.prototype.getY();
+
+Point.prototype.euclideanAngleTo(otherPoint);
+Point.prototype.euclideanAngleFrom(otherPoint);
+// calculate the angle towards or from another Point, along a Euclidean geodesic
+
+Point.prototype.hyperbolicAngleTo(otherPoint);
+Point.prototype.hypebrolicAngleFrom(otherPoint);
+// calculate the angle towards or from another Point, along a hyperbolic geodesic
+
+Point.prototype.euclideanDistanceTo(otherPoint);
+Point.prototype.hyperbolicDistanceTo(ohterPoint);
+// calculate the Euclidean or hyperbolic distance to another Point
 
 Point.prototype.euclideanDistantPoint(distance, direction);
 // calculate the point's relative point a given Euclidean distance away at a given angle, along a Euclidean geodesic
@@ -155,6 +170,9 @@ Point.prototype.isIdeal();
 
 Point.prototype.isOnPlane();
 // determine whether the point lies within the bounds of the unit circle
+
+Point.prototype.opposite();
+// return the Point rotated PI radians about the origin
 ```
 
 #### Line

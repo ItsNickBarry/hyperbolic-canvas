@@ -41,7 +41,7 @@
         x = event.clientX;
         y = event.clientY;
         var point = canvas.at([x, y]);
-        point.setDirection(HyperbolicCanvas.Angle.opposite(point.getAngle()));
+        point._setDirection(HyperbolicCanvas.Angle.opposite(point.getAngle()));
         if (point.isOnPlane) {
           comets.push(point);
         }

@@ -165,7 +165,7 @@
           front.getX(),
           front.getY()
         );
-        bullet.setDirection(front.getDirection() + (Math.random() -.5) * Math.TAU / 100);
+        bullet._setDirection(front.getDirection() + (Math.random() -.5) * Math.TAU / 100);
         bullet.color = randomColor();
         bullets.push(bullet);
 
@@ -209,7 +209,7 @@
       //     front.getX(),
       //     front.getY()
       //   );
-      //   bullet.setDirection(front.getDirection());
+      //   bullet._setDirection(front.getDirection());
       //   bullet.color = randomColor();
       //   bullets.push(bullet);
       //

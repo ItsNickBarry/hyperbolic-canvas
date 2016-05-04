@@ -52,12 +52,6 @@ describe('Point', function () {
         .toApproximate(point.getHyperbolicRadius());
     });
 
-    it('should set and get direction', function () {
-      var angle = HyperbolicCanvas.Angle.random();
-      point.setDirection(angle);
-      expect(point.getDirection()).toBe(angle);
-    });
-
     it('should calculate Cartesian quadrant', function () {
       expect(point.quadrant()).toBe(quadrant);
     });
@@ -311,15 +305,15 @@ describe('Point', function () {
     it('should have angle', function () {
       expect(point.getAngle()).toBeARealNumber();
     });
-    
+
     it('should have Euclidean radius', function () {
       expect(point.getEuclideanRadius()).toBeARealNumber();
     });
-    
+
     it('should have hyperbolic radius', function () {
       expect(point.getHyperbolicRadius()).toBeARealNumber();
     });
-    
+
     it('should not be ideal', function () {
       expect(point.isIdeal()).toBe(false);
     });
