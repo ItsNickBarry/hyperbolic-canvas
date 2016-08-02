@@ -33,14 +33,12 @@ Load all files in the lib directory, and pass a unique selector of a div element
 <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
 ```
 
-Retain the canvas object as returned by `HyperbolicCanvas.create` or retrieve it from `HyperbolicCanvas.canvases[name]` using the name passed to the creation function, and pass it to a custom script
+Retain the canvas object as returned by `HyperbolicCanvas.create` or retrieve it from `HyperbolicCanvas.canvases[name]` to interact with it.
 
 ```javascript
 var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'main-canvas');
-var script = function (canvas) {
-  // interact with canvas here
-}
-script(canvas);
+
+canvas === HyperbolicCanvas.canvases['main-canvas'];
 ```
 
 ### Exposed Variables and Constants
