@@ -17,16 +17,9 @@
     <script type="application/javascript" src="lib/Canvas.js"></script>
     <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
 
-    <script type="application/javascript" src="scripts/comets.js"></script>
-    <script type="application/javascript" src="scripts/concentric-circles.js"></script>
-    <script type="application/javascript" src="scripts/hand-drawn-polygon.js"></script>
-    <script type="application/javascript" src="scripts/hexagons.js"></script>
-    <script type="application/javascript" src="scripts/laser-spaceship.js"></script>
-    <script type="application/javascript" src="scripts/mouse-interaction.js"></script>
-    <script type="application/javascript" src="scripts/web.js"></script>
-
     <script type="text/javascript">
       var getQueryVariable = function (variable) {
+        // https://css-tricks.com/snippets/javascript/get-url-variables/
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         for (var i=0;i<vars.length;i++) {
@@ -46,12 +39,17 @@
 
       ready(function () {
         var scriptName = getQueryVariable('script');
-        var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', scriptName);
-        if (typeof HyperbolicCanvas.scripts[scriptName] === 'function') {
+        var script = document.createElement('script');
+        script.onload = function () {
+          var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', scriptName);
           HyperbolicCanvas.scripts[scriptName](canvas);
-        } else {
-          console.log('script not found')
-        }
+        };
+        script.onerror = function () {
+          var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', scriptName);
+          alert('No script found with the name "' + scriptName + '".');
+        };
+        script.src = 'scripts/' + scriptName + '.js';
+        document.body.appendChild(script);
       });
     </script>
   </body>
