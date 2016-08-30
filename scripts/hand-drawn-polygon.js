@@ -3,8 +3,11 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
+  if (typeof HyperbolicCanvas.scripts === "undefined") {
+    window.HyperbolicCanvas.scripts = {};
+  }
 
-  var script = function (canvas) {
+  HyperbolicCanvas.scripts['hand-drawn-polygon'] = function (canvas) {
     canvas.setContextProperties({ fillStyle: '#DD4814' });
 
     var vertices = [];
@@ -68,7 +71,4 @@
     canvas.getCanvasElement().addEventListener('click', addVertex);
     canvas.getCanvasElement().addEventListener('mousemove', onMouseMove);
   };
-
-  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'hand-drawn-polygon');
-  script(canvas);
 })();

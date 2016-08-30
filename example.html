@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hyperbolic Canvas Example</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="css/example.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+  </head>
+  <body>
+    <div id="hyperbolic-canvas"></div>
+
+    <script type="application/javascript" src="lib/Angle.js"></script>
+    <script type="application/javascript" src="lib/Point.js"></script>
+    <script type="application/javascript" src="lib/Line.js"></script>
+    <script type="application/javascript" src="lib/Circle.js"></script>
+    <script type="application/javascript" src="lib/Polygon.js"></script>
+    <script type="application/javascript" src="lib/Canvas.js"></script>
+    <script type="application/javascript" src="lib/HyperbolicCanvas.js"></script>
+
+    <script type="application/javascript" src="scripts/comets.js"></script>
+    <script type="application/javascript" src="scripts/concentric-circles.js"></script>
+    <script type="application/javascript" src="scripts/hand-drawn-polygon.js"></script>
+    <script type="application/javascript" src="scripts/hexagons.js"></script>
+    <script type="application/javascript" src="scripts/laser-spaceship.js"></script>
+    <script type="application/javascript" src="scripts/mouse-interaction.js"></script>
+    <script type="application/javascript" src="scripts/web.js"></script>
+
+    <script type="text/javascript">
+      var getQueryVariable = function (variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+          if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+      };
+
+      var ready = function (fn) {
+        if (document.readyState != 'loading'){
+          fn();
+        } else {
+          document.addEventListener('DOMContentLoaded', fn);
+        }
+      };
+
+      ready(function () {
+        var script = getQueryVariable('script');
+        var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', script);
+        HyperbolicCanvas.scripts[script](canvas);
+      });
+    </script>
+  </body>
+</html>

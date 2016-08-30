@@ -3,6 +3,9 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
+  if (typeof HyperbolicCanvas.scripts === "undefined") {
+    window.HyperbolicCanvas.scripts = {};
+  }
 
   var curry = function (fn, obj, numArgs) {
     var firstArgs = Array.prototype.slice.call(arguments, 3);
@@ -19,7 +22,7 @@
     }
   };
 
-  var script = function (canvas) {
+  HyperbolicCanvas.scripts['concentric-circles'] = function (canvas) {
     var location = HyperbolicCanvas.Point.ORIGIN;
 
     colors = [
@@ -116,7 +119,4 @@
     canvas.getContainerElement().addEventListener('mousemove', onMouseMove);
     document.addEventListener('wheel', onScroll);
   };
-
-  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'concentric-circles');
-  script(canvas);
 })();

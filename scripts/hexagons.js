@@ -3,8 +3,11 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
+  if (typeof HyperbolicCanvas.scripts === "undefined") {
+    window.HyperbolicCanvas.scripts = {};
+  }
 
-  var script = function (canvas) {
+  HyperbolicCanvas.scripts['hexagons'] = function (canvas) {
     var counter = 0;
     canvas.setContextProperties({ fillStyle: '#DD4814' });
 
@@ -52,7 +55,4 @@
     };
     requestAnimationFrame(render);
   };
-
-  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'hexagons');
-  script(canvas);
 })();

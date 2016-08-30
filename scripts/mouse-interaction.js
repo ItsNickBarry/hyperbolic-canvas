@@ -3,8 +3,11 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
+  if (typeof HyperbolicCanvas.scripts === "undefined") {
+    window.HyperbolicCanvas.scripts = {};
+  }
 
-  var script = function (canvas) {
+  HyperbolicCanvas.scripts['mouse-interaction'] = function (canvas) {
     var maxN = 12;
     var n = 3;
     var location = HyperbolicCanvas.Point.ORIGIN;
@@ -70,7 +73,4 @@
 
     requestAnimationFrame(render);
   };
-
-  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'mouse-interaction');
-  script(canvas);
 })();

@@ -3,12 +3,15 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
+  if (typeof HyperbolicCanvas.scripts === "undefined") {
+    window.HyperbolicCanvas.scripts = {};
+  }
 
   var randomColor = function () {
     return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
   };
 
-  var script = function (canvas) {
+  HyperbolicCanvas.scripts['laser-spaceship'] = function (canvas) {
     var keysDown = {};
     var keysUp = {};
 
@@ -226,7 +229,4 @@
       delete keysDown[e.keyCode];
     }, false);
   };
-
-  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'laser-spaceship');
-  script(canvas);
 })();

@@ -3,8 +3,11 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
+  if (typeof HyperbolicCanvas.scripts === "undefined") {
+    window.HyperbolicCanvas.scripts = {};
+  }
 
-  var script = function (canvas) {
+  HyperbolicCanvas.scripts['web'] = function (canvas) {
     var unitCircle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(HyperbolicCanvas.Point.ORIGIN, .9999);
 
     var location = null;
@@ -43,7 +46,4 @@
 
     requestAnimationFrame(step);
   };
-
-  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'web');
-  script(canvas);
 })();

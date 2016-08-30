@@ -3,8 +3,11 @@
   if (typeof HyperbolicCanvas === "undefined") {
     window.HyperbolicCanvas = {};
   }
+  if (typeof HyperbolicCanvas.scripts === "undefined") {
+    window.HyperbolicCanvas.scripts = {};
+  }
 
-  var script = function (canvas) {
+  HyperbolicCanvas.scripts['comets'] = function (canvas) {
     comets = [];
     var spawnDistance = .99;
 
@@ -52,7 +55,4 @@
 
     requestAnimationFrame(step);
   };
-
-  var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', 'comets');
-  script(canvas);
 })();
