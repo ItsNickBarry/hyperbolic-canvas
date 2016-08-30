@@ -45,9 +45,13 @@
       };
 
       ready(function () {
-        var script = getQueryVariable('script');
-        var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', script);
-        HyperbolicCanvas.scripts[script](canvas);
+        var scriptName = getQueryVariable('script');
+        var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', scriptName);
+        if (typeof HyperbolicCanvas.scripts[scriptName] === 'function') {
+          HyperbolicCanvas.scripts[scriptName](canvas);
+        } else {
+          console.log('script not found')
+        }
       });
     </script>
   </body>
