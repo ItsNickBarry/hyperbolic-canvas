@@ -391,8 +391,9 @@ Canvas.prototype.getDiameter();
 // return the diameter of the HTML canvas
 
 Canvas.prototype.setContextProperties(properties);
+Canvas.prototype.setContextProperty(property, value);
 // set the properties of the 2d context of the underlying HTML canvas
-// also supports lineDash
+// lineDash is also supported
 
 Canvas.prototype.at(coordinates);
 // generate a Point given an array of coordinates [x, y] relative to the HTML canvas

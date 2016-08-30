@@ -99,7 +99,7 @@ describe('Canvas', function () {
     expect(canvas.getContext()).toBeA(CanvasRenderingContext2D);
   }, true);
 
-  it('should set context properties', function () {
+  it('should set multiple context properties', function () {
     var ctx = canvas.getContext();
     var properties = {
       lineJoin: 'round',
@@ -112,6 +112,22 @@ describe('Canvas', function () {
     canvas.setContextProperties(properties);
 
     for (var property in properties) {
+      expect(ctx[property]).toBe(properties[property]);
+    }
+  }, true);
+
+  it('should set single context property', function () {
+    var ctx = canvas.getContext();
+    var properties = {
+      lineJoin: 'round',
+      lineWidth: 2,
+      shadowBlur: 20,
+      shadowColor: '#ffffff',
+      strokeStyle: '#dd4814',
+      fillStyle: '#333333',
+    };
+    for (var property in properties) {
+      canvas.setContextProperty(property, properties[property]);
       expect(ctx[property]).toBe(properties[property]);
     }
   }, true);
