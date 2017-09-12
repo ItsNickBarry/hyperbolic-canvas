@@ -16,11 +16,11 @@ describe('Canvas', function () {
       el = canvas.getContainerElement();
     });
 
-    it('should be defined', function () {
+    it('is defined', function () {
       expect(el).toBeA(HTMLElement);
     }, true);
 
-    it('should have one child div element', function () {
+    it('has one child div element', function () {
       expect(el.children.length).toBe(1);
       expect(el.firstChild).toBeA(HTMLDivElement);
     }, true);
@@ -32,16 +32,16 @@ describe('Canvas', function () {
       el = canvas.getBackdropElement();
     });
 
-    it('should be div element', function () {
+    it('is div element', function () {
       expect(el).toBeA(HTMLDivElement);
     }, true);
 
-    it('should have one child div element', function () {
+    it('has one child div element', function () {
       expect(el.children.length).toBe(1);
       expect(el.firstChild).toBeA(HTMLDivElement);
     }, true);
 
-    it('should have "backdrop" class', function () {
+    it('has "backdrop" class', function () {
       expect(el.className).toBe('backdrop');
     }, true);
   });
@@ -52,19 +52,19 @@ describe('Canvas', function () {
       el = canvas.getUnderlayElement();
     });
 
-    it('should be div element', function () {
+    it('is div element', function () {
       expect(el).toBeA(HTMLDivElement);
     }, true);
 
-    it('should have "underlay" class', function () {
+    it('has "underlay" class', function () {
       expect(el.className).toBe('underlay');
     }, true);
 
-    it('should have border-radius style', function () {
+    it('has border-radius style', function () {
       expect(el.style['border-radius']).not.toBe('');
     }, true);
 
-    it('should have one child canvas element', function () {
+    it('has one child canvas element', function () {
       expect(el.children.length).toBe(1);
       expect(el.firstChild).toBeA(HTMLCanvasElement);
     }, true);
@@ -76,30 +76,30 @@ describe('Canvas', function () {
       el = canvas.getCanvasElement();
     });
 
-    it('should be canvas element', function () {
+    it('is canvas element', function () {
       expect(el).toBeA(HTMLCanvasElement);
     }, true);
 
-    it('should have "hyperbolic" class', function () {
+    it('has "hyperbolic" class', function () {
       expect(el.className).toBe('hyperbolic');
     }, true);
 
-    it('should have absolute position style', function () {
+    it('has absolute position style', function () {
       expect(el.style['position']).toBe('absolute');
     }, true);
   });
 
-  it('should have a radius and diameter', function () {
+  it('has a radius and diameter', function () {
     expect(canvas.getRadius()).toBeARealNumber();
     expect(canvas.getDiameter()).toBeARealNumber();
     expect(canvas.getDiameter()).toBe(canvas.getRadius() * 2);
   }, true);
 
-  it('should have a canvas context', function () {
+  it('has a canvas context', function () {
     expect(canvas.getContext()).toBeA(CanvasRenderingContext2D);
   }, true);
 
-  it('should set multiple context properties', function () {
+  it('sets multiple context properties', function () {
     var ctx = canvas.getContext();
     var properties = {
       lineJoin: 'round',
@@ -116,7 +116,7 @@ describe('Canvas', function () {
     }
   }, true);
 
-  it('should set single context property', function () {
+  it('sets single context property', function () {
     var ctx = canvas.getContext();
     var properties = {
       lineJoin: 'round',
@@ -133,7 +133,7 @@ describe('Canvas', function () {
   }, true);
 
   describe('when converting canvas coordinates to a Point', function () {
-    it('should return a Point', function () {
+    it('returns a Point', function () {
       var coordinates = [
         canvas.getRadius() * Math.random(),
         canvas.getRadius() * Math.random()
@@ -144,7 +144,7 @@ describe('Canvas', function () {
   });
 
   describe('when converting a Point to canvas coordinates', function () {
-    it('should return an Array with length of 2', function () {
+    it('returns an Array with length of 2', function () {
       var point = HyperbolicCanvas.Point.random();
       var coordinates = canvas.at(point);
       expect(coordinates).toBeA(Array);
@@ -165,7 +165,7 @@ describe('Canvas', function () {
       );
     });
 
-    it('should return CanvasRenderingContext2D by default', function () {
+    it('returns CanvasRenderingContext2D by default', function () {
       expect(
         canvas.pathForEuclidean(object)
       ).toBeA(CanvasRenderingContext2D);
@@ -175,7 +175,7 @@ describe('Canvas', function () {
     }, true);
 
     describe('with Path2D available to current browser', function () {
-      it('should return input if given', function () {
+      it('returns input if given', function () {
         var options = { path2D: true, path: new Path2D() };
         expect(
           canvas.pathForEuclidean(object, options)
@@ -185,7 +185,7 @@ describe('Canvas', function () {
         ).toBe(options.path);
       }, true);
 
-      it('should return Path2D if requested', function () {
+      it('returns Path2D if requested', function () {
         var options = { path2D: true, path: false };
         expect(
           canvas.pathForEuclidean(object, options)
@@ -207,7 +207,7 @@ describe('Canvas', function () {
         window.Path2D = _Path2D;
       });
 
-      it('should return input if given', function () {
+      it('returns input if given', function () {
         var options = { path2D: false, path: canvas.getContext() };
         expect(
           canvas.pathForEuclidean(object, options)
@@ -217,7 +217,7 @@ describe('Canvas', function () {
         ).toBe(options.path);
       }, true);
 
-      it('should return CanvasRenderingContext2D if Path2D is requested', function () {
+      it('returns CanvasRenderingContext2D if Path2D is requested', function () {
         var options = { path2D: true, path: false };
         expect(
           canvas.pathForEuclidean(object, options)

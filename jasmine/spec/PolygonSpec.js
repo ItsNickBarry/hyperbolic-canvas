@@ -13,7 +13,7 @@ describe('Polygon', function () {
       polygon = Polygon.givenVertices(vertices);
     });
 
-    it('should have n vertices of type Point', function () {
+    it('has n vertices of type Point', function () {
       var vertices = polygon.getVertices();
       expect(vertices).toBeA(Array);
       expect(vertices.length).toBe(n);
@@ -22,7 +22,7 @@ describe('Polygon', function () {
       });
     });
 
-    it('should have n lines of type Line', function () {
+    it('has n lines of type Line', function () {
       var lines = polygon.getLines();
       expect(lines.length).toBe(n);
       expect(lines).toBeA(Array);
@@ -52,7 +52,7 @@ describe('Polygon', function () {
       polygon = Polygon.givenAnglesOfIdealVertices(angles);
     });
 
-    it('should have n lines of infinite hyperbolic length', function () {
+    it('has n lines of infinite hyperbolic length', function () {
       var lines = polygon.getLines();
       expect(lines).toBeA(Array);
       lines.forEach(function (line) {
@@ -81,7 +81,7 @@ describe('Polygon', function () {
         );
       });
 
-      it('should have n vertices of type Point', function () {
+      it('has n vertices of type Point', function () {
         var vertices = polygon.getVertices();
         expect(vertices).toBeA(Array);
         expect(vertices.length).toBe(n);
@@ -90,13 +90,13 @@ describe('Polygon', function () {
         });
       });
 
-      it('should have first vertex at given rotation angle', function () {
+      it('has first vertex at given rotation angle', function () {
         expect(
           polygon.getVertices()[0].euclideanAngleFrom(center)
         ).toApproximate(rotation);
       });
 
-      it('should have n lines of type Line', function () {
+      it('has n lines of type Line', function () {
         var lines = polygon.getLines();
         expect(lines.length).toBe(n);
         expect(lines).toBeA(Array);
@@ -105,7 +105,7 @@ describe('Polygon', function () {
         });
       });
 
-      it('should have lines of equal Euclidean length', function () {
+      it('has lines of equal Euclidean length', function () {
         var lengths = [];
         polygon.getLines().forEach(function (line) {
           lengths.push(line.getEuclideanLength());
@@ -128,7 +128,7 @@ describe('Polygon', function () {
         );
       });
 
-      it('should have n vertices of type Point', function () {
+      it('has n vertices of type Point', function () {
         var vertices = polygon.getVertices();
         expect(vertices).toBeA(Array);
         expect(vertices.length).toBe(n);
@@ -137,13 +137,13 @@ describe('Polygon', function () {
         });
       });
 
-      it('should have first vertex at given rotation angle', function () {
+      it('has first vertex at given rotation angle', function () {
         expect(
           polygon.getVertices()[0].hyperbolicAngleFrom(center)
         ).toApproximate(rotation);
       });
 
-      it('should have n lines of type Line', function () {
+      it('has n lines of type Line', function () {
         var lines = polygon.getLines();
         expect(lines.length).toBe(n);
         expect(lines).toBeA(Array);
@@ -152,7 +152,7 @@ describe('Polygon', function () {
         });
       });
 
-      it('should have lines of equal hyperbolic length', function () {
+      it('has lines of equal hyperbolic length', function () {
         var lengths = [];
         polygon.getLines().forEach(function (line) {
           lengths.push(line.getHyperbolicLength());

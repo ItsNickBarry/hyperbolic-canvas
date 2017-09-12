@@ -12,7 +12,7 @@ describe('Line', function () {
         line = Line.givenPointSlope(point, slope);
       });
 
-      it('should be cloneable', function () {
+      it('is cloneable', function () {
         var clone = line.clone();
         expect(clone).toBeA(Line);
         expect(clone).not.toBe(line);
@@ -27,7 +27,7 @@ describe('Line', function () {
         expect(clone.euclideanIncludesPoint(line.getP0())).toBe(true);
       });
 
-      it('should be equal to identical Line', function () {
+      it('is equal to identical Line', function () {
         var otherLine = Line.givenPointSlope(
           line.getP0(),
           line.getSlope()
@@ -35,7 +35,7 @@ describe('Line', function () {
         expect(line.equals(otherLine)).toBe(true);
       });
 
-      it('should include Points in Euclidean context', function () {
+      it('includes Points in Euclidean context', function () {
         expect(line.euclideanIncludesPoint(line.getP0())).toBe(true);
         expect(line.euclideanIncludesPoint(line.getP1())).toBe(true);
         expect(line.euclideanIncludesPoint(
@@ -46,7 +46,7 @@ describe('Line', function () {
         )).toBe(true);
       });
 
-      it('should be parallel to Line with same slope in Euclidean context', function () {
+      it('is parallel to Line with same slope in Euclidean context', function () {
         var otherLine = Line.givenPointSlope(
           HyperbolicCanvas.Point.random(),
           line.getSlope()
@@ -54,11 +54,11 @@ describe('Line', function () {
         expect(line.isEuclideanParallelTo(otherLine)).toBe(true);
       });
 
-      it('should have a perpindicular slope', function () {
+      it('has a perpindicular slope', function () {
         expect(line.euclideanPerpindicularSlope()).toBe(-1 / line.getSlope());
       });
 
-      it('should have perpindicular lines', function () {
+      it('has perpindicular lines', function () {
         var perpindicularLine = line.euclideanPerpindicularLineAt(
           HyperbolicCanvas.Point.random()
         );
@@ -69,7 +69,7 @@ describe('Line', function () {
         );
       });
 
-      it('should have a perpindicular bisector', function () {
+      it('has a perpindicular bisector', function () {
         var bisector = line.euclideanPerpindicularBisector();
         expect(bisector).toBeA(Line);
         expect(bisector.getSlope()).toBe(line.euclideanPerpindicularSlope());
@@ -78,26 +78,26 @@ describe('Line', function () {
         expect(bisector.euclideanIncludesPoint(intersect)).toBe(true);
       });
 
-      it('should have Point for any x value', function () {
+      it('has Point for any x value', function () {
         var point = line.pointAtEuclideanX(Math.random());
         expect(point).toBeA(HyperbolicCanvas.Point);
         expect(line.euclideanIncludesPoint(point)).toBe(true);
       });
 
-      it('should have Point for any y value', function () {
+      it('has Point for any y value', function () {
         var point = line.pointAtEuclideanY(Math.random());
         expect(point).toBeA(HyperbolicCanvas.Point);
         expect(line.euclideanIncludesPoint(point)).toBe(true);
       });
 
-      it('should have x value for any y value', function () {
+      it('has x value for any y value', function () {
         var y = Math.random() * 2 - 1;
         var x = line.euclideanXAtY(y);
         expect(x).toBeARealNumber();
         expect(line.euclideanYAtX(x)).toApproximate(y);
       });
 
-      it('should have y value for any x value', function () {
+      it('has y value for any x value', function () {
         var x = Math.random() * 2 - 1;
         var y = line.euclideanYAtX(x);
         expect(y).toBeARealNumber();
@@ -110,16 +110,16 @@ describe('Line', function () {
         line = Line.givenPointSlope(HyperbolicCanvas.Point.random(), 0);
       });
 
-      it('should have a perpindicular slope', function () {
+      it('has a perpindicular slope', function () {
         expect(line.euclideanPerpindicularSlope()).toBe(Infinity);
       });
 
-      it('should have x value of true for only one y value', function () {
+      it('has x value of true for only one y value', function () {
         expect(line.euclideanXAtY(Math.random())).toBe(false);
         expect(line.euclideanXAtY(line.getP0().getY())).toBe(true);
       });
 
-      it('should have single y value for any x value', function () {
+      it('has single y value for any x value', function () {
         expect(line.euclideanYAtX(Math.random())).toBe(line.getP0().getY());
       });
     });
@@ -129,15 +129,15 @@ describe('Line', function () {
         line = Line.givenPointSlope(HyperbolicCanvas.Point.random(), Infinity);
       });
 
-      it('should have a perpindicular slope', function () {
+      it('has a perpindicular slope', function () {
         expect(line.euclideanPerpindicularSlope()).toBe(0);
       });
 
-      it('should have single x value for any y value', function () {
+      it('has single x value for any y value', function () {
         expect(line.euclideanXAtY(Math.random())).toBe(line.getP0().getX());
       });
 
-      it('should have y value of true for only one x value', function () {
+      it('has y value of true for only one x value', function () {
         expect(line.euclideanYAtX(Math.random())).toBe(false);
         expect(line.euclideanYAtX(line.getP0().getX())).toBe(true);
       });
@@ -161,15 +161,15 @@ describe('Line', function () {
           );
         });
 
-        it('should be on plane', function () {
+        it('is on plane', function () {
           expect(line.isOnPlane()).toBe(true);
         });
 
-        it('should have hyperbolic geodesic Line', function () {
+        it('has hyperbolic geodesic Line', function () {
           expect(line.getHyperbolicGeodesic()).toBeA(Line);
         });
 
-        it('should equal hyperbolic Line with same geodesic', function () {
+        it('equals hyperbolic Line with same geodesic', function () {
           var pointOnLine = line.getP0().hyperbolicDistantPoint(
             line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
             line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
@@ -180,15 +180,15 @@ describe('Line', function () {
           expect(line.hyperbolicEquals(otherLine)).toBe(true);
         });
 
-        it('should have Euclidean length', function () {
+        it('has Euclidean length', function () {
           expect(line.getEuclideanLength()).toBeARealNumber();
         });
 
-        it('should have Euclidean midpoint', function () {
+        it('has Euclidean midpoint', function () {
           expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
         });
 
-        it('should have Euclidean intersects with Circle', function () {
+        it('has Euclidean intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
             line.getP0().euclideanDistantPoint(
@@ -207,7 +207,7 @@ describe('Line', function () {
           ).toBe(true);
         });
 
-        it('should have hyperbolic intersects with Circle', function () {
+        it('has hyperbolic intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
             line.getP0().hyperbolicDistantPoint(
@@ -230,7 +230,7 @@ describe('Line', function () {
           ).toBe(true);
         });
 
-        it('should have hyperbolic length', function () {
+        it('has hyperbolic length', function () {
           var d = line.getHyperbolicLength();
           expect(d).not.toBeNaN();
           expect(d).toApproximate(
@@ -238,7 +238,7 @@ describe('Line', function () {
           );
         });
 
-        it('should have hyperbolic midpoint', function () {
+        it('has hyperbolic midpoint', function () {
           var midpoint = line.getHyperbolicMidpoint();
           expect(midpoint).toBeA(HyperbolicCanvas.Point);
           var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
@@ -248,7 +248,7 @@ describe('Line', function () {
           expect(angle0).toApproximate(angle1);
         });
 
-        it('should have ideal Points and Line', function () {
+        it('has ideal Points and Line', function () {
           var idealPoints = line.getIdealPoints();
           var idealLine = line.getIdealLine();
           expect(idealPoints).toBeA(Array);
@@ -261,7 +261,7 @@ describe('Line', function () {
           expect(idealLine.getP1()).toBe(idealPoints[1]);
         });
 
-        it('should have Euclidean unit circle intersects with opposite angles', function () {
+        it('has Euclidean unit circle intersects with opposite angles', function () {
           var intersects = line.getEuclideanUnitCircleIntersects();
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
@@ -276,7 +276,7 @@ describe('Line', function () {
           });
         });
 
-        it('should be parallel to Line with which it does not intersect in hyperbolic context', function () {
+        it('is parallel to Line with which it does not intersect in hyperbolic context', function () {
           var referenceAngle = line.getP0().getAngle();
           var otherLine = Line.givenAnglesOfIdealPoints(
             referenceAngle + Math.PI * Math.random(),
@@ -285,7 +285,7 @@ describe('Line', function () {
           expect(line.isHyperbolicParallelTo(otherLine)).toBe(true);
         });
 
-        it('should include Points in hyperbolic context', function () {
+        it('includes Points in hyperbolic context', function () {
           expect(line.hyperbolicIncludesPoint(line.getP0())).toBe(true);
           expect(line.hyperbolicIncludesPoint(line.getP1())).toBe(true);
           var point = line.getP0().hyperbolicDistantPoint(
@@ -314,15 +314,15 @@ describe('Line', function () {
           );
         });
 
-        it('should be on plane', function () {
+        it('is on plane', function () {
           expect(line.isOnPlane()).toBe(true);
         });
 
-        it('should have hyperbolic geodesic Line', function () {
+        it('has hyperbolic geodesic Line', function () {
           expect(line.getHyperbolicGeodesic()).toBeA(Line);
         });
 
-        it('should equal hyperbolic Line with same geodesic', function () {
+        it('equals hyperbolic Line with same geodesic', function () {
           var pointOnLine = line.getP0().hyperbolicDistantPoint(
             line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
             line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
@@ -333,15 +333,15 @@ describe('Line', function () {
           expect(line.hyperbolicEquals(otherLine)).toBe(true);
         });
 
-        it('should have Euclidean length', function () {
+        it('has Euclidean length', function () {
           expect(line.getEuclideanLength()).toBeARealNumber();
         });
 
-        it('should have Euclidean midpoint', function () {
+        it('has Euclidean midpoint', function () {
           expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
         });
 
-        it('should have Euclidean intersects with Circle', function () {
+        it('has Euclidean intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
             line.getP0().euclideanDistantPoint(
@@ -360,7 +360,7 @@ describe('Line', function () {
           ).toBe(true);
         });
 
-        it('should have hyperbolic intersects with Circle', function () {
+        it('has hyperbolic intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
             line.getP0().hyperbolicDistantPoint(
@@ -380,7 +380,7 @@ describe('Line', function () {
           ).toBe(true);
         });
 
-        it('should have hyperbolic length', function () {
+        it('has hyperbolic length', function () {
           var d = line.getHyperbolicLength();
           expect(d).not.toBeNaN();
           expect(d).toApproximate(
@@ -388,7 +388,7 @@ describe('Line', function () {
           );
         });
 
-        it('should have hyperbolic midpoint', function () {
+        it('has hyperbolic midpoint', function () {
           var midpoint = line.getHyperbolicMidpoint();
           expect(midpoint).toBeA(HyperbolicCanvas.Point);
           var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
@@ -398,7 +398,7 @@ describe('Line', function () {
           expect(angle0).toApproximate(angle1);
         });
 
-        it('should have ideal Points and Line', function () {
+        it('has ideal Points and Line', function () {
           var idealPoints = line.getIdealPoints();
           var idealLine = line.getIdealLine();
           expect(idealPoints).toBeA(Array);
@@ -411,7 +411,7 @@ describe('Line', function () {
           expect(idealLine.getP1()).toBe(idealPoints[1]);
         });
 
-        it('should have Euclidean unit circle intersects with opposite angles', function () {
+        it('has Euclidean unit circle intersects with opposite angles', function () {
           var intersects = line.getEuclideanUnitCircleIntersects();
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
@@ -436,15 +436,15 @@ describe('Line', function () {
         );
       });
 
-      it('should be on plane', function () {
+      it('is on plane', function () {
         expect(line.isOnPlane()).toBe(true);
       });
 
-      it('should have hyperbolic geodesic Circle', function () {
+      it('has hyperbolic geodesic Circle', function () {
         expect(line.getHyperbolicGeodesic()).toBeA(HyperbolicCanvas.Circle);
       });
 
-      it('should equal hyperbolic Line with same geodesic', function () {
+      it('equals hyperbolic Line with same geodesic', function () {
         var pointOnLine = line.getP0().hyperbolicDistantPoint(
           line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
           line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
@@ -455,15 +455,15 @@ describe('Line', function () {
         expect(line.hyperbolicEquals(otherLine)).toBe(true);
       });
 
-      it('should have Euclidean length', function () {
+      it('has Euclidean length', function () {
         expect(line.getEuclideanLength()).toBeARealNumber();
       });
 
-      it('should have Euclidean midpoint', function () {
+      it('has Euclidean midpoint', function () {
         expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
       });
 
-      it('should have Euclidean intersects with Circle', function () {
+      it('has Euclidean intersects with Circle', function () {
         var radius = Math.random() * 5;
         var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
           line.getP0().euclideanDistantPoint(
@@ -482,7 +482,7 @@ describe('Line', function () {
           Line.givenTwoPoints(intersects[0], intersects[1]).equals(line)
         ).toBe(true);
 
-        it('should have hyperbolic intersects with Circle', function () {
+        it('has hyperbolic intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
             line.getP0().hyperbolicDistantPoint(
@@ -503,7 +503,7 @@ describe('Line', function () {
         });
       });
 
-      it('should have hyperbolic length', function () {
+      it('has hyperbolic length', function () {
         var d = line.getHyperbolicLength();
         expect(d).not.toBeNaN();
         expect(d).toApproximate(
@@ -511,7 +511,7 @@ describe('Line', function () {
         );
       });
 
-      it('should have hyperbolic midpoint', function () {
+      it('has hyperbolic midpoint', function () {
         var midpoint = line.getHyperbolicMidpoint();
         expect(midpoint).toBeA(HyperbolicCanvas.Point);
         var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
@@ -521,7 +521,7 @@ describe('Line', function () {
         expect(angle0).toApproximate(angle1);
       });
 
-      it('should have ideal Points and Line', function () {
+      it('has ideal Points and Line', function () {
         var idealPoints = line.getIdealPoints();
         var idealLine = line.getIdealLine();
         expect(idealPoints).toBeA(Array);
@@ -534,7 +534,7 @@ describe('Line', function () {
         expect(idealLine.getP1()).toBe(idealPoints[1]);
       });
 
-      it('should have Euclidean unit circle intersects', function () {
+      it('has Euclidean unit circle intersects', function () {
         var intersects = line.getEuclideanUnitCircleIntersects();
         expect(intersects).toBeA(Array);
         expect(intersects.length).toBe(2);
@@ -546,7 +546,7 @@ describe('Line', function () {
         });
       });
 
-      it('should be parallel to Line with which it does not intersect in hyperbolic context', function () {
+      it('is parallel to Line with which it does not intersect in hyperbolic context', function () {
         var otherLine = Line.givenTwoPoints(
           line.getP0().opposite(),
           line.getP1().opposite()
@@ -554,7 +554,7 @@ describe('Line', function () {
         expect(line.isHyperbolicParallelTo(otherLine)).toBe(true);
       });
 
-      it('should include Points in hyperbolic context', function () {
+      it('includes Points in hyperbolic context', function () {
         expect(line.hyperbolicIncludesPoint(line.getP0())).toBe(true);
         expect(line.hyperbolicIncludesPoint(line.getP1())).toBe(true);
         var point = line.getP0().hyperbolicDistantPoint(
@@ -577,33 +577,33 @@ describe('Line', function () {
       );
     });
 
-    it('should not be on plane', function () {
+    it('is not on plane', function () {
       expect(line.isOnPlane()).toBe(false);
     });
 
-    it('should not have hyperbolic geodesic', function () {
+    it('does not have hyperbolic geodesic', function () {
       expect(line.getHyperbolicGeodesic()).toBe(false);
     });
 
-    it('should have Euclidean length', function () {
+    it('has Euclidean length', function () {
       expect(line.getEuclideanLength()).toBeARealNumber();
     });
 
-    it('should have Euclidean midpoint', function () {
+    it('has Euclidean midpoint', function () {
       expect(line.getEuclideanMidpoint()).toBeA(HyperbolicCanvas.Point);
     });
 
-    it('should not have hyperbolic length', function () {
+    it('does not have hyperbolic length', function () {
       var l = line.getHyperbolicLength();
       expect(l).toBeA(Number);
       expect(l).toBeNaN();
     });
 
-    it('should not have hyperbolic midpoint', function () {
+    it('does not have hyperbolic midpoint', function () {
       expect(line.getHyperbolicMidpoint()).toBe(false);
     });
 
-    it('should not have ideal Points', function () {
+    it('does not have ideal Points', function () {
       expect(line.getIdealPoints()).toBe(false);
     });
   });
@@ -616,12 +616,12 @@ describe('Line', function () {
       );
     });
 
-    it('should have point and slope', function () {
+    it('has point and slope', function () {
       expect(line.getP0()).toBeA(HyperbolicCanvas.Point);
       expect(line.getSlope()).toBeARealNumber();
     });
 
-    it('should have second point', function () {
+    it('has second point', function () {
       expect(line.getP1()).toBeA(HyperbolicCanvas.Point);
     });
   });
@@ -635,12 +635,12 @@ describe('Line', function () {
         );
       });
 
-      it('should have two points', function () {
+      it('has two points', function () {
         expect(line.getP0()).toBeA(HyperbolicCanvas.Point);
         expect(line.getP1()).toBeA(HyperbolicCanvas.Point);
       });
 
-      it('should have slope', function () {
+      it('has slope', function () {
         expect(line.getSlope()).toBeARealNumber();
       });
     });
@@ -656,19 +656,19 @@ describe('Line', function () {
           );
         });
 
-        it('should be ideal', function () {
+        it('is ideal', function () {
           expect(line.isIdeal()).toBe(true);
         });
 
-        it('should have hyperbolic length of infinity', function () {
+        it('has hyperbolic length of infinity', function () {
           expect(line.getHyperbolicLength()).toBe(Infinity);
         });
 
-        it('should have geodesic Circle', function () {
+        it('has geodesic Circle', function () {
           expect(line.getHyperbolicGeodesic()).toBeA(HyperbolicCanvas.Circle);
         });
 
-        it('should have ideal Points', function () {
+        it('has ideal Points', function () {
           var idealPoints = line.getIdealPoints();
           expect(idealPoints).toBeA(Array);
           expect(idealPoints.length).toBe(2);
@@ -678,7 +678,7 @@ describe('Line', function () {
           });
         });
 
-        it('should have Euclidean unit circle intersects', function () {
+        it('has Euclidean unit circle intersects', function () {
           var intersects = line.getEuclideanUnitCircleIntersects();
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
@@ -700,15 +700,15 @@ describe('Line', function () {
           );
         });
 
-        it('should be ideal', function () {
+        it('is ideal', function () {
           expect(line.isIdeal()).toBe(true);
         });
 
-        it('should have hyperbolic length of infinity', function () {
+        it('has hyperbolic length of infinity', function () {
           expect(line.getHyperbolicLength()).toBe(Infinity);
         });
 
-        it('should have geodesic Line', function () {
+        it('has geodesic Line', function () {
           expect(line.getHyperbolicGeodesic()).toBeA(Line);
         });
       });
@@ -724,7 +724,7 @@ describe('Line', function () {
         );
       });
 
-      it('should have two ideal points', function () {
+      it('has two ideal points', function () {
         var p0 = line.getP0();
         var p1 = line.getP1();
 
@@ -734,15 +734,15 @@ describe('Line', function () {
         expect(p1.isIdeal()).toBe(true);
       });
 
-      it('should be ideal', function () {
+      it('is ideal', function () {
         expect(line.isIdeal()).toBe(true);
       });
 
-      it('should have hyperbolic length of infinity', function () {
+      it('has hyperbolic length of infinity', function () {
         expect(line.getHyperbolicLength()).toBe(Infinity);
       });
 
-      it('should have geodesic Circle', function () {
+      it('has geodesic Circle', function () {
         expect(line.getHyperbolicGeodesic()).toBeA(HyperbolicCanvas.Circle);
       });
     });
@@ -756,7 +756,7 @@ describe('Line', function () {
         );
       });
 
-      it('should have two ideal points', function () {
+      it('has two ideal points', function () {
         var p0 = line.getP0();
         var p1 = line.getP1();
 
@@ -766,15 +766,15 @@ describe('Line', function () {
         expect(p1.isIdeal()).toBe(true);
       });
 
-      it('should be ideal', function () {
+      it('is ideal', function () {
         expect(line.isIdeal()).toBe(true);
       });
 
-      it('should have hyperbolic length of infinity', function () {
+      it('has hyperbolic length of infinity', function () {
         expect(line.getHyperbolicLength()).toBe(Infinity);
       });
 
-      it('should have geodesic Line', function () {
+      it('has geodesic Line', function () {
         expect(line.getHyperbolicGeodesic()).toBeA(Line);
       });
     });
@@ -797,7 +797,7 @@ describe('Line', function () {
         );
       });
 
-      it('should not exist', function () {
+      it('does not exist', function () {
         expect(Line.euclideanIntersect(line, otherLine)).toBe(false);
       });
     });
@@ -810,7 +810,7 @@ describe('Line', function () {
         );
       });
 
-      it('should be Point', function () {
+      it('is Point', function () {
         expect(
           Line.euclideanIntersect(line, otherLine)
         ).toBeA(HyperbolicCanvas.Point);
@@ -822,7 +822,7 @@ describe('Line', function () {
         otherLine = Line.X_AXIS;
       });
 
-      it('should be Point', function () {
+      it('is Point', function () {
         expect(
           Line.euclideanIntersect(line, otherLine)
         ).toBeA(HyperbolicCanvas.Point);
@@ -834,7 +834,7 @@ describe('Line', function () {
         otherLine = Line.Y_AXIS;
       });
 
-      it('should be Point', function () {
+      it('is Point', function () {
         expect(
           Line.euclideanIntersect(line, otherLine)
         ).toBeA(HyperbolicCanvas.Point);
@@ -859,7 +859,7 @@ describe('Line', function () {
         );
       });
 
-      it('should not exist', function () {
+      it('does not exist', function () {
         expect(Line.hyperbolicIntersect(line, otherLine)).toBe(false);
       });
     });
@@ -888,7 +888,7 @@ describe('Line', function () {
           otherLine = Line.givenTwoPoints(p0, p1);
         });
 
-        it('should be Point on plane', function () {
+        it('is Point on plane', function () {
           var intersect = Line.hyperbolicIntersect(line, otherLine);
           expect(intersect).toBeA(HyperbolicCanvas.Point);
           expect(intersect.isOnPlane()).toBe(true);
@@ -905,7 +905,7 @@ describe('Line', function () {
           );
         });
 
-        it('should be Point on plane', function () {
+        it('is Point on plane', function () {
           var intersect = Line.hyperbolicIntersect(line, otherLine);
           expect(intersect).toBeA(HyperbolicCanvas.Point);
           expect(intersect.isOnPlane()).toBe(true);
@@ -916,7 +916,7 @@ describe('Line', function () {
   });
 
   describe('random slope', function () {
-    it('should be number', function () {
+    it('is number', function () {
       expect(Line.randomSlope()).toBeARealNumber();
     });
   });
@@ -926,15 +926,15 @@ describe('Line', function () {
       line = Line.X_AXIS;
     });
 
-    it('should be Line', function () {
+    it('is Line', function () {
       expect(line).toBeA(Line);
     }, true);
 
-    it('should include origin', function () {
+    it('includes origin', function () {
       expect(line.euclideanIncludesPoint(HyperbolicCanvas.Point.ORIGIN)).toBe(true);
     }, true);
 
-    it('should have a slope of 0', function () {
+    it('has a slope of 0', function () {
       expect(line.getSlope()).toBe(0);
     }, true);
   });
@@ -944,15 +944,15 @@ describe('Line', function () {
       line = Line.Y_AXIS;
     });
 
-    it('should be Line', function () {
+    it('is Line', function () {
       expect(line).toBeA(Line);
     }, true);
 
-    it('should include origin', function () {
+    it('includes origin', function () {
       expect(line.euclideanIncludesPoint(HyperbolicCanvas.Point.ORIGIN)).toBe(true);
     }, true);
 
-    it('should have slope of infinity', function () {
+    it('has slope of infinity', function () {
       expect(line.getSlope()).toBe(Infinity);
     }, true);
   });

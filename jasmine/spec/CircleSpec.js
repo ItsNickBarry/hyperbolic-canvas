@@ -10,7 +10,7 @@ describe('Circle', function () {
       );
     });
 
-    it('should be clonable', function () {
+    it('is clonable', function () {
       var clone = circle.clone();
       expect(clone).toBeA(Circle);
       expect(clone).not.toBe(circle);
@@ -28,7 +28,7 @@ describe('Circle', function () {
         .toApproximate(clone.getHyperbolicRadius());
     });
 
-    it('should equal equivalent Circle', function () {
+    it('equals equivalent Circle', function () {
       var otherCircle = Circle.givenHyperbolicCenterRadius(
         circle.getHyperbolicCenter(),
         circle.getHyperbolicRadius()
@@ -36,51 +36,51 @@ describe('Circle', function () {
       expect(circle.equals(otherCircle)).toBe(true);
     });
 
-    it('should have Euclidean area', function () {
+    it('has Euclidean area', function () {
       expect(circle.getEuclideanArea()).toBeARealNumber();
     });
 
-    it('should have Euclidean center', function () {
+    it('has Euclidean center', function () {
       expect(circle.getEuclideanCenter()).toBeA(HyperbolicCanvas.Point);
     });
 
-    it('should have Euclidean circumference', function () {
+    it('has Euclidean circumference', function () {
       expect(circle.getEuclideanCircumference()).toBeARealNumber();
     });
 
-    it('should have Euclidean diameter', function () {
+    it('has Euclidean diameter', function () {
       expect(circle.getEuclideanDiameter()).toBeARealNumber();
     });
 
-    it('should have Euclidean radius', function () {
+    it('has Euclidean radius', function () {
       expect(circle.getEuclideanRadius()).toBeARealNumber();
     });
 
-    it('should have hyperbolic area', function () {
+    it('has hyperbolic area', function () {
       expect(circle.getHyperbolicArea()).toBeARealNumber();
     });
 
-    it('should have hyperbolic center', function () {
+    it('has hyperbolic center', function () {
       expect(circle.getHyperbolicCenter()).toBeA(HyperbolicCanvas.Point);
     });
 
-    it('should have hyperbolic circumference', function () {
+    it('has hyperbolic circumference', function () {
       expect(circle.getHyperbolicCircumference()).toBeARealNumber();
     });
 
-    it('should have hyperbolic diameter', function () {
+    it('has hyperbolic diameter', function () {
       expect(circle.getHyperbolicDiameter()).toBeARealNumber();
     });
 
-    it('should have hyperbolic radius', function () {
+    it('has hyperbolic radius', function () {
       expect(circle.getHyperbolicRadius()).toBeARealNumber();
     });
 
-    it('should not have unit circle intersects', function () {
+    it('does not have unit circle intersects', function () {
       expect(circle.getUnitCircleIntersects()).toBe(false);
     });
 
-    it('should contain Point within its radius', function () {
+    it('contains Point within its radius', function () {
       var point = circle.getEuclideanCenter().euclideanDistantPoint(
         circle.getEuclideanRadius() * .9 * Math.random(),
         HyperbolicCanvas.Angle.random()
@@ -88,7 +88,7 @@ describe('Circle', function () {
       expect(circle.containsPoint(point)).toBe(true);
     });
 
-    it('should include Point on its circumference', function () {
+    it('includes Point on its circumference', function () {
       var point = circle.getEuclideanCenter().euclideanDistantPoint(
         circle.getEuclideanRadius(),
         HyperbolicCanvas.Angle.random()
@@ -96,12 +96,12 @@ describe('Circle', function () {
       expect(circle.includesPoint(point)).toBe(true);
     });
 
-    it('should have Euclidean tangent line at given angle', function () {
+    it('has Euclidean tangent line at given angle', function () {
       var angle = HyperbolicCanvas.Angle.random();
       expect(circle.euclideanTangentAtAngle(angle)).toBeA(HyperbolicCanvas.Line);
     });
 
-    it('should have Euclidean tangent line at angle of given Point', function () {
+    it('has Euclidean tangent line at angle of given Point', function () {
       var point = HyperbolicCanvas.Point.random();
       expect(circle.euclideanTangentAtPoint(point)).toBeA(HyperbolicCanvas.Line);
     });
@@ -109,13 +109,13 @@ describe('Circle', function () {
     describe('when mapping angles from center to Points on edge', function () {
       var angle, point;
       describe('along Euclidean geodesics', function () {
-        it('should have angle from center towards Point', function () {
+        it('has angle from center towards Point', function () {
           point = HyperbolicCanvas.Point.random();
           angle = circle.euclideanAngleAt(point);
           expect(angle).toBeARealNumber();
         });
 
-        it('should have Point on edge at given angle', function () {
+        it('has Point on edge at given angle', function () {
           angle = HyperbolicCanvas.Angle.random();
           point = circle.euclideanPointAt(angle);
           expect(point).toBeA(HyperbolicCanvas.Point);
@@ -124,13 +124,13 @@ describe('Circle', function () {
       });
 
       describe('along hyperbolic geodesics', function () {
-        it('should have angle from center towards Point', function () {
+        it('has angle from center towards Point', function () {
           point = HyperbolicCanvas.Point.random();
           angle = circle.hyperbolicAngleAt(point);
           expect(angle).toBeARealNumber();
         });
 
-        it('should have Point on edge at given angle', function () {
+        it('has Point on edge at given angle', function () {
           angle = HyperbolicCanvas.Angle.random();
           point = circle.hyperbolicPointAt(angle);
           expect(point).toBeA(HyperbolicCanvas.Point);
@@ -157,7 +157,7 @@ describe('Circle', function () {
                 euclideanRadius * (Math.random() - .5);
           });
 
-          it('should have two y values', function () {
+          it('has two y values', function () {
             var values = circle.yAtX(x);
 
             expect(values).toBeA(Array);
@@ -168,7 +168,7 @@ describe('Circle', function () {
             });
           });
 
-          it('should have two Points', function () {
+          it('has two Points', function () {
             var points = circle.pointsAtX(x);
 
             expect(points).toBeA(Array);
@@ -190,7 +190,7 @@ describe('Circle', function () {
                 euclideanRadius * (Math.random() > .5 ? 1 : -1);
           });
 
-          it('should have one y value', function () {
+          it('has one y value', function () {
             var values = circle.yAtX(x);
 
             expect(values).toBeA(Array);
@@ -198,7 +198,7 @@ describe('Circle', function () {
             expect(values[0]).toBeARealNumber();
           });
 
-          it('should have one Point', function () {
+          it('has one Point', function () {
             var points = circle.pointsAtX(x);
 
             expect(points).toBeA(Array);
@@ -219,14 +219,14 @@ describe('Circle', function () {
                 );
           });
 
-          it('should have zero y values', function () {
+          it('has zero y values', function () {
             var values = circle.yAtX(x);
 
             expect(values).toBeA(Array);
             expect(values.length).toBe(0);
           });
 
-          it('should have zero Points', function () {
+          it('has zero Points', function () {
             var points = circle.pointsAtX(x);
 
             expect(points).toBeA(Array);
@@ -243,7 +243,7 @@ describe('Circle', function () {
                 euclideanRadius * (Math.random() - .5);
           });
 
-          it('should have two x values', function () {
+          it('has two x values', function () {
             var values = circle.xAtY(y);
 
             expect(values).toBeA(Array);
@@ -254,7 +254,7 @@ describe('Circle', function () {
             });
           });
 
-          it('should have two Points', function () {
+          it('has two Points', function () {
             var points = circle.pointsAtY(y);
 
             expect(points).toBeA(Array);
@@ -276,7 +276,7 @@ describe('Circle', function () {
                 euclideanRadius * (Math.random() > .5 ? 1 : -1);
           });
 
-          it('should have one x value', function () {
+          it('has one x value', function () {
             var values = circle.xAtY(y);
 
             expect(values).toBeA(Array);
@@ -284,7 +284,7 @@ describe('Circle', function () {
             expect(values[0]).toBeARealNumber();
           });
 
-          it('should have one Point', function () {
+          it('has one Point', function () {
             var points = circle.pointsAtY(y);
 
             expect(points).toBeA(Array);
@@ -305,14 +305,14 @@ describe('Circle', function () {
                 );
           });
 
-          it('should have zero x values', function () {
+          it('has zero x values', function () {
             var values = circle.xAtY(y);
 
             expect(values).toBeA(Array);
             expect(values.length).toBe(0);
           });
 
-          it('should have zero Points', function () {
+          it('has zero Points', function () {
             var points = circle.pointsAtY(y);
 
             expect(points).toBeA(Array);
@@ -332,43 +332,43 @@ describe('Circle', function () {
       );
     });
 
-    it('should have Euclidean area', function () {
+    it('has Euclidean area', function () {
       expect(circle.getEuclideanArea()).toBeARealNumber();
     });
 
-    it('should have Euclidean center', function () {
+    it('has Euclidean center', function () {
       expect(circle.getEuclideanCenter()).toBeA(HyperbolicCanvas.Point);
     });
 
-    it('should have Euclidean circumference', function () {
+    it('has Euclidean circumference', function () {
       expect(circle.getEuclideanCircumference()).toBeARealNumber();
     });
 
-    it('should have Euclidean diameter', function () {
+    it('has Euclidean diameter', function () {
       expect(circle.getEuclideanDiameter()).toBeARealNumber();
     });
 
-    it('should have Euclidean radius', function () {
+    it('has Euclidean radius', function () {
       expect(circle.getEuclideanRadius()).toBeARealNumber();
     });
 
-    it('should not have hyperbolic area', function () {
+    it('does not have hyperbolic area', function () {
       expect(circle.getHyperbolicArea()).toBeNaN();
     });
 
-    it('should not have hyperbolic center', function () {
+    it('does not have hyperbolic center', function () {
       expect(circle.getHyperbolicCenter()).toBe(false);
     });
 
-    it('should not have hyperbolic circumference', function () {
+    it('does not have hyperbolic circumference', function () {
       expect(circle.getHyperbolicCircumference()).toBeNaN();
     });
 
-    it('should not have hyperbolic diameter', function () {
+    it('does not have hyperbolic diameter', function () {
       expect(circle.getHyperbolicDiameter()).toBeNaN();
     });
 
-    it('should not have hyperbolic radius', function () {
+    it('does not have hyperbolic radius', function () {
       expect(circle.getHyperbolicRadius()).toBeNaN();
     });
   });
@@ -381,7 +381,7 @@ describe('Circle', function () {
       );
     });
 
-    it('should be a Circle', function () {
+    it('is a Circle', function () {
       expect(circle).toBeA(Circle);
     });
   });
@@ -394,7 +394,7 @@ describe('Circle', function () {
       );
     });
 
-    it('should be a Circle', function () {
+    it('is a Circle', function () {
       expect(circle).toBeA(Circle);
     });
 
@@ -409,7 +409,7 @@ describe('Circle', function () {
       );
     });
 
-    it('should be a Circle', function () {
+    it('is a Circle', function () {
       expect(circle).toBeA(Circle);
     });
   });
@@ -423,7 +423,7 @@ describe('Circle', function () {
       );
     });
 
-    it('should be a Circle', function () {
+    it('is a Circle', function () {
       expect(circle).toBeA(Circle);
     });
   });
@@ -447,7 +447,7 @@ describe('Circle', function () {
         );
       });
 
-      it('should be false', function () {
+      it('is false', function () {
         expect(Circle.intersects(c0, c1)).toBe(false);
       });
     });
@@ -464,7 +464,7 @@ describe('Circle', function () {
         );
       });
 
-      it('should be false', function () {
+      it('is false', function () {
         expect(Circle.intersects(c0, c1)).toBe(false);
       });
     });
@@ -481,7 +481,7 @@ describe('Circle', function () {
         );
       });
 
-      it('should be an Array of two Points', function () {
+      it('is an Array of two Points', function () {
         var intersects = Circle.intersects(c0, c1);
         expect(intersects).toBeA(Array);
         expect(intersects.length).toBe(2);
@@ -497,65 +497,65 @@ describe('Circle', function () {
       circle = Circle.UNIT;
     });
 
-    it('should be Circle', function () {
+    it('is Circle', function () {
       expect(circle).toBeA(Circle);
     }, true);
 
-    it('should have Euclidean and hyperbolic center at origin', function () {
+    it('has Euclidean and hyperbolic center at origin', function () {
       expect(circle.getEuclideanCenter()).toBe(HyperbolicCanvas.Point.ORIGIN);
       expect(circle.getHyperbolicCenter()).toBe(HyperbolicCanvas.Point.ORIGIN);
     }, true);
 
-    it('should have Euclidean area of pi', function () {
+    it('has Euclidean area of pi', function () {
       expect(circle.getEuclideanArea()).toBe(Math.PI);
     }, true);
 
-    it('should have Euclidean circumference of tau', function () {
+    it('has Euclidean circumference of tau', function () {
       expect(circle.getEuclideanCircumference()).toBe(Math.TAU);
     }, true);
 
-    it('should have Euclidean radius of 1', function () {
+    it('has Euclidean radius of 1', function () {
       expect(circle.getEuclideanRadius()).toBe(1);
     }, true);
 
-    it('should have Euclidean diameter of 2', function () {
+    it('has Euclidean diameter of 2', function () {
       expect(circle.getEuclideanDiameter()).toBe(2);
     }, true);
 
-    it('should calculate angle towards Point along Euclidean geodesic', function () {
+    it('calculates angle towards Point along Euclidean geodesic', function () {
       var point = HyperbolicCanvas.Point.random();
       expect(circle.euclideanAngleAt(point)).toApproximate(point.getAngle());
     });
 
-    it('should calculate Point in direction of angle along Euclidean geodesic', function () {
+    it('calculates Point in direction of angle along Euclidean geodesic', function () {
       var angle = HyperbolicCanvas.Angle.random();
       expect(circle.euclideanPointAt(angle).equals(
         HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(1, angle)
       )).toBe(true);
     });
 
-    it('should have hyperbolic area of infinity', function () {
+    it('has hyperbolic area of infinity', function () {
       expect(circle.getHyperbolicArea()).toBe(Infinity);
     }, true);
 
-    it('should have hyperbolic circumference of infinity', function () {
+    it('has hyperbolic circumference of infinity', function () {
       expect(circle.getHyperbolicCircumference()).toBe(Infinity);
     }, true);
 
-    it('should have hyperbolic radius of infinity', function () {
+    it('has hyperbolic radius of infinity', function () {
       expect(circle.getHyperbolicRadius()).toBe(Infinity);
     }, true);
 
-    it('should have hyperbolic diameter of infinity', function () {
+    it('has hyperbolic diameter of infinity', function () {
       expect(circle.getHyperbolicDiameter()).toBe(Infinity);
     }, true);
 
-    it('should calculate angle towards Point along hyperbolic geodesic', function () {
+    it('calculates angle towards Point along hyperbolic geodesic', function () {
       var point = HyperbolicCanvas.Point.random();
       expect(circle.hyperbolicAngleAt(point)).toApproximate(point.getAngle());
     });
 
-    it('should calculate Point in direction of angle along hyperbolic geodesic', function () {
+    it('calculates Point in direction of angle along hyperbolic geodesic', function () {
       var angle = HyperbolicCanvas.Angle.random();
       expect(circle.hyperbolicPointAt(angle).equals(
         HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(1, angle)
