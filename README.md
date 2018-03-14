@@ -3,19 +3,31 @@ A Javascript implementation of the [Poincaré disk model][diskmodel] of the hype
 
 Usage examples can be found on the [project site][gh-pages].
 
-[diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
-[gh-pages]: https://ItsNickBarry.github.io/hyperbolic-canvas
-
-## Warning
-<!-- // "edge cases" (ha!) in which a point sufficiently close to boundary is NaN due to floating point math -->
-
-Due to the less-than-infinite precision of floating point numbers, bad things can happen, especially as points approach the border of the plane.
-
-Certain browsers do not provide support for the hyperbolic functions.
-
 To report problems or request features, please open a new [issue][issue].
 
+[diskmodel]: https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model
+[gh-pages]: https://ItsNickBarry.github.io/hyperbolic-canvas
 [issue]: ./../../issues
+
+## Scope
+This library prioritizes the visualization of hyperbolic geometry over precise mathematical calculation.  Due to the less-than-infinite precision of floating-point numbers, and because certain trigonometric functions are [ill-conditioned][condition-number], these goals are often at odds.
+
+[condition-number]: https://en.wikipedia.org/wiki/Condition_number
+
+### Accuracy Thresholds
+The arbitrary constants `HyperbolicCanvas.INFINITY` and `HyperbolicCanvas.ZERO` have been defined for use in internal comparisons in place of `Infinity` and `0`, respectively.  Their values may be overridden, but increased accuracy will tend to lead to more unpredictable behavior.
+
+### Jasmine Specs
+This library uses [Jasmine specs][jasmine] to validate the code and prevent regressions.
+
+The specs have been written to use random input values.  While this approach is unconventional, it provides more convidence than would an attempt to test an effectively infinite number of edge cases<!-- ha!  Get it? -->.  Some specs do occasionally fail; the frequency at which this occurs is determined by the accuracy of the constants `HyperbolicCanvas.INFINITY` and `HyperbolicCanvas.ZERO`.
+
+The Jasmine library itself has been modified to run each spec multiple times, and a random number seed is used so that errors may be reproduced.  The seed and the spec run count can be set in the options menu on the [SpecRunner][jasmine] page.
+
+[jasmine]: https://ItsNickBarry.github.io/hyperbolic-canvas/jasmine/SpecRunner.html
+
+### Browser Support
+Certain browsers do not provide support for the hyperbolic trigonometric functions. Polyfills are available.
 
 ## Usage
 ### Installation
