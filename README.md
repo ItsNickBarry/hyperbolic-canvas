@@ -57,7 +57,14 @@ canvas === HyperbolicCanvas.canvases['main-canvas'];
 An object containing all Canvas objects is exposed through the `HyperbolicCanvas` namespace.
 
 ```javascript
-window.HyperbolicCanvas.canvases;
+HyperbolicCanvas.canvases;
+```
+
+Approximations of `Infinity` and `0` are defined for use in internal comparisons:
+
+```javascript
+HyperbolicCanvas.INFINITY;
+HyperbolicCanvas.ZERO;
 ```
 
 The constant [Tau][manifesto] is defined on the Math object as `2 * Math.PI`:
