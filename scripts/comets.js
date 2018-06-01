@@ -1,9 +1,9 @@
 ;
 (function () {
-  if (typeof HyperbolicCanvas === "undefined") {
+  if (typeof HyperbolicCanvas === 'undefined') {
     window.HyperbolicCanvas = {};
   }
-  if (typeof HyperbolicCanvas.scripts === "undefined") {
+  if (typeof HyperbolicCanvas.scripts === 'undefined') {
     window.HyperbolicCanvas.scripts = {};
   }
 

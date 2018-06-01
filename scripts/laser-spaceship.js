@@ -1,9 +1,9 @@
 ;
 (function () {
-  if (typeof HyperbolicCanvas === "undefined") {
+  if (typeof HyperbolicCanvas === 'undefined') {
     window.HyperbolicCanvas = {};
   }
-  if (typeof HyperbolicCanvas.scripts === "undefined") {
+  if (typeof HyperbolicCanvas.scripts === 'undefined') {
     window.HyperbolicCanvas.scripts = {};
   }
 
@@ -200,7 +200,7 @@
 
     fn();
 
-    addEventListener("keydown", function (e) {
+    addEventListener('keydown', function (e) {
       // if (e.keyCode === 32) {
       //   var now = new Date();
       //   if (now - lastBulletTime < bulletCooldown) {
@@ -225,7 +225,7 @@
       keysDown[e.keyCode] = true;
     }, false);
 
-    addEventListener("keyup", function (e) {
+    addEventListener('keyup', function (e) {
       delete keysDown[e.keyCode];
     }, false);
   };
