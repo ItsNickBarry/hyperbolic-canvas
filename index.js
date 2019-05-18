@@ -1,1 +1,1 @@
-module.exports = require('./lib/HyperbolicCanvas.js');
+module.exports = require('./lib/hyperbolic_canvas.js');
