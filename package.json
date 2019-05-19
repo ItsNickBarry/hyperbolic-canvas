@@ -1,0 +1,34 @@
+{
+  "name": "hyperbolic-canvas",
+  "version": "1.0.0",
+  "description": "The Poincaré disk model of the hyperbolic plane on the HTML canvas.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"open jasmine/SpecRunner.html in a browser to run tests\"",
+    "compile": "browserify index.js > dist/hyperbolic_canvas.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsnickbarry/hyperbolic-canvas.git"
+  },
+  "keywords": [
+    "hyperbolic",
+    "geometry",
+    "canvas",
+    "wow",
+    "visualization",
+    "non-euclidean",
+    "poincare",
+    "math",
+    "maths"
+  ],
+  "author": "Nick Barry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itsnickbarry/hyperbolic-canvas/issues"
+  },
+  "homepage": "https://github.com/itsnickbarry/hyperbolic-canvas#readme"
+}
