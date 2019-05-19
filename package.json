@@ -1,6 +1,6 @@
 {
   "name": "hyperbolic-canvas",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The Poincaré disk model of the hyperbolic plane on the HTML canvas.",
   "main": "index.js",
   "directories": {
