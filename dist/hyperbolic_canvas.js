@@ -799,12 +799,9 @@ require('./circle.js');
 require('./polygon.js');
 require('./canvas.js');
 
-HyperbolicCanvas.canvases = {};
-
-HyperbolicCanvas.create = function (selector, name) {
-  name = name || 'canvas' + Object.keys(HyperbolicCanvas.canvases).length;
-  return HyperbolicCanvas.canvases[name] = new HyperbolicCanvas.Canvas({
-    el: document.querySelector(selector) || document.createElement('div')
+HyperbolicCanvas.create = function (selector) {
+  return new HyperbolicCanvas.Canvas({
+    el: document.querySelector(selector) || document.createElement('div'),
   });
 };
 
