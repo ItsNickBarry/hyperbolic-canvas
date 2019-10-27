@@ -4,6 +4,32 @@ A Javascript implementation of the [Poincaré disk model](https://en.wikipedia.o
 
 Usage examples can be found on the [project site](https://ItsNickBarry.github.io/hyperbolic-canvas).
 
+## Installation
+
+### Via NPM
+
+```
+npm install --save hyperbolic-canvas
+```
+
+### In-Browser
+
+```html
+<script type="application/javascript" src="dist/hyperbolic_canvas.js"></script>
+```
+
+## Usage
+
+Pass a unique selector of a div element, to the function `HyperbolicCanvas.create`.  Nonzero width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
+
+```html
+<div id="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
+```
+
+```javascript
+let canvas = HyperbolicCanvas.create('#hyperbolic-canvas');
+```
+
 ## Scope
 
 This library prioritizes the visualization of hyperbolic geometry over precise mathematical calculation.  Due to the less-than-infinite precision of floating-point numbers, and because certain trigonometric functions are [ill-conditioned](https://en.wikipedia.org/wiki/Condition_number), these goals are often at odds.
@@ -25,32 +51,6 @@ The Jasmine library itself has been modified to run each spec multiple times, an
 ### Browser Support
 
 Certain browsers do not provide support for the hyperbolic trigonometric functions. Polyfills are available.
-
-## Installation
-
-### In-Browser
-
-```html
-<script type="application/javascript" src="dist/hyperbolic_canvas.js"></script>
-```
-
-### Via NPM
-
-```
-npm install --save hyperbolic-canvas
-```
-
-## Usage
-
-Pass a unique selector of a div element, to the function `HyperbolicCanvas.create`.  Nonzero width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
-
-```html
-<div id="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
-```
-
-```javascript
-let canvas = HyperbolicCanvas.create('#hyperbolic-canvas');
-```
 
 ### API
 
