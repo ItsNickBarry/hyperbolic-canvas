@@ -30,6 +30,10 @@ Pass a unique selector of a div element, to the function `HyperbolicCanvas.creat
 let canvas = HyperbolicCanvas.create('#hyperbolic-canvas');
 ```
 
+### API
+
+See `API.md` for a list of functions and their descriptions.
+
 ## Scope
 
 This library prioritizes the visualization of hyperbolic geometry over precise mathematical calculation.  Due to the less-than-infinite precision of floating-point numbers, and because certain trigonometric functions are [ill-conditioned](https://en.wikipedia.org/wiki/Condition_number), these goals are often at odds.
@@ -51,7 +55,3 @@ The Jasmine library itself has been modified to run each spec multiple times, an
 ### Browser Support
 
 Certain browsers do not provide support for the hyperbolic trigonometric functions. Polyfills are available.
-
-### API
-
-See `API.md` for a list of functions and their descriptions.
