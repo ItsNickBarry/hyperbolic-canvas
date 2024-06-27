@@ -55,3 +55,17 @@ The Jasmine library itself has been modified to run each spec multiple times, an
 ### Browser Support
 
 Certain browsers do not provide support for the hyperbolic trigonometric functions. Polyfills are available.
+
+## Development
+
+Install dependencies via Yarn:
+
+```bash
+yarn install
+```
+
+Setup Husky to format code on commit:
+
+```bash
+yarn prepare
+```
