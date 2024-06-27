@@ -7,8 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"open jasmine/SpecRunner.html in a browser to run tests\"",
-    "compile": "browserify index.js > dist/hyperbolic_canvas.js",
+    "test": "yarn compile && firefox jasmine/SpecRunner.html",
+    "compile": "rm -rf dist/ && mkdir dist/ && browserify index.js > dist/hyperbolic_canvas.js && prettier dist/",
     "prepare": "husky",
     "prettier": "prettier --write ."
   },

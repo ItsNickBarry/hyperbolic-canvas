@@ -14,6 +14,10 @@ npm install --save hyperbolic-canvas
 
 ### In-Browser
 
+```bash
+yarn compile`
+```
+
 ```html
 <script type="application/javascript" src="dist/hyperbolic_canvas.js"></script>
 ```

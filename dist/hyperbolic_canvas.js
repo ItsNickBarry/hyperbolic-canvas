@@ -39,9 +39,9 @@
   {
     1: [
       function (require, module, exports) {
-        module.exports = require('./lib/hyperbolic_canvas.js');
+        module.exports = require('./src/hyperbolic_canvas.js');
       },
-      { './lib/hyperbolic_canvas.js': 5 },
+      { './src/hyperbolic_canvas.js': 5 },
     ],
     2: [
       function (require, module, exports) {
