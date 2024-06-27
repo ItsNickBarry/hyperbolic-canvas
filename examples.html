@@ -1,110 +1,141 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-
-  <!-- Basic Page Needs
+  <head>
+    <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta charset="utf-8">
-  <title>Hyperbolic Canvas</title>
-  <meta name="description" content="The Poincaré disk model of the hyperbolic plane, in Javascript">
-  <meta name="author" content="Nick Barry">
+    <meta charset="utf-8" />
+    <title>Hyperbolic Canvas</title>
+    <meta
+      name="description"
+      content="The Poincaré disk model of the hyperbolic plane, in Javascript"
+    />
+    <meta name="author" content="Nick Barry" />
 
-  <!-- Mobile Specific Metas
+    <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta name="backdrop" content="width=device-width, initial-scale=1">
+    <meta name="backdrop" content="width=device-width, initial-scale=1" />
 
-  <!-- FONT
+    <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link
+      href="//fonts.googleapis.com/css?family=Raleway:400,300,600"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-  <!-- CSS
+    <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/hyperbolic-canvas.css">
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/skeleton.css" />
+    <link rel="stylesheet" href="css/hyperbolic-canvas.css" />
 
-  <!-- Favicon
+    <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
-
-</head>
-<body>
-
-  <!-- Primary Page Layout
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+  </head>
+  <body>
+    <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container">
-    <div class="row">
-      <nav>
-        <div class="nav-button three columns">
-          <a href="index.html">Home</a>
-        </div>
-        <div class="nav-button three columns">
-          <a href="about.html">About</a>
-        </div>
-        <div class="nav-button three columns">
-          <a href="documentation.html">Documentation</a>
-        </div>
-        <div class="nav-button three columns">
-          <a href="examples.html">Examples</a>
-        </div>
-      </nav>
-    </div>
+    <div class="container">
+      <div class="row">
+        <nav>
+          <div class="nav-button three columns">
+            <a href="index.html">Home</a>
+          </div>
+          <div class="nav-button three columns">
+            <a href="about.html">About</a>
+          </div>
+          <div class="nav-button three columns">
+            <a href="documentation.html">Documentation</a>
+          </div>
+          <div class="nav-button three columns">
+            <a href="examples.html">Examples</a>
+          </div>
+        </nav>
+      </div>
 
-    <div class="row">
-      <div class="content">
-        <h1>Examples</h1>
-        <div class="example" onclick="location='example.html?script=laser-spaceship'">
-          <h4>Laser Spaceship</h4>
-          <p>
-            <a href="#">Fly your spaceship with the W, A, S, and D keys, and launch torpedos with the space bar.</a>
-          </p>
-        </div>
-        <div class="example" onclick="location='example.html?script=hexagons'">
-          <h4>Hexagons</h4>
-          <p>
-            <a href="#">Allow a group of regular, congruent hexagons to dazzle you with their spinning.</a>
-          </p>
-        </div>
-        <div class="example" onclick="location='example.html?script=hand-drawn-polygon'">
-          <h4>Hand-Drawn Polygon</h4>
-          <p>
-            <a href="#">Click to draw your own hyperbolic polygon.</a>
-          </p>
-        </div>
-        <div class="example" onclick="location='example.html?script=mouse-interaction'">
-          <h4>Mouse Interaction</h4>
-          <p>
-            <a href="#">Move your mouse and click on the canvas to exert power over your polygons.</a>
-          </p>
-        </div>
-        <div class="example" onclick="location='example.html?script=concentric-circles'">
-          <h4>Concentric Circles</h4>
-          <p>
-            <a href="#">Hyperbolic circles look like circles.</a>
-          </p>
-        </div>
+      <div class="row">
+        <div class="content">
+          <h1>Examples</h1>
+          <div
+            class="example"
+            onclick="location='example.html?script=laser-spaceship'"
+          >
+            <h4>Laser Spaceship</h4>
+            <p>
+              <a href="#"
+                >Fly your spaceship with the W, A, S, and D keys, and launch
+                torpedos with the space bar.</a
+              >
+            </p>
+          </div>
+          <div
+            class="example"
+            onclick="location='example.html?script=hexagons'"
+          >
+            <h4>Hexagons</h4>
+            <p>
+              <a href="#"
+                >Allow a group of regular, congruent hexagons to dazzle you with
+                their spinning.</a
+              >
+            </p>
+          </div>
+          <div
+            class="example"
+            onclick="location='example.html?script=hand-drawn-polygon'"
+          >
+            <h4>Hand-Drawn Polygon</h4>
+            <p>
+              <a href="#">Click to draw your own hyperbolic polygon.</a>
+            </p>
+          </div>
+          <div
+            class="example"
+            onclick="location='example.html?script=mouse-interaction'"
+          >
+            <h4>Mouse Interaction</h4>
+            <p>
+              <a href="#"
+                >Move your mouse and click on the canvas to exert power over
+                your polygons.</a
+              >
+            </p>
+          </div>
+          <div
+            class="example"
+            onclick="location='example.html?script=concentric-circles'"
+          >
+            <h4>Concentric Circles</h4>
+            <p>
+              <a href="#">Hyperbolic circles look like circles.</a>
+            </p>
+          </div>
 
-        <h1>Bad Examples</h1>
-        <div class="example" onclick="location='example.html?script=comets'">
-          <h4>Very Bad Comets</h4>
-          <p>
-            <a href="#">It's not that bad any more.  Point and click.</a>
-          </p>
-        </div>
-        <div class="example" onclick="location='example.html?script=web'">
-          <h4>Annoying Web</h4>
-          <p>
-            <a href="#">Ill-conditioned functions and floating point rounding errors.</a>
-          </p>
+          <h1>Bad Examples</h1>
+          <div class="example" onclick="location='example.html?script=comets'">
+            <h4>Very Bad Comets</h4>
+            <p>
+              <a href="#">It's not that bad any more. Point and click.</a>
+            </p>
+          </div>
+          <div class="example" onclick="location='example.html?script=web'">
+            <h4>Annoying Web</h4>
+            <p>
+              <a href="#"
+                >Ill-conditioned functions and floating point rounding
+                errors.</a
+              >
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Scripts
+    <!-- Scripts
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-<!-- End Document
+    <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-</body>
+  </body>
 </html>

@@ -1,4 +1,3 @@
-;
 (function () {
   if (typeof HyperbolicCanvas === 'undefined') {
     window.HyperbolicCanvas = {};
@@ -31,8 +30,8 @@
     var heading = HyperbolicCanvas.Angle.random();
     var headingIncrement = Math.TAU / 100;
     var velocity = 0;
-    var velocityIncrement = .002;
-    var maxVelocity = .05;
+    var velocityIncrement = 0.002;
+    var maxVelocity = 0.05;
 
     var wingAngle = Math.TAU / 3;
 
@@ -42,38 +41,37 @@
     var lastBulletTime = new Date();
     var bulletCooldown = 200;
 
-
     var location = HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
-      .5,
-      HyperbolicCanvas.Angle.opposite(heading)
+      0.5,
+      HyperbolicCanvas.Angle.opposite(heading),
     );
     var front;
 
     var drawShip = function () {
-      front = location.hyperbolicDistantPoint(.1, heading);
-      var left = location.hyperbolicDistantPoint(.05, heading + wingAngle);
-      var right = location.hyperbolicDistantPoint(.05, heading - wingAngle);
+      front = location.hyperbolicDistantPoint(0.1, heading);
+      var left = location.hyperbolicDistantPoint(0.05, heading + wingAngle);
+      var right = location.hyperbolicDistantPoint(0.05, heading - wingAngle);
 
       // draw heading line
       canvas.setContextProperties({
         lineDash: [5],
         lineWidth: 1,
         shadowBlur: 0,
-        strokeStyle: 'white'
+        strokeStyle: 'white',
       });
       var path = canvas.pathForHyperbolic(
-        HyperbolicCanvas.Line.givenTwoPoints(front, location.hyperbolicDistantPoint(30))
+        HyperbolicCanvas.Line.givenTwoPoints(
+          front,
+          location.hyperbolicDistantPoint(30),
+        ),
       );
       canvas.stroke(path);
       canvas.setContextProperties(defaultProperties);
 
       // draw ship
-      path = canvas.pathForHyperbolic(HyperbolicCanvas.Polygon.givenVertices([
-        front,
-        left,
-        location,
-        right,
-      ]));
+      path = canvas.pathForHyperbolic(
+        HyperbolicCanvas.Polygon.givenVertices([front, left, location, right]),
+      );
       canvas.stroke(path);
     };
 
@@ -88,11 +86,11 @@
         // });
 
         path = canvas.pathForHyperbolic(
-          HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(bullet, .01),
-          { path2D: true, path: path }
+          HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(bullet, 0.01),
+          { path2D: true, path: path },
         );
       }
-      if(path){
+      if (path) {
         canvas.fill(path);
       }
     };
@@ -100,21 +98,33 @@
     var drawRangeCircles = function () {
       // draw range circles
       canvas.setContextProperties({
-        strokeStyle: 'black'
+        strokeStyle: 'black',
       });
       var circle;
 
       for (var i = 0; i < 3; i++) {
-        circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(location, i + 1);
+        circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+          location,
+          i + 1,
+        );
         canvas.setContextProperties({
-          lineDash: [circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * .9]
+          lineDash: [
+            circle.getEuclideanCircumference() * 0.1,
+            circle.getEuclideanCircumference() * 0.9,
+          ],
         });
         canvas.stroke(canvas.pathForHyperbolic(circle));
       }
       for (var i = 0; i < 3; i++) {
-        circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(location, i + .5);
+        circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+          location,
+          i + 0.5,
+        );
         canvas.setContextProperties({
-          lineDash: [circle.getEuclideanCircumference() * .1, circle.getEuclideanCircumference() * 9.9]
+          lineDash: [
+            circle.getEuclideanCircumference() * 0.1,
+            circle.getEuclideanCircumference() * 9.9,
+          ],
         });
         canvas.stroke(canvas.pathForHyperbolic(circle));
       }
@@ -139,26 +149,26 @@
       shouldRender ^= true;
       boost = 16 in keysDown ? 3 : 1;
 
-  		if (37 in keysDown || 65 in keysDown) {
+      if (37 in keysDown || 65 in keysDown) {
         heading += headingIncrement * boost;
       }
-  		if (39 in keysDown || 68 in keysDown) {
+      if (39 in keysDown || 68 in keysDown) {
         heading -= headingIncrement * boost;
       }
 
-  		if (38 in keysDown || 87 in keysDown) {
-  			if (velocity < maxVelocity) {
+      if (38 in keysDown || 87 in keysDown) {
+        if (velocity < maxVelocity) {
           velocity += velocityIncrement * boost;
         }
-  		}
-  		if (40 in keysDown || 83 in keysDown) {
-  			if (velocity > 0) {
+      }
+      if (40 in keysDown || 83 in keysDown) {
+        if (velocity > 0) {
           velocity -= velocityIncrement;
           if (velocity < 0) {
             velocity = 0;
           }
         }
-  		}
+      }
 
       // var now = new Date()
       // if (32 in keysDown && now - lastBulletTime > bulletCooldown) {
@@ -166,29 +176,31 @@
         // fire
         var bullet = HyperbolicCanvas.Point.givenCoordinates(
           front.getX(),
-          front.getY()
+          front.getY(),
         );
-        bullet._setDirection(front.getDirection() + (Math.random() -.5) * Math.TAU / 100);
+        bullet._setDirection(
+          front.getDirection() + ((Math.random() - 0.5) * Math.TAU) / 100,
+        );
         bullet.color = randomColor();
         bullets.push(bullet);
 
         // lastBulletTime = now;
         framesSinceBullet = 0;
       } else {
-        framesSinceBullet +=1;
+        framesSinceBullet += 1;
       }
 
       location = location.hyperbolicDistantPoint(velocity, heading);
       heading = location.getDirection();
-      velocity *= .99;
+      velocity *= 0.99;
 
       // update bullet locations
       var newBullets = [];
       for (var i in bullets) {
         var bullet = bullets[i];
-        var newBullet = bullet.hyperbolicDistantPoint(.1);
+        var newBullet = bullet.hyperbolicDistantPoint(0.1);
         newBullet.color = bullet.color;
-        if (newBullet.getEuclideanRadius() < .99) {
+        if (newBullet.getEuclideanRadius() < 0.99) {
           newBullets.push(newBullet);
         }
       }
@@ -200,33 +212,41 @@
 
     fn();
 
-    addEventListener('keydown', function (e) {
-      // if (e.keyCode === 32) {
-      //   var now = new Date();
-      //   if (now - lastBulletTime < bulletCooldown) {
-      //     return;
-      //   }
-      //   lastBulletTime = now;
-      //   // only fire on keydown, don't store in keysDown
-      //   var bullet = HyperbolicCanvas.Point.givenCoordinates(
-      //     front.getX(),
-      //     front.getY()
-      //   );
-      //   bullet._setDirection(front.getDirection());
-      //   bullet.color = randomColor();
-      //   bullets.push(bullet);
-      //
-      //     var audioName = 'mod blaster';
-      //     var audio = new Audio('https://github.com/endless-sky/endless-sky/raw/master/sounds/' + audioName +'.wav');
-      //     audio.play();ss
-      // } else {
-      //   keysDown[e.keyCode] = true;
-      // }
-      keysDown[e.keyCode] = true;
-    }, false);
+    addEventListener(
+      'keydown',
+      function (e) {
+        // if (e.keyCode === 32) {
+        //   var now = new Date();
+        //   if (now - lastBulletTime < bulletCooldown) {
+        //     return;
+        //   }
+        //   lastBulletTime = now;
+        //   // only fire on keydown, don't store in keysDown
+        //   var bullet = HyperbolicCanvas.Point.givenCoordinates(
+        //     front.getX(),
+        //     front.getY()
+        //   );
+        //   bullet._setDirection(front.getDirection());
+        //   bullet.color = randomColor();
+        //   bullets.push(bullet);
+        //
+        //     var audioName = 'mod blaster';
+        //     var audio = new Audio('https://github.com/endless-sky/endless-sky/raw/master/sounds/' + audioName +'.wav');
+        //     audio.play();ss
+        // } else {
+        //   keysDown[e.keyCode] = true;
+        // }
+        keysDown[e.keyCode] = true;
+      },
+      false,
+    );
 
-    addEventListener('keyup', function (e) {
-      delete keysDown[e.keyCode];
-    }, false);
+    addEventListener(
+      'keyup',
+      function (e) {
+        delete keysDown[e.keyCode];
+      },
+      false,
+    );
   };
 })();

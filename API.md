@@ -1,5 +1,7 @@
 # API
+
 ## Exposed Variables and Constants
+
 An object containing all Canvas objects is exposed through the `HyperbolicCanvas` namespace.
 
 ```javascript
@@ -24,11 +26,13 @@ Math.TAU;
 [manifesto]: http://tauday.com/tau-manifesto
 
 ## Geometric Object Classes and Their Functions
+
 The hyperbolic canvas makes use of several geometric object classes, defined relative to the Euclidean plane.
 
-When instantiating objects, it is **not recommended to call the constructor directly**.  Instead, use the provided factory methods.
+When instantiating objects, it is **not recommended to call the constructor directly**. Instead, use the provided factory methods.
 
 ### Angle
+
 A non-function object which contains convenience functions related to angles.
 
 Functions:
@@ -52,6 +56,7 @@ Angle.random(quadrant);
 ```
 
 ### Point
+
 A representation of a point on the Canvas, where the center is defined as (0, 0) and the radius is defined as 1, and the y axis is not inverted.
 
 Constants:
@@ -139,7 +144,8 @@ Point.prototype.opposite();
 ```
 
 ### Line
-The relationship between two Points.  Contains various functions which act on either the Euclidean or the hyperbolic plane.  Can represent a line, line segment, or ray.
+
+The relationship between two Points. Contains various functions which act on either the Euclidean or the hyperbolic plane. Can represent a line, line segment, or ray.
 
 Constants:
 
@@ -163,6 +169,7 @@ Line.givenAnglesOfIdealPoints(someAngle, someOtherAngle);
 ```
 
 Class functions:
+
 ```javascript
 Line.euclideanIntersect(someLine, someOtherLine);
 // calculate the point of intersection of two Euclidean lines
@@ -212,6 +219,7 @@ Line.prototype.getEuclideanUnitCircleIntersects();
 ```
 
 ### Circle
+
 A Euclidean center Point and a Euclidean radius; potentially also a hyperbolic center Point and a hyperbolic radius.
 
 Constants:
@@ -293,6 +301,7 @@ Circle.prototype.getUnitCircleIntersects();
 ```
 
 ### Polygon
+
 An ordered collection of Points.
 
 Factory methods:
@@ -328,6 +337,7 @@ Polygon.prototype.getVertices();
 ```
 
 ## The Canvas Class and Its Functions
+
 The canvas class is used to draw hyperbolic lines and shapes.
 
 Instance functions:

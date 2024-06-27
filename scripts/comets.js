@@ -1,4 +1,3 @@
-;
 (function () {
   if (typeof HyperbolicCanvas === 'undefined') {
     window.HyperbolicCanvas = {};
@@ -9,7 +8,7 @@
 
   HyperbolicCanvas.scripts['comets'] = function (canvas) {
     comets = [];
-    var spawnDistance = .99;
+    var spawnDistance = 0.99;
 
     canvas.setContextProperties({ fillStyle: '#DD4814' });
 
@@ -24,12 +23,15 @@
       for (var i = 0; i < oldComets.length; i++) {
         comet = oldComets[i];
         if (comet.getEuclideanRadius() <= spawnDistance) {
-          var distance = comet.distance || (Math.random() * .05 + .01);
+          var distance = comet.distance || Math.random() * 0.05 + 0.01;
           var newComet = comet.hyperbolicDistantPoint(distance);
           newComet.distance = distance;
 
           newComets.push(newComet);
-          var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(newComet, .02);
+          var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+            newComet,
+            0.02,
+          );
           path = canvas.pathForHyperbolic(circle, { path2D: true, path: path });
         }
       }

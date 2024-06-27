@@ -5,7 +5,6 @@ describe('Line', function () {
   describe('in general', function () {
     var point, slope;
     describe('with random slope', function () {
-
       beforeEach(function () {
         point = HyperbolicCanvas.Point.random();
         slope = HyperbolicCanvas.Angle.toSlope(HyperbolicCanvas.Angle.random());
@@ -18,38 +17,37 @@ describe('Line', function () {
         expect(clone).not.toBe(line);
         expect(line.equals(clone)).toBe(true);
 
-        expect(line.getEuclideanLength())
-          .toApproximate(clone.getEuclideanLength());
-        expect(line.getHyperbolicLength())
-          .toApproximate(clone.getHyperbolicLength());
+        expect(line.getEuclideanLength()).toApproximate(
+          clone.getEuclideanLength(),
+        );
+        expect(line.getHyperbolicLength()).toApproximate(
+          clone.getHyperbolicLength(),
+        );
 
         expect(line.euclideanIncludesPoint(clone.getP0())).toBe(true);
         expect(clone.euclideanIncludesPoint(line.getP0())).toBe(true);
       });
 
       it('is equal to identical Line', function () {
-        var otherLine = Line.givenPointSlope(
-          line.getP0(),
-          line.getSlope()
-        );
+        var otherLine = Line.givenPointSlope(line.getP0(), line.getSlope());
         expect(line.equals(otherLine)).toBe(true);
       });
 
       it('includes Points in Euclidean context', function () {
         expect(line.euclideanIncludesPoint(line.getP0())).toBe(true);
         expect(line.euclideanIncludesPoint(line.getP1())).toBe(true);
-        expect(line.euclideanIncludesPoint(
-          line.pointAtEuclideanX(Math.random())
-        )).toBe(true);
-        expect(line.euclideanIncludesPoint(
-          line.pointAtEuclideanY(Math.random())
-        )).toBe(true);
+        expect(
+          line.euclideanIncludesPoint(line.pointAtEuclideanX(Math.random())),
+        ).toBe(true);
+        expect(
+          line.euclideanIncludesPoint(line.pointAtEuclideanY(Math.random())),
+        ).toBe(true);
       });
 
       it('is parallel to Line with same slope in Euclidean context', function () {
         var otherLine = Line.givenPointSlope(
           HyperbolicCanvas.Point.random(),
-          line.getSlope()
+          line.getSlope(),
         );
         expect(line.isEuclideanParallelTo(otherLine)).toBe(true);
       });
@@ -60,12 +58,14 @@ describe('Line', function () {
 
       it('has perpindicular lines', function () {
         var perpindicularLine = line.euclideanPerpindicularLineAt(
-          HyperbolicCanvas.Point.random()
+          HyperbolicCanvas.Point.random(),
         );
         expect(perpindicularLine).toBeA(Line);
-        expect(perpindicularLine.getSlope()).toBe(line.euclideanPerpindicularSlope());
+        expect(perpindicularLine.getSlope()).toBe(
+          line.euclideanPerpindicularSlope(),
+        );
         expect(Line.euclideanIntersect(line, perpindicularLine)).toBeA(
-          HyperbolicCanvas.Point
+          HyperbolicCanvas.Point,
         );
       });
 
@@ -152,12 +152,12 @@ describe('Line', function () {
           line = Line.givenTwoPoints(
             HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
               Math.random(),
-              angle
+              angle,
             ),
             HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
               Math.random() * -1,
-              angle
-            )
+              angle,
+            ),
           );
         });
 
@@ -170,10 +170,13 @@ describe('Line', function () {
         });
 
         it('equals hyperbolic Line with same geodesic', function () {
-          var pointOnLine = line.getP0().hyperbolicDistantPoint(
-            line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
-            line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
-          );
+          var pointOnLine = line
+            .getP0()
+            .hyperbolicDistantPoint(
+              line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
+              line.getP0().hyperbolicAngleTo(line.getP1()) +
+                (Math.random() < 0.5 ? Math.PI : 0),
+            );
 
           var otherLine = Line.givenTwoPoints(line.getP1(), pointOnLine);
 
@@ -191,11 +194,13 @@ describe('Line', function () {
         it('has Euclidean intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
-            line.getP0().euclideanDistantPoint(
-              radius * Math.random(),
-              HyperbolicCanvas.Angle.random()
-            ),
-            radius + 1
+            line
+              .getP0()
+              .euclideanDistantPoint(
+                radius * Math.random(),
+                HyperbolicCanvas.Angle.random(),
+              ),
+            radius + 1,
           );
 
           var intersects = line.euclideanIntersectsWithCircle(circle);
@@ -203,18 +208,20 @@ describe('Line', function () {
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
           expect(
-            Line.givenTwoPoints(intersects[0], intersects[1]).equals(line)
+            Line.givenTwoPoints(intersects[0], intersects[1]).equals(line),
           ).toBe(true);
         });
 
         it('has hyperbolic intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
-            line.getP0().hyperbolicDistantPoint(
-              radius * Math.random(),
-              HyperbolicCanvas.Angle.random()
-            ),
-            radius + 1
+            line
+              .getP0()
+              .hyperbolicDistantPoint(
+                radius * Math.random(),
+                HyperbolicCanvas.Angle.random(),
+              ),
+            radius + 1,
           );
 
           var intersects = line.hyperbolicIntersectsWithCircle(circle);
@@ -223,10 +230,9 @@ describe('Line', function () {
           expect(intersects.length).toBe(2);
 
           expect(
-            Line.givenTwoPoints(
-              intersects[0],
-              intersects[1]
-            ).hyperbolicEquals(line)
+            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(
+              line,
+            ),
           ).toBe(true);
         });
 
@@ -234,7 +240,7 @@ describe('Line', function () {
           var d = line.getHyperbolicLength();
           expect(d).not.toBeNaN();
           expect(d).toApproximate(
-            line.getP0().hyperbolicDistanceTo(line.getP1())
+            line.getP0().hyperbolicDistanceTo(line.getP1()),
           );
         });
 
@@ -243,7 +249,7 @@ describe('Line', function () {
           expect(midpoint).toBeA(HyperbolicCanvas.Point);
           var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
           var angle1 = HyperbolicCanvas.Angle.opposite(
-            midpoint.hyperbolicAngleTo(line.getP1())
+            midpoint.hyperbolicAngleTo(line.getP1()),
           );
           expect(angle0).toApproximate(angle1);
         });
@@ -265,9 +271,11 @@ describe('Line', function () {
           var intersects = line.getEuclideanUnitCircleIntersects();
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
-          expect(HyperbolicCanvas.Angle.normalize(
-            intersects[0].getAngle() - intersects[1].getAngle()
-          )).toApproximate(Math.PI);
+          expect(
+            HyperbolicCanvas.Angle.normalize(
+              intersects[0].getAngle() - intersects[1].getAngle(),
+            ),
+          ).toApproximate(Math.PI);
           intersects.forEach(function (intersect) {
             expect(intersect).toBeA(HyperbolicCanvas.Point);
             expect(intersect.getX()).toBeARealNumber();
@@ -280,7 +288,7 @@ describe('Line', function () {
           var referenceAngle = line.getP0().getAngle();
           var otherLine = Line.givenAnglesOfIdealPoints(
             referenceAngle + Math.PI * Math.random(),
-            referenceAngle + Math.PI * Math.random()
+            referenceAngle + Math.PI * Math.random(),
           );
           expect(line.isHyperbolicParallelTo(otherLine)).toBe(true);
         });
@@ -288,13 +296,15 @@ describe('Line', function () {
         it('includes Points in hyperbolic context', function () {
           expect(line.hyperbolicIncludesPoint(line.getP0())).toBe(true);
           expect(line.hyperbolicIncludesPoint(line.getP1())).toBe(true);
-          var point = line.getP0().hyperbolicDistantPoint(
-            line.getHyperbolicLength() * Math.random(),
-            line.getP0().hyperbolicAngleTo(line.getP1())
-          );
+          var point = line
+            .getP0()
+            .hyperbolicDistantPoint(
+              line.getHyperbolicLength() * Math.random(),
+              line.getP0().hyperbolicAngleTo(line.getP1()),
+            );
           expect(line.hyperbolicIncludesPoint(point)).toBe(true);
           expect(
-            line.hyperbolicIncludesPoint(HyperbolicCanvas.Point.ORIGIN)
+            line.hyperbolicIncludesPoint(HyperbolicCanvas.Point.ORIGIN),
           ).toBe(true);
         });
       });
@@ -305,12 +315,12 @@ describe('Line', function () {
           line = Line.givenTwoPoints(
             HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
               Math.random(),
-              angle
+              angle,
             ),
             HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
               Math.random(),
-              angle
-            )
+              angle,
+            ),
           );
         });
 
@@ -323,10 +333,13 @@ describe('Line', function () {
         });
 
         it('equals hyperbolic Line with same geodesic', function () {
-          var pointOnLine = line.getP0().hyperbolicDistantPoint(
-            line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
-            line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
-          );
+          var pointOnLine = line
+            .getP0()
+            .hyperbolicDistantPoint(
+              line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
+              line.getP0().hyperbolicAngleTo(line.getP1()) +
+                (Math.random() < 0.5 ? Math.PI : 0),
+            );
 
           var otherLine = Line.givenTwoPoints(line.getP1(), pointOnLine);
 
@@ -344,11 +357,13 @@ describe('Line', function () {
         it('has Euclidean intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
-            line.getP0().euclideanDistantPoint(
-              radius * Math.random(),
-              HyperbolicCanvas.Angle.random()
-            ),
-            radius + 1
+            line
+              .getP0()
+              .euclideanDistantPoint(
+                radius * Math.random(),
+                HyperbolicCanvas.Angle.random(),
+              ),
+            radius + 1,
           );
 
           var intersects = line.euclideanIntersectsWithCircle(circle);
@@ -356,27 +371,31 @@ describe('Line', function () {
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
           expect(
-            Line.givenTwoPoints(intersects[0], intersects[1]).equals(line)
+            Line.givenTwoPoints(intersects[0], intersects[1]).equals(line),
           ).toBe(true);
         });
 
         it('has hyperbolic intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
-            line.getP0().hyperbolicDistantPoint(
-              radius * Math.random(),
-              HyperbolicCanvas.Angle.random()
-            ),
-            radius + 1
+            line
+              .getP0()
+              .hyperbolicDistantPoint(
+                radius * Math.random(),
+                HyperbolicCanvas.Angle.random(),
+              ),
+            radius + 1,
           );
 
-          var intersects = line.hyperbolicIntersectsWithCircle(circle)
+          var intersects = line.hyperbolicIntersectsWithCircle(circle);
 
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
 
           expect(
-            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(line)
+            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(
+              line,
+            ),
           ).toBe(true);
         });
 
@@ -384,7 +403,7 @@ describe('Line', function () {
           var d = line.getHyperbolicLength();
           expect(d).not.toBeNaN();
           expect(d).toApproximate(
-            line.getP0().hyperbolicDistanceTo(line.getP1())
+            line.getP0().hyperbolicDistanceTo(line.getP1()),
           );
         });
 
@@ -393,7 +412,7 @@ describe('Line', function () {
           expect(midpoint).toBeA(HyperbolicCanvas.Point);
           var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
           var angle1 = HyperbolicCanvas.Angle.opposite(
-            midpoint.hyperbolicAngleTo(line.getP1())
+            midpoint.hyperbolicAngleTo(line.getP1()),
           );
           expect(angle0).toApproximate(angle1);
         });
@@ -415,9 +434,11 @@ describe('Line', function () {
           var intersects = line.getEuclideanUnitCircleIntersects();
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
-          expect(HyperbolicCanvas.Angle.normalize(
-            intersects[0].getAngle() - intersects[1].getAngle()
-          )).toApproximate(Math.PI);
+          expect(
+            HyperbolicCanvas.Angle.normalize(
+              intersects[0].getAngle() - intersects[1].getAngle(),
+            ),
+          ).toApproximate(Math.PI);
           intersects.forEach(function (intersect) {
             expect(intersect).toBeA(HyperbolicCanvas.Point);
             expect(intersect.getX()).toBeARealNumber();
@@ -432,7 +453,7 @@ describe('Line', function () {
       beforeEach(function () {
         line = Line.givenTwoPoints(
           HyperbolicCanvas.Point.random(),
-          HyperbolicCanvas.Point.random()
+          HyperbolicCanvas.Point.random(),
         );
       });
 
@@ -445,10 +466,13 @@ describe('Line', function () {
       });
 
       it('equals hyperbolic Line with same geodesic', function () {
-        var pointOnLine = line.getP0().hyperbolicDistantPoint(
-          line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
-          line.getP0().hyperbolicAngleTo(line.getP1()) + (Math.random() < .5 ? Math.PI : 0)
-        );
+        var pointOnLine = line
+          .getP0()
+          .hyperbolicDistantPoint(
+            line.getP0().hyperbolicDistanceTo(line.getP1()) * Math.random(),
+            line.getP0().hyperbolicAngleTo(line.getP1()) +
+              (Math.random() < 0.5 ? Math.PI : 0),
+          );
 
         var otherLine = Line.givenTwoPoints(line.getP1(), pointOnLine);
 
@@ -466,11 +490,13 @@ describe('Line', function () {
       it('has Euclidean intersects with Circle', function () {
         var radius = Math.random() * 5;
         var circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
-          line.getP0().euclideanDistantPoint(
-            radius * Math.random(),
-            HyperbolicCanvas.Angle.random()
-          ),
-          radius
+          line
+            .getP0()
+            .euclideanDistantPoint(
+              radius * Math.random(),
+              HyperbolicCanvas.Angle.random(),
+            ),
+          radius,
         );
 
         var intersects = line.euclideanIntersectsWithCircle(circle);
@@ -479,26 +505,30 @@ describe('Line', function () {
         expect(intersects.length).toBe(2);
 
         expect(
-          Line.givenTwoPoints(intersects[0], intersects[1]).equals(line)
+          Line.givenTwoPoints(intersects[0], intersects[1]).equals(line),
         ).toBe(true);
 
         it('has hyperbolic intersects with Circle', function () {
           var radius = Math.random() * 5;
           var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
-            line.getP0().hyperbolicDistantPoint(
-              radius * Math.random(),
-              HyperbolicCanvas.Angle.random()
-            ),
-            radius + 1
+            line
+              .getP0()
+              .hyperbolicDistantPoint(
+                radius * Math.random(),
+                HyperbolicCanvas.Angle.random(),
+              ),
+            radius + 1,
           );
 
-          var intersects = line.hyperbolicIntersectsWithCircle(circle)
+          var intersects = line.hyperbolicIntersectsWithCircle(circle);
 
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
 
           expect(
-            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(line)
+            Line.givenTwoPoints(intersects[0], intersects[1]).hyperbolicEquals(
+              line,
+            ),
           ).toBe(true);
         });
       });
@@ -507,7 +537,7 @@ describe('Line', function () {
         var d = line.getHyperbolicLength();
         expect(d).not.toBeNaN();
         expect(d).toApproximate(
-          line.getP0().hyperbolicDistanceTo(line.getP1())
+          line.getP0().hyperbolicDistanceTo(line.getP1()),
         );
       });
 
@@ -516,7 +546,7 @@ describe('Line', function () {
         expect(midpoint).toBeA(HyperbolicCanvas.Point);
         var angle0 = midpoint.hyperbolicAngleTo(line.getP0());
         var angle1 = HyperbolicCanvas.Angle.opposite(
-          midpoint.hyperbolicAngleTo(line.getP1())
+          midpoint.hyperbolicAngleTo(line.getP1()),
         );
         expect(angle0).toApproximate(angle1);
       });
@@ -538,7 +568,7 @@ describe('Line', function () {
         var intersects = line.getEuclideanUnitCircleIntersects();
         expect(intersects).toBeA(Array);
         expect(intersects.length).toBe(2);
-        intersects.forEach(function (intersect){
+        intersects.forEach(function (intersect) {
           expect(intersect).toBeA(HyperbolicCanvas.Point);
           expect(intersect.getX()).toBeARealNumber();
           expect(intersect.getY()).toBeARealNumber();
@@ -549,7 +579,7 @@ describe('Line', function () {
       it('is parallel to Line with which it does not intersect in hyperbolic context', function () {
         var otherLine = Line.givenTwoPoints(
           line.getP0().opposite(),
-          line.getP1().opposite()
+          line.getP1().opposite(),
         );
         expect(line.isHyperbolicParallelTo(otherLine)).toBe(true);
       });
@@ -557,10 +587,12 @@ describe('Line', function () {
       it('includes Points in hyperbolic context', function () {
         expect(line.hyperbolicIncludesPoint(line.getP0())).toBe(true);
         expect(line.hyperbolicIncludesPoint(line.getP1())).toBe(true);
-        var point = line.getP0().hyperbolicDistantPoint(
-          line.getHyperbolicLength() * Math.random(),
-          line.getP0().hyperbolicAngleTo(line.getP1())
-        );
+        var point = line
+          .getP0()
+          .hyperbolicDistantPoint(
+            line.getHyperbolicLength() * Math.random(),
+            line.getP0().hyperbolicAngleTo(line.getP1()),
+          );
         expect(line.hyperbolicIncludesPoint(point)).toBe(true);
       });
     });
@@ -572,8 +604,8 @@ describe('Line', function () {
         HyperbolicCanvas.Point.random(),
         HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
           Math.random() + 1,
-          HyperbolicCanvas.Angle.random()
-        )
+          HyperbolicCanvas.Angle.random(),
+        ),
       );
     });
 
@@ -612,7 +644,7 @@ describe('Line', function () {
     beforeEach(function () {
       line = Line.givenPointSlope(
         HyperbolicCanvas.Point.random(),
-        Line.randomSlope()
+        Line.randomSlope(),
       );
     });
 
@@ -631,7 +663,7 @@ describe('Line', function () {
       beforeEach(function () {
         line = Line.givenTwoPoints(
           HyperbolicCanvas.Point.random(),
-          HyperbolicCanvas.Point.random()
+          HyperbolicCanvas.Point.random(),
         );
       });
 
@@ -651,8 +683,8 @@ describe('Line', function () {
           line = Line.givenTwoPoints(
             HyperbolicCanvas.Point.random(),
             HyperbolicCanvas.Point.givenIdealAngle(
-              HyperbolicCanvas.Angle.random()
-            )
+              HyperbolicCanvas.Angle.random(),
+            ),
           );
         });
 
@@ -682,7 +714,7 @@ describe('Line', function () {
           var intersects = line.getEuclideanUnitCircleIntersects();
           expect(intersects).toBeA(Array);
           expect(intersects.length).toBe(2);
-          intersects.forEach(function (intersect){
+          intersects.forEach(function (intersect) {
             expect(intersect).toBeA(HyperbolicCanvas.Point);
             expect(intersect.getX()).toBeARealNumber();
             expect(intersect.getY()).toBeARealNumber();
@@ -696,7 +728,7 @@ describe('Line', function () {
           var p = HyperbolicCanvas.Point.random();
           line = Line.givenTwoPoints(
             p,
-            HyperbolicCanvas.Point.givenIdealAngle(p.getAngle())
+            HyperbolicCanvas.Point.givenIdealAngle(p.getAngle()),
           );
         });
 
@@ -720,7 +752,7 @@ describe('Line', function () {
       beforeEach(function () {
         line = Line.givenAnglesOfIdealPoints(
           HyperbolicCanvas.Angle.random(),
-          HyperbolicCanvas.Angle.random()
+          HyperbolicCanvas.Angle.random(),
         );
       });
 
@@ -752,7 +784,7 @@ describe('Line', function () {
         var angle = HyperbolicCanvas.Angle.random();
         line = Line.givenAnglesOfIdealPoints(
           angle,
-          HyperbolicCanvas.Angle.opposite(angle)
+          HyperbolicCanvas.Angle.opposite(angle),
         );
       });
 
@@ -785,7 +817,7 @@ describe('Line', function () {
     beforeEach(function () {
       line = Line.givenTwoPoints(
         HyperbolicCanvas.Point.random(),
-        HyperbolicCanvas.Point.random()
+        HyperbolicCanvas.Point.random(),
       );
     });
 
@@ -793,7 +825,7 @@ describe('Line', function () {
       beforeEach(function () {
         otherLine = Line.givenPointSlope(
           HyperbolicCanvas.Point.random(),
-          line.getSlope()
+          line.getSlope(),
         );
       });
 
@@ -806,14 +838,14 @@ describe('Line', function () {
       beforeEach(function () {
         otherLine = Line.givenPointSlope(
           HyperbolicCanvas.Point.random(),
-          Line.randomSlope()
+          Line.randomSlope(),
         );
       });
 
       it('is Point', function () {
-        expect(
-          Line.euclideanIntersect(line, otherLine)
-        ).toBeA(HyperbolicCanvas.Point);
+        expect(Line.euclideanIntersect(line, otherLine)).toBeA(
+          HyperbolicCanvas.Point,
+        );
       });
     });
 
@@ -823,9 +855,9 @@ describe('Line', function () {
       });
 
       it('is Point', function () {
-        expect(
-          Line.euclideanIntersect(line, otherLine)
-        ).toBeA(HyperbolicCanvas.Point);
+        expect(Line.euclideanIntersect(line, otherLine)).toBeA(
+          HyperbolicCanvas.Point,
+        );
       });
     });
 
@@ -835,9 +867,9 @@ describe('Line', function () {
       });
 
       it('is Point', function () {
-        expect(
-          Line.euclideanIntersect(line, otherLine)
-        ).toBeA(HyperbolicCanvas.Point);
+        expect(Line.euclideanIntersect(line, otherLine)).toBeA(
+          HyperbolicCanvas.Point,
+        );
       });
     });
   });
@@ -847,7 +879,7 @@ describe('Line', function () {
     beforeEach(function () {
       line = Line.givenTwoPoints(
         HyperbolicCanvas.Point.random(),
-        HyperbolicCanvas.Point.random()
+        HyperbolicCanvas.Point.random(),
       );
     });
 
@@ -855,7 +887,7 @@ describe('Line', function () {
       beforeEach(function () {
         otherLine = Line.givenTwoPoints(
           line.getP0().opposite(),
-          line.getP1().opposite()
+          line.getP1().opposite(),
         );
       });
 
@@ -870,10 +902,9 @@ describe('Line', function () {
         // calculate some point on line
         var angleAlongLine = line.getP0().hyperbolicAngleTo(line.getP1());
         var lengthOfLine = line.getHyperbolicLength();
-        expectedIntersect = line.getP0().hyperbolicDistantPoint(
-          lengthOfLine / 2,
-          angleAlongLine
-        );
+        expectedIntersect = line
+          .getP0()
+          .hyperbolicDistantPoint(lengthOfLine / 2, angleAlongLine);
       });
 
       describe('with curved hyperbolic geodesics', function () {
@@ -882,7 +913,7 @@ describe('Line', function () {
           var angleAlongOtherLine = expectedIntersect.hyperbolicAngleTo(p0);
           var p1 = expectedIntersect.hyperbolicDistantPoint(
             expectedIntersect.hyperbolicDistanceTo(p0) / 2,
-            expectedIntersect.hyperbolicAngleTo(p0)
+            expectedIntersect.hyperbolicAngleTo(p0),
           );
 
           otherLine = Line.givenTwoPoints(p0, p1);
@@ -901,7 +932,7 @@ describe('Line', function () {
           var angle = expectedIntersect.getAngle();
           otherLine = Line.givenTwoPoints(
             expectedIntersect.hyperbolicDistantPoint(Math.random() * 10, angle),
-            expectedIntersect.hyperbolicDistantPoint(Math.random() * 10, angle)
+            expectedIntersect.hyperbolicDistantPoint(Math.random() * 10, angle),
           );
         });
 
@@ -926,17 +957,31 @@ describe('Line', function () {
       line = Line.X_AXIS;
     });
 
-    it('is Line', function () {
-      expect(line).toBeA(Line);
-    }, true);
+    it(
+      'is Line',
+      function () {
+        expect(line).toBeA(Line);
+      },
+      true,
+    );
 
-    it('includes origin', function () {
-      expect(line.euclideanIncludesPoint(HyperbolicCanvas.Point.ORIGIN)).toBe(true);
-    }, true);
+    it(
+      'includes origin',
+      function () {
+        expect(line.euclideanIncludesPoint(HyperbolicCanvas.Point.ORIGIN)).toBe(
+          true,
+        );
+      },
+      true,
+    );
 
-    it('has a slope of 0', function () {
-      expect(line.getSlope()).toBe(0);
-    }, true);
+    it(
+      'has a slope of 0',
+      function () {
+        expect(line.getSlope()).toBe(0);
+      },
+      true,
+    );
   });
 
   describe('Y_AXIS', function () {
@@ -944,16 +989,30 @@ describe('Line', function () {
       line = Line.Y_AXIS;
     });
 
-    it('is Line', function () {
-      expect(line).toBeA(Line);
-    }, true);
+    it(
+      'is Line',
+      function () {
+        expect(line).toBeA(Line);
+      },
+      true,
+    );
 
-    it('includes origin', function () {
-      expect(line.euclideanIncludesPoint(HyperbolicCanvas.Point.ORIGIN)).toBe(true);
-    }, true);
+    it(
+      'includes origin',
+      function () {
+        expect(line.euclideanIncludesPoint(HyperbolicCanvas.Point.ORIGIN)).toBe(
+          true,
+        );
+      },
+      true,
+    );
 
-    it('has slope of infinity', function () {
-      expect(line.getSlope()).toBe(Infinity);
-    }, true);
+    it(
+      'has slope of infinity',
+      function () {
+        expect(line.getSlope()).toBe(Infinity);
+      },
+      true,
+    );
   });
 });

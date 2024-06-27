@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "echo \"open jasmine/SpecRunner.html in a browser to run tests\"",
-    "compile": "browserify index.js > dist/hyperbolic_canvas.js"
+    "compile": "browserify index.js > dist/hyperbolic_canvas.js",
+    "prepare": "husky",
+    "prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -30,5 +32,11 @@
   "bugs": {
     "url": "https://github.com/itsnickbarry/hyperbolic-canvas/issues"
   },
-  "homepage": "https://github.com/itsnickbarry/hyperbolic-canvas#readme"
+  "homepage": "https://github.com/itsnickbarry/hyperbolic-canvas#readme",
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2"
+  }
 }

@@ -58,7 +58,7 @@ div.content {
 }
 
 div.example:hover {
-  background: #FBECE7;
+  background: #fbece7;
 }
 
 div.example {
@@ -87,7 +87,7 @@ It is automatically scaled to fill its parent, and cropped to a 1:1 ratio.
 It is not recommended to apply styling beyond background color.
 */
 div#hyperbolic-canvas div.backdrop {
-  background-color: #2C001E;
+  background-color: #2c001e;
 }
 
 /*
@@ -96,5 +96,5 @@ It is automatically scaled to fit its parent.
 It is not recommended to apply styling beyond background color.
 */
 div#hyperbolic-canvas div.backdrop div.underlay {
-  background-color: #D6D3CF;
+  background-color: #d6d3cf;
 }
