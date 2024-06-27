@@ -1,4 +1,3 @@
-;
 (function () {
   if (typeof HyperbolicCanvas === 'undefined') {
     window.HyperbolicCanvas = {};
@@ -8,7 +7,10 @@
   }
 
   HyperbolicCanvas.scripts['web'] = function (canvas) {
-    var unitCircle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(HyperbolicCanvas.Point.ORIGIN, .9999);
+    var unitCircle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+      HyperbolicCanvas.Point.ORIGIN,
+      0.9999,
+    );
 
     var location = null;
     var angles = [];
@@ -25,12 +27,16 @@
         angles.forEach(function (angle, index, array) {
           var point = unitCircle.euclideanPointAt(angle);
           var line = HyperbolicCanvas.Line.givenTwoPoints(location, point);
-          path = canvas.pathForHyperbolic(line, { path2D: true, path: path, infinite: true });
-          array[index] = array[index] + (Math.random()) * .1;
+          path = canvas.pathForHyperbolic(line, {
+            path2D: true,
+            path: path,
+            infinite: true,
+          });
+          array[index] = array[index] + Math.random() * 0.1;
         });
         canvas.stroke(path);
       }
-      requestAnimationFrame(step)
+      requestAnimationFrame(step);
     };
 
     var resetLocation = function (event) {

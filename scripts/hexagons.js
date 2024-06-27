@@ -1,4 +1,3 @@
-;
 (function () {
   if (typeof HyperbolicCanvas === 'undefined') {
     window.HyperbolicCanvas = {};
@@ -12,7 +11,7 @@
     canvas.setContextProperties({ fillStyle: '#DD4814' });
 
     var sideCount = 6;
-    var radius = .9;
+    var radius = 0.9;
     var ringCount = 4;
     var rotation = 0;
     var rotationDenominator = Math.pow(sideCount, 4) * 6;
@@ -30,13 +29,14 @@
         for (var j = 0; j < sideCount; j++) {
           var center = HyperbolicCanvas.Point.givenHyperbolicPolarCoordinates(
             i * radius * 2,
-            Math.TAU / sideCount * j + (i % 2 === 0 ? rotation : rotation * -1)
+            (Math.TAU / sideCount) * j +
+              (i % 2 === 0 ? rotation : rotation * -1),
           );
           var gon = HyperbolicCanvas.Polygon.givenHyperbolicNCenterRadius(
             sideCount,
             center,
             radius,
-            (Math.TAU / sideCount * j + rotation) * (i + 1) // + Math.PI * i // if sideCount is odd
+            ((Math.TAU / sideCount) * j + rotation) * (i + 1), // + Math.PI * i // if sideCount is odd
           );
           polygons.push(gon);
         }

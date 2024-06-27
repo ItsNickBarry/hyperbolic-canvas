@@ -46,8 +46,8 @@ describe('Polygon', function () {
       var angles = [];
       var currentAngle = 0;
       for (var i = 0; i < baseAngles.length; i++) {
-        var angle = baseAngles[i] * Math.TAU / total;
-        angles.push(currentAngle += angle);
+        var angle = (baseAngles[i] * Math.TAU) / total;
+        angles.push((currentAngle += angle));
       }
       polygon = Polygon.givenAnglesOfIdealVertices(angles);
     });
@@ -77,7 +77,7 @@ describe('Polygon', function () {
           n,
           center,
           radius,
-          rotation
+          rotation,
         );
       });
 
@@ -92,7 +92,7 @@ describe('Polygon', function () {
 
       it('has first vertex at given rotation angle', function () {
         expect(
-          polygon.getVertices()[0].euclideanAngleFrom(center)
+          polygon.getVertices()[0].euclideanAngleFrom(center),
         ).toApproximate(rotation);
       });
 
@@ -124,7 +124,7 @@ describe('Polygon', function () {
           n,
           center,
           radius,
-          rotation
+          rotation,
         );
       });
 
@@ -139,7 +139,7 @@ describe('Polygon', function () {
 
       it('has first vertex at given rotation angle', function () {
         expect(
-          polygon.getVertices()[0].hyperbolicAngleFrom(center)
+          polygon.getVertices()[0].hyperbolicAngleFrom(center),
         ).toApproximate(rotation);
       });
 

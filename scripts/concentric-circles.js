@@ -1,4 +1,3 @@
-;
 (function () {
   if (typeof HyperbolicCanvas === 'undefined') {
     window.HyperbolicCanvas = {};
@@ -10,8 +9,7 @@
   var curry = function (fn, obj, numArgs) {
     var firstArgs = Array.prototype.slice.call(arguments, 3);
 
-    return function curriedFunction () {
-
+    return function curriedFunction() {
       var args = firstArgs.concat(Array.prototype.slice.call(arguments));
 
       if (args.length >= numArgs) {
@@ -19,7 +17,7 @@
       } else {
         return curriedFunction;
       }
-    }
+    };
   };
 
   HyperbolicCanvas.scripts['concentric-circles'] = function (canvas) {
@@ -66,7 +64,7 @@
         canvas.setContextProperties({ fillStyle: colors[i] });
         var circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
           location,
-          i * .5
+          i * 0.5,
         );
         if (circle) {
           var path = canvas.pathForHyperbolic(circle);
@@ -99,8 +97,8 @@
       location = canvas.at([x, y]);
       if (!location.isOnPlane()) {
         location = HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
-          .9999,
-          location.getAngle()
+          0.9999,
+          location.getAngle(),
         );
       }
       requestAnimationFrame(render);

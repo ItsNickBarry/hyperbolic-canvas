@@ -20,7 +20,7 @@ npm install --save hyperbolic-canvas
 
 ## Usage
 
-Pass a unique selector of a div element, to the function `HyperbolicCanvas.create`.  Nonzero width and height styling must be specified.  Absolute px values in a 1:1 ratio are recommended:
+Pass a unique selector of a div element, to the function `HyperbolicCanvas.create`. Nonzero width and height styling must be specified. Absolute px values in a 1:1 ratio are recommended:
 
 ```html
 <div id="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
@@ -36,19 +36,19 @@ See `API.md` for a list of functions and their descriptions.
 
 ## Scope
 
-This library prioritizes the visualization of hyperbolic geometry over precise mathematical calculation.  Due to the less-than-infinite precision of floating-point numbers, and because certain trigonometric functions are [ill-conditioned](https://en.wikipedia.org/wiki/Condition_number), these goals are often at odds.
+This library prioritizes the visualization of hyperbolic geometry over precise mathematical calculation. Due to the less-than-infinite precision of floating-point numbers, and because certain trigonometric functions are [ill-conditioned](https://en.wikipedia.org/wiki/Condition_number), these goals are often at odds.
 
 ### Accuracy Thresholds
 
-The arbitrary constants `HyperbolicCanvas.INFINITY` and `HyperbolicCanvas.ZERO` have been defined for use in internal comparisons in place of `Infinity` and `0`, respectively.  Their values may be overridden, but increased accuracy will tend to lead to more unpredictable behavior.
+The arbitrary constants `HyperbolicCanvas.INFINITY` and `HyperbolicCanvas.ZERO` have been defined for use in internal comparisons in place of `Infinity` and `0`, respectively. Their values may be overridden, but increased accuracy will tend to lead to more unpredictable behavior.
 
 ### Jasmine Specs
 
 This library uses [Jasmine specs][jasmine] to validate the code and prevent regressions.
 
-The specs have been written to use random input values.  While this approach is unconventional, it provides more confidence than would an attempt to test an effectively infinite number of edge cases<!-- ha!  Get it? -->.  Some specs do occasionally fail; the frequency at which this occurs is determined by the accuracy of the constants `HyperbolicCanvas.INFINITY` and `HyperbolicCanvas.ZERO`.
+The specs have been written to use random input values. While this approach is unconventional, it provides more confidence than would an attempt to test an effectively infinite number of edge cases<!-- ha!  Get it? -->. Some specs do occasionally fail; the frequency at which this occurs is determined by the accuracy of the constants `HyperbolicCanvas.INFINITY` and `HyperbolicCanvas.ZERO`.
 
-The Jasmine library itself has been modified to run each spec multiple times, and a random number seed is used so that errors may be reproduced.  The seed and the spec run count can be set in the options menu on the [SpecRunner][jasmine] page.
+The Jasmine library itself has been modified to run each spec multiple times, and a random number seed is used so that errors may be reproduced. The seed and the spec run count can be set in the options menu on the [SpecRunner][jasmine] page.
 
 [jasmine]: https://ItsNickBarry.github.io/hyperbolic-canvas/jasmine/SpecRunner.html
 
