@@ -1,5 +1,15 @@
+const { describe, it, beforeEach } = require('node:test');
+const assert = require('node:assert');
+const {
+  HyperbolicCanvas,
+  assertApproximate,
+  assertIsRealNumber,
+  assertIsA,
+} = require('./helpers.js');
+
+const Point = HyperbolicCanvas.Point;
+
 describe('Point', function () {
-  var Point = HyperbolicCanvas.Point;
   var point;
 
   describe('generated at random on hyperbolic plane', function () {
@@ -10,54 +20,55 @@ describe('Point', function () {
     });
 
     it('is on plane', function () {
-      expect(point.isOnPlane()).toBe(true);
-      expect(point.getEuclideanRadius()).toBeLessThan(1);
+      assert(point.isOnPlane());
+      assert(point.getEuclideanRadius() < 1);
     });
 
     it('is not ideal', function () {
-      expect(point.isIdeal()).toBe(false);
+      assert(!point.isIdeal());
     });
 
     it('has Cartesian coordinates, angle, and Euclidean and hyperbolic radii', function () {
-      expect(point.getX()).toBeARealNumber();
-      expect(point.getY()).toBeARealNumber();
-      expect(point.getAngle()).toBeARealNumber();
-      expect(point.getEuclideanRadius()).toBeARealNumber();
-      expect(point.getHyperbolicRadius()).toBeARealNumber();
+      assertIsRealNumber(point.getX());
+      assertIsRealNumber(point.getY());
+      assertIsRealNumber(point.getAngle());
+      assertIsRealNumber(point.getEuclideanRadius());
+      assertIsRealNumber(point.getHyperbolicRadius());
     });
 
     it('is equal to identical Point', function () {
       var otherPoint = Point.givenCoordinates(point.getX(), point.getY());
-      expect(point.equals(otherPoint)).toBe(true);
+      assert(point.equals(otherPoint));
     });
 
     it('is clonable', function () {
       var clone = point.clone();
-      expect(clone).toBeA(Point);
-      expect(clone).not.toBe(point);
-      expect(point.equals(clone)).toBe(true);
+      assertIsA(clone, Point);
+      assert.notStrictEqual(clone, point);
+      assert(point.equals(clone));
 
-      expect(clone.getX()).toApproximate(point.getX());
-      expect(clone.getY()).toApproximate(point.getY());
-      expect(clone.getAngle()).toApproximate(point.getAngle());
-      expect(clone.getEuclideanRadius()).toApproximate(
-        point.getEuclideanRadius(),
-      );
-      expect(clone.getHyperbolicRadius()).toApproximate(
+      assertApproximate(clone.getX(), point.getX());
+      assertApproximate(clone.getY(), point.getY());
+      assertApproximate(clone.getAngle(), point.getAngle());
+      assertApproximate(clone.getEuclideanRadius(), point.getEuclideanRadius());
+      assertApproximate(
+        clone.getHyperbolicRadius(),
         point.getHyperbolicRadius(),
       );
     });
 
     it('calculates Cartesian quadrant', function () {
-      expect(point.quadrant()).toBe(quadrant);
+      assert.strictEqual(point.quadrant(), quadrant);
     });
 
     it('has opposite Point', function () {
       var opposite = point.opposite();
-      expect(opposite.getEuclideanRadius()).toApproximate(
+      assertApproximate(
+        opposite.getEuclideanRadius(),
         point.getEuclideanRadius(),
       );
-      expect(opposite.getAngle()).toApproximate(
+      assertApproximate(
+        opposite.getAngle(),
         HyperbolicCanvas.Angle.opposite(point.getAngle()),
       );
     });
@@ -65,15 +76,17 @@ describe('Point', function () {
     it('has Point rotated about origin', function () {
       var angle = HyperbolicCanvas.Angle.random();
       var rotatedPoint = point.rotateAboutOrigin(angle);
-      expect(rotatedPoint).toBeA(Point);
-      expect(rotatedPoint.getEuclideanRadius()).toApproximate(
+      assertIsA(rotatedPoint, Point);
+      assertApproximate(
+        rotatedPoint.getEuclideanRadius(),
         point.getEuclideanRadius(),
       );
-      expect(rotatedPoint.getAngle()).toApproximate(
+      assertApproximate(
+        rotatedPoint.getAngle(),
         HyperbolicCanvas.Angle.normalize(point.getAngle() + angle),
       );
       var rotatedBackPoint = rotatedPoint.rotateAboutOrigin(angle * -1);
-      expect(rotatedBackPoint.equals(point)).toBe(true);
+      assert(rotatedBackPoint.equals(point));
     });
 
     describe('relative to other Point', function () {
@@ -84,28 +97,26 @@ describe('Point', function () {
 
       it('calculates Euclidean distance to other Point', function () {
         var d = point.euclideanDistanceTo(otherPoint);
-        expect(d).toBeARealNumber();
+        assertIsRealNumber(d);
       });
 
       it('calculates Euclidean angle towards and away from other Point', function () {
         var angleTo = point.euclideanAngleTo(otherPoint);
         var angleFrom = point.euclideanAngleFrom(otherPoint);
-        expect(angleTo).toBeARealNumber();
-        expect(angleFrom).toApproximate(
-          HyperbolicCanvas.Angle.opposite(angleTo),
-        );
+        assertIsRealNumber(angleTo);
+        assertApproximate(angleFrom, HyperbolicCanvas.Angle.opposite(angleTo));
       });
 
       it('calculates hyperbolic distance to other Point', function () {
         var d = point.hyperbolicDistanceTo(otherPoint);
-        expect(d).toBeARealNumber();
+        assertIsRealNumber(d);
       });
 
       it('calculates hyperbolic angle towards and away from other Point', function () {
         var angleTo = point.hyperbolicAngleTo(otherPoint);
         var angleFrom = point.hyperbolicAngleFrom(otherPoint);
-        expect(angleTo).toBeARealNumber();
-        expect(angleFrom).toBeARealNumber();
+        assertIsRealNumber(angleTo);
+        assertIsRealNumber(angleFrom);
       });
     });
 
@@ -118,22 +129,22 @@ describe('Point', function () {
       });
 
       it('calculates location of distant point along Euclidean geodesic', function () {
-        expect(distantPoint).toBeA(Point);
+        assertIsA(distantPoint, Point);
       });
 
       it('stores angle of travel', function () {
-        expect(distantPoint.getDirection()).toBe(direction);
+        assert.strictEqual(distantPoint.getDirection(), direction);
       });
 
       it('is reversible', function () {
-        expect(
+        assert(
           distantPoint
             .euclideanDistantPoint(
               distance,
               HyperbolicCanvas.Angle.opposite(direction),
             )
             .equals(point),
-        ).toBe(true);
+        );
       });
     });
 
@@ -147,17 +158,15 @@ describe('Point', function () {
 
         it('calculates location of distant point along hyperbolic geodesic', function () {
           var distantPoint = point.hyperbolicDistantPoint(distance, direction);
-          expect(distantPoint).toBeA(Point);
-          expect(distantPoint.isOnPlane()).toBe(true);
+          assertIsA(distantPoint, Point);
+          assert(distantPoint.isOnPlane());
 
-          expect(point.hyperbolicDistanceTo(distantPoint)).toApproximate(
-            distance,
-          );
+          assertApproximate(point.hyperbolicDistanceTo(distantPoint), distance);
         });
 
         it('stores instantaneous angle of travel at destination on distant Point', function () {
           var distantPoint = point.hyperbolicDistantPoint(distance, direction);
-          expect(distantPoint.getDirection()).toBeARealNumber();
+          assertIsRealNumber(distantPoint.getDirection());
         });
 
         it('calculates accurate distant Point regardless of number of intermediate steps', function () {
@@ -169,7 +178,7 @@ describe('Point', function () {
             .hyperbolicDistantPoint(distance, direction)
             .hyperbolicDistantPoint(distance)
             .hyperbolicDistantPoint(distance);
-          expect(distantPoint0.equals(distantPoint1)).toBe(true);
+          assert(distantPoint0.equals(distantPoint1));
         });
 
         it('is reversible', function () {
@@ -178,7 +187,7 @@ describe('Point', function () {
             distance,
             HyperbolicCanvas.Angle.opposite(distantPoint0.getDirection()),
           );
-          expect(point.equals(distantPoint1)).toBe(true);
+          assert(point.equals(distantPoint1));
         });
       });
 
@@ -191,11 +200,12 @@ describe('Point', function () {
               distance,
               direction,
             );
-            expect(distantPoint.getAngle()).toBe(direction);
-            expect(distantPoint.getDirection()).toBe(direction);
-            expect(distantPoint.quadrant()).toBe(point.quadrant());
+            assert.strictEqual(distantPoint.getAngle(), direction);
+            assert.strictEqual(distantPoint.getDirection(), direction);
+            assert.strictEqual(distantPoint.quadrant(), point.quadrant());
 
-            expect(distantPoint.getHyperbolicRadius()).toBe(
+            assert.strictEqual(
+              distantPoint.getHyperbolicRadius(),
               point.getHyperbolicRadius() + distance,
             );
           });
@@ -212,11 +222,12 @@ describe('Point', function () {
               distance,
               direction,
             );
-            expect(distantPoint.getAngle()).toBe(point.getAngle());
-            expect(distantPoint.quadrant()).toBe(point.quadrant());
-            expect(distantPoint.getDirection()).toBe(direction);
+            assert.strictEqual(distantPoint.getAngle(), point.getAngle());
+            assert.strictEqual(distantPoint.quadrant(), point.quadrant());
+            assert.strictEqual(distantPoint.getDirection(), direction);
 
-            expect(distantPoint.getHyperbolicRadius()).toBe(
+            assert.strictEqual(
+              distantPoint.getHyperbolicRadius(),
               point.getHyperbolicRadius() - distance,
             );
           });
@@ -227,13 +238,15 @@ describe('Point', function () {
               distance,
               direction,
             );
-            expect(distantPoint.getAngle()).toBe(direction);
-            expect(distantPoint.quadrant() % 4).toBe(
+            assert.strictEqual(distantPoint.getAngle(), direction);
+            assert.strictEqual(
+              distantPoint.quadrant() % 4,
               (point.quadrant() + 2) % 4,
             );
-            expect(distantPoint.getDirection()).toBe(direction);
+            assert.strictEqual(distantPoint.getDirection(), direction);
 
-            expect(distantPoint.getHyperbolicRadius()).toBe(
+            assert.strictEqual(
+              distantPoint.getHyperbolicRadius(),
               distance - point.getHyperbolicRadius(),
             );
           });
@@ -244,11 +257,11 @@ describe('Point', function () {
               distance,
               direction,
             );
-            expect(distantPoint.getX()).toBe(0);
-            expect(distantPoint.getY()).toBe(0);
-            expect(distantPoint.getEuclideanRadius()).toBe(0);
-            expect(distantPoint.getHyperbolicRadius()).toBe(0);
-            expect(distantPoint.getDirection()).toBe(direction);
+            assert(distantPoint.getX() === 0);
+            assert(distantPoint.getY() === 0);
+            assert(distantPoint.getEuclideanRadius() === 0);
+            assert(distantPoint.getHyperbolicRadius() === 0);
+            assert.strictEqual(distantPoint.getDirection(), direction);
           });
         });
       });
@@ -263,13 +276,14 @@ describe('Point', function () {
       });
 
       it('calculates angle of hyperbolic geodesic towards self from perspective of other Point', function () {
-        expect(point.hyperbolicAngleFrom(distantPoint)).toApproximate(
+        assertApproximate(
+          point.hyperbolicAngleFrom(distantPoint),
           HyperbolicCanvas.Angle.opposite(distantPoint.getDirection()),
         );
       });
 
       it('calculates angle of hyperbolic geodesic towards other Point from perspective of self', function () {
-        expect(point.hyperbolicAngleTo(distantPoint)).toApproximate(direction);
+        assertApproximate(point.hyperbolicAngleTo(distantPoint), direction);
       });
     });
   });
@@ -283,8 +297,8 @@ describe('Point', function () {
     });
 
     it('has mean Cartesian coordinates', function () {
-      expect(point.getX()).toBe((p0.getX() + p1.getX()) / 2);
-      expect(point.getY()).toBe((p0.getY() + p1.getY()) / 2);
+      assert.strictEqual(point.getX(), (p0.getX() + p1.getX()) / 2);
+      assert.strictEqual(point.getY(), (p0.getY() + p1.getY()) / 2);
     });
   });
 
@@ -300,8 +314,8 @@ describe('Point', function () {
       var d = p0.hyperbolicDistanceTo(p1);
       var d0 = point.hyperbolicDistanceTo(p0);
       var d1 = point.hyperbolicDistanceTo(p1);
-      expect(d0).toApproximate(d1);
-      expect(d0 + d1).toApproximate(d);
+      assertApproximate(d0, d1);
+      assertApproximate(d0 + d1, d);
     });
   });
 
@@ -316,24 +330,24 @@ describe('Point', function () {
     });
 
     it('has Cartesian coordinates', function () {
-      expect(point.getX()).toBeARealNumber();
-      expect(point.getY()).toBeARealNumber();
+      assertIsRealNumber(point.getX());
+      assertIsRealNumber(point.getY());
     });
 
     it('has angle', function () {
-      expect(point.getAngle()).toBeARealNumber();
+      assertIsRealNumber(point.getAngle());
     });
 
     it('has Euclidean radius', function () {
-      expect(point.getEuclideanRadius()).toBeARealNumber();
+      assertIsRealNumber(point.getEuclideanRadius());
     });
 
     it('has hyperbolic radius', function () {
-      expect(point.getHyperbolicRadius()).toBeARealNumber();
+      assertIsRealNumber(point.getHyperbolicRadius());
     });
 
     it('is not ideal', function () {
-      expect(point.isIdeal()).toBe(false);
+      assert(!point.isIdeal());
     });
   });
 
@@ -347,13 +361,13 @@ describe('Point', function () {
       });
 
       it('has angle and Euclidean radius', function () {
-        expect(point.getAngle()).toBeARealNumber();
-        expect(point.getEuclideanRadius()).toBeARealNumber();
+        assertIsRealNumber(point.getAngle());
+        assertIsRealNumber(point.getEuclideanRadius());
       });
 
       it('has Cartesian coordinates', function () {
-        expect(point.getX()).toBeARealNumber();
-        expect(point.getY()).toBeARealNumber();
+        assertIsRealNumber(point.getX());
+        assertIsRealNumber(point.getY());
       });
 
       it('equals Point defined by opposite angle and negative radius', function () {
@@ -361,7 +375,7 @@ describe('Point', function () {
           point.getEuclideanRadius() * -1,
           HyperbolicCanvas.Angle.opposite(point.getAngle()),
         );
-        expect(point.equals(otherPoint)).toBe(true);
+        assert(point.equals(otherPoint));
       });
     });
 
@@ -374,11 +388,11 @@ describe('Point', function () {
       });
 
       it('does not have hyperbolic radius', function () {
-        expect(point.getHyperbolicRadius()).toBeNaN();
+        assert(Number.isNaN(point.getHyperbolicRadius()));
       });
 
       it('is not on hyperbolic plane', function () {
-        expect(point.isOnPlane()).toBe(false);
+        assert(!point.isOnPlane());
       });
     });
 
@@ -391,11 +405,11 @@ describe('Point', function () {
       });
 
       it('has hyperbolic radius', function () {
-        expect(point.getHyperbolicRadius()).toBeARealNumber();
+        assertIsRealNumber(point.getHyperbolicRadius());
       });
 
       it('is on hyperbolic plane', function () {
-        expect(point.isOnPlane()).toBe(true);
+        assert(point.isOnPlane());
       });
     });
   });
@@ -409,22 +423,22 @@ describe('Point', function () {
     });
 
     it('has angle and hyperbolic radius', function () {
-      expect(point.getAngle()).toBeARealNumber();
-      expect(point.getHyperbolicRadius()).toBeARealNumber();
+      assertIsRealNumber(point.getAngle());
+      assertIsRealNumber(point.getHyperbolicRadius());
     });
 
     it('has Euclidean radius', function () {
-      expect(point.getEuclideanRadius()).toBeARealNumber();
-      expect(point.getEuclideanRadius()).toBeLessThan(1);
+      assertIsRealNumber(point.getEuclideanRadius());
+      assert(point.getEuclideanRadius() < 1);
     });
 
     it('has Cartesian coordinates', function () {
-      expect(point.getX()).toBeARealNumber();
-      expect(point.getY()).toBeARealNumber();
+      assertIsRealNumber(point.getX());
+      assertIsRealNumber(point.getY());
     });
 
     it('is on hyperbolic plane', function () {
-      expect(point.isOnPlane()).toBe(true);
+      assert(point.isOnPlane());
     });
 
     it('equals Point defined by opposite angle and negative radius', function () {
@@ -432,7 +446,7 @@ describe('Point', function () {
         point.getHyperbolicRadius() * -1,
         HyperbolicCanvas.Angle.opposite(point.getAngle()),
       );
-      expect(point.equals(otherPoint)).toBe(true);
+      assert(point.equals(otherPoint));
     });
   });
 
@@ -442,19 +456,19 @@ describe('Point', function () {
     });
 
     it('is Point', function () {
-      expect(point).toBeA(Point);
+      assertIsA(point, Point);
     });
 
     it('is not on plane', function () {
-      expect(point.isOnPlane()).toBe(false);
+      assert(!point.isOnPlane());
     });
 
     it('is ideal', function () {
-      expect(point.isIdeal()).toBe(true);
+      assert(point.isIdeal());
     });
 
     it('has Euclidean radius of 1', function () {
-      expect(point.getEuclideanRadius()).toApproximate(1);
+      assertApproximate(point.getEuclideanRadius(), 1);
     });
   });
 
@@ -463,46 +477,26 @@ describe('Point', function () {
       point = Point.ORIGIN;
     });
 
-    it(
-      'is Point',
-      function () {
-        expect(point).toBeA(Point);
-      },
-      true,
-    );
+    it('is Point', function () {
+      assertIsA(point, Point);
+    });
 
-    it(
-      'has Cartesian coordinates (0, 0)',
-      function () {
-        expect(point.getX()).toBe(0);
-        expect(point.getY()).toBe(0);
-      },
-      true,
-    );
+    it('has Cartesian coordinates (0, 0)', function () {
+      assert.strictEqual(point.getX(), 0);
+      assert.strictEqual(point.getY(), 0);
+    });
 
-    it(
-      'has Euclidean and hyperbolic radii of 0',
-      function () {
-        expect(point.getEuclideanRadius()).toBe(0);
-        expect(point.getHyperbolicRadius()).toBe(0);
-      },
-      true,
-    );
+    it('has Euclidean and hyperbolic radii of 0', function () {
+      assert.strictEqual(point.getEuclideanRadius(), 0);
+      assert.strictEqual(point.getHyperbolicRadius(), 0);
+    });
 
-    it(
-      'has angle of 0',
-      function () {
-        expect(point.getAngle()).toBe(0);
-      },
-      true,
-    );
+    it('has angle of 0', function () {
+      assert.strictEqual(point.getAngle(), 0);
+    });
 
-    it(
-      'is on hyperbolic plane',
-      function () {
-        expect(point.isOnPlane()).toBe(true);
-      },
-      true,
-    );
+    it('is on hyperbolic plane', function () {
+      assert(point.isOnPlane());
+    });
   });
 });
