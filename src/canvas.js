@@ -2,9 +2,12 @@ const HyperbolicCanvas = require('./hyperbolic_canvas.js');
 
 // TODO store polygons and circles as hit regions
 
-let Canvas = (HyperbolicCanvas.Canvas = function (options) {
-  this._setupElements(options);
-  this._setupSize();
+let Canvas = (HyperbolicCanvas.Canvas = function (ctx) {
+  this._ctx = ctx;
+  let canvas = ctx.canvas;
+  let d = (this._diameter =
+    canvas.width > canvas.height ? canvas.height : canvas.width);
+  this._radius = d / 2;
 });
 
 Canvas.prototype.getBackdropElement = function () {
@@ -69,7 +72,7 @@ Canvas.prototype.clear = function () {
 };
 
 Canvas.prototype.fill = function (path) {
-  if (path && Path2D && path instanceof Path2D) {
+  if (path && typeof Path2D !== 'undefined' && path instanceof Path2D) {
     this.getContext().fill(path);
   } else {
     path = path || this.getContext();
@@ -78,7 +81,7 @@ Canvas.prototype.fill = function (path) {
 };
 
 Canvas.prototype.fillAndStroke = function (path) {
-  if (path && Path2D && path instanceof Path2D) {
+  if (path && typeof Path2D !== 'undefined' && path instanceof Path2D) {
     this.getContext().fill(path);
     this.getContext().stroke(path);
   } else {
@@ -89,7 +92,7 @@ Canvas.prototype.fillAndStroke = function (path) {
 };
 
 Canvas.prototype.stroke = function (path) {
-  if (path && Path2D && path instanceof Path2D) {
+  if (path && typeof Path2D !== 'undefined' && path instanceof Path2D) {
     this.getContext().stroke(path);
   } else {
     path = path || this.getContext();
@@ -311,52 +314,10 @@ Canvas.prototype._getPathOrContext = function (options) {
   //   path:   [Path2D]  -> Path2D to add to
   if (options.path) {
     return options.path;
-  } else if (options.path2D && Path2D) {
+  } else if (options.path2D && typeof Path2D !== 'undefined') {
     return new Path2D();
   } else {
     this.getContext().beginPath();
     return this.getContext();
   }
-};
-
-Canvas.prototype._setupElements = function (options) {
-  let el = (this._el = options.el);
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
-
-  let backdrop = (this._backdrop = document.createElement('div'));
-  backdrop.className = 'backdrop';
-
-  let underlay = (this._underlay = document.createElement('div'));
-  underlay.className = 'underlay';
-  underlay.style.display = 'block';
-
-  let canvas = (this._canvas = document.createElement('canvas'));
-  canvas.className = 'hyperbolic';
-  canvas.style.position = 'absolute';
-
-  this._ctx = canvas.getContext('2d', options.contextAttributes);
-
-  el.appendChild(backdrop);
-  backdrop.appendChild(underlay);
-  underlay.appendChild(canvas);
-};
-
-Canvas.prototype._setupSize = function () {
-  let container = this.getContainerElement();
-  let underlay = this.getUnderlayElement();
-  let canvas = this.getCanvasElement();
-  let backdrop = this.getBackdropElement();
-
-  let w = container.clientWidth;
-  let h = container.clientHeight;
-  let d = (this._diameter = w > h ? h : w);
-  let r = (this._radius = d / 2);
-
-  underlay.style['width'] = underlay.style['height'] = '' + d + 'px';
-  backdrop.style['width'] = backdrop.style['height'] = '' + d + 'px';
-  underlay.style['border-radius'] = '' + Math.floor(r) + 'px';
-  canvas.style['border-radius'] = '' + Math.floor(r) + 'px';
-  canvas.width = canvas.height = d;
 };
