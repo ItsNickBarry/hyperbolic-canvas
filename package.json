@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "yarn compile && firefox jasmine/SpecRunner.html",
-    "compile": "rm -rf dist/ && mkdir dist/ && browserify index.js > dist/hyperbolic_canvas.js && prettier --write dist/",
+    "compile": "rm -rf dist/ && mkdir dist/ && browserify --standalone HyperbolicCanvas index.js > dist/hyperbolic_canvas.js && prettier --write dist/",
     "prepare": "husky",
     "prettier": "prettier --write ."
   },
