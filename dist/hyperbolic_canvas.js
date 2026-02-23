@@ -123,6 +123,7 @@
             let d = (this._diameter =
               canvas.width > canvas.height ? canvas.height : canvas.width);
             this._radius = d / 2;
+            this._clip();
           });
 
           Canvas.prototype.getBackdropElement = function () {
@@ -189,6 +190,15 @@
               this.getDiameter(),
               this.getDiameter(),
             );
+          };
+
+          Canvas.prototype._clip = function () {
+            let ctx = this.getContext();
+            let r = this.getRadius();
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(r, r, r, 0, Math.TAU);
+            ctx.clip();
           };
 
           Canvas.prototype.fill = function (path) {

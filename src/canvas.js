@@ -8,6 +8,7 @@ let Canvas = (HyperbolicCanvas.Canvas = function (ctx) {
   let d = (this._diameter =
     canvas.width > canvas.height ? canvas.height : canvas.width);
   this._radius = d / 2;
+  this._clip();
 });
 
 Canvas.prototype.getBackdropElement = function () {
@@ -69,6 +70,15 @@ Canvas.prototype.at = function (loc) {
 
 Canvas.prototype.clear = function () {
   this.getContext().clearRect(0, 0, this.getDiameter(), this.getDiameter());
+};
+
+Canvas.prototype._clip = function () {
+  let ctx = this.getContext();
+  let r = this.getRadius();
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(r, r, r, 0, Math.TAU);
+  ctx.clip();
 };
 
 Canvas.prototype.fill = function (path) {
