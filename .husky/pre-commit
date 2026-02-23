@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 # stash unstaged and untracked files, except for dist/
 git add dist/
 git stash --include-untracked --keep-index
