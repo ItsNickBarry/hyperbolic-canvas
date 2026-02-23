@@ -37,8 +37,8 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "browserify": "^17.0.0",
     "canvas": "^3.2.1",
+    "exec-staged": "^0.1.3",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "prettier-plugin-packagejson": "^3.0.0",
     "seedrandom": "^3.0.5"

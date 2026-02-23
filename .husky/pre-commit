@@ -9,5 +9,5 @@ git stash pop --quiet
 git add dist/
 
 # format staged files wih prettier via lint-staged
-pnpm lint-staged
+pnpm exec-staged
 
