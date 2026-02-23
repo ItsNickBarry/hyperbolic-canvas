@@ -15,7 +15,7 @@ npm install --save hyperbolic-canvas
 ### In-Browser
 
 ```bash
-yarn compile`
+pnpm compile`
 ```
 
 ```html
@@ -52,14 +52,14 @@ Certain browsers do not provide support for the hyperbolic trigonometric functio
 
 ## Development
 
-Install dependencies via Yarn:
+Install dependencies via pnpm:
 
 ```bash
-yarn install
+pnpm install
 ```
 
 Setup Husky to format code on commit:
 
 ```bash
-yarn prepare
+pnpm prepare
 ```
