@@ -103,6 +103,7 @@ describe('Canvas', function () {
       assert.strictEqual(canvas.pathForHyperbolic(object, options), ctx);
     });
 
+    // TODO: test Path2D behavior once path2d polyfill is added as a dependency
     it('returns CanvasRenderingContext2D if Path2D is requested but unavailable', function () {
       let options = { path2D: true, path: false };
       assertIsA(
