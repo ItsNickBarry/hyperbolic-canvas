@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "yarn compile && firefox jasmine/SpecRunner.html",
+    "test": "node --test --experimental-test-coverage",
     "compile": "rm -rf dist/ && mkdir dist/ && browserify --standalone HyperbolicCanvas index.js > dist/hyperbolic_canvas.js && prettier --write dist/",
     "prepare": "husky",
     "prettier": "prettier --write ."
@@ -36,8 +36,10 @@
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "browserify": "^17.0.0",
+    "canvas": "^3.2.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
-    "prettier": "^3.3.2"
+    "prettier": "^3.3.2",
+    "seedrandom": "^3.0.5"
   }
 }
