@@ -97,9 +97,44 @@
       };
 
       ready(function () {
-        var scriptName = 'hexagons';
-        var canvas = HyperbolicCanvas.create('#hyperbolic-canvas', scriptName);
-        HyperbolicCanvas.scripts[scriptName](canvas);
+        var el = document.querySelector('#hyperbolic-canvas');
+
+        while (el.firstChild) {
+          el.removeChild(el.firstChild);
+        }
+
+        var backdrop = document.createElement('div');
+        backdrop.className = 'backdrop';
+        var underlay = document.createElement('div');
+        underlay.className = 'underlay';
+        underlay.style.display = 'block';
+        var canvasEl = document.createElement('canvas');
+        canvasEl.className = 'hyperbolic';
+        canvasEl.style.position = 'absolute';
+
+        el.appendChild(backdrop);
+        backdrop.appendChild(underlay);
+        underlay.appendChild(canvasEl);
+
+        var w = el.clientWidth;
+        var h = el.clientHeight;
+        var d = w > h ? h : w;
+        var r = d / 2;
+        underlay.style.width = underlay.style.height = d + 'px';
+        backdrop.style.width = backdrop.style.height = d + 'px';
+        underlay.style['border-radius'] = Math.floor(r) + 'px';
+        canvasEl.style['border-radius'] = Math.floor(r) + 'px';
+        canvasEl.width = canvasEl.height = d;
+
+        var ctx = canvasEl.getContext('2d');
+        var canvas = new HyperbolicCanvas.Canvas(ctx);
+
+        canvas._el = el;
+        canvas._backdrop = backdrop;
+        canvas._underlay = underlay;
+        canvas._canvas = canvasEl;
+
+        HyperbolicCanvas.scripts['hexagons'](canvas);
       });
     </script>
 
