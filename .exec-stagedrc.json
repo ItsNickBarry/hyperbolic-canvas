@@ -1,4 +1,5 @@
 [
+  { "task": "pnpm compile" },
   {
     "task": "prettier --write --no-error-on-unmatched-pattern $FILES",
     "glob": "*.{js,ts,json,md}"

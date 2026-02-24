@@ -1,13 +1,2 @@
-# stash unstaged and untracked files, except for dist/
-git add dist/
-git stash --include-untracked --keep-index
-# recompile dist/
-pnpm compile
-# restore unstaged and untracked files
-git stash pop --quiet
-# add recompiled dist/ to staging
-git add dist/
-
 # format staged files wih prettier via lint-staged
 pnpm exec-staged
-
