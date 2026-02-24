@@ -2,20 +2,6 @@
   "name": "hyperbolic-canvas",
   "version": "1.0.1",
   "description": "The Poincaré disk model of the hyperbolic plane on the HTML canvas.",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "test": "node --test --experimental-test-coverage",
-    "compile": "rm -rf dist/ && mkdir dist/ && browserify --standalone HyperbolicCanvas index.js > dist/hyperbolic_canvas.js && prettier --write dist/",
-    "prepare": "husky",
-    "prettier": "prettier --write ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/itsnickbarry/hyperbolic-canvas.git"
-  },
   "keywords": [
     "hyperbolic",
     "geometry",
@@ -27,19 +13,34 @@
     "math",
     "maths"
   ],
-  "author": "Nick Barry",
-  "license": "MIT",
+  "homepage": "https://github.com/itsnickbarry/hyperbolic-canvas#readme",
   "bugs": {
     "url": "https://github.com/itsnickbarry/hyperbolic-canvas/issues"
   },
-  "homepage": "https://github.com/itsnickbarry/hyperbolic-canvas#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsnickbarry/hyperbolic-canvas.git"
+  },
+  "license": "MIT",
+  "author": "Nick Barry",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "compile": "rm -rf dist/ && mkdir dist/ && browserify --standalone HyperbolicCanvas index.js > dist/hyperbolic_canvas.js && prettier --write dist/",
+    "prepare": "husky",
+    "prettier": "prettier --write .",
+    "test": "node --test --experimental-test-coverage"
+  },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "browserify": "^17.0.0",
     "canvas": "^3.2.1",
+    "exec-staged": "^0.1.3",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
+    "prettier-plugin-packagejson": "^3.0.0",
     "seedrandom": "^3.0.5"
   }
 }
