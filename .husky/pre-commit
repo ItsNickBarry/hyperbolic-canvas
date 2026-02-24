@@ -5,12 +5,12 @@
 git add dist/
 git stash --include-untracked --keep-index
 # recompile dist/
-yarn compile
+pnpm compile
 # restore unstaged and untracked files
 git stash pop --quiet
 # add recompiled dist/ to staging
 git add dist/
 
 # format staged files wih prettier via lint-staged
-yarn run lint-staged
+pnpm run lint-staged
 

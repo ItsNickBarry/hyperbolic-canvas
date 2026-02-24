@@ -1,5 +1,14 @@
+const { describe, it, beforeEach } = require('node:test');
+const assert = require('node:assert');
+const {
+  HyperbolicCanvas,
+  assertApproximate,
+  assertIsA,
+} = require('./helpers.js');
+
+const Polygon = HyperbolicCanvas.Polygon;
+
 describe('Polygon', function () {
-  var Polygon = HyperbolicCanvas.Polygon;
   var polygon;
 
   describe('given n vertices', function () {
@@ -14,20 +23,20 @@ describe('Polygon', function () {
     });
 
     it('has n vertices of type Point', function () {
-      var vertices = polygon.getVertices();
-      expect(vertices).toBeA(Array);
-      expect(vertices.length).toBe(n);
-      vertices.forEach(function (vertex) {
-        expect(vertex).toBeA(HyperbolicCanvas.Point);
+      var verts = polygon.getVertices();
+      assertIsA(verts, Array);
+      assert.strictEqual(verts.length, n);
+      verts.forEach(function (vertex) {
+        assertIsA(vertex, HyperbolicCanvas.Point);
       });
     });
 
     it('has n lines of type Line', function () {
       var lines = polygon.getLines();
-      expect(lines.length).toBe(n);
-      expect(lines).toBeA(Array);
+      assert.strictEqual(lines.length, n);
+      assertIsA(lines, Array);
       lines.forEach(function (line) {
-        expect(line).toBeA(HyperbolicCanvas.Line);
+        assertIsA(line, HyperbolicCanvas.Line);
       });
     });
   });
@@ -54,10 +63,10 @@ describe('Polygon', function () {
 
     it('has n lines of infinite hyperbolic length', function () {
       var lines = polygon.getLines();
-      expect(lines).toBeA(Array);
+      assertIsA(lines, Array);
       lines.forEach(function (line) {
-        expect(line).toBeA(HyperbolicCanvas.Line);
-        expect(line.getHyperbolicLength()).toBe(Infinity);
+        assertIsA(line, HyperbolicCanvas.Line);
+        assert.strictEqual(line.getHyperbolicLength(), Infinity);
       });
     });
   });
@@ -82,26 +91,27 @@ describe('Polygon', function () {
       });
 
       it('has n vertices of type Point', function () {
-        var vertices = polygon.getVertices();
-        expect(vertices).toBeA(Array);
-        expect(vertices.length).toBe(n);
-        vertices.forEach(function (vertex) {
-          expect(vertex).toBeA(HyperbolicCanvas.Point);
+        var verts = polygon.getVertices();
+        assertIsA(verts, Array);
+        assert.strictEqual(verts.length, n);
+        verts.forEach(function (vertex) {
+          assertIsA(vertex, HyperbolicCanvas.Point);
         });
       });
 
       it('has first vertex at given rotation angle', function () {
-        expect(
+        assertApproximate(
           polygon.getVertices()[0].euclideanAngleFrom(center),
-        ).toApproximate(rotation);
+          rotation,
+        );
       });
 
       it('has n lines of type Line', function () {
         var lines = polygon.getLines();
-        expect(lines.length).toBe(n);
-        expect(lines).toBeA(Array);
+        assert.strictEqual(lines.length, n);
+        assertIsA(lines, Array);
         lines.forEach(function (line) {
-          expect(line).toBeA(HyperbolicCanvas.Line);
+          assertIsA(line, HyperbolicCanvas.Line);
         });
       });
 
@@ -110,9 +120,9 @@ describe('Polygon', function () {
         polygon.getLines().forEach(function (line) {
           lengths.push(line.getEuclideanLength());
         });
-        var n = lengths.length;
-        for (var i = 0; i < n; i++) {
-          expect(lengths[i]).toApproximate(lengths[(i + 1) % n]);
+        var count = lengths.length;
+        for (var i = 0; i < count; i++) {
+          assertApproximate(lengths[i], lengths[(i + 1) % count]);
         }
       });
     });
@@ -129,26 +139,27 @@ describe('Polygon', function () {
       });
 
       it('has n vertices of type Point', function () {
-        var vertices = polygon.getVertices();
-        expect(vertices).toBeA(Array);
-        expect(vertices.length).toBe(n);
-        vertices.forEach(function (vertex) {
-          expect(vertex).toBeA(HyperbolicCanvas.Point);
+        var verts = polygon.getVertices();
+        assertIsA(verts, Array);
+        assert.strictEqual(verts.length, n);
+        verts.forEach(function (vertex) {
+          assertIsA(vertex, HyperbolicCanvas.Point);
         });
       });
 
       it('has first vertex at given rotation angle', function () {
-        expect(
+        assertApproximate(
           polygon.getVertices()[0].hyperbolicAngleFrom(center),
-        ).toApproximate(rotation);
+          rotation,
+        );
       });
 
       it('has n lines of type Line', function () {
         var lines = polygon.getLines();
-        expect(lines.length).toBe(n);
-        expect(lines).toBeA(Array);
+        assert.strictEqual(lines.length, n);
+        assertIsA(lines, Array);
         lines.forEach(function (line) {
-          expect(line).toBeA(HyperbolicCanvas.Line);
+          assertIsA(line, HyperbolicCanvas.Line);
         });
       });
 
@@ -157,9 +168,9 @@ describe('Polygon', function () {
         polygon.getLines().forEach(function (line) {
           lengths.push(line.getHyperbolicLength());
         });
-        var n = lengths.length;
-        for (var i = 0; i < n; i++) {
-          expect(lengths[i]).toApproximate(lengths[(i + 1) % n]);
+        var count = lengths.length;
+        for (var i = 0; i < count; i++) {
+          assertApproximate(lengths[i], lengths[(i + 1) % count]);
         }
       });
     });
