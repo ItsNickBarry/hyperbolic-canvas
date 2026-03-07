@@ -1,2 +1,1 @@
-# format staged files wih prettier via lint-staged
 pnpm exec-staged
