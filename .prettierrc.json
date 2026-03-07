@@ -3,5 +3,8 @@
   "singleQuote": true,
   "trailingComma": "all",
   "bracketSpacing": true,
-  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-packagejson"
+  ]
 }
