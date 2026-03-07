@@ -1,41 +1,43 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
-let Angle = (HyperbolicCanvas.Angle = {});
+const DEGREES_TO_RADIANS = Math.PI / 180;
 
-Angle.normalize = function (angle) {
-  if (angle < 0) {
-    return Math.abs(Math.floor(angle / Math.TAU)) * Math.TAU + angle;
-  } else if (angle >= Math.TAU) {
-    return angle % Math.TAU;
-  } else {
-    return angle;
+class Angle {
+  static normalize(angle) {
+    if (angle < 0) {
+      return Math.abs(Math.floor(angle / Math.TAU)) * Math.TAU + angle;
+    } else if (angle >= Math.TAU) {
+      return angle % Math.TAU;
+    } else {
+      return angle;
+    }
   }
-};
 
-Angle.fromDegrees = function (degrees) {
-  return Angle.normalize(degrees * Angle.DEGREES_TO_RADIANS);
-};
+  static fromDegrees(degrees) {
+    return Angle.normalize(degrees * DEGREES_TO_RADIANS);
+  }
 
-Angle.toDegrees = function (radians) {
-  return (radians / Angle.DEGREES_TO_RADIANS) % 360;
-};
+  static toDegrees(radians) {
+    return (radians / DEGREES_TO_RADIANS) % 360;
+  }
 
-Angle.opposite = function (angle) {
-  return Angle.normalize(angle + Math.PI);
-};
+  static opposite(angle) {
+    return Angle.normalize(angle + Math.PI);
+  }
 
-Angle.toSlope = function (angle) {
-  // TODO should this return Infinity?
-  return Math.tan(angle);
-};
+  static toSlope(angle) {
+    // TODO should this return Infinity?
+    return Math.tan(angle);
+  }
 
-Angle.fromSlope = function (slope) {
-  return Math.atan(slope);
-};
+  static fromSlope(slope) {
+    return Math.atan(slope);
+  }
 
-Angle.random = function (quadrant) {
-  let angle = Math.random() * Math.TAU;
-  return quadrant ? angle / 4 + (Math.PI / 2) * ((quadrant - 1) % 4) : angle;
-};
+  static random(quadrant) {
+    let angle = Math.random() * Math.TAU;
+    return quadrant ? angle / 4 + (Math.PI / 2) * ((quadrant - 1) % 4) : angle;
+  }
+}
 
-Angle.DEGREES_TO_RADIANS = Math.PI / 180;
+HyperbolicCanvas.Angle = Angle;
