@@ -5,7 +5,7 @@ const seed = process.env.SEED || String(Date.now());
 seedrandom(seed, { global: true });
 console.log(`Random seed: ${seed}`);
 
-const HyperbolicCanvas = require('../index.js');
+const HyperbolicCanvas = require('../src/index.js');
 
 function assertApproximate(actual, expected, message) {
   if (actual === expected) return;

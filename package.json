@@ -23,7 +23,7 @@
   },
   "license": "MIT",
   "author": "Nick Barry",
-  "main": "index.js",
+  "main": "src/index.js",
   "directories": {
     "lib": "lib"
   },
