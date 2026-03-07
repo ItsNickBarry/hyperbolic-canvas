@@ -498,5 +498,14 @@ describe('Point', function () {
     it('is on hyperbolic plane', function () {
       assert(point.isOnPlane());
     });
+
+    it('calculates Euclidean distant Point', function () {
+      var distance = Math.random();
+      var direction = HyperbolicCanvas.Angle.random();
+      var distantPoint = point.euclideanDistantPoint(distance, direction);
+      assertIsA(distantPoint, Point);
+      assertApproximate(distantPoint.getEuclideanRadius(), distance);
+      assertApproximate(distantPoint.getAngle(), direction);
+    });
   });
 });

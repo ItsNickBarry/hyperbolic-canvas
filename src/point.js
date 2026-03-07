@@ -375,7 +375,7 @@ Point.ORIGIN.hyperbolicDistanceTo = function (otherPoint) {
 };
 
 Point.ORIGIN.euclideanDistantPoint = function (distance, direction) {
-  return Point.givenEuclideanCenterRadius(
+  return Point.givenEuclideanPolarCoordinates(
     distance,
     this.getDirection(direction),
   );
