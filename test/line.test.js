@@ -1007,10 +1007,9 @@ describe('Line', function () {
       assert.strictEqual(line.getSlope(), Infinity);
     });
   });
-});
 
   describe('getEuclideanUnitCircleIntersects', function () {
-    it('handles near-tangent lines with floating point precision', function () {
+    it('returns intersects for near-tangent lines', function () {
       // Create a line that is almost tangent to the unit circle
       // Due to floating point errors, the discriminant might be slightly negative
       var angle = 0.007;
@@ -1019,7 +1018,7 @@ describe('Line', function () {
       var p0 = HyperbolicCanvas.Point.givenCoordinates(x, y);
       var slope = -x / y;  // perpendicular to radius = tangent
       var line = Line.givenPointSlope(p0, slope);
-      
+
       var intersects = line.getEuclideanUnitCircleIntersects();
       // Should not return false for a near-tangent line
       assert.notStrictEqual(intersects, false);
@@ -1028,3 +1027,4 @@ describe('Line', function () {
       assert(intersects.length >= 1);
     });
   });
+});
