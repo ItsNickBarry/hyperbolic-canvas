@@ -1,14 +1,13 @@
-const HyperbolicCanvas = (module.exports = {});
+// This module creates and exports the HyperbolicCanvas namespace object.
+// Other modules import this object and attach their classes to it.
+// This module does not import other modules to avoid circular dependencies.
 
-// modules attach themselves to HyperbolicCanvas and do not include exports
-require('./angle.js');
-require('./point.js');
-require('./line.js');
-require('./circle.js');
-require('./polygon.js');
-require('./canvas.js');
+const HyperbolicCanvas = {};
 
 HyperbolicCanvas.INFINITY = 1e12;
 HyperbolicCanvas.ZERO = 1e-6;
 
 Math.TAU = 2 * Math.PI;
+
+export default HyperbolicCanvas;
+export { HyperbolicCanvas };

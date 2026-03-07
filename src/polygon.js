@@ -1,4 +1,4 @@
-const HyperbolicCanvas = require('./hyperbolic_canvas.js');
+import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 let Polygon = (HyperbolicCanvas.Polygon = function (options) {
   this._vertices = options.vertices;

@@ -1,11 +1,11 @@
-const { describe, it, beforeEach } = require('node:test');
-const assert = require('node:assert');
-const { createCanvas, CanvasRenderingContext2D } = require('canvas');
-const {
+import { describe, it, beforeEach } from 'node:test';
+import assert from 'node:assert';
+import { createCanvas, CanvasRenderingContext2D } from 'canvas';
+import {
   HyperbolicCanvas,
   assertIsRealNumber,
   assertIsA,
-} = require('./helpers.js');
+} from './helpers.js';
 
 describe('Canvas', function () {
   let canvas;

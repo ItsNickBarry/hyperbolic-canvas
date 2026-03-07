@@ -1,4 +1,4 @@
-const HyperbolicCanvas = require('./hyperbolic_canvas.js');
+import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 let Line = (HyperbolicCanvas.Line = function (options) {
   this._p0 = options.p0;

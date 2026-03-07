@@ -1,11 +1,11 @@
-const { describe, it, beforeEach } = require('node:test');
-const assert = require('node:assert');
-const {
+import { describe, it, beforeEach } from 'node:test';
+import assert from 'node:assert';
+import {
   HyperbolicCanvas,
   assertApproximate,
   assertIsRealNumber,
   assertIsA,
-} = require('./helpers.js');
+} from './helpers.js';
 
 const Point = HyperbolicCanvas.Point;
 

@@ -1,4 +1,4 @@
-const HyperbolicCanvas = require('./hyperbolic_canvas.js');
+import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 let Point = (HyperbolicCanvas.Point = function (options) {
   this._angle = options.angle;

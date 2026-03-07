@@ -1,6 +1,6 @@
-const { describe, it } = require('node:test');
-const assert = require('node:assert');
-const { HyperbolicCanvas } = require('./helpers.js');
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
+import { HyperbolicCanvas } from './helpers.js';
 
 describe('HyperbolicCanvas', function () {
   it('defines the natural and just constant tau', function () {

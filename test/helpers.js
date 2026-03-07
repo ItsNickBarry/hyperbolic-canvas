@@ -1,11 +1,10 @@
-const assert = require('node:assert');
-const seedrandom = require('seedrandom');
+import assert from 'node:assert';
+import seedrandom from 'seedrandom';
+import { HyperbolicCanvas } from '../src/index.js';
 
 const seed = process.env.SEED || String(Date.now());
 seedrandom(seed, { global: true });
 console.log(`Random seed: ${seed}`);
-
-const HyperbolicCanvas = require('../src/index.js');
 
 function assertApproximate(actual, expected, message) {
   if (actual === expected) return;
@@ -34,7 +33,7 @@ function assertIsA(actual, expected, message) {
   );
 }
 
-module.exports = {
+export {
   HyperbolicCanvas,
   assertApproximate,
   assertIsRealNumber,
