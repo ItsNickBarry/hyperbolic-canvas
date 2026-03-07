@@ -1,109 +1,121 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 class Line {
+  #p0;
+  #p1;
+  #m;
+  #euclideanUnitCircleIntersects;
+  #idealPoints;
+  #geodesic;
+  #euclideanLength;
+  #euclideanMidpoint;
+  #hyperbolicLength;
+  #hyperbolicMidpoint;
+  #idealLine;
+
   constructor(options) {
-    this._p0 = options.p0;
-    this._p1 = options.p1;
-    this._m = options.m === -Infinity ? Infinity : options.m;
-    this._euclideanUnitCircleIntersects = options.euclideanUnitCircleIntersects;
-    this._idealPoints = options.idealPoints;
+    this.#p0 = options.p0;
+    this.#p1 = options.p1;
+    this.#m = options.m === -Infinity ? Infinity : options.m;
+    this.#euclideanUnitCircleIntersects = options.euclideanUnitCircleIntersects;
+    this.#idealPoints = options.idealPoints;
   }
 
   getHyperbolicGeodesic() {
-    if (typeof this._geodesic === 'undefined') {
+    if (typeof this.#geodesic === 'undefined') {
       if (this.getP0().isIdeal() || this.getP1().isIdeal()) {
         if (this.getP0().isIdeal() && this.getP1().isIdeal()) {
           // both points are ideal
-          this._calculateGeodesicThroughTwoIdealPoints();
+          this.#calculateGeodesicThroughTwoIdealPoints();
         } else {
           // one point is on plane
-          this._calculateGeodesicThroughOnePointOnPlane();
+          this.#calculateGeodesicThroughOnePointOnPlane();
         }
       } else if (!this.isOnPlane()) {
         // either Point is not well defined, so geodesic is not defined
-        this._geodesic = false;
+        this.#geodesic = false;
       } else if (
         this.getP0().equals(HyperbolicCanvas.Point.ORIGIN) ||
         this.getP1().equals(HyperbolicCanvas.Point.ORIGIN)
       ) {
         // either Point is at origin, so geodesic is a Line
-        this._geodesic = this;
+        this.#geodesic = this;
       } else {
         // both Points are on plane; only need one
-        this._calculateGeodesicThroughOnePointOnPlane();
+        this.#calculateGeodesicThroughOnePointOnPlane();
       }
     }
-    return this._geodesic;
+    return this.#geodesic;
   }
 
   getEuclideanLength() {
-    if (typeof this._euclideanLength === 'undefined') {
-      this._euclideanLength = this.getP0().euclideanDistanceTo(this.getP1());
+    if (typeof this.#euclideanLength === 'undefined') {
+      this.#euclideanLength = this.getP0().euclideanDistanceTo(this.getP1());
     }
-    return this._euclideanLength;
+    return this.#euclideanLength;
   }
 
   getEuclideanMidpoint() {
-    if (typeof this._euclideanMidpoint === 'undefined') {
-      this._euclideanMidpoint = HyperbolicCanvas.Point.euclideanBetween(
+    if (typeof this.#euclideanMidpoint === 'undefined') {
+      this.#euclideanMidpoint = HyperbolicCanvas.Point.euclideanBetween(
         this.getP0(),
         this.getP1(),
       );
     }
-    return this._euclideanMidpoint;
+    return this.#euclideanMidpoint;
   }
 
   getHyperbolicLength() {
-    if (typeof this._hyperbolicLength === 'undefined') {
-      this._hyperbolicLength = this.getP0().hyperbolicDistanceTo(this.getP1());
+    if (typeof this.#hyperbolicLength === 'undefined') {
+      this.#hyperbolicLength = this.getP0().hyperbolicDistanceTo(this.getP1());
     }
-    return this._hyperbolicLength;
+    return this.#hyperbolicLength;
   }
 
   getHyperbolicMidpoint() {
-    if (typeof this._hyperbolicMidpoint === 'undefined') {
+    if (typeof this.#hyperbolicMidpoint === 'undefined') {
       if (this.isOnPlane()) {
-        this._hyperbolicMidpoint = this.getP0().hyperbolicDistantPoint(
+        this.#hyperbolicMidpoint = this.getP0().hyperbolicDistantPoint(
           this.getHyperbolicLength() / 2,
           this.getP0().hyperbolicAngleTo(this.getP1()),
         );
       } else {
-        this._hyperbolicMidpoint = false;
+        this.#hyperbolicMidpoint = false;
       }
     }
-    return this._hyperbolicMidpoint;
+    return this.#hyperbolicMidpoint;
   }
 
   getIdealLine() {
-    if (typeof this._idealLine === 'undefined') {
-      this._idealLine = Line.givenTwoPoints(
+    if (typeof this.#idealLine === 'undefined') {
+      this.#idealLine = Line.givenTwoPoints(
         this.getIdealPoints()[0],
         this.getIdealPoints()[1],
       );
     }
-    return this._idealLine;
+    return this.#idealLine;
   }
 
   getIdealPoints() {
-    if (typeof this._idealPoints === 'undefined') {
+    if (typeof this.#idealPoints === 'undefined') {
       let g = this.getHyperbolicGeodesic();
       if (g === false) {
-        this._idealPoints = false;
+        this.#idealPoints = false;
       } else if (g === this) {
-        this._idealPoints = this.getEuclideanUnitCircleIntersects();
+        this.#idealPoints = this.getEuclideanUnitCircleIntersects();
       } else {
-        this._idealPoints = g.getUnitCircleIntersects();
+        this.#idealPoints = g.getUnitCircleIntersects();
       }
     }
-    return this._idealPoints;
+    return this.#idealPoints;
   }
 
   getP0() {
-    return this._p0;
+    return this.#p0;
   }
 
   getP1() {
-    if (typeof this._p1 === 'undefined') {
+    if (typeof this.#p1 === 'undefined') {
       let x, y;
       let p = this.getP0();
       let m = this.getSlope();
@@ -117,25 +129,25 @@ class Line {
         x = 0;
         y = p.getY() - m * p.getX();
       }
-      this._p1 = HyperbolicCanvas.Point.givenCoordinates(x, y);
+      this.#p1 = HyperbolicCanvas.Point.givenCoordinates(x, y);
     }
-    return this._p1;
+    return this.#p1;
   }
 
   getSlope() {
-    if (typeof this._m === 'undefined') {
-      this._m =
+    if (typeof this.#m === 'undefined') {
+      this.#m =
         (this.getP0().getY() - this.getP1().getY()) /
         (this.getP0().getX() - this.getP1().getX());
-      if (Math.abs(this._m) > HyperbolicCanvas.INFINITY) {
-        this._m = Infinity;
+      if (Math.abs(this.#m) > HyperbolicCanvas.INFINITY) {
+        this.#m = Infinity;
       }
     }
-    return this._m;
+    return this.#m;
   }
 
   getEuclideanUnitCircleIntersects() {
-    if (typeof this._euclideanUnitCircleIntersects === 'undefined') {
+    if (typeof this.#euclideanUnitCircleIntersects === 'undefined') {
       let m = this.getSlope();
 
       if (m > HyperbolicCanvas.INFINITY) {
@@ -179,9 +191,9 @@ class Line {
 
       let p1 = HyperbolicCanvas.Point.givenCoordinates(x1, y1);
 
-      this._euclideanUnitCircleIntersects = [p0, p1];
+      this.#euclideanUnitCircleIntersects = [p0, p1];
     }
-    return this._euclideanUnitCircleIntersects;
+    return this.#euclideanUnitCircleIntersects;
   }
 
   clone() {
@@ -355,13 +367,13 @@ class Line {
     return HyperbolicCanvas.Point.givenCoordinates(x, y);
   }
 
-  _calculateGeodesicThroughTwoIdealPoints() {
+  #calculateGeodesicThroughTwoIdealPoints() {
     let a0 = this.getP0().getAngle();
     let a1 = this.getP1().getAngle();
     if (
       Math.abs(a0 - HyperbolicCanvas.Angle.opposite(a1)) < HyperbolicCanvas.ZERO
     ) {
-      this._geodesic = this;
+      this.#geodesic = this;
     } else {
       let t0 = HyperbolicCanvas.Circle.UNIT.euclideanTangentAtPoint(
         this.getP0(),
@@ -370,20 +382,20 @@ class Line {
         this.getP1(),
       );
       let center = Line.euclideanIntersect(t0, t1);
-      this._geodesic = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+      this.#geodesic = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
         center,
         center.euclideanDistanceTo(this.getP0()),
       );
     }
   }
 
-  _calculateGeodesicThroughOnePointOnPlane() {
+  #calculateGeodesicThroughOnePointOnPlane() {
     let l0 = Line.givenTwoPoints(this.getP0(), HyperbolicCanvas.Point.ORIGIN);
     let l1 = Line.givenTwoPoints(this.getP1(), HyperbolicCanvas.Point.ORIGIN);
 
     if (l0.equals(l1)) {
       // both points are colinear with origin, so geodesic is a Line, itself
-      return (this._geodesic = this);
+      return (this.#geodesic = this);
     }
 
     // get the line through point on plane, which is perpindicular to origin
@@ -402,7 +414,7 @@ class Line {
 
     if (!intersects || intersects.length < 2) {
       // line is outside of or tangent to unit circle
-      return (this._geodesic = false);
+      return (this.#geodesic = false);
     }
 
     let t0 = HyperbolicCanvas.Circle.UNIT.euclideanTangentAtPoint(
@@ -414,7 +426,7 @@ class Line {
 
     let c = Line.euclideanIntersect(t0, t1);
 
-    this._geodesic = HyperbolicCanvas.Circle.givenThreePoints(
+    this.#geodesic = HyperbolicCanvas.Circle.givenThreePoints(
       this.getP0(),
       this.getP1(),
       c,

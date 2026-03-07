@@ -1,79 +1,86 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 class Point {
+  #angle;
+  #euclideanRadius;
+  #direction;
+  #hyperbolicRadius;
+  #x;
+  #y;
+
   constructor(options) {
-    this._angle = options.angle;
-    this._euclideanRadius = options.euclideanRadius;
-    this._direction = options.direction;
-    this._hyperbolicRadius = options.hyperbolicRadius;
-    this._x = options.x;
-    this._y = options.y;
+    this.#angle = options.angle;
+    this.#euclideanRadius = options.euclideanRadius;
+    this.#direction = options.direction;
+    this.#hyperbolicRadius = options.hyperbolicRadius;
+    this.#x = options.x;
+    this.#y = options.y;
   }
 
   getAngle() {
-    if (typeof this._angle === 'undefined') {
-      this._angle = HyperbolicCanvas.Angle.normalize(
+    if (typeof this.#angle === 'undefined') {
+      this.#angle = HyperbolicCanvas.Angle.normalize(
         Math.atan2(this.getY(), this.getX()),
       );
     }
-    return this._angle;
+    return this.#angle;
   }
 
   getDirection(direction) {
     if (typeof direction !== 'undefined') {
       return HyperbolicCanvas.Angle.normalize(direction);
     }
-    if (typeof this._direction !== 'undefined') {
-      return this._direction;
+    if (typeof this.#direction !== 'undefined') {
+      return this.#direction;
     }
     return this.getAngle();
   }
 
   getEuclideanRadius() {
-    if (typeof this._euclideanRadius === 'undefined') {
-      if (typeof this._x === 'undefined' || typeof this._y === 'undefined') {
+    if (typeof this.#euclideanRadius === 'undefined') {
+      if (typeof this.#x === 'undefined' || typeof this.#y === 'undefined') {
         if (this.getHyperbolicRadius() === Infinity) {
-          this._euclideanRadius = 1;
+          this.#euclideanRadius = 1;
         } else {
-          this._euclideanRadius =
+          this.#euclideanRadius =
             (Math.exp(this.getHyperbolicRadius()) - 1) /
             (Math.exp(this.getHyperbolicRadius()) + 1);
         }
       } else {
-        this._euclideanRadius = Math.sqrt(
+        this.#euclideanRadius = Math.sqrt(
           Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2),
         );
       }
-      if (Math.abs(this._euclideanRadius - 1) < HyperbolicCanvas.ZERO) {
-        this._euclideanRadius = 1;
+      if (Math.abs(this.#euclideanRadius - 1) < HyperbolicCanvas.ZERO) {
+        this.#euclideanRadius = 1;
       }
     }
-    return this._euclideanRadius;
+    return this.#euclideanRadius;
   }
 
   getHyperbolicRadius() {
-    if (typeof this._hyperbolicRadius === 'undefined') {
+    if (typeof this.#hyperbolicRadius === 'undefined') {
       if (this.isIdeal()) {
-        this._hyperbolicRadius = Infinity;
+        this.#hyperbolicRadius = Infinity;
       } else {
-        this._hyperbolicRadius = 2 * Math.atanh(this.getEuclideanRadius());
+        this.#hyperbolicRadius = 2 * Math.atanh(this.getEuclideanRadius());
       }
     }
-    return this._hyperbolicRadius;
+    return this.#hyperbolicRadius;
   }
 
   getX() {
-    if (typeof this._x === 'undefined') {
-      this._x = this.getEuclideanRadius() * Math.cos(this.getAngle());
+    if (typeof this.#x === 'undefined') {
+      this.#x = this.getEuclideanRadius() * Math.cos(this.getAngle());
     }
-    return this._x;
+    return this.#x;
   }
 
   getY() {
-    if (typeof this._y === 'undefined') {
-      this._y = this.getEuclideanRadius() * Math.sin(this.getAngle());
+    if (typeof this.#y === 'undefined') {
+      this.#y = this.getEuclideanRadius() * Math.sin(this.getAngle());
     }
-    return this._y;
+    return this.#y;
   }
 
   equals(otherPoint) {
@@ -85,12 +92,12 @@ class Point {
 
   clone() {
     return new Point({
-      angle: this._angle,
-      direction: this._direction,
-      euclideanRadius: this._euclideanRadius,
-      hyperbolicRadius: this._hyperbolicRadius,
-      x: this._x,
-      y: this._y,
+      angle: this.#angle,
+      direction: this.#direction,
+      euclideanRadius: this.#euclideanRadius,
+      hyperbolicRadius: this.#hyperbolicRadius,
+      x: this.#x,
+      y: this.#y,
     });
   }
 
@@ -120,7 +127,7 @@ class Point {
       this.getX() + Math.cos(bearing) * distance,
       this.getY() + Math.sin(bearing) * distance,
     );
-    distantPoint._setDirection(bearing);
+    distantPoint.#setDirection(bearing);
     return distantPoint;
   }
 
@@ -186,12 +193,12 @@ class Point {
 
     if (Math.abs(c) < HyperbolicCanvas.ZERO) {
       let point = this.clone();
-      point._setDirection(bearing);
+      point.#setDirection(bearing);
       return point;
     }
     if (this.equals(Point.ORIGIN)) {
       let point = Point.givenHyperbolicPolarCoordinates(c, bearing);
-      point._setDirection(bearing);
+      point.#setDirection(bearing);
       return point;
     }
 
@@ -200,7 +207,7 @@ class Point {
 
     if (Math.abs(aAngle - bearing) < HyperbolicCanvas.ZERO) {
       let point = Point.givenHyperbolicPolarCoordinates(b + c, aAngle);
-      point._setDirection(bearing);
+      point.#setDirection(bearing);
       return point;
     }
 
@@ -208,7 +215,7 @@ class Point {
 
     if (alpha < HyperbolicCanvas.ZERO) {
       let point = Point.givenHyperbolicPolarCoordinates(b - c, aAngle);
-      point._setDirection(bearing);
+      point.#setDirection(bearing);
       return point;
     }
 
@@ -246,23 +253,23 @@ class Point {
     cosbeta = cosbeta > 1 ? 1 : cosbeta < -1 ? -1 : cosbeta;
     let beta = Math.acos(cosbeta);
 
-    distantPoint._setDirection(bAngle + beta * dir);
+    distantPoint.#setDirection(bAngle + beta * dir);
 
     return distantPoint;
   }
 
   isIdeal() {
     return (
-      this._euclideanRadius === 1 ||
-      this._hyperbolicRadius === Infinity ||
+      this.#euclideanRadius === 1 ||
+      this.#hyperbolicRadius === Infinity ||
       this.getEuclideanRadius() === 1
     );
   }
 
   isOnPlane() {
     return (
-      this._euclideanRadius < 1 ||
-      this._hyperbolicRadius < Infinity ||
+      this.#euclideanRadius < 1 ||
+      this.#hyperbolicRadius < Infinity ||
       this.getEuclideanRadius() < 1
     );
   }
@@ -285,8 +292,8 @@ class Point {
     );
   }
 
-  _setDirection(direction) {
-    this._direction = HyperbolicCanvas.Angle.normalize(direction);
+  #setDirection(direction) {
+    this.#direction = HyperbolicCanvas.Angle.normalize(direction);
   }
 
   static euclideanBetween(p0, p1) {

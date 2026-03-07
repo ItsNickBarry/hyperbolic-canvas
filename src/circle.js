@@ -1,40 +1,50 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 class Circle {
+  #euclideanCenter;
+  #euclideanRadius;
+  #hyperbolicCenter;
+  #hyperbolicRadius;
+  #euclideanArea;
+  #euclideanCircumference;
+  #hyperbolicArea;
+  #hyperbolicCircumference;
+  #unitCircleIntersects;
+
   constructor(options) {
-    this._euclideanCenter = options.euclideanCenter;
+    this.#euclideanCenter = options.euclideanCenter;
     if (options.euclideanRadius < 0) {
-      this._euclideanRadius = Math.abs(options.euclideanRadius);
+      this.#euclideanRadius = Math.abs(options.euclideanRadius);
     } else {
-      this._euclideanRadius = options.euclideanRadius;
+      this.#euclideanRadius = options.euclideanRadius;
     }
-    this._hyperbolicCenter = options.hyperbolicCenter;
+    this.#hyperbolicCenter = options.hyperbolicCenter;
     if (options.hyperbolicRadius < 0) {
-      this._hyperbolicRadius = Math.abs(options.hyperbolicRadius);
+      this.#hyperbolicRadius = Math.abs(options.hyperbolicRadius);
     } else {
-      this._hyperbolicRadius = options.hyperbolicRadius;
+      this.#hyperbolicRadius = options.hyperbolicRadius;
     }
   }
 
   getEuclideanArea() {
-    if (typeof this._euclideanArea === 'undefined') {
-      this._euclideanArea = Math.PI * Math.pow(this.getEuclideanRadius(), 2);
+    if (typeof this.#euclideanArea === 'undefined') {
+      this.#euclideanArea = Math.PI * Math.pow(this.getEuclideanRadius(), 2);
     }
-    return this._euclideanArea;
+    return this.#euclideanArea;
   }
 
   getEuclideanCenter() {
-    if (typeof this._euclideanCenter === 'undefined') {
-      this._calculateEuclideanCenterRadius();
+    if (typeof this.#euclideanCenter === 'undefined') {
+      this.#calculateEuclideanCenterRadius();
     }
-    return this._euclideanCenter;
+    return this.#euclideanCenter;
   }
 
   getEuclideanCircumference() {
-    if (typeof this._euclideanCircumference === 'undefined') {
-      this._euclideanCircumference = Math.TAU * this.getEuclideanRadius();
+    if (typeof this.#euclideanCircumference === 'undefined') {
+      this.#euclideanCircumference = Math.TAU * this.getEuclideanRadius();
     }
-    return this._euclideanCircumference;
+    return this.#euclideanCircumference;
   }
 
   getEuclideanDiameter() {
@@ -42,33 +52,33 @@ class Circle {
   }
 
   getEuclideanRadius() {
-    if (typeof this._euclideanRadius === 'undefined') {
-      this._calculateEuclideanCenterRadius();
+    if (typeof this.#euclideanRadius === 'undefined') {
+      this.#calculateEuclideanCenterRadius();
     }
-    return this._euclideanRadius;
+    return this.#euclideanRadius;
   }
 
   getHyperbolicArea() {
-    if (typeof this._hyperbolicArea === 'undefined') {
-      this._hyperbolicArea =
+    if (typeof this.#hyperbolicArea === 'undefined') {
+      this.#hyperbolicArea =
         Math.TAU * (Math.cosh(this.getHyperbolicRadius()) - 1);
     }
-    return this._hyperbolicArea;
+    return this.#hyperbolicArea;
   }
 
   getHyperbolicCenter() {
-    if (typeof this._hyperbolicCenter === 'undefined') {
-      this._calculateHyperbolicCenterRadius();
+    if (typeof this.#hyperbolicCenter === 'undefined') {
+      this.#calculateHyperbolicCenterRadius();
     }
-    return this._hyperbolicCenter;
+    return this.#hyperbolicCenter;
   }
 
   getHyperbolicCircumference() {
-    if (typeof this._hyperbolicCircumference === 'undefined') {
-      this._hyperbolicCircumference =
+    if (typeof this.#hyperbolicCircumference === 'undefined') {
+      this.#hyperbolicCircumference =
         Math.TAU * Math.sinh(this.getHyperbolicRadius());
     }
-    return this._hyperbolicCircumference;
+    return this.#hyperbolicCircumference;
   }
 
   getHyperbolicDiameter() {
@@ -76,17 +86,17 @@ class Circle {
   }
 
   getHyperbolicRadius() {
-    if (typeof this._hyperbolicRadius === 'undefined') {
-      this._calculateHyperbolicCenterRadius();
+    if (typeof this.#hyperbolicRadius === 'undefined') {
+      this.#calculateHyperbolicCenterRadius();
     }
-    return this._hyperbolicRadius;
+    return this.#hyperbolicRadius;
   }
 
   getUnitCircleIntersects() {
-    if (typeof this._unitCircleIntersects === 'undefined') {
-      this._unitCircleIntersects = Circle.intersects(this, Circle.UNIT);
+    if (typeof this.#unitCircleIntersects === 'undefined') {
+      this.#unitCircleIntersects = Circle.intersects(this, Circle.UNIT);
     }
-    return this._unitCircleIntersects;
+    return this.#unitCircleIntersects;
   }
 
   clone() {
@@ -178,7 +188,7 @@ class Circle {
 
   xAtY(y) {
     let center = this.getEuclideanCenter();
-    let a = this._pythagoreanTheorem(y - center.getY());
+    let a = this.#pythagoreanTheorem(y - center.getY());
     if (a) {
       return Math.abs(a) < HyperbolicCanvas.ZERO
         ? [center.getX()]
@@ -190,7 +200,7 @@ class Circle {
 
   yAtX(x) {
     let center = this.getEuclideanCenter();
-    let a = this._pythagoreanTheorem(x - center.getX());
+    let a = this.#pythagoreanTheorem(x - center.getX());
     if (a) {
       return Math.abs(a) < HyperbolicCanvas.ZERO
         ? [center.getY()]
@@ -200,34 +210,34 @@ class Circle {
     }
   }
 
-  _pythagoreanTheorem(b) {
+  #pythagoreanTheorem(b) {
     let c = this.getEuclideanRadius();
     let aSquared = Math.pow(c, 2) - Math.pow(b, 2);
     return Math.abs(aSquared) < HyperbolicCanvas.ZERO ? 0 : Math.sqrt(aSquared);
   }
 
-  _calculateEuclideanCenterRadius() {
+  #calculateEuclideanCenterRadius() {
     let center = this.getHyperbolicCenter();
     let farPoint = this.hyperbolicPointAt(center.getAngle());
     let nearPoint = this.hyperbolicPointAt(
       HyperbolicCanvas.Angle.opposite(center.getAngle()),
     );
     let diameter = HyperbolicCanvas.Line.givenTwoPoints(farPoint, nearPoint);
-    this._euclideanCenter = diameter.getEuclideanMidpoint();
-    this._euclideanRadius = diameter.getEuclideanLength() / 2;
+    this.#euclideanCenter = diameter.getEuclideanMidpoint();
+    this.#euclideanRadius = diameter.getEuclideanLength() / 2;
   }
 
-  _calculateHyperbolicCenterRadius() {
+  #calculateHyperbolicCenterRadius() {
     let center = this.getEuclideanCenter();
 
     if (center.getEuclideanRadius() + this.getEuclideanRadius() >= 1) {
       // TODO horocycles
       if (this.equals(Circle.UNIT)) {
-        this._hyperbolicCenter = center;
-        this._hyperbolicRadius = Infinity;
+        this.#hyperbolicCenter = center;
+        this.#hyperbolicRadius = Infinity;
       } else {
-        this._hyperbolicCenter = false;
-        this._hyperbolicRadius = NaN;
+        this.#hyperbolicCenter = false;
+        this.#hyperbolicRadius = NaN;
       }
     } else {
       let farPoint = this.euclideanPointAt(center.getAngle());
@@ -235,8 +245,8 @@ class Circle {
         HyperbolicCanvas.Angle.opposite(center.getAngle()),
       );
       let diameter = HyperbolicCanvas.Line.givenTwoPoints(farPoint, nearPoint);
-      this._hyperbolicCenter = diameter.getHyperbolicMidpoint();
-      this._hyperbolicRadius = diameter.getHyperbolicLength() / 2;
+      this.#hyperbolicCenter = diameter.getHyperbolicMidpoint();
+      this.#hyperbolicRadius = diameter.getHyperbolicLength() / 2;
     }
   }
 

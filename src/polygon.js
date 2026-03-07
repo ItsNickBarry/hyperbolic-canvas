@@ -1,18 +1,21 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 class Polygon {
+  #vertices;
+  #lines;
+
   constructor(options) {
-    this._vertices = options.vertices;
-    this._lines = options.lines;
+    this.#vertices = options.vertices;
+    this.#lines = options.lines;
   }
 
   getLines() {
-    if (typeof this._lines === 'undefined') {
-      this._lines = [];
+    if (typeof this.#lines === 'undefined') {
+      this.#lines = [];
       let vertices = this.getVertices();
       let n = vertices.length;
       for (let i = 0; i < vertices.length; i++) {
-        this._lines.push(
+        this.#lines.push(
           HyperbolicCanvas.Line.givenTwoPoints(
             vertices[i],
             vertices[(i + 1) % n],
@@ -20,11 +23,11 @@ class Polygon {
         );
       }
     }
-    return this._lines;
+    return this.#lines;
   }
 
   getVertices() {
-    return this._vertices;
+    return this.#vertices;
   }
 
   static givenAnglesOfIdealVertices(angles) {

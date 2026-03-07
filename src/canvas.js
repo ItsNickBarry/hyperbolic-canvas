@@ -3,41 +3,49 @@ import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 // TODO store polygons and circles as hit regions
 
 class Canvas {
+  #ctx;
+  #diameter;
+  #radius;
+  #backdrop;
+  #el;
+  #canvas;
+  #underlay;
+
   constructor(ctx) {
-    this._ctx = ctx;
+    this.#ctx = ctx;
     let canvas = ctx.canvas;
-    let d = (this._diameter =
+    let d = (this.#diameter =
       canvas.width > canvas.height ? canvas.height : canvas.width);
-    this._radius = d / 2;
-    this._clip();
+    this.#radius = d / 2;
+    this.#clip();
   }
 
   getBackdropElement() {
-    return this._backdrop;
+    return this.#backdrop;
   }
 
   getContainerElement() {
-    return this._el;
+    return this.#el;
   }
 
   getCanvasElement() {
-    return this._canvas;
+    return this.#canvas;
   }
 
   getUnderlayElement() {
-    return this._underlay;
+    return this.#underlay;
   }
 
   getContext() {
-    return this._ctx;
+    return this.#ctx;
   }
 
   getRadius() {
-    return this._radius;
+    return this.#radius;
   }
 
   getDiameter() {
-    return this._diameter;
+    return this.#diameter;
   }
 
   setContextProperties(options) {
@@ -73,7 +81,7 @@ class Canvas {
     this.getContext().clearRect(0, 0, this.getDiameter(), this.getDiameter());
   }
 
-  _clip() {
+  #clip() {
     let ctx = this.getContext();
     let r = this.getRadius();
     ctx.save();
@@ -112,7 +120,7 @@ class Canvas {
   }
 
   pathForReferenceAngles(n, rotation, options) {
-    let path = this._getPathOrContext(options || {});
+    let path = this.#getPathOrContext(options || {});
     let angle = rotation || 0;
     let r = this.getRadius();
     let difference = Math.TAU / n;
@@ -128,7 +136,7 @@ class Canvas {
   }
 
   pathForReferenceGrid(n, options) {
-    let path = this._getPathOrContext(options || {});
+    let path = this.#getPathOrContext(options || {});
     for (let i = 1; i < n; i++) {
       // x axis
       path.moveTo((this.getDiameter() * i) / n, 0);
@@ -141,9 +149,9 @@ class Canvas {
   }
 
   pathForReferenceRings(n, r, options) {
-    let path = this._getPathOrContext(options || {});
+    let path = this.#getPathOrContext(options || {});
     for (let i = 0; i < n; i++) {
-      this._pathForCircle(
+      this.#pathForCircle(
         HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
           HyperbolicCanvas.Point.ORIGIN,
           r * (i + 1),
@@ -156,23 +164,23 @@ class Canvas {
 
   pathForEuclidean(object, options) {
     options = options || {};
-    return this._pathFunctionForEuclidean(object)(
+    return this.#pathFunctionForEuclidean(object)(
       object,
-      this._getPathOrContext(options),
+      this.#getPathOrContext(options),
       options,
     );
   }
 
   pathForHyperbolic(object, options) {
     options = options || {};
-    return this._pathFunctionForHyperbolic(object)(
+    return this.#pathFunctionForHyperbolic(object)(
       object,
-      this._getPathOrContext(options),
+      this.#getPathOrContext(options),
       options,
     );
   }
 
-  _pathForCircle(c, path) {
+  #pathForCircle(c, path) {
     let center = this.at(c.getEuclideanCenter());
     let start = this.at(c.euclideanPointAt(0));
 
@@ -188,7 +196,7 @@ class Canvas {
     return path;
   }
 
-  _pathForEuclideanLine(l, path, options) {
+  #pathForEuclideanLine(l, path, options) {
     let p1 = this.at(l.getP1());
 
     if (!options.connected) {
@@ -199,24 +207,24 @@ class Canvas {
     return path;
   }
 
-  _pathForEuclideanPoint(p, path) {
+  #pathForEuclideanPoint(p, path) {
     let point = this.at(p);
     path.lineTo(point[0], point[1]);
     return path;
   }
 
-  _pathForEuclideanPolygon(p, path) {
+  #pathForEuclideanPolygon(p, path) {
     let start = this.at(p.getVertices()[0]);
     path.moveTo(start[0], start[1]);
 
     let lines = p.getLines();
     for (let i = 0; i < lines.length; i++) {
-      this._pathForEuclideanLine(lines[i], path, { connected: true });
+      this.#pathForEuclideanLine(lines[i], path, { connected: true });
     }
     return path;
   }
 
-  _pathForHyperbolicLine(l, path, options) {
+  #pathForHyperbolicLine(l, path, options) {
     let geodesic = l.getHyperbolicGeodesic();
 
     if (geodesic instanceof HyperbolicCanvas.Circle) {
@@ -251,43 +259,43 @@ class Canvas {
       }
       return path;
     } else if (geodesic instanceof HyperbolicCanvas.Line) {
-      return this._pathForEuclideanLine(geodesic, path, options);
+      return this.#pathForEuclideanLine(geodesic, path, options);
     } else {
       return false;
     }
   }
 
-  _pathForHyperbolicPolygon(p, path, options) {
+  #pathForHyperbolicPolygon(p, path, options) {
     let lines = p.getLines();
     let start = this.at(p.getVertices()[0]);
     if (options.infinite) {
       for (let i = 0; i < lines.length; i++) {
-        this._pathForHyperbolicLine(lines[i].getIdealLine(), path, options);
+        this.#pathForHyperbolicLine(lines[i].getIdealLine(), path, options);
       }
     } else {
       path.moveTo(start[0], start[1]);
 
       for (let i = 0; i < lines.length; i++) {
-        this._pathForHyperbolicLine(lines[i], path, { connected: true });
+        this.#pathForHyperbolicLine(lines[i], path, { connected: true });
       }
     }
     return path;
   }
 
-  _pathFunctionForEuclidean(object) {
+  #pathFunctionForEuclidean(object) {
     let fn;
     switch (object.__proto__) {
       case HyperbolicCanvas.Line.prototype:
-        fn = this._pathForEuclideanLine;
+        fn = this.#pathForEuclideanLine;
         break;
       case HyperbolicCanvas.Circle.prototype:
-        fn = this._pathForCircle;
+        fn = this.#pathForCircle;
         break;
       case HyperbolicCanvas.Polygon.prototype:
-        fn = this._pathForEuclideanPolygon;
+        fn = this.#pathForEuclideanPolygon;
         break;
       case HyperbolicCanvas.Point.prototype:
-        fn = this._pathForEuclideanPoint;
+        fn = this.#pathForEuclideanPoint;
         break;
       default:
         fn = function () {
@@ -298,17 +306,17 @@ class Canvas {
     return fn.bind(this);
   }
 
-  _pathFunctionForHyperbolic(object) {
+  #pathFunctionForHyperbolic(object) {
     let fn;
     switch (object.__proto__) {
       case HyperbolicCanvas.Circle.prototype:
-        fn = this._pathForCircle;
+        fn = this.#pathForCircle;
         break;
       case HyperbolicCanvas.Line.prototype:
-        fn = this._pathForHyperbolicLine;
+        fn = this.#pathForHyperbolicLine;
         break;
       case HyperbolicCanvas.Polygon.prototype:
-        fn = this._pathForHyperbolicPolygon;
+        fn = this.#pathForHyperbolicPolygon;
         break;
       default:
         fn = function () {
@@ -319,7 +327,7 @@ class Canvas {
     return fn.bind(this);
   }
 
-  _getPathOrContext(options) {
+  #getPathOrContext(options) {
     // options:
     //   path2D: [boolean] -> use Path2D instead of CanvasRenderingContext2D
     //   path:   [Path2D]  -> Path2D to add to
