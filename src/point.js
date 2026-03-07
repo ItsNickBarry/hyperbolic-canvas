@@ -30,7 +30,7 @@ Point.prototype.getDirection = function (direction) {
 
 Point.prototype.getEuclideanRadius = function () {
   if (typeof this._euclideanRadius === 'undefined') {
-    if (typeof this._x === 'undefined' || this._y === 'undefined') {
+    if (typeof this._x === 'undefined' || typeof this._y === 'undefined') {
       if (this.getHyperbolicRadius() === Infinity) {
         this._euclideanRadius = 1;
       } else {
