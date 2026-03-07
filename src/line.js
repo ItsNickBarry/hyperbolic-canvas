@@ -160,15 +160,16 @@ Line.prototype.getEuclideanUnitCircleIntersects = function () {
 
     let discriminant = b * b - 4 * a * c;
 
-    if (discriminant < 0) {
+    if (discriminant < -HyperbolicCanvas.ZERO) {
       return false;
     }
 
-    let x0 = (-1 * b - Math.sqrt(discriminant)) / (2 * a);
+    // Treat near-zero discriminant as zero (tangent case)
+    let x0 = (-1 * b - Math.sqrt(Math.abs(discriminant))) / (2 * a);
     let y0 = this.euclideanYAtX(x0);
     let p0 = HyperbolicCanvas.Point.givenCoordinates(x0, y0);
 
-    if (discriminant === 0) {
+    if (Math.abs(discriminant) < HyperbolicCanvas.ZERO) {
       return [p0];
     }
 
