@@ -608,3 +608,17 @@ describe('Circle', function () {
     });
   });
 });
+
+  describe('intersects with coincident circles', function () {
+    it('returns false when circles have same center and radius', function () {
+      var c0 = Circle.givenEuclideanCenterRadius(
+        HyperbolicCanvas.Point.ORIGIN,
+        0.5,
+      );
+      var c1 = Circle.givenEuclideanCenterRadius(
+        HyperbolicCanvas.Point.ORIGIN,
+        0.5,
+      );
+      assert.strictEqual(Circle.intersects(c0, c1), false);
+    });
+  });

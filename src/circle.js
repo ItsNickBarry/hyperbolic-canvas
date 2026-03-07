@@ -271,6 +271,10 @@ Circle.intersects = function (c0, c1) {
     /* no solution. one circle is contained in the other */
     return false;
   }
+  if (d < HyperbolicCanvas.ZERO) {
+    /* circles are concentric (same center) */
+    return false;
+  }
 
   /* 'point 2' is the point where the line through the circle
    * intersection points crosses the line between the circle
