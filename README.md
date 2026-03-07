@@ -12,16 +12,6 @@ Usage examples can be found on the [project site](https://ItsNickBarry.github.io
 npm install --save hyperbolic-canvas
 ```
 
-### In-Browser
-
-```bash
-pnpm compile`
-```
-
-```html
-<script type="application/javascript" src="dist/hyperbolic_canvas.js"></script>
-```
-
 ## Usage
 
 Pass a unique selector of a div element, to the function `HyperbolicCanvas.create`. Nonzero width and height styling must be specified. Absolute px values in a 1:1 ratio are recommended:
