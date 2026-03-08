@@ -1,6 +1,8 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 class Line {
+  static X_AXIS: Line;
+  static Y_AXIS: Line;
   #p0;
   #p1;
   #m;

@@ -2,7 +2,13 @@
 // Other modules import this object and attach their classes to it.
 // This module does not import other modules to avoid circular dependencies.
 
-const HyperbolicCanvas = {};
+declare global {
+  interface Math {
+    TAU: number;
+  }
+}
+
+const HyperbolicCanvas: any = {};
 
 HyperbolicCanvas.INFINITY = 1e12;
 HyperbolicCanvas.ZERO = 1e-6;

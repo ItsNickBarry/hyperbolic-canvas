@@ -1,6 +1,7 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 class Circle {
+  static UNIT: Circle;
   #euclideanCenter;
   #euclideanRadius;
   #hyperbolicCenter;

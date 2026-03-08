@@ -1,6 +1,8 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 class Point {
+  static ORIGIN: Point;
+  static CENTER: Point;
   #angle;
   #euclideanRadius;
   #direction;
