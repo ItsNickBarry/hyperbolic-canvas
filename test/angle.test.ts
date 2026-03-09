@@ -1,4 +1,5 @@
 import { Angle } from '../src/index.js';
+import type { Quadrant } from '../src/types.js';
 import {
   assertApproximate,
   assertIsRealNumber,
@@ -27,7 +28,7 @@ describe('Angle', function () {
   });
 
   it('generates a random angle in a given quadrant', function () {
-    [1, 2, 3, 4].forEach(function (q) {
+    ([1, 2, 3, 4] as Quadrant[]).forEach(function (q) {
       const angle = Angle.random(q);
       assert(angle > (Math.PI / 2) * (q - 1));
       assert(angle < (Math.PI / 2) * q);

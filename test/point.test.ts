@@ -1,6 +1,7 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert';
 import { Point, Angle } from '../src/index.js';
+import type { Quadrant } from '../src/types.js';
 import {
   assertApproximate,
   assertIsRealNumber,
@@ -11,9 +12,9 @@ describe('Point', function () {
   let point: InstanceType<typeof Point>;
 
   describe('generated at random on hyperbolic plane', function () {
-    let quadrant: number;
+    let quadrant: Quadrant;
     beforeEach(function () {
-      quadrant = Math.floor(Math.random() * 4) + 1;
+      quadrant = (Math.floor(Math.random() * 4) + 1) as Quadrant;
       point = Point.random(quadrant);
     });
 

@@ -1,4 +1,5 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
+import type { Quadrant } from './types.js';
 
 const DEGREES_TO_RADIANS = Math.PI / 180;
 
@@ -34,7 +35,7 @@ export default class Angle {
     return Math.atan(slope);
   }
 
-  static random(quadrant?) {
+  static random(quadrant?: Quadrant) {
     let angle = Math.random() * Math.TAU;
     return quadrant ? angle / 4 + (Math.PI / 2) * ((quadrant - 1) % 4) : angle;
   }

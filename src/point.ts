@@ -3,6 +3,7 @@ import Circle from './circle.js';
 import { ZERO } from './constants.js';
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Line from './line.js';
+import type { Quadrant } from './types.js';
 
 export default class Point {
   static ORIGIN: Point;
@@ -285,8 +286,8 @@ export default class Point {
     );
   }
 
-  quadrant() {
-    return Math.floor(this.getAngle() / (Math.PI / 2) + 1);
+  quadrant(): Quadrant {
+    return Math.floor(this.getAngle() / (Math.PI / 2) + 1) as Quadrant;
   }
 
   rotateAboutOrigin(angle) {
@@ -349,7 +350,7 @@ export default class Point {
     return Point.givenEuclideanPolarCoordinates(1, angle);
   }
 
-  static random(quadrant?: number) {
+  static random(quadrant?: Quadrant) {
     return Point.givenEuclideanPolarCoordinates(
       Math.random(),
       Angle.random(quadrant),
