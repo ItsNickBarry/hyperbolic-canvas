@@ -1,6 +1,5 @@
 import Angle from './angle.js';
 import { ZERO } from './constants.js';
-import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Line from './line.js';
 import Point from './point.js';
 
@@ -406,5 +405,3 @@ Circle.UNIT.hyperbolicPointAt = Circle.UNIT.euclideanPointAt = function (
 ) {
   return Point.givenEuclideanPolarCoordinates(1, angle);
 };
-
-HyperbolicCanvas.Circle = Circle;

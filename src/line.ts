@@ -1,7 +1,6 @@
 import Angle from './angle.js';
 import Circle from './circle.js';
 import { INFINITY, ZERO } from './constants.js';
-import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Point from './point.js';
 
 export default class Line {
@@ -556,5 +555,3 @@ export default class Line {
     return Line.#yAxis;
   }
 }
-
-HyperbolicCanvas.Line = Line;

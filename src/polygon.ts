@@ -1,5 +1,4 @@
 import Angle from './angle.js';
-import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Line from './line.js';
 import Point from './point.js';
 
@@ -89,5 +88,3 @@ export default class Polygon {
     return new Polygon({ vertices: vertices });
   }
 }
-
-HyperbolicCanvas.Polygon = Polygon;

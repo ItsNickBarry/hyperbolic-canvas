@@ -1,5 +1,4 @@
 import Circle from './circle.js';
-import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Line from './line.js';
 import Point from './point.js';
 import Polygon from './polygon.js';
@@ -340,5 +339,3 @@ export default class Canvas {
     }
   }
 }
-
-HyperbolicCanvas.Canvas = Canvas;

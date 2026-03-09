@@ -1,7 +1,6 @@
 import Angle from './angle.js';
 import Circle from './circle.js';
 import { ZERO } from './constants.js';
-import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Line from './line.js';
 import type { Quadrant } from './types.js';
 
@@ -402,5 +401,3 @@ Point.ORIGIN.hyperbolicDistantPoint = function (distance, direction) {
     this.getDirection(direction),
   );
 };
-
-HyperbolicCanvas.Point = Point;
