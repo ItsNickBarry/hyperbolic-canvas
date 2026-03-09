@@ -2,7 +2,7 @@ import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 // TODO store polygons and circles as hit regions
 
-class Canvas {
+export default class Canvas {
   #ctx;
   #diameter;
   #radius;

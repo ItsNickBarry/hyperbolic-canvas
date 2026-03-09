@@ -5,12 +5,12 @@
 
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
-import './angle.js';
-import './point.js';
-import './line.js';
-import './circle.js';
-import './polygon.js';
-import './canvas.js';
+import Angle from './angle.js';
+import Point from './point.js';
+import Line from './line.js';
+import Circle from './circle.js';
+import Polygon from './polygon.js';
+import Canvas from './canvas.js';
 
 export default HyperbolicCanvas;
-export { HyperbolicCanvas };
+export { HyperbolicCanvas, Angle, Canvas, Circle, Line, Point, Polygon };

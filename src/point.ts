@@ -1,6 +1,6 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
-class Point {
+export default class Point {
   static ORIGIN: Point;
   static CENTER: Point;
   #angle;

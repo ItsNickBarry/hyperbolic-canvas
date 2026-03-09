@@ -1,6 +1,6 @@
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
-class Polygon {
+export default class Polygon {
   #vertices;
   #lines;
 

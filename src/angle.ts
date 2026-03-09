@@ -2,7 +2,7 @@ import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 
 const DEGREES_TO_RADIANS = Math.PI / 180;
 
-class Angle {
+export default class Angle {
   static normalize(angle) {
     if (angle < 0) {
       return Math.abs(Math.floor(angle / Math.TAU)) * Math.TAU + angle;
