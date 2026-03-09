@@ -1,9 +1,8 @@
 import Angle from './angle.js';
 import Circle from './circle.js';
+import { INFINITY, ZERO } from './constants.js';
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Point from './point.js';
-
-const { INFINITY, ZERO } = HyperbolicCanvas;
 
 export default class Line {
   static X_AXIS: Line;

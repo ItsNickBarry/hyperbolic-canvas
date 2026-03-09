@@ -1,6 +1,7 @@
 // This module creates and exports the HyperbolicCanvas namespace object.
 // Other modules import this object and attach their classes to it.
 // This module does not import other modules to avoid circular dependencies.
+import { INFINITY, ZERO } from './constants.js';
 
 declare global {
   interface Math {
@@ -10,8 +11,8 @@ declare global {
 
 const HyperbolicCanvas: any = {};
 
-HyperbolicCanvas.INFINITY = 1e12;
-HyperbolicCanvas.ZERO = 1e-6;
+HyperbolicCanvas.INFINITY = INFINITY;
+HyperbolicCanvas.ZERO = ZERO;
 
 Math.TAU = 2 * Math.PI;
 

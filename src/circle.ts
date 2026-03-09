@@ -1,9 +1,8 @@
 import Angle from './angle.js';
+import { ZERO } from './constants.js';
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Line from './line.js';
 import Point from './point.js';
-
-const { ZERO } = HyperbolicCanvas;
 
 export default class Circle {
   static UNIT: Circle;
