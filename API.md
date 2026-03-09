@@ -2,17 +2,11 @@
 
 ## Exposed Variables and Constants
 
-An object containing all Canvas objects is exposed through the `HyperbolicCanvas` namespace.
-
-```javascript
-HyperbolicCanvas.canvases;
-```
-
 Approximations of `Infinity` and `0` are defined for use in internal comparisons:
 
 ```javascript
-HyperbolicCanvas.INFINITY;
-HyperbolicCanvas.ZERO;
+INFINITY;
+ZERO;
 ```
 
 The constant [Tau][manifesto] is defined on the Math object as `2 * Math.PI`:

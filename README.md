@@ -14,14 +14,17 @@ npm install --save hyperbolic-canvas
 
 ## Usage
 
-Pass a unique selector of a div element, to the function `HyperbolicCanvas.create`. Nonzero width and height styling must be specified. Absolute px values in a 1:1 ratio are recommended:
+Create an HTML canvas element and obtain its 2D rendering context. Pass the context to the `Canvas` constructor:
 
 ```html
-<div id="hyperbolic-canvas" style="width: 600px; height: 600px;"></div>
+<canvas id="hyperbolic-canvas" width="600" height="600"></canvas>
 ```
 
 ```javascript
-let canvas = HyperbolicCanvas.create('#hyperbolic-canvas');
+import { Canvas } from 'hyperbolic-canvas';
+
+const ctx = document.getElementById('hyperbolic-canvas').getContext('2d');
+let canvas = new Canvas(ctx);
 ```
 
 ### API
@@ -34,7 +37,7 @@ This library prioritizes the visualization of hyperbolic geometry over precise m
 
 ### Accuracy Thresholds
 
-The arbitrary constants `HyperbolicCanvas.INFINITY` and `HyperbolicCanvas.ZERO` have been defined for use in internal comparisons in place of `Infinity` and `0`, respectively. Their values may be overridden, but increased accuracy will tend to lead to more unpredictable behavior.
+The arbitrary constants `INFINITY` and `ZERO` have been defined for use in internal comparisons in place of `Infinity` and `0`, respectively. Their values may be overridden, but increased accuracy will tend to lead to more unpredictable behavior.
 
 ### Browser Support
 
