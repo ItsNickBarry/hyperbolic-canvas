@@ -9,10 +9,6 @@ export default class Canvas {
   #ctx;
   #diameter;
   #radius;
-  #backdrop;
-  #el;
-  #canvas;
-  #underlay;
 
   constructor(ctx) {
     this.#ctx = ctx;
@@ -21,22 +17,6 @@ export default class Canvas {
       canvas.width > canvas.height ? canvas.height : canvas.width);
     this.#radius = d / 2;
     this.#clip();
-  }
-
-  getBackdropElement() {
-    return this.#backdrop;
-  }
-
-  getContainerElement() {
-    return this.#el;
-  }
-
-  getCanvasElement() {
-    return this.#canvas;
-  }
-
-  getUnderlayElement() {
-    return this.#underlay;
   }
 
   getContext() {

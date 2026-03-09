@@ -337,19 +337,6 @@ The canvas class is used to draw hyperbolic lines and shapes.
 Instance functions:
 
 ```javascript
-Canvas.prototype.getUnderlayElement();
-// return the div behind the canvas element, which is used to visually delineate
-// the hyperbolic plane
-
-Canvas.prototype.getContainerElement();
-// return the element which contains all Hyperbolic Canvas elements
-
-Canvas.prototype.getCanvasElement();
-// return the HTML canvas element
-
-Canvas.prototype.getBackdropElement();
-// return the div which is the direct parent of the canvas element
-
 Canvas.prototype.getContext();
 // return the CanvasRenderingContext2D of the underlying canvas
 
