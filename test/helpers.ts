@@ -6,7 +6,11 @@ const seed = process.env.SEED || String(Date.now());
 seedrandom(seed, { global: true });
 console.log(`Random seed: ${seed}`);
 
-function assertApproximate(actual, expected, message) {
+function assertApproximate(
+  actual: number,
+  expected: number,
+  message?: string,
+): void {
   if (actual === expected) return;
   if (Number.isNaN(actual) && Number.isNaN(expected)) return;
   assert(
@@ -16,7 +20,7 @@ function assertApproximate(actual, expected, message) {
   );
 }
 
-function assertIsRealNumber(value, message) {
+function assertIsRealNumber(value: number, message?: string): void {
   assert(
     typeof value === 'number' &&
       !Number.isNaN(value) &&
@@ -26,7 +30,11 @@ function assertIsRealNumber(value, message) {
   );
 }
 
-function assertIsA(actual, expected, message) {
+function assertIsA<T>(
+  actual: unknown,
+  expected: new (...args: unknown[]) => T,
+  message?: string,
+): void {
   assert(
     actual instanceof expected,
     message || `Expected ${actual} to be an instance of ${expected.name}`,

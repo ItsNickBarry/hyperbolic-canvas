@@ -10,10 +10,10 @@ import {
 const Point = HyperbolicCanvas.Point;
 
 describe('Point', function () {
-  var point;
+  let point: InstanceType<typeof Point>;
 
   describe('generated at random on hyperbolic plane', function () {
-    var quadrant;
+    let quadrant: number;
     beforeEach(function () {
       quadrant = Math.floor(Math.random() * 4) + 1;
       point = Point.random(quadrant);
@@ -37,12 +37,12 @@ describe('Point', function () {
     });
 
     it('is equal to identical Point', function () {
-      var otherPoint = Point.givenCoordinates(point.getX(), point.getY());
+      const otherPoint = Point.givenCoordinates(point.getX(), point.getY());
       assert(point.equals(otherPoint));
     });
 
     it('is clonable', function () {
-      var clone = point.clone();
+      const clone = point.clone();
       assertIsA(clone, Point);
       assert.notStrictEqual(clone, point);
       assert(point.equals(clone));
@@ -62,7 +62,7 @@ describe('Point', function () {
     });
 
     it('has opposite Point', function () {
-      var opposite = point.opposite();
+      const opposite = point.opposite();
       assertApproximate(
         opposite.getEuclideanRadius(),
         point.getEuclideanRadius(),
@@ -74,8 +74,8 @@ describe('Point', function () {
     });
 
     it('has Point rotated about origin', function () {
-      var angle = HyperbolicCanvas.Angle.random();
-      var rotatedPoint = point.rotateAboutOrigin(angle);
+      const angle = HyperbolicCanvas.Angle.random();
+      const rotatedPoint = point.rotateAboutOrigin(angle);
       assertIsA(rotatedPoint, Point);
       assertApproximate(
         rotatedPoint.getEuclideanRadius(),
@@ -85,43 +85,46 @@ describe('Point', function () {
         rotatedPoint.getAngle(),
         HyperbolicCanvas.Angle.normalize(point.getAngle() + angle),
       );
-      var rotatedBackPoint = rotatedPoint.rotateAboutOrigin(angle * -1);
+      const rotatedBackPoint = rotatedPoint.rotateAboutOrigin(angle * -1);
       assert(rotatedBackPoint.equals(point));
     });
 
     describe('relative to other Point', function () {
-      var otherPoint;
+      let otherPoint: InstanceType<typeof Point>;
       beforeEach(function () {
         otherPoint = Point.random();
       });
 
       it('calculates Euclidean distance to other Point', function () {
-        var d = point.euclideanDistanceTo(otherPoint);
+        const d = point.euclideanDistanceTo(otherPoint);
         assertIsRealNumber(d);
       });
 
       it('calculates Euclidean angle towards and away from other Point', function () {
-        var angleTo = point.euclideanAngleTo(otherPoint);
-        var angleFrom = point.euclideanAngleFrom(otherPoint);
+        const angleTo = point.euclideanAngleTo(otherPoint);
+        const angleFrom = point.euclideanAngleFrom(otherPoint);
         assertIsRealNumber(angleTo);
         assertApproximate(angleFrom, HyperbolicCanvas.Angle.opposite(angleTo));
       });
 
       it('calculates hyperbolic distance to other Point', function () {
-        var d = point.hyperbolicDistanceTo(otherPoint);
+        const d = point.hyperbolicDistanceTo(otherPoint);
         assertIsRealNumber(d);
       });
 
       it('calculates hyperbolic angle towards and away from other Point', function () {
-        var angleTo = point.hyperbolicAngleTo(otherPoint);
-        var angleFrom = point.hyperbolicAngleFrom(otherPoint);
+        const angleTo = point.hyperbolicAngleTo(otherPoint);
+        const angleFrom = point.hyperbolicAngleFrom(otherPoint);
         assertIsRealNumber(angleTo);
         assertIsRealNumber(angleFrom);
       });
     });
 
     describe('when calculating Euclidean distant Point', function () {
-      var distance, direction, distantPoint;
+      let distance: number;
+      let direction: number;
+      let distantPoint: InstanceType<typeof Point>;
+
       beforeEach(function () {
         distance = Math.random();
         direction = HyperbolicCanvas.Angle.random();
@@ -149,7 +152,9 @@ describe('Point', function () {
     });
 
     describe('when calculating hyperbolic distant Point', function () {
-      var distance, direction;
+      let distance: number;
+      let direction: number;
+
       describe('in general', function () {
         beforeEach(function () {
           distance = Math.random();
@@ -157,7 +162,7 @@ describe('Point', function () {
         });
 
         it('calculates location of distant point along hyperbolic geodesic', function () {
-          var distantPoint = point.hyperbolicDistantPoint(distance, direction);
+          const distantPoint = point.hyperbolicDistantPoint(distance, direction);
           assertIsA(distantPoint, Point);
           assert(distantPoint.isOnPlane());
 
@@ -165,16 +170,16 @@ describe('Point', function () {
         });
 
         it('stores instantaneous angle of travel at destination on distant Point', function () {
-          var distantPoint = point.hyperbolicDistantPoint(distance, direction);
+          const distantPoint = point.hyperbolicDistantPoint(distance, direction);
           assertIsRealNumber(distantPoint.getDirection());
         });
 
         it('calculates accurate distant Point regardless of number of intermediate steps', function () {
-          var distantPoint0 = point.hyperbolicDistantPoint(
+          const distantPoint0 = point.hyperbolicDistantPoint(
             distance * 3,
             direction,
           );
-          var distantPoint1 = point
+          const distantPoint1 = point
             .hyperbolicDistantPoint(distance, direction)
             .hyperbolicDistantPoint(distance)
             .hyperbolicDistantPoint(distance);
@@ -182,8 +187,8 @@ describe('Point', function () {
         });
 
         it('is reversible', function () {
-          var distantPoint0 = point.hyperbolicDistantPoint(distance, direction);
-          var distantPoint1 = distantPoint0.hyperbolicDistantPoint(
+          const distantPoint0 = point.hyperbolicDistantPoint(distance, direction);
+          const distantPoint1 = distantPoint0.hyperbolicDistantPoint(
             distance,
             HyperbolicCanvas.Angle.opposite(distantPoint0.getDirection()),
           );
@@ -196,7 +201,7 @@ describe('Point', function () {
           it('calculates Point away from origin', function () {
             distance = Math.random();
             direction = point.getAngle();
-            var distantPoint = point.hyperbolicDistantPoint(
+            const distantPoint = point.hyperbolicDistantPoint(
               distance,
               direction,
             );
@@ -218,7 +223,7 @@ describe('Point', function () {
 
           it('calculates Point towards but not across origin', function () {
             distance = Math.random() * point.getHyperbolicRadius();
-            var distantPoint = point.hyperbolicDistantPoint(
+            const distantPoint = point.hyperbolicDistantPoint(
               distance,
               direction,
             );
@@ -234,7 +239,7 @@ describe('Point', function () {
 
           it('calculates Point towards and across origin', function () {
             distance = (Math.random() + 1) * point.getHyperbolicRadius();
-            var distantPoint = point.hyperbolicDistantPoint(
+            const distantPoint = point.hyperbolicDistantPoint(
               distance,
               direction,
             );
@@ -253,7 +258,7 @@ describe('Point', function () {
 
           it('calculates origin', function () {
             distance = point.getHyperbolicRadius();
-            var distantPoint = point.hyperbolicDistantPoint(
+            const distantPoint = point.hyperbolicDistantPoint(
               distance,
               direction,
             );
@@ -268,7 +273,10 @@ describe('Point', function () {
     });
 
     describe('when comparing to distant Point', function () {
-      var distance, direction, distantPoint;
+      let distance: number;
+      let direction: number;
+      let distantPoint: InstanceType<typeof Point>;
+
       beforeEach(function () {
         distance = Math.random();
         direction = HyperbolicCanvas.Angle.random();
@@ -289,7 +297,9 @@ describe('Point', function () {
   });
 
   describe('between two other Points along Euclidean geodesic', function () {
-    var p0, p1;
+    let p0: InstanceType<typeof Point>;
+    let p1: InstanceType<typeof Point>;
+
     beforeEach(function () {
       p0 = Point.random();
       p1 = Point.random();
@@ -303,7 +313,9 @@ describe('Point', function () {
   });
 
   describe('between two other points along hyperbolic geodesic', function () {
-    var p0, p1;
+    let p0: InstanceType<typeof Point>;
+    let p1: InstanceType<typeof Point>;
+
     beforeEach(function () {
       p0 = Point.random();
       p1 = Point.random();
@@ -311,9 +323,9 @@ describe('Point', function () {
     });
 
     it('is equidistant to other points at half total distance', function () {
-      var d = p0.hyperbolicDistanceTo(p1);
-      var d0 = point.hyperbolicDistanceTo(p0);
-      var d1 = point.hyperbolicDistanceTo(p1);
+      const d = p0.hyperbolicDistanceTo(p1);
+      const d0 = point.hyperbolicDistanceTo(p0);
+      const d1 = point.hyperbolicDistanceTo(p1);
       assertApproximate(d0, d1);
       assertApproximate(d0 + d1, d);
     });
@@ -321,8 +333,8 @@ describe('Point', function () {
 
   describe('given Cartesian coordinates', function () {
     beforeEach(function () {
-      var angle = HyperbolicCanvas.Angle.random();
-      var radius = Math.random();
+      const angle = HyperbolicCanvas.Angle.random();
+      const radius = Math.random();
       point = Point.givenCoordinates(
         Math.cos(angle) * radius,
         Math.sin(angle) * radius,
@@ -371,7 +383,7 @@ describe('Point', function () {
       });
 
       it('equals Point defined by opposite angle and negative radius', function () {
-        var otherPoint = Point.givenEuclideanPolarCoordinates(
+        const otherPoint = Point.givenEuclideanPolarCoordinates(
           point.getEuclideanRadius() * -1,
           HyperbolicCanvas.Angle.opposite(point.getAngle()),
         );
@@ -417,9 +429,9 @@ describe('Point', function () {
   describe('given hyperbolic polar coordinates', function () {
     beforeEach(function () {
       point = Point.givenHyperbolicPolarCoordinates(
-        Math.random() * 10,
-        HyperbolicCanvas.Angle.random(),
-      );
+      Math.random() * 10,
+      HyperbolicCanvas.Angle.random(),
+    );
     });
 
     it('has angle and hyperbolic radius', function () {
@@ -442,7 +454,7 @@ describe('Point', function () {
     });
 
     it('equals Point defined by opposite angle and negative radius', function () {
-      var otherPoint = Point.givenHyperbolicPolarCoordinates(
+      const otherPoint = Point.givenHyperbolicPolarCoordinates(
         point.getHyperbolicRadius() * -1,
         HyperbolicCanvas.Angle.opposite(point.getAngle()),
       );
@@ -500,9 +512,9 @@ describe('Point', function () {
     });
 
     it('calculates Euclidean distant Point', function () {
-      var distance = Math.random();
-      var direction = HyperbolicCanvas.Angle.random();
-      var distantPoint = point.euclideanDistantPoint(distance, direction);
+      const distance = Math.random();
+      const direction = HyperbolicCanvas.Angle.random();
+      const distantPoint = point.euclideanDistantPoint(distance, direction);
       assertIsA(distantPoint, Point);
       assertApproximate(distantPoint.getEuclideanRadius(), distance);
       assertApproximate(distantPoint.getAngle(), direction);

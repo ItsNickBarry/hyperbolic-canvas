@@ -9,21 +9,21 @@ import {
 const Polygon = HyperbolicCanvas.Polygon;
 
 describe('Polygon', function () {
-  var polygon;
+  let polygon: InstanceType<typeof Polygon>;
 
   describe('given n vertices', function () {
-    var vertices, n;
+    let vertices: InstanceType<typeof HyperbolicCanvas.Point>[], n: number;
     beforeEach(function () {
       n = Math.floor(Math.random() * 10) + 3;
       vertices = [];
-      for (var i = 0; i < n; i++) {
+      for (let i = 0; i < n; i++) {
         vertices.push(HyperbolicCanvas.Point.random());
       }
       polygon = Polygon.givenVertices(vertices);
     });
 
     it('has n vertices of type Point', function () {
-      var verts = polygon.getVertices();
+      const verts = polygon.getVertices() as InstanceType<typeof HyperbolicCanvas.Point>[];
       assertIsA(verts, Array);
       assert.strictEqual(verts.length, n);
       verts.forEach(function (vertex) {
@@ -32,7 +32,7 @@ describe('Polygon', function () {
     });
 
     it('has n lines of type Line', function () {
-      var lines = polygon.getLines();
+      const lines = polygon.getLines() as InstanceType<typeof HyperbolicCanvas.Line>[];
       assert.strictEqual(lines.length, n);
       assertIsA(lines, Array);
       lines.forEach(function (line) {
@@ -42,27 +42,27 @@ describe('Polygon', function () {
   });
 
   describe('given n angles of ideal points', function () {
-    var n;
+    let n: number;
     beforeEach(function () {
       n = Math.floor(Math.random() * 10) + 3;
-      var baseAngles = [];
-      var total = 0;
-      for (var i = 0; i < n; i++) {
-        var angle = HyperbolicCanvas.Angle.random();
+      const baseAngles = [];
+      let total = 0;
+      for (let i = 0; i < n; i++) {
+        const angle = HyperbolicCanvas.Angle.random();
         baseAngles.push(angle);
         total += angle;
       }
-      var angles = [];
-      var currentAngle = 0;
-      for (var i = 0; i < baseAngles.length; i++) {
-        var angle = (baseAngles[i] * Math.TAU) / total;
+      const angles = [];
+      let currentAngle = 0;
+      for (let i = 0; i < baseAngles.length; i++) {
+        const angle = (baseAngles[i] * Math.TAU) / total;
         angles.push((currentAngle += angle));
       }
       polygon = Polygon.givenAnglesOfIdealVertices(angles);
     });
 
     it('has n lines of infinite hyperbolic length', function () {
-      var lines = polygon.getLines();
+      const lines = polygon.getLines() as InstanceType<typeof HyperbolicCanvas.Line>[];
       assertIsA(lines, Array);
       lines.forEach(function (line) {
         assertIsA(line, HyperbolicCanvas.Line);
@@ -72,7 +72,11 @@ describe('Polygon', function () {
   });
 
   describe('given side count, center, radius', function () {
-    var n, center, radius, rotation;
+    let n: number;
+    let center: InstanceType<typeof HyperbolicCanvas.Point>;
+    let radius: number;
+    let rotation: number;
+
     beforeEach(function () {
       n = Math.floor(Math.random() * 10) + 3;
       center = HyperbolicCanvas.Point.random();
@@ -91,7 +95,7 @@ describe('Polygon', function () {
       });
 
       it('has n vertices of type Point', function () {
-        var verts = polygon.getVertices();
+        const verts = polygon.getVertices() as InstanceType<typeof HyperbolicCanvas.Point>[];
         assertIsA(verts, Array);
         assert.strictEqual(verts.length, n);
         verts.forEach(function (vertex) {
@@ -100,14 +104,15 @@ describe('Polygon', function () {
       });
 
       it('has first vertex at given rotation angle', function () {
+        const firstVertex = polygon.getVertices()[0] as InstanceType<typeof HyperbolicCanvas.Point>;
         assertApproximate(
-          polygon.getVertices()[0].euclideanAngleFrom(center),
+          firstVertex.euclideanAngleFrom(center),
           rotation,
         );
       });
 
       it('has n lines of type Line', function () {
-        var lines = polygon.getLines();
+        const lines = polygon.getLines() as InstanceType<typeof HyperbolicCanvas.Line>[];
         assert.strictEqual(lines.length, n);
         assertIsA(lines, Array);
         lines.forEach(function (line) {
@@ -116,12 +121,13 @@ describe('Polygon', function () {
       });
 
       it('has lines of equal Euclidean length', function () {
-        var lengths = [];
-        polygon.getLines().forEach(function (line) {
+        const lengths = [];
+        const lines = polygon.getLines() as InstanceType<typeof HyperbolicCanvas.Line>[];
+        lines.forEach(function (line) {
           lengths.push(line.getEuclideanLength());
         });
-        var count = lengths.length;
-        for (var i = 0; i < count; i++) {
+        const count = lengths.length;
+        for (let i = 0; i < count; i++) {
           assertApproximate(lengths[i], lengths[(i + 1) % count]);
         }
       });
@@ -139,7 +145,7 @@ describe('Polygon', function () {
       });
 
       it('has n vertices of type Point', function () {
-        var verts = polygon.getVertices();
+        const verts = polygon.getVertices() as InstanceType<typeof HyperbolicCanvas.Point>[];
         assertIsA(verts, Array);
         assert.strictEqual(verts.length, n);
         verts.forEach(function (vertex) {
@@ -148,14 +154,15 @@ describe('Polygon', function () {
       });
 
       it('has first vertex at given rotation angle', function () {
+        const firstVertex = polygon.getVertices()[0] as InstanceType<typeof HyperbolicCanvas.Point>;
         assertApproximate(
-          polygon.getVertices()[0].hyperbolicAngleFrom(center),
+          firstVertex.hyperbolicAngleFrom(center),
           rotation,
         );
       });
 
       it('has n lines of type Line', function () {
-        var lines = polygon.getLines();
+        const lines = polygon.getLines() as InstanceType<typeof HyperbolicCanvas.Line>[];
         assert.strictEqual(lines.length, n);
         assertIsA(lines, Array);
         lines.forEach(function (line) {
@@ -164,12 +171,13 @@ describe('Polygon', function () {
       });
 
       it('has lines of equal hyperbolic length', function () {
-        var lengths = [];
-        polygon.getLines().forEach(function (line) {
+        const lengths = [];
+        const lines = polygon.getLines() as InstanceType<typeof HyperbolicCanvas.Line>[];
+        lines.forEach(function (line) {
           lengths.push(line.getHyperbolicLength());
         });
-        var count = lengths.length;
-        for (var i = 0; i < count; i++) {
+        const count = lengths.length;
+        for (let i = 0; i < count; i++) {
           assertApproximate(lengths[i], lengths[(i + 1) % count]);
         }
       });

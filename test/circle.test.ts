@@ -10,7 +10,7 @@ import {
 const Circle = HyperbolicCanvas.Circle;
 
 describe('Circle', function () {
-  var circle;
+  let circle: InstanceType<typeof Circle>;
 
   describe('on hyperbolic plane', function () {
     beforeEach(function () {
@@ -21,7 +21,7 @@ describe('Circle', function () {
     });
 
     it('is clonable', function () {
-      var clone = circle.clone();
+      const clone = circle.clone();
       assertIsA(clone, Circle);
       assert.notStrictEqual(clone, circle);
       assert(circle.equals(clone));
@@ -39,7 +39,7 @@ describe('Circle', function () {
     });
 
     it('equals equivalent Circle', function () {
-      var otherCircle = Circle.givenHyperbolicCenterRadius(
+      const otherCircle = Circle.givenHyperbolicCenterRadius(
         circle.getHyperbolicCenter(),
         circle.getHyperbolicRadius(),
       );
@@ -91,7 +91,7 @@ describe('Circle', function () {
     });
 
     it('contains Point within its radius', function () {
-      var point = circle
+      const point = circle
         .getEuclideanCenter()
         .euclideanDistantPoint(
           circle.getEuclideanRadius() * 0.9 * Math.random(),
@@ -101,7 +101,7 @@ describe('Circle', function () {
     });
 
     it('includes Point on its circumference', function () {
-      var point = circle
+      const point = circle
         .getEuclideanCenter()
         .euclideanDistantPoint(
           circle.getEuclideanRadius(),
@@ -111,17 +111,19 @@ describe('Circle', function () {
     });
 
     it('has Euclidean tangent line at given angle', function () {
-      var angle = HyperbolicCanvas.Angle.random();
+      const angle = HyperbolicCanvas.Angle.random();
       assertIsA(circle.euclideanTangentAtAngle(angle), HyperbolicCanvas.Line);
     });
 
     it('has Euclidean tangent line at angle of given Point', function () {
-      var point = HyperbolicCanvas.Point.random();
+      const point = HyperbolicCanvas.Point.random();
       assertIsA(circle.euclideanTangentAtPoint(point), HyperbolicCanvas.Line);
     });
 
     describe('when mapping angles from center to Points on edge', function () {
-      var angle, point;
+      let angle: number;
+      let point: InstanceType<typeof HyperbolicCanvas.Point>;
+
       describe('along Euclidean geodesics', function () {
         it('has angle from center towards Point', function () {
           point = HyperbolicCanvas.Point.random();
@@ -155,7 +157,11 @@ describe('Circle', function () {
     });
 
     describe('at coordinate', function () {
-      var euclideanCenter, euclideanRadius, hyperbolicCenter, hyperbolicRadius;
+      let euclideanCenter: InstanceType<typeof HyperbolicCanvas.Point>;
+      let euclideanRadius: number;
+      let hyperbolicCenter: InstanceType<typeof HyperbolicCanvas.Point>;
+      let hyperbolicRadius: number;
+
       beforeEach(function () {
         euclideanCenter = circle.getEuclideanCenter();
         euclideanRadius = circle.getEuclideanRadius();
@@ -164,7 +170,7 @@ describe('Circle', function () {
       });
 
       describe('x', function () {
-        var x;
+        let x: number;
         describe('within Euclidean radius of center', function () {
           beforeEach(function () {
             x =
@@ -172,7 +178,7 @@ describe('Circle', function () {
           });
 
           it('has two y values', function () {
-            var values = circle.yAtX(x);
+            const values = circle.yAtX(x) as number[];
 
             assertIsA(values, Array);
             assert.strictEqual(values.length, 2);
@@ -183,7 +189,7 @@ describe('Circle', function () {
           });
 
           it('has two Points', function () {
-            var points = circle.pointsAtX(x);
+            const points = circle.pointsAtX(x) as InstanceType<typeof HyperbolicCanvas.Point>[];
 
             assertIsA(points, Array);
             assert.strictEqual(points.length, 2);
@@ -210,7 +216,7 @@ describe('Circle', function () {
           });
 
           it('has one y value', function () {
-            var values = circle.yAtX(x);
+            const values = circle.yAtX(x) as number[];
 
             assertIsA(values, Array);
             assert.strictEqual(values.length, 1);
@@ -218,7 +224,7 @@ describe('Circle', function () {
           });
 
           it('has one Point', function () {
-            var points = circle.pointsAtX(x);
+            const points = circle.pointsAtX(x) as InstanceType<typeof HyperbolicCanvas.Point>[];
 
             assertIsA(points, Array);
             assert.strictEqual(points.length, 1);
@@ -243,14 +249,14 @@ describe('Circle', function () {
           });
 
           it('has zero y values', function () {
-            var values = circle.yAtX(x);
+            const values = circle.yAtX(x);
 
             assertIsA(values, Array);
             assert.strictEqual(values.length, 0);
           });
 
           it('has zero Points', function () {
-            var points = circle.pointsAtX(x);
+            const points = circle.pointsAtX(x);
 
             assertIsA(points, Array);
             assert.strictEqual(points.length, 0);
@@ -259,7 +265,7 @@ describe('Circle', function () {
       });
 
       describe('y', function () {
-        var y;
+        let y: number;
         describe('within Euclidean radius of center', function () {
           beforeEach(function () {
             y =
@@ -267,7 +273,7 @@ describe('Circle', function () {
           });
 
           it('has two x values', function () {
-            var values = circle.xAtY(y);
+            const values = circle.xAtY(y) as number[];
 
             assertIsA(values, Array);
             assert.strictEqual(values.length, 2);
@@ -278,7 +284,7 @@ describe('Circle', function () {
           });
 
           it('has two Points', function () {
-            var points = circle.pointsAtY(y);
+            const points = circle.pointsAtY(y) as InstanceType<typeof HyperbolicCanvas.Point>[];
 
             assertIsA(points, Array);
             assert.strictEqual(points.length, 2);
@@ -305,7 +311,7 @@ describe('Circle', function () {
           });
 
           it('has one x value', function () {
-            var values = circle.xAtY(y);
+            const values = circle.xAtY(y) as number[];
 
             assertIsA(values, Array);
             assert.strictEqual(values.length, 1);
@@ -313,7 +319,7 @@ describe('Circle', function () {
           });
 
           it('has one Point', function () {
-            var points = circle.pointsAtY(y);
+            const points = circle.pointsAtY(y) as InstanceType<typeof HyperbolicCanvas.Point>[];
 
             assertIsA(points, Array);
             assert.strictEqual(points.length, 1);
@@ -338,14 +344,14 @@ describe('Circle', function () {
           });
 
           it('has zero x values', function () {
-            var values = circle.xAtY(y);
+            const values = circle.xAtY(y);
 
             assertIsA(values, Array);
             assert.strictEqual(values.length, 0);
           });
 
           it('has zero Points', function () {
-            var points = circle.pointsAtY(y);
+            const points = circle.pointsAtY(y);
 
             assertIsA(points, Array);
             assert.strictEqual(points.length, 0);
@@ -357,7 +363,7 @@ describe('Circle', function () {
 
   describe('not on hyperbolic plane', function () {
     beforeEach(function () {
-      var center = HyperbolicCanvas.Point.random();
+      const center = HyperbolicCanvas.Point.random();
       circle = Circle.givenEuclideanCenterRadius(
         center,
         (1 - center.getEuclideanRadius()) * (1 + Math.random()),
@@ -459,7 +465,9 @@ describe('Circle', function () {
   });
 
   describe('intersects', function () {
-    var c0, c1;
+    let c0: InstanceType<typeof Circle>;
+    let c1: InstanceType<typeof Circle>;
+
     beforeEach(function () {
       c0 = Circle.givenEuclideanCenterRadius(
         HyperbolicCanvas.Point.random(),
@@ -484,7 +492,7 @@ describe('Circle', function () {
 
     describe('where one Circle is contained within the other', function () {
       beforeEach(function () {
-        var r = c0.getEuclideanRadius();
+        const r = c0.getEuclideanRadius();
         c1 = Circle.givenEuclideanCenterRadius(
           c0
             .getEuclideanCenter()
@@ -503,7 +511,7 @@ describe('Circle', function () {
 
     describe('where Circles intersect', function () {
       beforeEach(function () {
-        var center = c0
+        const center = c0
           .getEuclideanCenter()
           .euclideanDistantPoint(
             c0.getEuclideanRadius(),
@@ -513,7 +521,7 @@ describe('Circle', function () {
       });
 
       it('is an Array of two Points', function () {
-        var intersects = Circle.intersects(c0, c1);
+        const intersects = Circle.intersects(c0, c1) as InstanceType<typeof HyperbolicCanvas.Point>[];
         assertIsA(intersects, Array);
         assert.strictEqual(intersects.length, 2);
         intersects.forEach(function (intersect) {
@@ -524,11 +532,11 @@ describe('Circle', function () {
 
     describe('where circles are coincident', function () {
       it('returns false', function () {
-        var c0 = Circle.givenEuclideanCenterRadius(
+        const c0 = Circle.givenEuclideanCenterRadius(
           HyperbolicCanvas.Point.ORIGIN,
           0.5,
         );
-        var c1 = Circle.givenEuclideanCenterRadius(
+        const c1 = Circle.givenEuclideanCenterRadius(
           HyperbolicCanvas.Point.ORIGIN,
           0.5,
         );
@@ -574,12 +582,12 @@ describe('Circle', function () {
     });
 
     it('calculates angle towards Point along Euclidean geodesic', function () {
-      var point = HyperbolicCanvas.Point.random();
+      const point = HyperbolicCanvas.Point.random();
       assertApproximate(circle.euclideanAngleAt(point), point.getAngle());
     });
 
     it('calculates Point in direction of angle along Euclidean geodesic', function () {
-      var angle = HyperbolicCanvas.Angle.random();
+      const angle = HyperbolicCanvas.Angle.random();
       assert(
         circle
           .euclideanPointAt(angle)
@@ -606,12 +614,12 @@ describe('Circle', function () {
     });
 
     it('calculates angle towards Point along hyperbolic geodesic', function () {
-      var point = HyperbolicCanvas.Point.random();
+      const point = HyperbolicCanvas.Point.random();
       assertApproximate(circle.hyperbolicAngleAt(point), point.getAngle());
     });
 
     it('calculates Point in direction of angle along hyperbolic geodesic', function () {
-      var angle = HyperbolicCanvas.Angle.random();
+      const angle = HyperbolicCanvas.Angle.random();
       assert(
         circle
           .hyperbolicPointAt(angle)
