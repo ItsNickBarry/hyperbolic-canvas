@@ -1,15 +1,16 @@
-import { HyperbolicCanvas, assertIsRealNumber, assertIsA } from './helpers.js';
+import { Canvas, Point, Line } from '../src/index.js';
+import { assertIsRealNumber, assertIsA } from './helpers.js';
 import { createCanvas, CanvasRenderingContext2D } from 'canvas';
 import assert from 'node:assert';
 import { describe, it, beforeEach } from 'node:test';
 
 describe('Canvas', function () {
-  let canvas: InstanceType<typeof HyperbolicCanvas.Canvas>;
+  let canvas: InstanceType<typeof Canvas>;
 
   beforeEach(function () {
     const diameter = 200;
     const ctx = createCanvas(diameter, diameter).getContext('2d');
-    canvas = new HyperbolicCanvas.Canvas(ctx);
+    canvas = new Canvas(ctx);
   });
 
   it('has a radius and diameter', function () {
@@ -25,7 +26,7 @@ describe('Canvas', function () {
         canvas.getRadius() * Math.random(),
       ];
       const point = canvas.at(coordinates);
-      assertIsA(point, HyperbolicCanvas.Point);
+      assertIsA(point, Point);
     });
   });
 
@@ -73,7 +74,7 @@ describe('Canvas', function () {
 
   describe('when converting a Point to canvas coordinates', function () {
     it('returns an Array with length of 2', function () {
-      const point = HyperbolicCanvas.Point.random();
+      const point = Point.random();
       const coordinates = canvas.at(point) as number[];
       assertIsA(coordinates, Array);
       assert.strictEqual(coordinates.length, 2);
@@ -88,11 +89,11 @@ describe('Canvas', function () {
   });
 
   describe('when generating path', function () {
-    let object: InstanceType<typeof HyperbolicCanvas.Line>;
+    let object: InstanceType<typeof Line>;
     beforeEach(function () {
-      object = HyperbolicCanvas.Line.givenTwoPoints(
-        HyperbolicCanvas.Point.random(),
-        HyperbolicCanvas.Point.random(),
+      object = Line.givenTwoPoints(
+        Point.random(),
+        Point.random(),
       );
     });
 

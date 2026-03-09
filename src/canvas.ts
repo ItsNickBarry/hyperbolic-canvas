@@ -161,7 +161,7 @@ export default class Canvas {
     return path;
   }
 
-  pathForEuclidean(object, options) {
+  pathForEuclidean(object, options?) {
     options = options || {};
     return this.#pathFunctionForEuclidean(object)(
       object,
@@ -170,7 +170,7 @@ export default class Canvas {
     );
   }
 
-  pathForHyperbolic(object, options) {
+  pathForHyperbolic(object, options?) {
     options = options || {};
     return this.#pathFunctionForHyperbolic(object)(
       object,

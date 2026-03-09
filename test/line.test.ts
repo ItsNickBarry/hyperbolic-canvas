@@ -1,25 +1,23 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert';
+import { Angle, Circle, Line, Point } from '../src/index.js';
 import {
-  HyperbolicCanvas,
   assertApproximate,
   assertIsRealNumber,
   assertIsA,
 } from './helpers.js';
 
-const Line = HyperbolicCanvas.Line;
-
 describe('Line', function () {
   let line: InstanceType<typeof Line>;
 
   describe('in general', function () {
-    let point: InstanceType<typeof HyperbolicCanvas.Point>;
+    let point: InstanceType<typeof Point>;
     let slope: number;
 
     describe('with random slope', function () {
       beforeEach(function () {
-        point = HyperbolicCanvas.Point.random();
-        slope = HyperbolicCanvas.Angle.toSlope(HyperbolicCanvas.Angle.random());
+        point = Point.random();
+        slope = Angle.toSlope(Angle.random());
         line = Line.givenPointSlope(point, slope);
       });
 
@@ -60,7 +58,7 @@ describe('Line', function () {
 
       it('is parallel to Line with same slope in Euclidean context', function () {
         const otherLine = Line.givenPointSlope(
-          HyperbolicCanvas.Point.random(),
+          Point.random(),
           line.getSlope(),
         );
         assert(line.isEuclideanParallelTo(otherLine));
@@ -75,7 +73,7 @@ describe('Line', function () {
 
       it('has perpindicular lines', function () {
         const perpindicularLine = line.euclideanPerpindicularLineAt(
-          HyperbolicCanvas.Point.random(),
+          Point.random(),
         );
         assertIsA(perpindicularLine, Line);
         assert.strictEqual(
@@ -84,7 +82,7 @@ describe('Line', function () {
         );
         assertIsA(
           Line.euclideanIntersect(line, perpindicularLine),
-          HyperbolicCanvas.Point,
+          Point,
         );
       });
 
@@ -95,20 +93,20 @@ describe('Line', function () {
           bisector.getSlope(),
           line.euclideanPerpindicularSlope(),
         );
-        const intersect = Line.euclideanIntersect(line, bisector) as InstanceType<typeof HyperbolicCanvas.Point>;
+        const intersect = Line.euclideanIntersect(line, bisector) as InstanceType<typeof Point>;
         assert(line.euclideanIncludesPoint(intersect));
         assert(bisector.euclideanIncludesPoint(intersect));
       });
 
       it('has Point for any x value', function () {
         const p = line.pointAtEuclideanX(Math.random());
-        assertIsA(p, HyperbolicCanvas.Point);
+        assertIsA(p, Point);
         assert(line.euclideanIncludesPoint(p));
       });
 
       it('has Point for any y value', function () {
         const p = line.pointAtEuclideanY(Math.random());
-        assertIsA(p, HyperbolicCanvas.Point);
+        assertIsA(p, Point);
         assert(line.euclideanIncludesPoint(p));
       });
 
@@ -129,7 +127,7 @@ describe('Line', function () {
 
     describe('with slope of 0', function () {
       beforeEach(function () {
-        line = Line.givenPointSlope(HyperbolicCanvas.Point.random(), 0);
+        line = Line.givenPointSlope(Point.random(), 0);
       });
 
       it('has a perpindicular slope', function () {
@@ -151,7 +149,7 @@ describe('Line', function () {
 
     describe('with infinite slope', function () {
       beforeEach(function () {
-        line = Line.givenPointSlope(HyperbolicCanvas.Point.random(), Infinity);
+        line = Line.givenPointSlope(Point.random(), Infinity);
       });
 
       it('has a perpindicular slope', function () {
@@ -176,13 +174,13 @@ describe('Line', function () {
     describe('along diameter', function () {
       describe('on either side of origin', function () {
         beforeEach(function () {
-          const angle = HyperbolicCanvas.Angle.random();
+          const angle = Angle.random();
           line = Line.givenTwoPoints(
-            HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
+            Point.givenEuclideanPolarCoordinates(
               Math.random(),
               angle,
             ),
-            HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
+            Point.givenEuclideanPolarCoordinates(
               Math.random() * -1,
               angle,
             ),
@@ -216,22 +214,22 @@ describe('Line', function () {
         });
 
         it('has Euclidean midpoint', function () {
-          assertIsA(line.getEuclideanMidpoint(), HyperbolicCanvas.Point);
+          assertIsA(line.getEuclideanMidpoint(), Point);
         });
 
         it('has Euclidean intersects with Circle', function () {
           const radius = Math.random() * 5;
-          const circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+          const circle = Circle.givenEuclideanCenterRadius(
             line
               .getP0()
               .euclideanDistantPoint(
                 radius * Math.random(),
-                HyperbolicCanvas.Angle.random(),
+                Angle.random(),
               ),
             radius + 1,
           );
 
-          const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
 
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
@@ -242,17 +240,17 @@ describe('Line', function () {
 
         it('has hyperbolic intersects with Circle', function () {
           const radius = Math.random() * 5;
-          const circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+          const circle = Circle.givenHyperbolicCenterRadius(
             line
               .getP0()
               .hyperbolicDistantPoint(
                 radius * Math.random(),
-                HyperbolicCanvas.Angle.random(),
+                Angle.random(),
               ),
             radius + 1,
           );
 
-          const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
 
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
@@ -272,21 +270,21 @@ describe('Line', function () {
 
         it('has hyperbolic midpoint', function () {
           const midpoint = line.getHyperbolicMidpoint();
-          assertIsA(midpoint, HyperbolicCanvas.Point);
+          assertIsA(midpoint, Point);
           const angle0 = midpoint.hyperbolicAngleTo(line.getP0());
-          const angle1 = HyperbolicCanvas.Angle.opposite(
+          const angle1 = Angle.opposite(
             midpoint.hyperbolicAngleTo(line.getP1()),
           );
           assertApproximate(angle0, angle1);
         });
 
         it('has ideal Points and Line', function () {
-          const idealPoints = line.getIdealPoints() as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const idealPoints = line.getIdealPoints() as InstanceType<typeof Point>[];
           const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
           assertIsA(idealPoints, Array);
           assert.strictEqual(idealPoints.length, 2);
           idealPoints.forEach(function (point) {
-            assertIsA(point, HyperbolicCanvas.Point);
+            assertIsA(point, Point);
             assert(point.isIdeal());
           });
           assert.strictEqual(idealLine.getP0(), idealPoints[0]);
@@ -294,17 +292,17 @@ describe('Line', function () {
         });
 
         it('has Euclidean unit circle intersects with opposite angles', function () {
-          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof Point>[];
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
           assertApproximate(
-            HyperbolicCanvas.Angle.normalize(
+            Angle.normalize(
               intersects[0].getAngle() - intersects[1].getAngle(),
             ),
             Math.PI,
           );
           intersects.forEach(function (intersect) {
-            assertIsA(intersect, HyperbolicCanvas.Point);
+            assertIsA(intersect, Point);
             assertIsRealNumber(intersect.getX());
             assertIsRealNumber(intersect.getY());
             assertApproximate(intersect.getEuclideanRadius(), 1);
@@ -330,19 +328,19 @@ describe('Line', function () {
               line.getP0().hyperbolicAngleTo(line.getP1()),
             );
           assert(line.hyperbolicIncludesPoint(p));
-          assert(line.hyperbolicIncludesPoint(HyperbolicCanvas.Point.ORIGIN));
+          assert(line.hyperbolicIncludesPoint(Point.ORIGIN));
         });
       });
 
       describe('on one side of origin', function () {
         beforeEach(function () {
-          const angle = HyperbolicCanvas.Angle.random();
+          const angle = Angle.random();
           line = Line.givenTwoPoints(
-            HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
+            Point.givenEuclideanPolarCoordinates(
               Math.random(),
               angle,
             ),
-            HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
+            Point.givenEuclideanPolarCoordinates(
               Math.random(),
               angle,
             ),
@@ -376,22 +374,22 @@ describe('Line', function () {
         });
 
         it('has Euclidean midpoint', function () {
-          assertIsA(line.getEuclideanMidpoint(), HyperbolicCanvas.Point);
+          assertIsA(line.getEuclideanMidpoint(), Point);
         });
 
         it('has Euclidean intersects with Circle', function () {
           const radius = Math.random() * 5;
-          const circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+          const circle = Circle.givenEuclideanCenterRadius(
             line
               .getP0()
               .euclideanDistantPoint(
                 radius * Math.random(),
-                HyperbolicCanvas.Angle.random(),
+                Angle.random(),
               ),
             radius + 1,
           );
 
-          const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
 
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
@@ -402,17 +400,17 @@ describe('Line', function () {
 
         it('has hyperbolic intersects with Circle', function () {
           const radius = Math.random() * 5;
-          const circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+          const circle = Circle.givenHyperbolicCenterRadius(
             line
               .getP0()
               .hyperbolicDistantPoint(
                 radius * Math.random(),
-                HyperbolicCanvas.Angle.random(),
+                Angle.random(),
               ),
             radius + 1,
           );
 
-          const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
 
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
@@ -432,21 +430,21 @@ describe('Line', function () {
 
         it('has hyperbolic midpoint', function () {
           const midpoint = line.getHyperbolicMidpoint();
-          assertIsA(midpoint, HyperbolicCanvas.Point);
+          assertIsA(midpoint, Point);
           const angle0 = midpoint.hyperbolicAngleTo(line.getP0());
-          const angle1 = HyperbolicCanvas.Angle.opposite(
+          const angle1 = Angle.opposite(
             midpoint.hyperbolicAngleTo(line.getP1()),
           );
           assertApproximate(angle0, angle1);
         });
 
         it('has ideal Points and Line', function () {
-          const idealPoints = line.getIdealPoints() as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const idealPoints = line.getIdealPoints() as InstanceType<typeof Point>[];
           const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
           assertIsA(idealPoints, Array);
           assert.strictEqual(idealPoints.length, 2);
           idealPoints.forEach(function (point) {
-            assertIsA(point, HyperbolicCanvas.Point);
+            assertIsA(point, Point);
             assert(point.isIdeal());
           });
           assert.strictEqual(idealLine.getP0(), idealPoints[0]);
@@ -454,17 +452,17 @@ describe('Line', function () {
         });
 
         it('has Euclidean unit circle intersects with opposite angles', function () {
-          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof Point>[];
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
           assertApproximate(
-            HyperbolicCanvas.Angle.normalize(
+            Angle.normalize(
               intersects[0].getAngle() - intersects[1].getAngle(),
             ),
             Math.PI,
           );
           intersects.forEach(function (intersect) {
-            assertIsA(intersect, HyperbolicCanvas.Point);
+            assertIsA(intersect, Point);
             assertIsRealNumber(intersect.getX());
             assertIsRealNumber(intersect.getY());
             assertApproximate(intersect.getEuclideanRadius(), 1);
@@ -476,8 +474,8 @@ describe('Line', function () {
     describe('not along diameter', function () {
       beforeEach(function () {
         line = Line.givenTwoPoints(
-          HyperbolicCanvas.Point.random(),
-          HyperbolicCanvas.Point.random(),
+          Point.random(),
+          Point.random(),
         );
       });
 
@@ -486,7 +484,7 @@ describe('Line', function () {
       });
 
       it('has hyperbolic geodesic Circle', function () {
-        assertIsA(line.getHyperbolicGeodesic(), HyperbolicCanvas.Circle);
+        assertIsA(line.getHyperbolicGeodesic(), Circle);
       });
 
       it('equals hyperbolic Line with same geodesic', function () {
@@ -508,22 +506,22 @@ describe('Line', function () {
       });
 
       it('has Euclidean midpoint', function () {
-        assertIsA(line.getEuclideanMidpoint(), HyperbolicCanvas.Point);
+        assertIsA(line.getEuclideanMidpoint(), Point);
       });
 
       it('has Euclidean intersects with Circle', function () {
         const radius = Math.random() * 5;
-        const circle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+        const circle = Circle.givenEuclideanCenterRadius(
           line
             .getP0()
             .euclideanDistantPoint(
               radius * Math.random(),
-              HyperbolicCanvas.Angle.random(),
+              Angle.random(),
             ),
           radius,
         );
 
-        const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof HyperbolicCanvas.Point>[];
+        const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
 
         assertIsA(intersects, Array);
         assert.strictEqual(intersects.length, 2);
@@ -533,17 +531,17 @@ describe('Line', function () {
 
       it('has hyperbolic intersects with Circle', function () {
         const radius = Math.random() * 5;
-        const circle = HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
+        const circle = Circle.givenHyperbolicCenterRadius(
           line
             .getP0()
             .hyperbolicDistantPoint(
               radius * Math.random(),
-              HyperbolicCanvas.Angle.random(),
+              Angle.random(),
             ),
           radius + 1,
         );
 
-        const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof HyperbolicCanvas.Point>[];
+        const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
 
         assertIsA(intersects, Array);
         assert.strictEqual(intersects.length, 2);
@@ -563,21 +561,21 @@ describe('Line', function () {
 
       it('has hyperbolic midpoint', function () {
         const midpoint = line.getHyperbolicMidpoint();
-        assertIsA(midpoint, HyperbolicCanvas.Point);
+        assertIsA(midpoint, Point);
         const angle0 = midpoint.hyperbolicAngleTo(line.getP0());
-        const angle1 = HyperbolicCanvas.Angle.opposite(
+        const angle1 = Angle.opposite(
           midpoint.hyperbolicAngleTo(line.getP1()),
         );
         assertApproximate(angle0, angle1);
       });
 
       it('has ideal Points and Line', function () {
-        const idealPoints = line.getIdealPoints() as InstanceType<typeof HyperbolicCanvas.Point>[];
+        const idealPoints = line.getIdealPoints() as InstanceType<typeof Point>[];
         const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
         assertIsA(idealPoints, Array);
         assert.strictEqual(idealPoints.length, 2);
         idealPoints.forEach(function (point) {
-          assertIsA(point, HyperbolicCanvas.Point);
+          assertIsA(point, Point);
           assert(point.isIdeal());
         });
         assert.strictEqual(idealLine.getP0(), idealPoints[0]);
@@ -585,11 +583,11 @@ describe('Line', function () {
       });
 
       it('has Euclidean unit circle intersects', function () {
-        const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof HyperbolicCanvas.Point>[];
+        const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof Point>[];
         assertIsA(intersects, Array);
         assert.strictEqual(intersects.length, 2);
         intersects.forEach(function (intersect) {
-          assertIsA(intersect, HyperbolicCanvas.Point);
+          assertIsA(intersect, Point);
           assertIsRealNumber(intersect.getX());
           assertIsRealNumber(intersect.getY());
           assertApproximate(intersect.getEuclideanRadius(), 1);
@@ -621,10 +619,10 @@ describe('Line', function () {
   describe('not on hyperbolic plane', function () {
     beforeEach(function () {
       line = Line.givenTwoPoints(
-        HyperbolicCanvas.Point.random(),
-        HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
+        Point.random(),
+        Point.givenEuclideanPolarCoordinates(
           Math.random() + 1,
-          HyperbolicCanvas.Angle.random(),
+          Angle.random(),
         ),
       );
     });
@@ -642,7 +640,7 @@ describe('Line', function () {
     });
 
     it('has Euclidean midpoint', function () {
-      assertIsA(line.getEuclideanMidpoint(), HyperbolicCanvas.Point);
+      assertIsA(line.getEuclideanMidpoint(), Point);
     });
 
     it('does not have hyperbolic length', function () {
@@ -663,18 +661,18 @@ describe('Line', function () {
   describe('given point and slope', function () {
     beforeEach(function () {
       line = Line.givenPointSlope(
-        HyperbolicCanvas.Point.random(),
+        Point.random(),
         Line.randomSlope(),
       );
     });
 
     it('has point and slope', function () {
-      assertIsA(line.getP0(), HyperbolicCanvas.Point);
+      assertIsA(line.getP0(), Point);
       assertIsRealNumber(line.getSlope());
     });
 
     it('has second point', function () {
-      assertIsA(line.getP1(), HyperbolicCanvas.Point);
+      assertIsA(line.getP1(), Point);
     });
   });
 
@@ -682,14 +680,14 @@ describe('Line', function () {
     describe('on hyperbolic plane', function () {
       beforeEach(function () {
         line = Line.givenTwoPoints(
-          HyperbolicCanvas.Point.random(),
-          HyperbolicCanvas.Point.random(),
+          Point.random(),
+          Point.random(),
         );
       });
 
       it('has two points', function () {
-        assertIsA(line.getP0(), HyperbolicCanvas.Point);
-        assertIsA(line.getP1(), HyperbolicCanvas.Point);
+        assertIsA(line.getP0(), Point);
+        assertIsA(line.getP1(), Point);
       });
 
       it('has slope', function () {
@@ -701,9 +699,9 @@ describe('Line', function () {
       describe('generated at random', function () {
         beforeEach(function () {
           line = Line.givenTwoPoints(
-            HyperbolicCanvas.Point.random(),
-            HyperbolicCanvas.Point.givenIdealAngle(
-              HyperbolicCanvas.Angle.random(),
+            Point.random(),
+            Point.givenIdealAngle(
+              Angle.random(),
             ),
           );
         });
@@ -717,25 +715,25 @@ describe('Line', function () {
         });
 
         it('has geodesic Circle', function () {
-          assertIsA(line.getHyperbolicGeodesic(), HyperbolicCanvas.Circle);
+          assertIsA(line.getHyperbolicGeodesic(), Circle);
         });
 
         it('has ideal Points', function () {
-          const idealPoints = line.getIdealPoints() as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const idealPoints = line.getIdealPoints() as InstanceType<typeof Point>[];
           assertIsA(idealPoints, Array);
           assert.strictEqual(idealPoints.length, 2);
           idealPoints.forEach(function (point) {
-            assertIsA(point, HyperbolicCanvas.Point);
+            assertIsA(point, Point);
             assert(point.isIdeal());
           });
         });
 
         it('has Euclidean unit circle intersects', function () {
-          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof HyperbolicCanvas.Point>[];
+          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof Point>[];
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
           intersects.forEach(function (intersect) {
-            assertIsA(intersect, HyperbolicCanvas.Point);
+            assertIsA(intersect, Point);
             assertIsRealNumber(intersect.getX());
             assertIsRealNumber(intersect.getY());
             assertApproximate(intersect.getEuclideanRadius(), 1);
@@ -745,10 +743,10 @@ describe('Line', function () {
 
       describe('along diameter of plane', function () {
         beforeEach(function () {
-          const p = HyperbolicCanvas.Point.random();
+          const p = Point.random();
           line = Line.givenTwoPoints(
             p,
-            HyperbolicCanvas.Point.givenIdealAngle(p.getAngle()),
+            Point.givenIdealAngle(p.getAngle()),
           );
         });
 
@@ -771,8 +769,8 @@ describe('Line', function () {
     describe('generated at random', function () {
       beforeEach(function () {
         line = Line.givenAnglesOfIdealPoints(
-          HyperbolicCanvas.Angle.random(),
-          HyperbolicCanvas.Angle.random(),
+          Angle.random(),
+          Angle.random(),
         );
       });
 
@@ -780,8 +778,8 @@ describe('Line', function () {
         const p0 = line.getP0();
         const p1 = line.getP1();
 
-        assertIsA(p0, HyperbolicCanvas.Point);
-        assertIsA(p1, HyperbolicCanvas.Point);
+        assertIsA(p0, Point);
+        assertIsA(p1, Point);
         assert(p0.isIdeal());
         assert(p1.isIdeal());
       });
@@ -795,16 +793,16 @@ describe('Line', function () {
       });
 
       it('has geodesic Circle', function () {
-        assertIsA(line.getHyperbolicGeodesic(), HyperbolicCanvas.Circle);
+        assertIsA(line.getHyperbolicGeodesic(), Circle);
       });
     });
 
     describe('along diameter of plane', function () {
       beforeEach(function () {
-        const angle = HyperbolicCanvas.Angle.random();
+        const angle = Angle.random();
         line = Line.givenAnglesOfIdealPoints(
           angle,
-          HyperbolicCanvas.Angle.opposite(angle),
+          Angle.opposite(angle),
         );
       });
 
@@ -812,8 +810,8 @@ describe('Line', function () {
         const p0 = line.getP0();
         const p1 = line.getP1();
 
-        assertIsA(p0, HyperbolicCanvas.Point);
-        assertIsA(p1, HyperbolicCanvas.Point);
+        assertIsA(p0, Point);
+        assertIsA(p1, Point);
         assert(p0.isIdeal());
         assert(p1.isIdeal());
       });
@@ -837,15 +835,15 @@ describe('Line', function () {
 
     beforeEach(function () {
       line = Line.givenTwoPoints(
-        HyperbolicCanvas.Point.random(),
-        HyperbolicCanvas.Point.random(),
+        Point.random(),
+        Point.random(),
       );
     });
 
     describe('of parallel lines', function () {
       beforeEach(function () {
         otherLine = Line.givenPointSlope(
-          HyperbolicCanvas.Point.random(),
+          Point.random(),
           line.getSlope(),
         );
       });
@@ -858,7 +856,7 @@ describe('Line', function () {
     describe('of non-parallel lines', function () {
       beforeEach(function () {
         otherLine = Line.givenPointSlope(
-          HyperbolicCanvas.Point.random(),
+          Point.random(),
           Line.randomSlope(),
         );
       });
@@ -866,7 +864,7 @@ describe('Line', function () {
       it('is Point', function () {
         assertIsA(
           Line.euclideanIntersect(line, otherLine),
-          HyperbolicCanvas.Point,
+          Point,
         );
       });
     });
@@ -879,7 +877,7 @@ describe('Line', function () {
       it('is Point', function () {
         assertIsA(
           Line.euclideanIntersect(line, otherLine),
-          HyperbolicCanvas.Point,
+          Point,
         );
       });
     });
@@ -892,7 +890,7 @@ describe('Line', function () {
       it('is Point', function () {
         assertIsA(
           Line.euclideanIntersect(line, otherLine),
-          HyperbolicCanvas.Point,
+          Point,
         );
       });
     });
@@ -903,8 +901,8 @@ describe('Line', function () {
 
     beforeEach(function () {
       line = Line.givenTwoPoints(
-        HyperbolicCanvas.Point.random(),
-        HyperbolicCanvas.Point.random(),
+        Point.random(),
+        Point.random(),
       );
     });
 
@@ -922,7 +920,7 @@ describe('Line', function () {
     });
 
     describe('of non-parallel lines', function () {
-      let expectedIntersect: InstanceType<typeof HyperbolicCanvas.Point>;
+      let expectedIntersect: InstanceType<typeof Point>;
       beforeEach(function () {
         const angleAlongLine = line.getP0().hyperbolicAngleTo(line.getP1());
         const lengthOfLine = line.getHyperbolicLength();
@@ -933,7 +931,7 @@ describe('Line', function () {
 
       describe('with curved hyperbolic geodesics', function () {
         beforeEach(function () {
-          const p0 = HyperbolicCanvas.Point.random();
+          const p0 = Point.random();
           const angleAlongOtherLine = expectedIntersect.hyperbolicAngleTo(p0);
           const p1 = expectedIntersect.hyperbolicDistantPoint(
             expectedIntersect.hyperbolicDistanceTo(p0) / 2,
@@ -944,8 +942,8 @@ describe('Line', function () {
         });
 
         it('is Point on plane', function () {
-          const intersect = Line.hyperbolicIntersect(line, otherLine) as InstanceType<typeof HyperbolicCanvas.Point>;
-          assertIsA(intersect, HyperbolicCanvas.Point);
+          const intersect = Line.hyperbolicIntersect(line, otherLine) as InstanceType<typeof Point>;
+          assertIsA(intersect, Point);
           assert(intersect.isOnPlane());
           assert(intersect.equals(expectedIntersect));
         });
@@ -961,8 +959,8 @@ describe('Line', function () {
         });
 
         it('is Point on plane', function () {
-          const intersect = Line.hyperbolicIntersect(line, otherLine) as InstanceType<typeof HyperbolicCanvas.Point>;
-          assertIsA(intersect, HyperbolicCanvas.Point);
+          const intersect = Line.hyperbolicIntersect(line, otherLine) as InstanceType<typeof Point>;
+          assertIsA(intersect, Point);
           assert(intersect.isOnPlane());
           assert(intersect.equals(expectedIntersect));
         });
@@ -986,7 +984,7 @@ describe('Line', function () {
     });
 
     it('includes origin', function () {
-      assert(line.euclideanIncludesPoint(HyperbolicCanvas.Point.ORIGIN));
+      assert(line.euclideanIncludesPoint(Point.ORIGIN));
     });
 
     it('has a slope of 0', function () {
@@ -1004,7 +1002,7 @@ describe('Line', function () {
     });
 
     it('includes origin', function () {
-      assert(line.euclideanIncludesPoint(HyperbolicCanvas.Point.ORIGIN));
+      assert(line.euclideanIncludesPoint(Point.ORIGIN));
     });
 
     it('has slope of infinity', function () {
@@ -1019,7 +1017,7 @@ describe('Line', function () {
       const angle = 0.007;
       const x = Math.cos(angle);
       const y = Math.sin(angle);
-      const p0 = HyperbolicCanvas.Point.givenCoordinates(x, y);
+      const p0 = Point.givenCoordinates(x, y);
       const slope = -x / y;  // perpendicular to radius = tangent
       const testLine = Line.givenPointSlope(p0, slope);
 

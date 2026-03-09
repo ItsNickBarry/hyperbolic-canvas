@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import seedrandom from 'seedrandom';
-import { HyperbolicCanvas } from '../src/index.js';
+import { ZERO } from '../src/constants.js';
 
 const seed = process.env.SEED || String(Date.now());
 seedrandom(seed, { global: true });
@@ -14,7 +14,7 @@ function assertApproximate(
   if (actual === expected) return;
   if (Number.isNaN(actual) && Number.isNaN(expected)) return;
   assert(
-    Math.abs(actual - expected) < HyperbolicCanvas.ZERO,
+    Math.abs(actual - expected) < ZERO,
     message ||
       `Expected ${actual} to approximate ${expected} (diff: ${Math.abs(actual - expected)})`,
   );
@@ -41,9 +41,4 @@ function assertIsA<T>(
   );
 }
 
-export {
-  HyperbolicCanvas,
-  assertApproximate,
-  assertIsRealNumber,
-  assertIsA,
-};
+export { assertApproximate, assertIsRealNumber, assertIsA };

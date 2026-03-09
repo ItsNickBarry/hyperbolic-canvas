@@ -1,6 +1,5 @@
 import { Angle } from '../src/index.js';
 import {
-  HyperbolicCanvas,
   assertApproximate,
   assertIsRealNumber,
 } from './helpers.js';

@@ -30,7 +30,7 @@ export default class Point {
     return this.#angle;
   }
 
-  getDirection(direction) {
+  getDirection(direction?) {
     if (typeof direction !== 'undefined') {
       return Angle.normalize(direction);
     }
@@ -125,7 +125,7 @@ export default class Point {
     );
   }
 
-  euclideanDistantPoint(distance, direction) {
+  euclideanDistantPoint(distance, direction?) {
     let bearing = this.getDirection(direction);
     let distantPoint = Point.givenCoordinates(
       this.getX() + Math.cos(bearing) * distance,
@@ -171,7 +171,7 @@ export default class Point {
     );
   }
 
-  hyperbolicDistantPoint(distance, direction) {
+  hyperbolicDistantPoint(distance, direction?) {
     /*
     Hyperbolic Law of Cosines
     cosh(a) === cosh(b)cosh(c) - sinh(b)sinh(c)cos(alpha)
@@ -349,7 +349,7 @@ export default class Point {
     return Point.givenEuclideanPolarCoordinates(1, angle);
   }
 
-  static random(quadrant) {
+  static random(quadrant?: number) {
     return Point.givenEuclideanPolarCoordinates(
       Math.random(),
       Angle.random(quadrant),
