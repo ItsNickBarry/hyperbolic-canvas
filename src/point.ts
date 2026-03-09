@@ -1,4 +1,9 @@
+import Angle from './angle.js';
+import Circle from './circle.js';
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
+import Line from './line.js';
+
+const { ZERO } = HyperbolicCanvas;
 
 export default class Point {
   static ORIGIN: Point;
@@ -21,16 +26,14 @@ export default class Point {
 
   getAngle() {
     if (typeof this.#angle === 'undefined') {
-      this.#angle = HyperbolicCanvas.Angle.normalize(
-        Math.atan2(this.getY(), this.getX()),
-      );
+      this.#angle = Angle.normalize(Math.atan2(this.getY(), this.getX()));
     }
     return this.#angle;
   }
 
   getDirection(direction) {
     if (typeof direction !== 'undefined') {
-      return HyperbolicCanvas.Angle.normalize(direction);
+      return Angle.normalize(direction);
     }
     if (typeof this.#direction !== 'undefined') {
       return this.#direction;
@@ -53,7 +56,7 @@ export default class Point {
           Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2),
         );
       }
-      if (Math.abs(this.#euclideanRadius - 1) < HyperbolicCanvas.ZERO) {
+      if (Math.abs(this.#euclideanRadius - 1) < ZERO) {
         this.#euclideanRadius = 1;
       }
     }
@@ -87,8 +90,8 @@ export default class Point {
 
   equals(otherPoint) {
     return (
-      Math.abs(this.getX() - otherPoint.getX()) < HyperbolicCanvas.ZERO &&
-      Math.abs(this.getY() - otherPoint.getY()) < HyperbolicCanvas.ZERO
+      Math.abs(this.getX() - otherPoint.getX()) < ZERO &&
+      Math.abs(this.getY() - otherPoint.getY()) < ZERO
     );
   }
 
@@ -108,7 +111,7 @@ export default class Point {
   }
 
   euclideanAngleTo(otherPoint) {
-    return HyperbolicCanvas.Angle.normalize(
+    return Angle.normalize(
       Math.atan2(
         otherPoint.getY() - this.getY(),
         otherPoint.getX() - this.getX(),
@@ -138,17 +141,17 @@ export default class Point {
   }
 
   hyperbolicAngleTo(otherPoint) {
-    let geodesic = HyperbolicCanvas.Line.givenTwoPoints(
+    let geodesic = Line.givenTwoPoints(
       this,
       otherPoint,
     ).getHyperbolicGeodesic();
 
     let intersect;
 
-    if (geodesic instanceof HyperbolicCanvas.Circle) {
+    if (geodesic instanceof Circle) {
       let t0 = geodesic.euclideanTangentAtPoint(this);
       let t1 = geodesic.euclideanTangentAtPoint(otherPoint);
-      intersect = HyperbolicCanvas.Line.euclideanIntersect(t0, t1);
+      intersect = Line.euclideanIntersect(t0, t1);
     } else {
       intersect = otherPoint;
     }
@@ -193,7 +196,7 @@ export default class Point {
 
     let c = distance;
 
-    if (Math.abs(c) < HyperbolicCanvas.ZERO) {
+    if (Math.abs(c) < ZERO) {
       let point = this.clone();
       point.#setDirection(bearing);
       return point;
@@ -207,7 +210,7 @@ export default class Point {
     let aAngle = this.getAngle();
     let b = this.getHyperbolicRadius();
 
-    if (Math.abs(aAngle - bearing) < HyperbolicCanvas.ZERO) {
+    if (Math.abs(aAngle - bearing) < ZERO) {
       let point = Point.givenHyperbolicPolarCoordinates(b + c, aAngle);
       point.#setDirection(bearing);
       return point;
@@ -215,7 +218,7 @@ export default class Point {
 
     let alpha = Math.abs(Math.PI - Math.abs(aAngle - bearing));
 
-    if (alpha < HyperbolicCanvas.ZERO) {
+    if (alpha < ZERO) {
       let point = Point.givenHyperbolicPolarCoordinates(b - c, aAngle);
       point.#setDirection(bearing);
       return point;
@@ -238,7 +241,7 @@ export default class Point {
     let gamma = Math.acos(cosgamma);
 
     // determine whether aAngle is +/- gamma
-    let aAngleOpposite = HyperbolicCanvas.Angle.opposite(aAngle);
+    let aAngleOpposite = Angle.opposite(aAngle);
     let dir =
       aAngle > aAngleOpposite
         ? bearing > aAngleOpposite && bearing < aAngle
@@ -247,7 +250,7 @@ export default class Point {
         : bearing > aAngle && bearing < aAngleOpposite
           ? 1
           : -1;
-    let bAngle = HyperbolicCanvas.Angle.normalize(aAngle + gamma * dir);
+    let bAngle = Angle.normalize(aAngle + gamma * dir);
     let distantPoint = Point.givenHyperbolicPolarCoordinates(a, bAngle);
 
     // correct potential floating point error before calling acos
@@ -279,7 +282,7 @@ export default class Point {
   opposite() {
     return Point.givenEuclideanPolarCoordinates(
       this.getEuclideanRadius(),
-      HyperbolicCanvas.Angle.opposite(this.getAngle()),
+      Angle.opposite(this.getAngle()),
     );
   }
 
@@ -295,7 +298,7 @@ export default class Point {
   }
 
   #setDirection(direction) {
-    this.#direction = HyperbolicCanvas.Angle.normalize(direction);
+    this.#direction = Angle.normalize(direction);
   }
 
   static euclideanBetween(p0, p1) {
@@ -324,7 +327,7 @@ export default class Point {
     }
 
     return new Point({
-      angle: HyperbolicCanvas.Angle.normalize(angle),
+      angle: Angle.normalize(angle),
       euclideanRadius: radius,
     });
   }
@@ -338,7 +341,7 @@ export default class Point {
     }
 
     return new Point({
-      angle: HyperbolicCanvas.Angle.normalize(angle),
+      angle: Angle.normalize(angle),
       hyperbolicRadius: radius,
     });
   }
@@ -350,7 +353,7 @@ export default class Point {
   static random(quadrant) {
     return Point.givenEuclideanPolarCoordinates(
       Math.random(),
-      HyperbolicCanvas.Angle.random(quadrant),
+      Angle.random(quadrant),
     );
   }
 }
@@ -369,7 +372,7 @@ Point.ORIGIN.getAngle =
 Point.ORIGIN.euclideanAngleFrom = Point.ORIGIN.hyperbolicAngleFrom = function (
   otherPoint,
 ) {
-  return HyperbolicCanvas.Angle.opposite(this.euclideanAngleTo(otherPoint));
+  return Angle.opposite(this.euclideanAngleTo(otherPoint));
 };
 
 Point.ORIGIN.euclideanAngleTo = Point.ORIGIN.hyperbolicAngleTo = function (

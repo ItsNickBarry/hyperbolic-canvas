@@ -1,4 +1,9 @@
+import Angle from './angle.js';
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
+import Line from './line.js';
+import Point from './point.js';
+
+const { ZERO } = HyperbolicCanvas;
 
 export default class Circle {
   static UNIT: Circle;
@@ -111,7 +116,7 @@ export default class Circle {
     return (
       this.getEuclideanCenter().equals(otherCircle.getEuclideanCenter()) &&
       Math.abs(this.getEuclideanRadius() - otherCircle.getEuclideanRadius()) <
-        HyperbolicCanvas.ZERO
+        ZERO
     );
   }
 
@@ -127,18 +132,18 @@ export default class Circle {
       Math.abs(
         this.getEuclideanRadius() -
           point.euclideanDistanceTo(this.getEuclideanCenter()),
-      ) < HyperbolicCanvas.ZERO
+      ) < ZERO
     );
   }
 
   euclideanAngleAt(p) {
     let dx = p.getX() - this.getEuclideanCenter().getX();
     let dy = p.getY() - this.getEuclideanCenter().getY();
-    return HyperbolicCanvas.Angle.normalize(Math.atan2(dy, dx));
+    return Angle.normalize(Math.atan2(dy, dx));
   }
 
   euclideanPointAt(angle) {
-    return HyperbolicCanvas.Point.givenCoordinates(
+    return Point.givenCoordinates(
       this.getEuclideanRadius() * Math.cos(angle) +
         this.getEuclideanCenter().getX(),
       this.getEuclideanRadius() * Math.sin(angle) +
@@ -161,7 +166,7 @@ export default class Circle {
     let values = this.yAtX(x);
     let points = [];
     values.forEach(function (y) {
-      points.push(HyperbolicCanvas.Point.givenCoordinates(x, y));
+      points.push(Point.givenCoordinates(x, y));
     });
     return points;
   }
@@ -170,15 +175,15 @@ export default class Circle {
     let values = this.xAtY(y);
     let points = [];
     values.forEach(function (x) {
-      points.push(HyperbolicCanvas.Point.givenCoordinates(x, y));
+      points.push(Point.givenCoordinates(x, y));
     });
     return points;
   }
 
   euclideanTangentAtAngle(angle) {
-    return HyperbolicCanvas.Line.givenPointSlope(
+    return Line.givenPointSlope(
       this.euclideanPointAt(angle),
-      -1 / HyperbolicCanvas.Angle.toSlope(angle),
+      -1 / Angle.toSlope(angle),
     );
   }
 
@@ -191,7 +196,7 @@ export default class Circle {
     let center = this.getEuclideanCenter();
     let a = this.#pythagoreanTheorem(y - center.getY());
     if (a) {
-      return Math.abs(a) < HyperbolicCanvas.ZERO
+      return Math.abs(a) < ZERO
         ? [center.getX()]
         : [center.getX() + a, center.getX() - a];
     } else {
@@ -203,7 +208,7 @@ export default class Circle {
     let center = this.getEuclideanCenter();
     let a = this.#pythagoreanTheorem(x - center.getX());
     if (a) {
-      return Math.abs(a) < HyperbolicCanvas.ZERO
+      return Math.abs(a) < ZERO
         ? [center.getY()]
         : [center.getY() + a, center.getY() - a];
     } else {
@@ -214,16 +219,14 @@ export default class Circle {
   #pythagoreanTheorem(b) {
     let c = this.getEuclideanRadius();
     let aSquared = Math.pow(c, 2) - Math.pow(b, 2);
-    return Math.abs(aSquared) < HyperbolicCanvas.ZERO ? 0 : Math.sqrt(aSquared);
+    return Math.abs(aSquared) < ZERO ? 0 : Math.sqrt(aSquared);
   }
 
   #calculateEuclideanCenterRadius() {
     let center = this.getHyperbolicCenter();
     let farPoint = this.hyperbolicPointAt(center.getAngle());
-    let nearPoint = this.hyperbolicPointAt(
-      HyperbolicCanvas.Angle.opposite(center.getAngle()),
-    );
-    let diameter = HyperbolicCanvas.Line.givenTwoPoints(farPoint, nearPoint);
+    let nearPoint = this.hyperbolicPointAt(Angle.opposite(center.getAngle()));
+    let diameter = Line.givenTwoPoints(farPoint, nearPoint);
     this.#euclideanCenter = diameter.getEuclideanMidpoint();
     this.#euclideanRadius = diameter.getEuclideanLength() / 2;
   }
@@ -242,10 +245,8 @@ export default class Circle {
       }
     } else {
       let farPoint = this.euclideanPointAt(center.getAngle());
-      let nearPoint = this.euclideanPointAt(
-        HyperbolicCanvas.Angle.opposite(center.getAngle()),
-      );
-      let diameter = HyperbolicCanvas.Line.givenTwoPoints(farPoint, nearPoint);
+      let nearPoint = this.euclideanPointAt(Angle.opposite(center.getAngle()));
+      let diameter = Line.givenTwoPoints(farPoint, nearPoint);
       this.#hyperbolicCenter = diameter.getHyperbolicMidpoint();
       this.#hyperbolicRadius = diameter.getHyperbolicLength() / 2;
     }
@@ -283,7 +284,7 @@ export default class Circle {
       /* no solution. one circle is contained in the other */
       return false;
     }
-    if (d < HyperbolicCanvas.ZERO) {
+    if (d < ZERO) {
       /* circles are concentric (same center) */
       return false;
     }
@@ -317,8 +318,8 @@ export default class Circle {
     let yi = y2 + ry;
     let yi_prime = y2 - ry;
 
-    let p0 = HyperbolicCanvas.Point.givenCoordinates(xi, yi);
-    let p1 = HyperbolicCanvas.Point.givenCoordinates(xi_prime, yi_prime);
+    let p0 = Point.givenCoordinates(xi, yi);
+    let p1 = Point.givenCoordinates(xi_prime, yi_prime);
     return p0.equals(p1) ? [p0] : [p0, p1];
   }
 
@@ -334,7 +335,7 @@ export default class Circle {
   }
 
   static givenTwoPoints(p0, p1) {
-    let l = HyperbolicCanvas.Line.givenTwoPoints(p0, p1);
+    let l = Line.givenTwoPoints(p0, p1);
     return new Circle({
       euclideanCenter: l.getEuclideanMidpoint(),
       euclideanRadius: l.getEuclideanLength() / 2,
@@ -350,20 +351,17 @@ export default class Circle {
       // points are not unique
       return false;
     }
-    let b0 = HyperbolicCanvas.Line.givenTwoPoints(p0, p1);
-    let b1 = HyperbolicCanvas.Line.givenTwoPoints(p1, p2);
+    let b0 = Line.givenTwoPoints(p0, p1);
+    let b1 = Line.givenTwoPoints(p1, p2);
     if (b0.equals(b1)) {
       // all three points are colinear
       return false;
     }
-    let center = HyperbolicCanvas.Line.euclideanIntersect(
+    let center = Line.euclideanIntersect(
       b0.euclideanPerpindicularBisector(),
       b1.euclideanPerpindicularBisector(),
     );
-    let radius = HyperbolicCanvas.Line.givenTwoPoints(
-      p0,
-      center,
-    ).getEuclideanLength();
+    let radius = Line.givenTwoPoints(p0, center).getEuclideanLength();
     return new Circle({ euclideanCenter: center, euclideanRadius: radius });
   }
 }
@@ -375,7 +373,7 @@ Circle.UNIT.getEuclideanArea = function () {
 };
 
 Circle.UNIT.getEuclideanCenter = Circle.UNIT.getHyperbolicCenter = function () {
-  return HyperbolicCanvas.Point.ORIGIN;
+  return Point.ORIGIN;
 };
 
 Circle.UNIT.getEuclideanCircumference = function () {
@@ -407,7 +405,7 @@ Circle.UNIT.hyperbolicAngleAt = Circle.UNIT.euclideanAngleAt = function (
 Circle.UNIT.hyperbolicPointAt = Circle.UNIT.euclideanPointAt = function (
   angle,
 ) {
-  return HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(1, angle);
+  return Point.givenEuclideanPolarCoordinates(1, angle);
 };
 
 HyperbolicCanvas.Circle = Circle;

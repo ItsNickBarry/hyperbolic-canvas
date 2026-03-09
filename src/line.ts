@@ -1,4 +1,9 @@
+import Angle from './angle.js';
+import Circle from './circle.js';
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
+import Point from './point.js';
+
+const { INFINITY, ZERO } = HyperbolicCanvas;
 
 export default class Line {
   static X_AXIS: Line;
@@ -37,8 +42,8 @@ export default class Line {
         // either Point is not well defined, so geodesic is not defined
         this.#geodesic = false;
       } else if (
-        this.getP0().equals(HyperbolicCanvas.Point.ORIGIN) ||
-        this.getP1().equals(HyperbolicCanvas.Point.ORIGIN)
+        this.getP0().equals(Point.ORIGIN) ||
+        this.getP1().equals(Point.ORIGIN)
       ) {
         // either Point is at origin, so geodesic is a Line
         this.#geodesic = this;
@@ -59,7 +64,7 @@ export default class Line {
 
   getEuclideanMidpoint() {
     if (typeof this.#euclideanMidpoint === 'undefined') {
-      this.#euclideanMidpoint = HyperbolicCanvas.Point.euclideanBetween(
+      this.#euclideanMidpoint = Point.euclideanBetween(
         this.getP0(),
         this.getP1(),
       );
@@ -131,7 +136,7 @@ export default class Line {
         x = 0;
         y = p.getY() - m * p.getX();
       }
-      this.#p1 = HyperbolicCanvas.Point.givenCoordinates(x, y);
+      this.#p1 = Point.givenCoordinates(x, y);
     }
     return this.#p1;
   }
@@ -141,7 +146,7 @@ export default class Line {
       this.#m =
         (this.getP0().getY() - this.getP1().getY()) /
         (this.getP0().getX() - this.getP1().getX());
-      if (Math.abs(this.#m) > HyperbolicCanvas.INFINITY) {
+      if (Math.abs(this.#m) > INFINITY) {
         this.#m = Infinity;
       }
     }
@@ -152,15 +157,12 @@ export default class Line {
     if (typeof this.#euclideanUnitCircleIntersects === 'undefined') {
       let m = this.getSlope();
 
-      if (m > HyperbolicCanvas.INFINITY) {
+      if (m > INFINITY) {
         let x0, x1, y0, y1;
         x0 = x1 = this.getP0().getX();
         y0 = Math.sqrt(1 - x0 * x0);
         y1 = -1 * y0;
-        return [
-          HyperbolicCanvas.Point.givenCoordinates(x0, y0),
-          HyperbolicCanvas.Point.givenCoordinates(x1, y1),
-        ];
+        return [Point.givenCoordinates(x0, y0), Point.givenCoordinates(x1, y1)];
       }
 
       //quadratic formula
@@ -175,23 +177,23 @@ export default class Line {
 
       let discriminant = b * b - 4 * a * c;
 
-      if (discriminant < -HyperbolicCanvas.ZERO) {
+      if (discriminant < -ZERO) {
         return false;
       }
 
       // Treat near-zero discriminant as zero (tangent case)
       let x0 = (-1 * b - Math.sqrt(Math.abs(discriminant))) / (2 * a);
       let y0 = this.euclideanYAtX(x0);
-      let p0 = HyperbolicCanvas.Point.givenCoordinates(x0, y0);
+      let p0 = Point.givenCoordinates(x0, y0);
 
-      if (Math.abs(discriminant) < HyperbolicCanvas.ZERO) {
+      if (Math.abs(discriminant) < ZERO) {
         return [p0];
       }
 
       let x1 = (-1 * b + Math.sqrt(discriminant)) / (2 * a);
       let y1 = this.euclideanYAtX(x1);
 
-      let p1 = HyperbolicCanvas.Point.givenCoordinates(x1, y1);
+      let p1 = Point.givenCoordinates(x1, y1);
 
       this.#euclideanUnitCircleIntersects = [p0, p1];
     }
@@ -211,7 +213,7 @@ export default class Line {
         point.getY() -
           this.getP0().getY() -
           this.getSlope() * (point.getX() - this.getP0().getX()),
-      ) < HyperbolicCanvas.ZERO
+      ) < ZERO
     );
   }
 
@@ -220,7 +222,7 @@ export default class Line {
       return false;
     }
     let g = this.getHyperbolicGeodesic();
-    if (g instanceof HyperbolicCanvas.Circle) {
+    if (g instanceof Circle) {
       return g.includesPoint(point);
     } else if (g instanceof Line) {
       return this.euclideanIncludesPoint(point);
@@ -239,10 +241,7 @@ export default class Line {
   hyperbolicEquals(otherLine) {
     let g = this.getHyperbolicGeodesic();
     let otherG = otherLine.getHyperbolicGeodesic();
-    if (
-      g instanceof HyperbolicCanvas.Circle &&
-      otherG instanceof HyperbolicCanvas.Circle
-    ) {
+    if (g instanceof Circle && otherG instanceof Circle) {
       return g.equals(otherG);
     } else if (g instanceof Line && otherG instanceof Line) {
       return g.equals(otherG);
@@ -255,18 +254,21 @@ export default class Line {
     // rotate circle and line by same amount about origin such that line
     // becomes the x-axis
 
-    let angleOffset = HyperbolicCanvas.Angle.fromSlope(this.getSlope()) * -1;
+    let angleOffset = Angle.fromSlope(this.getSlope()) * -1;
 
-    let offsetCircle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+    let offsetCircle = Circle.givenEuclideanCenterRadius(
       circle.getEuclideanCenter().rotateAboutOrigin(angleOffset),
       circle.getEuclideanRadius(),
     );
 
     // distance from line to origin
-    let lineOffset = Line.euclideanIntersect(
-      this,
-      this.euclideanPerpindicularLineAt(HyperbolicCanvas.Point.ORIGIN),
-    ).euclideanDistanceTo(HyperbolicCanvas.Point.ORIGIN);
+    // TODO: fix cast
+    let lineOffset = (
+      Line.euclideanIntersect(
+        this,
+        this.euclideanPerpindicularLineAt(Point.ORIGIN),
+      ) as any
+    ).euclideanDistanceTo(Point.ORIGIN);
 
     // line passes above or below origin
     lineOffset *= this.euclideanYAtX(0) > 0 ? 1 : -1;
@@ -282,8 +284,8 @@ export default class Line {
   hyperbolicIntersectsWithCircle(circle) {
     let g = this.getHyperbolicGeodesic();
 
-    if (g instanceof HyperbolicCanvas.Circle) {
-      return HyperbolicCanvas.Circle.intersects(g, circle);
+    if (g instanceof Circle) {
+      return Circle.intersects(g, circle);
     } else if (g instanceof Line) {
       return this.euclideanIntersectsWithCircle(circle);
     } else {
@@ -317,9 +319,7 @@ export default class Line {
   }
 
   isEuclideanParallelTo(otherLine) {
-    return (
-      Math.abs(this.getSlope() - otherLine.getSlope()) < HyperbolicCanvas.ZERO
-    );
+    return Math.abs(this.getSlope() - otherLine.getSlope()) < ZERO;
   }
 
   isHyperbolicParallelTo(otherLine) {
@@ -354,7 +354,7 @@ export default class Line {
         return y;
       }
     }
-    return HyperbolicCanvas.Point.givenCoordinates(x, y);
+    return Point.givenCoordinates(x, y);
   }
 
   pointAtEuclideanY(y) {
@@ -366,25 +366,20 @@ export default class Line {
         return x;
       }
     }
-    return HyperbolicCanvas.Point.givenCoordinates(x, y);
+    return Point.givenCoordinates(x, y);
   }
 
   #calculateGeodesicThroughTwoIdealPoints() {
     let a0 = this.getP0().getAngle();
     let a1 = this.getP1().getAngle();
-    if (
-      Math.abs(a0 - HyperbolicCanvas.Angle.opposite(a1)) < HyperbolicCanvas.ZERO
-    ) {
+    if (Math.abs(a0 - Angle.opposite(a1)) < ZERO) {
       this.#geodesic = this;
     } else {
-      let t0 = HyperbolicCanvas.Circle.UNIT.euclideanTangentAtPoint(
-        this.getP0(),
-      );
-      let t1 = HyperbolicCanvas.Circle.UNIT.euclideanTangentAtPoint(
-        this.getP1(),
-      );
-      let center = Line.euclideanIntersect(t0, t1);
-      this.#geodesic = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+      let t0 = Circle.UNIT.euclideanTangentAtPoint(this.getP0());
+      let t1 = Circle.UNIT.euclideanTangentAtPoint(this.getP1());
+      // TODO: ensure safety of cast
+      let center = Line.euclideanIntersect(t0, t1) as Point;
+      this.#geodesic = Circle.givenEuclideanCenterRadius(
         center,
         center.euclideanDistanceTo(this.getP0()),
       );
@@ -392,8 +387,8 @@ export default class Line {
   }
 
   #calculateGeodesicThroughOnePointOnPlane() {
-    let l0 = Line.givenTwoPoints(this.getP0(), HyperbolicCanvas.Point.ORIGIN);
-    let l1 = Line.givenTwoPoints(this.getP1(), HyperbolicCanvas.Point.ORIGIN);
+    let l0 = Line.givenTwoPoints(this.getP0(), Point.ORIGIN);
+    let l1 = Line.givenTwoPoints(this.getP1(), Point.ORIGIN);
 
     if (l0.equals(l1)) {
       // both points are colinear with origin, so geodesic is a Line, itself
@@ -419,20 +414,12 @@ export default class Line {
       return (this.#geodesic = false);
     }
 
-    let t0 = HyperbolicCanvas.Circle.UNIT.euclideanTangentAtPoint(
-      intersects[0],
-    );
-    let t1 = HyperbolicCanvas.Circle.UNIT.euclideanTangentAtPoint(
-      intersects[1],
-    );
+    let t0 = Circle.UNIT.euclideanTangentAtPoint(intersects[0]);
+    let t1 = Circle.UNIT.euclideanTangentAtPoint(intersects[1]);
 
     let c = Line.euclideanIntersect(t0, t1);
 
-    this.#geodesic = HyperbolicCanvas.Circle.givenThreePoints(
-      this.getP0(),
-      this.getP1(),
-      c,
-    );
+    this.#geodesic = Circle.givenThreePoints(this.getP0(), this.getP1(), c);
   }
 
   static euclideanIntersect(l0, l1) {
@@ -467,7 +454,7 @@ export default class Line {
       y = l0m === Infinity ? l1m * (x - l1x) + l1y : l0m * (x - l0x) + l0y;
     }
 
-    return HyperbolicCanvas.Point.givenCoordinates(x, y);
+    return Point.givenCoordinates(x, y);
   }
 
   static hyperbolicIntersect(l0, l1) {
@@ -482,14 +469,14 @@ export default class Line {
 
     if (g0IsLine || g1IsLine) {
       if (g0IsLine && g1IsLine) {
-        return HyperbolicCanvas.Point.ORIGIN;
+        return Point.ORIGIN;
       }
       let circle = g0IsLine ? g1 : g0;
       let line = g0IsLine ? g0 : g1;
 
-      let angleOffset = HyperbolicCanvas.Angle.fromSlope(line.getSlope()) * -1;
+      let angleOffset = Angle.fromSlope(line.getSlope()) * -1;
 
-      let offsetCircle = HyperbolicCanvas.Circle.givenEuclideanCenterRadius(
+      let offsetCircle = Circle.givenEuclideanCenterRadius(
         circle.getEuclideanCenter().rotateAboutOrigin(angleOffset),
         circle.getEuclideanRadius(),
       );
@@ -510,7 +497,7 @@ export default class Line {
       return false;
     }
 
-    let intersects = HyperbolicCanvas.Circle.intersects(g0, g1);
+    let intersects = Circle.intersects(g0, g1);
 
     if (!intersects) {
       return false;
@@ -526,13 +513,13 @@ export default class Line {
   }
 
   static randomSlope() {
-    return HyperbolicCanvas.Angle.toSlope(HyperbolicCanvas.Angle.random());
+    return Angle.toSlope(Angle.random());
   }
 
   static givenPointSlope(p, slope) {
     return new Line({
       p0: p,
-      m: Math.abs(slope) > HyperbolicCanvas.INFINITY ? Infinity : slope,
+      m: Math.abs(slope) > INFINITY ? Infinity : slope,
     });
   }
 
@@ -541,10 +528,7 @@ export default class Line {
   }
 
   static givenAnglesOfIdealPoints(a0, a1) {
-    let points = [
-      HyperbolicCanvas.Point.givenIdealAngle(a0),
-      HyperbolicCanvas.Point.givenIdealAngle(a1),
-    ];
+    let points = [Point.givenIdealAngle(a0), Point.givenIdealAngle(a1)];
     return new Line({
       p0: points[0],
       p1: points[1],
@@ -554,8 +538,8 @@ export default class Line {
   }
 }
 
-Line.X_AXIS = new Line({ p0: HyperbolicCanvas.Point.ORIGIN, m: 0 });
+Line.X_AXIS = new Line({ p0: Point.ORIGIN, m: 0 });
 
-Line.Y_AXIS = new Line({ p0: HyperbolicCanvas.Point.ORIGIN, m: Infinity });
+Line.Y_AXIS = new Line({ p0: Point.ORIGIN, m: Infinity });
 
 HyperbolicCanvas.Line = Line;

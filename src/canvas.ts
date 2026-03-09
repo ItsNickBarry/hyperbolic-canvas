@@ -1,4 +1,8 @@
+import Circle from './circle.js';
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
+import Line from './line.js';
+import Point from './point.js';
+import Polygon from './polygon.js';
 
 // TODO store polygons and circles as hit regions
 
@@ -63,14 +67,14 @@ export default class Canvas {
   }
 
   at(loc) {
-    if (loc.__proto__ === HyperbolicCanvas.Point.prototype) {
+    if (loc.__proto__ === Point.prototype) {
       // scale up
       let x = (loc.getX() + 1) * this.getRadius();
       let y = (loc.getY() + 1) * this.getRadius();
       return [x, this.getDiameter() - y];
     } else if (loc.__proto__ === Array.prototype) {
       // scale down
-      return new HyperbolicCanvas.Point({
+      return new Point({
         x: loc[0] / this.getRadius() - 1,
         y: (this.getDiameter() - loc[1]) / this.getRadius() - 1,
       });
@@ -125,9 +129,7 @@ export default class Canvas {
     let r = this.getRadius();
     let difference = Math.TAU / n;
     for (let i = 0; i < n; i++) {
-      let idealPoint = this.at(
-        HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(1, angle),
-      );
+      let idealPoint = this.at(Point.givenEuclideanPolarCoordinates(1, angle));
       path.moveTo(r, r);
       path.lineTo(idealPoint[0], idealPoint[1]);
       angle += difference;
@@ -152,10 +154,7 @@ export default class Canvas {
     let path = this.#getPathOrContext(options || {});
     for (let i = 0; i < n; i++) {
       this.#pathForCircle(
-        HyperbolicCanvas.Circle.givenHyperbolicCenterRadius(
-          HyperbolicCanvas.Point.ORIGIN,
-          r * (i + 1),
-        ),
+        Circle.givenHyperbolicCenterRadius(Point.ORIGIN, r * (i + 1)),
         path,
       );
     }
@@ -227,7 +226,7 @@ export default class Canvas {
   #pathForHyperbolicLine(l, path, options) {
     let geodesic = l.getHyperbolicGeodesic();
 
-    if (geodesic instanceof HyperbolicCanvas.Circle) {
+    if (geodesic instanceof Circle) {
       let p0 = this.at(l.getP0());
       let p1 = this.at(l.getP1());
 
@@ -240,7 +239,7 @@ export default class Canvas {
       }
 
       let control = this.at(
-        HyperbolicCanvas.Line.euclideanIntersect(
+        Line.euclideanIntersect(
           geodesic.euclideanTangentAtPoint(l.getP0()),
           geodesic.euclideanTangentAtPoint(l.getP1()),
         ),
@@ -258,7 +257,7 @@ export default class Canvas {
         path.lineTo(p1[0], p1[1]);
       }
       return path;
-    } else if (geodesic instanceof HyperbolicCanvas.Line) {
+    } else if (geodesic instanceof Line) {
       return this.#pathForEuclideanLine(geodesic, path, options);
     } else {
       return false;
@@ -285,16 +284,16 @@ export default class Canvas {
   #pathFunctionForEuclidean(object) {
     let fn;
     switch (object.__proto__) {
-      case HyperbolicCanvas.Line.prototype:
+      case Line.prototype:
         fn = this.#pathForEuclideanLine;
         break;
-      case HyperbolicCanvas.Circle.prototype:
+      case Circle.prototype:
         fn = this.#pathForCircle;
         break;
-      case HyperbolicCanvas.Polygon.prototype:
+      case Polygon.prototype:
         fn = this.#pathForEuclideanPolygon;
         break;
-      case HyperbolicCanvas.Point.prototype:
+      case Point.prototype:
         fn = this.#pathForEuclideanPoint;
         break;
       default:
@@ -309,13 +308,13 @@ export default class Canvas {
   #pathFunctionForHyperbolic(object) {
     let fn;
     switch (object.__proto__) {
-      case HyperbolicCanvas.Circle.prototype:
+      case Circle.prototype:
         fn = this.#pathForCircle;
         break;
-      case HyperbolicCanvas.Line.prototype:
+      case Line.prototype:
         fn = this.#pathForHyperbolicLine;
         break;
-      case HyperbolicCanvas.Polygon.prototype:
+      case Polygon.prototype:
         fn = this.#pathForHyperbolicPolygon;
         break;
       default:

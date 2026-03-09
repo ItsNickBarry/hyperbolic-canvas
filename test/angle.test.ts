@@ -1,12 +1,11 @@
-import { describe, it, beforeEach } from 'node:test';
-import assert from 'node:assert';
+import { Angle } from '../src/index.js';
 import {
   HyperbolicCanvas,
   assertApproximate,
   assertIsRealNumber,
 } from './helpers.js';
-
-const Angle = HyperbolicCanvas.Angle;
+import assert from 'node:assert';
+import { describe, it, beforeEach } from 'node:test';
 
 describe('Angle', function () {
   it('converts from degrees to radians', function () {

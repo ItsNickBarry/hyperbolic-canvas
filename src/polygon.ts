@@ -1,4 +1,7 @@
+import Angle from './angle.js';
 import { HyperbolicCanvas } from './hyperbolic_canvas.js';
+import Line from './line.js';
+import Point from './point.js';
 
 export default class Polygon {
   #vertices;
@@ -16,10 +19,7 @@ export default class Polygon {
       let n = vertices.length;
       for (let i = 0; i < vertices.length; i++) {
         this.#lines.push(
-          HyperbolicCanvas.Line.givenTwoPoints(
-            vertices[i],
-            vertices[(i + 1) % n],
-          ),
+          Line.givenTwoPoints(vertices[i], vertices[(i + 1) % n]),
         );
       }
     }
@@ -38,7 +38,7 @@ export default class Polygon {
     let vertices = [];
 
     angles.forEach(function (angle) {
-      vertices.push(HyperbolicCanvas.Point.givenIdealAngle(angle));
+      vertices.push(Point.givenIdealAngle(angle));
     });
 
     return Polygon.givenVertices(vertices);
@@ -56,14 +56,14 @@ export default class Polygon {
     if (n < 3) {
       return false;
     }
-    rotation = rotation ? HyperbolicCanvas.Angle.normalize(rotation) : 0;
+    rotation = rotation ? Angle.normalize(rotation) : 0;
 
     let increment = Math.TAU / n;
     let vertices = [];
 
     for (let i = 0; i < n; i++) {
       vertices.push(center.euclideanDistantPoint(radius, rotation));
-      rotation = HyperbolicCanvas.Angle.normalize(rotation + increment);
+      rotation = Angle.normalize(rotation + increment);
     }
 
     return new Polygon({ vertices: vertices });
@@ -76,14 +76,14 @@ export default class Polygon {
     if (!center.isOnPlane()) {
       return false;
     }
-    rotation = rotation ? HyperbolicCanvas.Angle.normalize(rotation) : 0;
+    rotation = rotation ? Angle.normalize(rotation) : 0;
 
     let increment = Math.TAU / n;
     let vertices = [];
 
     for (let i = 0; i < n; i++) {
       vertices.push(center.hyperbolicDistantPoint(radius, rotation));
-      rotation = HyperbolicCanvas.Angle.normalize(rotation + increment);
+      rotation = Angle.normalize(rotation + increment);
     }
 
     return new Polygon({ vertices: vertices });
