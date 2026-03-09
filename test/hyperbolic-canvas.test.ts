@@ -1,6 +1,5 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import '../src/index.js'; // Import for Math.TAU side effect
 import { INFINITY, ZERO } from '../src/constants.js';
 
 describe('HyperbolicCanvas', function () {
