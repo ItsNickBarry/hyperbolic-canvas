@@ -5,8 +5,6 @@ import { HyperbolicCanvas } from './hyperbolic_canvas.js';
 import Point from './point.js';
 
 export default class Line {
-  static X_AXIS: Line;
-  static Y_AXIS: Line;
   #p0;
   #p1;
   #m;
@@ -18,6 +16,14 @@ export default class Line {
   #hyperbolicLength;
   #hyperbolicMidpoint;
   #idealLine;
+
+  // Lazy initialization of constants is required because they reference
+  // Point.ORIGIN, which is defined in point.ts. Due to circular
+  // dependencies, Point may not be fully loaded when this module is
+  // evaluated. By using lazy getters, we defer the reference until first
+  // access, ensuring all classes are fully initialized.
+  static #xAxis?: Line;
+  static #yAxis?: Line;
 
   constructor(options) {
     this.#p0 = options.p0;
@@ -535,10 +541,20 @@ export default class Line {
       idealPoints: points,
     });
   }
+
+  static get X_AXIS(): Line {
+    if (!Line.#xAxis) {
+      Line.#xAxis = new Line({ p0: Point.ORIGIN, m: 0 });
+    }
+    return Line.#xAxis;
+  }
+
+  static get Y_AXIS(): Line {
+    if (!Line.#yAxis) {
+      Line.#yAxis = new Line({ p0: Point.ORIGIN, m: Infinity });
+    }
+    return Line.#yAxis;
+  }
 }
-
-Line.X_AXIS = new Line({ p0: Point.ORIGIN, m: 0 });
-
-Line.Y_AXIS = new Line({ p0: Point.ORIGIN, m: Infinity });
 
 HyperbolicCanvas.Line = Line;
