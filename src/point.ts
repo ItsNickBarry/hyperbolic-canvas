@@ -307,9 +307,9 @@ export default class Point {
     });
   }
 
-  static hyperbolicBetween(p0: Point, p1: Point): Point | false {
+  static hyperbolicBetween(p0: Point, p1: Point): Point {
     if (!(p0.isOnPlane() && p1.isOnPlane())) {
-      return false;
+      throw new Error('Both points must be on the hyperbolic plane');
     }
     const d = p0.hyperbolicDistanceTo(p1);
     return p0.hyperbolicDistantPoint(d / 2, p0.hyperbolicAngleTo(p1));

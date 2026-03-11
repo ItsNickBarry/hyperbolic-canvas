@@ -317,7 +317,7 @@ describe('Point', function () {
     beforeEach(function () {
       p0 = Point.random();
       p1 = Point.random();
-      point = Point.hyperbolicBetween(p0, p1) as Point;
+      point = Point.hyperbolicBetween(p0, p1);
     });
 
     it('is equidistant to other points at half total distance', function () {
@@ -326,6 +326,21 @@ describe('Point', function () {
       const d1 = point.hyperbolicDistanceTo(p1);
       assertApproximate(d0, d1);
       assertApproximate(d0 + d1, d);
+    });
+
+    it('throws when either point is not on plane', function () {
+      assert.throws(function () {
+        Point.hyperbolicBetween(Point.givenIdealAngle(0), Point.random());
+      }, /Both points must be on the hyperbolic plane/);
+      assert.throws(function () {
+        Point.hyperbolicBetween(Point.random(), Point.givenIdealAngle(0));
+      }, /Both points must be on the hyperbolic plane/);
+      assert.throws(function () {
+        Point.hyperbolicBetween(
+          Point.givenIdealAngle(0),
+          Point.givenIdealAngle(Math.PI),
+        );
+      }, /Both points must be on the hyperbolic plane/);
     });
   });
 
