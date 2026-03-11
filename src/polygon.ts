@@ -29,9 +29,9 @@ export default class Polygon {
     return this.#vertices;
   }
 
-  static givenAnglesOfIdealVertices(angles: number[]): Polygon | false {
+  static givenAnglesOfIdealVertices(angles: number[]): Polygon {
     if (angles.length < 3) {
-      return false;
+      throw new Error('At least 3 angles are required');
     }
 
     const vertices = [];
@@ -43,9 +43,9 @@ export default class Polygon {
     return Polygon.givenVertices(vertices);
   }
 
-  static givenVertices(vertices: Point[]): Polygon | false {
+  static givenVertices(vertices: Point[]): Polygon {
     if (vertices.length < 3) {
-      return false;
+      throw new Error('At least 3 vertices are required');
     }
 
     return new Polygon({ vertices: vertices });
@@ -56,9 +56,9 @@ export default class Polygon {
     center: Point,
     radius: number,
     rotation: number,
-  ): Polygon | false {
+  ): Polygon {
     if (n < 3) {
-      return false;
+      throw new Error('Side count must be at least 3');
     }
     rotation = rotation ? Angle.normalize(rotation) : 0;
 
@@ -78,12 +78,12 @@ export default class Polygon {
     center: Point,
     radius: number,
     rotation: number,
-  ): Polygon | false {
+  ): Polygon {
     if (n < 3) {
-      return false;
+      throw new Error('Side count must be at least 3');
     }
     if (!center.isOnPlane()) {
-      return false;
+      throw new Error('Center must be on hyperbolic plane');
     }
     rotation = rotation ? Angle.normalize(rotation) : 0;
 

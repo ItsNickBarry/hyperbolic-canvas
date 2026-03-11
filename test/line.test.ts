@@ -235,7 +235,7 @@ describe('Line', function () {
               .getP0()
               .hyperbolicDistantPoint(radius * Math.random(), Angle.random()),
             radius + 1,
-          ) as Circle;
+          );
 
           const intersects = line.hyperbolicIntersectsWithCircle(
             circle,
@@ -392,7 +392,7 @@ describe('Line', function () {
               .getP0()
               .hyperbolicDistantPoint(radius * Math.random(), Angle.random()),
             radius + 1,
-          ) as Circle;
+          );
 
           const intersects = line.hyperbolicIntersectsWithCircle(
             circle,
@@ -523,7 +523,7 @@ describe('Line', function () {
             .getP0()
             .hyperbolicDistantPoint(radius * Math.random(), Angle.random()),
           radius + 1,
-        ) as Circle;
+        );
 
         const intersects = line.hyperbolicIntersectsWithCircle(
           circle,

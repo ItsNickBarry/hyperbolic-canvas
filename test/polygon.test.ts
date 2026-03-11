@@ -14,7 +14,7 @@ describe('Polygon', function () {
       for (let i = 0; i < n; i++) {
         vertices.push(Point.random());
       }
-      polygon = Polygon.givenVertices(vertices) as Polygon;
+      polygon = Polygon.givenVertices(vertices);
     });
 
     it('has n vertices of type Point', function () {
@@ -33,6 +33,12 @@ describe('Polygon', function () {
       lines.forEach(function (line) {
         assertIsA(line, Line);
       });
+    });
+
+    it('throws when fewer than 3 vertices', function () {
+      assert.throws(function () {
+        Polygon.givenVertices([Point.random(), Point.random()]);
+      }, /At least 3 vertices are required/);
     });
   });
 
@@ -53,7 +59,7 @@ describe('Polygon', function () {
         const angle = (baseAngles[i] * Math.TAU) / total;
         angles.push((currentAngle += angle));
       }
-      polygon = Polygon.givenAnglesOfIdealVertices(angles) as Polygon;
+      polygon = Polygon.givenAnglesOfIdealVertices(angles);
     });
 
     it('has n lines of infinite hyperbolic length', function () {
@@ -63,6 +69,12 @@ describe('Polygon', function () {
         assertIsA(line, Line);
         assert.strictEqual(line.getHyperbolicLength(), Infinity);
       });
+    });
+
+    it('throws when fewer than 3 angles', function () {
+      assert.throws(function () {
+        Polygon.givenAnglesOfIdealVertices([0, 1]);
+      }, /At least 3 angles are required/);
     });
   });
 
@@ -86,7 +98,7 @@ describe('Polygon', function () {
           center,
           radius,
           rotation,
-        ) as Polygon;
+        );
       });
 
       it('has n vertices of type Point', function () {
@@ -135,7 +147,7 @@ describe('Polygon', function () {
           center,
           radius,
           rotation,
-        ) as Polygon;
+        );
       });
 
       it('has n vertices of type Point', function () {
@@ -174,6 +186,18 @@ describe('Polygon', function () {
           assertApproximate(lengths[i], lengths[(i + 1) % count]);
         }
       });
+    });
+
+    it('throws when side count is less than 3', function () {
+      assert.throws(function () {
+        Polygon.givenEuclideanNCenterRadius(2, Point.random(), 0.5, 0);
+      }, /Side count must be at least 3/);
+    });
+
+    it('throws when center is not on plane in hyperbolic context', function () {
+      assert.throws(function () {
+        Polygon.givenHyperbolicNCenterRadius(3, Point.givenIdealAngle(0), 1, 0);
+      }, /Center must be on hyperbolic plane/);
     });
   });
 });

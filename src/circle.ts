@@ -333,9 +333,9 @@ export default class Circle {
   static givenHyperbolicCenterRadius(
     center: Point,
     radius: number,
-  ): Circle | false {
+  ): Circle {
     if (!center.isOnPlane()) {
-      return false;
+      throw new Error('Center must be on hyperbolic plane');
     }
     return new Circle({ hyperbolicCenter: center, hyperbolicRadius: radius });
   }
@@ -348,20 +348,17 @@ export default class Circle {
     });
   }
 
-  static givenThreePoints(p0: Point, p1: Point, p2: Point): Circle | false {
+  static givenThreePoints(p0: Point, p1: Point, p2: Point): Circle {
     if (!(p0 && p1 && p2)) {
-      //not all points exist
-      return false;
+      throw new Error('All three points must be defined');
     }
     if (p0.equals(p1) || p0.equals(p2) || p1.equals(p2)) {
-      // points are not unique
-      return false;
+      throw new Error('Points must be unique');
     }
     const b0 = Line.givenTwoPoints(p0, p1);
     const b1 = Line.givenTwoPoints(p1, p2);
     if (b0.equals(b1)) {
-      // all three points are colinear
-      return false;
+      throw new Error('Points must not be colinear');
     }
     const center = Line.euclideanIntersect(
       b0.euclideanPerpindicularBisector(),

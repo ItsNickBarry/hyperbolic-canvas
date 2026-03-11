@@ -11,7 +11,7 @@ describe('Circle', function () {
       circle = Circle.givenHyperbolicCenterRadius(
         Point.random(),
         Math.random() * 10,
-      ) as Circle;
+      );
     });
 
     it('is clonable', function () {
@@ -40,7 +40,7 @@ describe('Circle', function () {
       const otherCircle = Circle.givenHyperbolicCenterRadius(
         circle.getHyperbolicCenter() as Point,
         circle.getHyperbolicRadius(),
-      ) as Circle;
+      );
       assert(circle.equals(otherCircle));
     });
 
@@ -421,11 +421,17 @@ describe('Circle', function () {
       circle = Circle.givenHyperbolicCenterRadius(
         Point.random(),
         Math.random() * 10,
-      ) as Circle;
+      );
     });
 
     it('is a Circle', function () {
       assertIsA(circle, Circle);
+    });
+
+    it('throws when center is not on plane', function () {
+      assert.throws(function () {
+        Circle.givenHyperbolicCenterRadius(Point.givenIdealAngle(0), 1);
+      }, /Center must be on hyperbolic plane/);
     });
   });
 
@@ -445,11 +451,39 @@ describe('Circle', function () {
         Point.random(),
         Point.random(),
         Point.random(),
-      ) as Circle;
+      );
     });
 
     it('is a Circle', function () {
       assertIsA(circle, Circle);
+    });
+
+    it('throws when points are not unique', function () {
+      const p0 = Point.random();
+      const p1 = Point.random();
+
+      assert.throws(function () {
+        Circle.givenThreePoints(p0, p0, p1);
+      }, /Points must be unique/);
+      assert.throws(function () {
+        Circle.givenThreePoints(p0, p1, p0);
+      }, /Points must be unique/);
+      assert.throws(function () {
+        Circle.givenThreePoints(p1, p0, p0);
+      }, /Points must be unique/);
+      assert.throws(function () {
+        Circle.givenThreePoints(p0, p0, p0);
+      }, /Points must be unique/);
+    });
+
+    it('throws when points are colinear', function () {
+      const p0 = Point.random();
+      const p1 = Point.random();
+      // Use midpoint to create a third colinear point
+      const p2 = Point.euclideanBetween(p0, p1);
+      assert.throws(function () {
+        Circle.givenThreePoints(p0, p1, p2);
+      }, /Points must not be colinear/);
     });
   });
 
