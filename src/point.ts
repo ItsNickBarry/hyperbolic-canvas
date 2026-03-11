@@ -126,8 +126,8 @@ export default class Point {
   }
 
   euclideanDistantPoint(distance: number, direction?: number): Point {
-    let bearing = this.getDirection(direction);
-    let distantPoint = Point.givenCoordinates(
+    const bearing = this.getDirection(direction);
+    const distantPoint = Point.givenCoordinates(
       this.getX() + Math.cos(bearing) * distance,
       this.getY() + Math.sin(bearing) * distance,
     );
@@ -140,7 +140,7 @@ export default class Point {
   }
 
   hyperbolicAngleTo(otherPoint: Point): number {
-    let geodesic = Line.givenTwoPoints(
+    const geodesic = Line.givenTwoPoints(
       this,
       otherPoint,
     ).getHyperbolicGeodesic();
@@ -148,8 +148,8 @@ export default class Point {
     let intersect;
 
     if (geodesic instanceof Circle) {
-      let t0 = geodesic.euclideanTangentAtPoint(this);
-      let t1 = geodesic.euclideanTangentAtPoint(otherPoint);
+      const t0 = geodesic.euclideanTangentAtPoint(this);
+      const t1 = geodesic.euclideanTangentAtPoint(otherPoint);
       intersect = Line.euclideanIntersect(t0, t1);
     } else {
       intersect = otherPoint;
@@ -161,9 +161,9 @@ export default class Point {
     if (this.isIdeal() || otherPoint.isIdeal()) {
       return Infinity;
     }
-    let b = this.getHyperbolicRadius();
-    let c = otherPoint.getHyperbolicRadius();
-    let alpha = this.getAngle() - otherPoint.getAngle();
+    const b = this.getHyperbolicRadius();
+    const c = otherPoint.getHyperbolicRadius();
+    const alpha = this.getAngle() - otherPoint.getAngle();
 
     return Math.acosh(
       Math.cosh(b) * Math.cosh(c) -
@@ -191,57 +191,57 @@ export default class Point {
     // TODO hyperbolic law of haversines
     // TODO throw exception if direction is not provided or stored; do not default to this.getAngle()
     // TODO allow distance of Infinity, return ideal Point
-    let bearing = this.getDirection(direction);
+    const bearing = this.getDirection(direction);
 
-    let c = distance;
+    const c = distance;
 
     if (Math.abs(c) < ZERO) {
-      let point = this.clone();
+      const point = this.clone();
       point.#setDirection(bearing);
       return point;
     }
     if (this.equals(Point.ORIGIN)) {
-      let point = Point.givenHyperbolicPolarCoordinates(c, bearing);
+      const point = Point.givenHyperbolicPolarCoordinates(c, bearing);
       point.#setDirection(bearing);
       return point;
     }
 
-    let aAngle = this.getAngle();
-    let b = this.getHyperbolicRadius();
+    const aAngle = this.getAngle();
+    const b = this.getHyperbolicRadius();
 
     if (Math.abs(aAngle - bearing) < ZERO) {
-      let point = Point.givenHyperbolicPolarCoordinates(b + c, aAngle);
+      const point = Point.givenHyperbolicPolarCoordinates(b + c, aAngle);
       point.#setDirection(bearing);
       return point;
     }
 
-    let alpha = Math.abs(Math.PI - Math.abs(aAngle - bearing));
+    const alpha = Math.abs(Math.PI - Math.abs(aAngle - bearing));
 
     if (alpha < ZERO) {
-      let point = Point.givenHyperbolicPolarCoordinates(b - c, aAngle);
+      const point = Point.givenHyperbolicPolarCoordinates(b - c, aAngle);
       point.#setDirection(bearing);
       return point;
     }
 
     // save hyperbolic functions which are called more than once
-    let coshb = Math.cosh(b);
-    let coshc = Math.cosh(c);
-    let sinhb = Math.sinh(b);
-    let sinhc = Math.sinh(c);
+    const coshb = Math.cosh(b);
+    const coshc = Math.cosh(c);
+    const sinhb = Math.sinh(b);
+    const sinhc = Math.sinh(c);
 
-    let a = Math.acosh(coshb * coshc - sinhb * sinhc * Math.cos(alpha));
+    const a = Math.acosh(coshb * coshc - sinhb * sinhc * Math.cos(alpha));
 
-    let cosha = Math.cosh(a);
-    let sinha = Math.sinh(a);
+    const cosha = Math.cosh(a);
+    const sinha = Math.sinh(a);
 
     // correct potential floating point error before calling acos
     let cosgamma = (cosha * coshb - coshc) / (sinha * sinhb);
     cosgamma = cosgamma > 1 ? 1 : cosgamma < -1 ? -1 : cosgamma;
-    let gamma = Math.acos(cosgamma);
+    const gamma = Math.acos(cosgamma);
 
     // determine whether aAngle is +/- gamma
-    let aAngleOpposite = Angle.opposite(aAngle);
-    let dir =
+    const aAngleOpposite = Angle.opposite(aAngle);
+    const dir =
       aAngle > aAngleOpposite
         ? bearing > aAngleOpposite && bearing < aAngle
           ? -1
@@ -249,13 +249,13 @@ export default class Point {
         : bearing > aAngle && bearing < aAngleOpposite
           ? 1
           : -1;
-    let bAngle = Angle.normalize(aAngle + gamma * dir);
-    let distantPoint = Point.givenHyperbolicPolarCoordinates(a, bAngle);
+    const bAngle = Angle.normalize(aAngle + gamma * dir);
+    const distantPoint = Point.givenHyperbolicPolarCoordinates(a, bAngle);
 
     // correct potential floating point error before calling acos
     let cosbeta = (cosha * coshc - coshb) / (sinha * sinhc);
     cosbeta = cosbeta > 1 ? 1 : cosbeta < -1 ? -1 : cosbeta;
-    let beta = Math.acos(cosbeta);
+    const beta = Math.acos(cosbeta);
 
     distantPoint.#setDirection(bAngle + beta * dir);
 
@@ -311,7 +311,7 @@ export default class Point {
     if (!(p0.isOnPlane() && p1.isOnPlane())) {
       return false;
     }
-    let d = p0.hyperbolicDistanceTo(p1);
+    const d = p0.hyperbolicDistanceTo(p1);
     return p0.hyperbolicDistantPoint(d / 2, p0.hyperbolicAngleTo(p1));
   }
 

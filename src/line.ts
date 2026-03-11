@@ -109,7 +109,7 @@ export default class Line {
 
   getIdealPoints(): Point[] | false {
     if (typeof this.#idealPoints === 'undefined') {
-      let g = this.getHyperbolicGeodesic();
+      const g = this.getHyperbolicGeodesic();
       if (g === false) {
         this.#idealPoints = false;
       } else if (g === this) {
@@ -128,8 +128,8 @@ export default class Line {
   getP1(): Point {
     if (typeof this.#p1 === 'undefined') {
       let x, y;
-      let p = this.getP0();
-      let m = this.getSlope();
+      const p = this.getP0();
+      const m = this.getSlope();
       if (m === Infinity) {
         x = p.getX();
         y = p.getY() ? p.getY() * 2 : p.getY() + 1;
@@ -159,10 +159,10 @@ export default class Line {
 
   getEuclideanUnitCircleIntersects(): Point[] | false {
     if (typeof this.#euclideanUnitCircleIntersects === 'undefined') {
-      let m = this.getSlope();
+      const m = this.getSlope();
 
       if (m > INFINITY) {
-        let x0, x1, y0, y1;
+        let x0: number, x1: number, y0: number, y1: number;
         x0 = x1 = this.getP0().getX();
         y0 = Math.sqrt(1 - x0 * x0);
         y1 = -1 * y0;
@@ -170,36 +170,36 @@ export default class Line {
       }
 
       //quadratic formula
-      let a = Math.pow(m, 2) + 1;
+      const a = Math.pow(m, 2) + 1;
 
       // calculate discriminant
-      let x = this.getP0().getX();
-      let y = this.getP0().getY();
+      const x = this.getP0().getX();
+      const y = this.getP0().getY();
 
-      let b = m * 2 * (y - m * x);
-      let c = Math.pow(y, 2) + Math.pow(x * m, 2) - 2 * m * x * y - 1;
+      const b = m * 2 * (y - m * x);
+      const c = Math.pow(y, 2) + Math.pow(x * m, 2) - 2 * m * x * y - 1;
 
-      let discriminant = b * b - 4 * a * c;
+      const discriminant = b * b - 4 * a * c;
 
       if (discriminant < -ZERO) {
         return false;
       }
 
       // Treat near-zero discriminant as zero (tangent case)
-      let x0 = (-1 * b - Math.sqrt(Math.abs(discriminant))) / (2 * a);
+      const x0 = (-1 * b - Math.sqrt(Math.abs(discriminant))) / (2 * a);
       // TODO: cast should be safe because discriminant is not negative
-      let y0 = this.euclideanYAtX(x0) as number;
-      let p0 = Point.givenCoordinates(x0, y0);
+      const y0 = this.euclideanYAtX(x0) as number;
+      const p0 = Point.givenCoordinates(x0, y0);
 
       if (Math.abs(discriminant) < ZERO) {
         return [p0];
       }
 
-      let x1 = (-1 * b + Math.sqrt(discriminant)) / (2 * a);
-      let y1 = this.euclideanYAtX(x1);
+      const x1 = (-1 * b + Math.sqrt(discriminant)) / (2 * a);
+      const y1 = this.euclideanYAtX(x1);
 
       // TODO: verify cast
-      let p1 = Point.givenCoordinates(x1, y1 as number);
+      const p1 = Point.givenCoordinates(x1, y1 as number);
 
       this.#euclideanUnitCircleIntersects = [p0, p1];
     }
@@ -227,7 +227,7 @@ export default class Line {
     if (point.isOnPlane() === point.isIdeal()) {
       return false;
     }
-    let g = this.getHyperbolicGeodesic();
+    const g = this.getHyperbolicGeodesic();
     if (g instanceof Circle) {
       return g.includesPoint(point);
     } else if (g instanceof Line) {
@@ -245,8 +245,8 @@ export default class Line {
   }
 
   hyperbolicEquals(otherLine: Line): boolean {
-    let g = this.getHyperbolicGeodesic();
-    let otherG = otherLine.getHyperbolicGeodesic();
+    const g = this.getHyperbolicGeodesic();
+    const otherG = otherLine.getHyperbolicGeodesic();
     if (g instanceof Circle && otherG instanceof Circle) {
       return g.equals(otherG);
     } else if (g instanceof Line && otherG instanceof Line) {
@@ -260,9 +260,9 @@ export default class Line {
     // rotate circle and line by same amount about origin such that line
     // becomes parallel to the x-axis
 
-    let angleOffset = Angle.fromSlope(this.getSlope()) * -1;
+    const angleOffset = Angle.fromSlope(this.getSlope()) * -1;
 
-    let offsetCircle = Circle.givenEuclideanCenterRadius(
+    const offsetCircle = Circle.givenEuclideanCenterRadius(
       circle.getEuclideanCenter().rotateAboutOrigin(angleOffset),
       circle.getEuclideanRadius(),
     );
@@ -281,8 +281,8 @@ export default class Line {
       lineOffset *= (this.euclideanYAtX(0) as number) > 0 ? 1 : -1;
     }
 
-    let offsetIntersects = offsetCircle.pointsAtY(lineOffset);
-    let intersects: Point[] = [];
+    const offsetIntersects = offsetCircle.pointsAtY(lineOffset);
+    const intersects: Point[] = [];
     for (let i = 0; i < offsetIntersects.length; i++) {
       intersects.push(offsetIntersects[i].rotateAboutOrigin(angleOffset * -1));
     }
@@ -290,7 +290,7 @@ export default class Line {
   }
 
   hyperbolicIntersectsWithCircle(circle: Circle): Point[] | false {
-    let g = this.getHyperbolicGeodesic();
+    const g = this.getHyperbolicGeodesic();
 
     if (g instanceof Circle) {
       return Circle.intersects(g, circle);
@@ -343,7 +343,7 @@ export default class Line {
   }
 
   euclideanPerpindicularSlope(): number {
-    let slope = this.getSlope();
+    const slope = this.getSlope();
     if (slope === Infinity) {
       return 0;
     } else if (slope === 0) {
@@ -378,15 +378,15 @@ export default class Line {
   }
 
   #calculateGeodesicThroughTwoIdealPoints(): void {
-    let a0 = this.getP0().getAngle();
-    let a1 = this.getP1().getAngle();
+    const a0 = this.getP0().getAngle();
+    const a1 = this.getP1().getAngle();
     if (Math.abs(a0 - Angle.opposite(a1)) < ZERO) {
       this.#geodesic = this;
     } else {
-      let t0 = Circle.UNIT.euclideanTangentAtPoint(this.getP0());
-      let t1 = Circle.UNIT.euclideanTangentAtPoint(this.getP1());
+      const t0 = Circle.UNIT.euclideanTangentAtPoint(this.getP0());
+      const t1 = Circle.UNIT.euclideanTangentAtPoint(this.getP1());
       // TODO: ensure safety of cast
-      let center = Line.euclideanIntersect(t0, t1) as Point;
+      const center = Line.euclideanIntersect(t0, t1) as Point;
       this.#geodesic = Circle.givenEuclideanCenterRadius(
         center,
         center.euclideanDistanceTo(this.getP0()),
@@ -395,8 +395,8 @@ export default class Line {
   }
 
   #calculateGeodesicThroughOnePointOnPlane(): void {
-    let l0 = Line.givenTwoPoints(this.getP0(), Point.ORIGIN);
-    let l1 = Line.givenTwoPoints(this.getP1(), Point.ORIGIN);
+    const l0 = Line.givenTwoPoints(this.getP0(), Point.ORIGIN);
+    const l1 = Line.givenTwoPoints(this.getP1(), Point.ORIGIN);
 
     if (l0.equals(l1)) {
       // both points are colinear with origin, so geodesic is a Line, itself
@@ -424,10 +424,10 @@ export default class Line {
       return;
     }
 
-    let t0 = Circle.UNIT.euclideanTangentAtPoint(intersects[0]);
-    let t1 = Circle.UNIT.euclideanTangentAtPoint(intersects[1]);
+    const t0 = Circle.UNIT.euclideanTangentAtPoint(intersects[0]);
+    const t1 = Circle.UNIT.euclideanTangentAtPoint(intersects[1]);
 
-    let c = Line.euclideanIntersect(t0, t1);
+    const c = Line.euclideanIntersect(t0, t1);
 
     if (!c) {
       this.#geodesic = false;
@@ -441,8 +441,8 @@ export default class Line {
     let x: number;
     let y: number;
 
-    let l0m = l0.getSlope();
-    let l1m = l1.getSlope();
+    const l0m = l0.getSlope();
+    const l1m = l1.getSlope();
 
     if (l0m === l1m) {
       // lines are parallel; lines may also be the same line
@@ -450,10 +450,10 @@ export default class Line {
       return false;
     }
 
-    let l0x = l0.getP0().getX();
-    let l1x = l1.getP0().getX();
-    let l0y = l0.getP0().getY();
-    let l1y = l1.getP0().getY();
+    const l0x = l0.getP0().getX();
+    const l1x = l1.getP0().getX();
+    const l0y = l0.getP0().getY();
+    const l1y = l1.getP0().getY();
 
     if (l0m === Infinity) {
       x = l0x;
@@ -478,28 +478,28 @@ export default class Line {
     if (!(l0.isOnPlane() && l1.isOnPlane())) {
       return false;
     }
-    let g0 = l0.getHyperbolicGeodesic();
-    let g1 = l1.getHyperbolicGeodesic();
+    const g0 = l0.getHyperbolicGeodesic();
+    const g1 = l1.getHyperbolicGeodesic();
 
-    let g0IsLine = g0 instanceof Line;
-    let g1IsLine = g1 instanceof Line;
+    const g0IsLine = g0 instanceof Line;
+    const g1IsLine = g1 instanceof Line;
 
     if (g0IsLine || g1IsLine) {
       if (g0IsLine && g1IsLine) {
         return Point.ORIGIN;
       }
-      let circle = (g0IsLine ? g1 : g0) as Circle;
-      let line = (g0IsLine ? g0 : g1) as Line;
+      const circle = (g0IsLine ? g1 : g0) as Circle;
+      const line = (g0IsLine ? g0 : g1) as Line;
 
-      let angleOffset = Angle.fromSlope(line.getSlope()) * -1;
+      const angleOffset = Angle.fromSlope(line.getSlope()) * -1;
 
-      let offsetCircle = Circle.givenEuclideanCenterRadius(
+      const offsetCircle = Circle.givenEuclideanCenterRadius(
         circle.getEuclideanCenter().rotateAboutOrigin(angleOffset),
         circle.getEuclideanRadius(),
       );
 
-      let offsetIntersects = offsetCircle.pointsAtY(0);
-      let intersects: Point[] = [];
+      const offsetIntersects = offsetCircle.pointsAtY(0);
+      const intersects: Point[] = [];
       for (let i = 0; i < offsetIntersects.length; i++) {
         intersects.push(
           offsetIntersects[i].rotateAboutOrigin(angleOffset * -1),
@@ -515,7 +515,7 @@ export default class Line {
     }
 
     // TODO: cast is safe as long as geodesics are never false
-    let intersects = Circle.intersects(g0 as Circle, g1 as Circle);
+    const intersects = Circle.intersects(g0 as Circle, g1 as Circle);
 
     if (!intersects) {
       return false;
@@ -546,7 +546,7 @@ export default class Line {
   }
 
   static givenAnglesOfIdealPoints(a0: number, a1: number) {
-    let points = [Point.givenIdealAngle(a0), Point.givenIdealAngle(a1)];
+    const points = [Point.givenIdealAngle(a0), Point.givenIdealAngle(a1)];
     return new Line({
       p0: points[0],
       p1: points[1],

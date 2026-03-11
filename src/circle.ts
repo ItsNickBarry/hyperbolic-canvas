@@ -135,8 +135,8 @@ export default class Circle {
   }
 
   euclideanAngleAt(point: Point): number {
-    let dx = point.getX() - this.getEuclideanCenter().getX();
-    let dy = point.getY() - this.getEuclideanCenter().getY();
+    const dx = point.getX() - this.getEuclideanCenter().getX();
+    const dy = point.getY() - this.getEuclideanCenter().getY();
     return Angle.normalize(Math.atan2(dy, dx));
   }
 
@@ -163,8 +163,8 @@ export default class Circle {
   }
 
   pointsAtX(x: number): Point[] {
-    let values = this.yAtX(x);
-    let points = [];
+    const values = this.yAtX(x);
+    const points = [];
     values.forEach(function (y) {
       points.push(Point.givenCoordinates(x, y));
     });
@@ -172,8 +172,8 @@ export default class Circle {
   }
 
   pointsAtY(y: number): Point[] {
-    let values = this.xAtY(y);
-    let points = [];
+    const values = this.xAtY(y);
+    const points = [];
     values.forEach(function (x) {
       points.push(Point.givenCoordinates(x, y));
     });
@@ -193,8 +193,8 @@ export default class Circle {
   }
 
   xAtY(y: number): number[] {
-    let center = this.getEuclideanCenter();
-    let a = this.#pythagoreanTheorem(y - center.getY());
+    const center = this.getEuclideanCenter();
+    const a = this.#pythagoreanTheorem(y - center.getY());
     if (a) {
       return Math.abs(a) < ZERO
         ? [center.getX()]
@@ -205,8 +205,8 @@ export default class Circle {
   }
 
   yAtX(x: number): number[] {
-    let center = this.getEuclideanCenter();
-    let a = this.#pythagoreanTheorem(x - center.getX());
+    const center = this.getEuclideanCenter();
+    const a = this.#pythagoreanTheorem(x - center.getX());
     if (a) {
       return Math.abs(a) < ZERO
         ? [center.getY()]
@@ -217,25 +217,25 @@ export default class Circle {
   }
 
   #pythagoreanTheorem(b: number): number {
-    let c = this.getEuclideanRadius();
-    let aSquared = Math.pow(c, 2) - Math.pow(b, 2);
+    const c = this.getEuclideanRadius();
+    const aSquared = Math.pow(c, 2) - Math.pow(b, 2);
     return Math.abs(aSquared) < ZERO ? 0 : Math.sqrt(aSquared);
   }
 
   #calculateEuclideanCenterRadius(): void {
-    let center = this.getHyperbolicCenter();
+    const center = this.getHyperbolicCenter();
     if (!center) throw 'TODO: verify not possible';
-    let farPoint = this.hyperbolicPointAt(center.getAngle());
+    const farPoint = this.hyperbolicPointAt(center.getAngle());
     if (!farPoint) throw 'TODO: verify not possible';
-    let nearPoint = this.hyperbolicPointAt(Angle.opposite(center.getAngle()));
+    const nearPoint = this.hyperbolicPointAt(Angle.opposite(center.getAngle()));
     if (!nearPoint) throw 'TODO: verify not possible';
-    let diameter = Line.givenTwoPoints(farPoint, nearPoint);
+    const diameter = Line.givenTwoPoints(farPoint, nearPoint);
     this.#euclideanCenter = diameter.getEuclideanMidpoint();
     this.#euclideanRadius = diameter.getEuclideanLength() / 2;
   }
 
   #calculateHyperbolicCenterRadius(): void {
-    let center = this.getEuclideanCenter();
+    const center = this.getEuclideanCenter();
 
     if (center.getEuclideanRadius() + this.getEuclideanRadius() >= 1) {
       // TODO horocycles
@@ -247,9 +247,9 @@ export default class Circle {
         this.#hyperbolicRadius = NaN;
       }
     } else {
-      let farPoint = this.euclideanPointAt(center.getAngle());
-      let nearPoint = this.euclideanPointAt(Angle.opposite(center.getAngle()));
-      let diameter = Line.givenTwoPoints(farPoint, nearPoint);
+      const farPoint = this.euclideanPointAt(center.getAngle());
+      const nearPoint = this.euclideanPointAt(Angle.opposite(center.getAngle()));
+      const diameter = Line.givenTwoPoints(farPoint, nearPoint);
       this.#hyperbolicCenter = diameter.getHyperbolicMidpoint();
       this.#hyperbolicRadius = diameter.getHyperbolicLength() / 2;
     }
@@ -259,12 +259,12 @@ export default class Circle {
     // this function adapted from a post on Stack Overflow by 01AutoMonkey
     // and licensed CC BY-SA 3.0:
     // https://creativecommons.org/licenses/by-sa/3.0/legalcode
-    let x0 = c0.getEuclideanCenter().getX();
-    let y0 = c0.getEuclideanCenter().getY();
-    let r0 = c0.getEuclideanRadius();
-    let x1 = c1.getEuclideanCenter().getX();
-    let y1 = c1.getEuclideanCenter().getY();
-    let r1 = c1.getEuclideanRadius();
+    const x0 = c0.getEuclideanCenter().getX();
+    const y0 = c0.getEuclideanCenter().getY();
+    const r0 = c0.getEuclideanRadius();
+    const x1 = c1.getEuclideanCenter().getX();
+    const y1 = c1.getEuclideanCenter().getY();
+    const r1 = c1.getEuclideanRadius();
 
     let a, dx, dy, d, h, rx, ry;
     let x2, y2;
@@ -316,13 +316,13 @@ export default class Circle {
     ry = dx * (h / d);
 
     /* Determine the absolute intersection points. */
-    let xi = x2 + rx;
-    let xi_prime = x2 - rx;
-    let yi = y2 + ry;
-    let yi_prime = y2 - ry;
+    const xi = x2 + rx;
+    const xi_prime = x2 - rx;
+    const yi = y2 + ry;
+    const yi_prime = y2 - ry;
 
-    let p0 = Point.givenCoordinates(xi, yi);
-    let p1 = Point.givenCoordinates(xi_prime, yi_prime);
+    const p0 = Point.givenCoordinates(xi, yi);
+    const p1 = Point.givenCoordinates(xi_prime, yi_prime);
     return p0.equals(p1) ? [p0] : [p0, p1];
   }
 
@@ -341,7 +341,7 @@ export default class Circle {
   }
 
   static givenTwoPoints(p0: Point, p1: Point): Circle {
-    let l = Line.givenTwoPoints(p0, p1);
+    const l = Line.givenTwoPoints(p0, p1);
     return new Circle({
       euclideanCenter: l.getEuclideanMidpoint(),
       euclideanRadius: l.getEuclideanLength() / 2,
@@ -357,17 +357,17 @@ export default class Circle {
       // points are not unique
       return false;
     }
-    let b0 = Line.givenTwoPoints(p0, p1);
-    let b1 = Line.givenTwoPoints(p1, p2);
+    const b0 = Line.givenTwoPoints(p0, p1);
+    const b1 = Line.givenTwoPoints(p1, p2);
     if (b0.equals(b1)) {
       // all three points are colinear
       return false;
     }
-    let center = Line.euclideanIntersect(
+    const center = Line.euclideanIntersect(
       b0.euclideanPerpindicularBisector(),
       b1.euclideanPerpindicularBisector(),
     ) as Point;
-    let radius = Line.givenTwoPoints(p0, center).getEuclideanLength();
+    const radius = Line.givenTwoPoints(p0, center).getEuclideanLength();
     return new Circle({ euclideanCenter: center, euclideanRadius: radius });
   }
 }

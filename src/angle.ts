@@ -35,7 +35,7 @@ export default class Angle {
   }
 
   static random(quadrant?: Quadrant) {
-    let angle = Math.random() * Math.TAU;
+    const angle = Math.random() * Math.TAU;
     return quadrant ? angle / 4 + (Math.PI / 2) * ((quadrant - 1) % 4) : angle;
   }
 }

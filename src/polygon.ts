@@ -14,8 +14,8 @@ export default class Polygon {
   getLines(): Line[] {
     if (typeof this.#lines === 'undefined') {
       this.#lines = [];
-      let vertices = this.getVertices();
-      let n = vertices.length;
+      const vertices = this.getVertices();
+      const n = vertices.length;
       for (let i = 0; i < vertices.length; i++) {
         this.#lines.push(
           Line.givenTwoPoints(vertices[i], vertices[(i + 1) % n]),
@@ -34,7 +34,7 @@ export default class Polygon {
       return false;
     }
 
-    let vertices = [];
+    const vertices = [];
 
     angles.forEach(function (angle) {
       vertices.push(Point.givenIdealAngle(angle));
@@ -62,8 +62,8 @@ export default class Polygon {
     }
     rotation = rotation ? Angle.normalize(rotation) : 0;
 
-    let increment = Math.TAU / n;
-    let vertices = [];
+    const increment = Math.TAU / n;
+    const vertices = [];
 
     for (let i = 0; i < n; i++) {
       vertices.push(center.euclideanDistantPoint(radius, rotation));
@@ -87,8 +87,8 @@ export default class Polygon {
     }
     rotation = rotation ? Angle.normalize(rotation) : 0;
 
-    let increment = Math.TAU / n;
-    let vertices = [];
+    const increment = Math.TAU / n;
+    const vertices = [];
 
     for (let i = 0; i < n; i++) {
       vertices.push(center.hyperbolicDistantPoint(radius, rotation));
