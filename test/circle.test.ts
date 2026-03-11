@@ -88,6 +88,10 @@ describe('Circle', function () {
       assert.strictEqual(circle.getUnitCircleIntersects(), false);
     });
 
+    it('is on plane', function () {
+      assert.strictEqual(circle.isOnPlane(), true);
+    });
+
     it('contains Point within its radius', function () {
       const point = circle
         .getEuclideanCenter()
@@ -403,6 +407,10 @@ describe('Circle', function () {
 
     it('does not have hyperbolic radius', function () {
       assert(Number.isNaN(circle.getHyperbolicRadius()));
+    });
+
+    it('is not on plane', function () {
+      assert.strictEqual(circle.isOnPlane(), false);
     });
   });
 

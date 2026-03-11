@@ -134,6 +134,13 @@ export default class Circle {
     );
   }
 
+  isOnPlane(): boolean {
+    return (
+      this.getEuclideanCenter().getEuclideanRadius() + this.getEuclideanRadius() <
+      1
+    );
+  }
+
   euclideanAngleAt(point: Point): number {
     const dx = point.getX() - this.getEuclideanCenter().getX();
     const dy = point.getY() - this.getEuclideanCenter().getY();
