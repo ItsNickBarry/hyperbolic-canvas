@@ -1,14 +1,10 @@
-import { describe, it, beforeEach } from 'node:test';
-import assert from 'node:assert';
 import { Angle, Circle, Line, Point } from '../src/index.js';
-import {
-  assertApproximate,
-  assertIsRealNumber,
-  assertIsA,
-} from './helpers.js';
+import { assertApproximate, assertIsRealNumber, assertIsA } from './helpers.js';
+import assert from 'node:assert';
+import { describe, it, beforeEach } from 'node:test';
 
 describe('Circle', function () {
-  let circle: InstanceType<typeof Circle>;
+  let circle: Circle;
 
   describe('on hyperbolic plane', function () {
     beforeEach(function () {
@@ -29,7 +25,11 @@ describe('Circle', function () {
         circle.getEuclideanRadius(),
         clone.getEuclideanRadius(),
       );
-      assert(circle.getHyperbolicCenter().equals(clone.getHyperbolicCenter()));
+      assert(
+        (circle.getHyperbolicCenter() as Point).equals(
+          clone.getHyperbolicCenter() as Point,
+        ),
+      );
       assertApproximate(
         circle.getHyperbolicRadius(),
         clone.getHyperbolicRadius(),
@@ -38,9 +38,9 @@ describe('Circle', function () {
 
     it('equals equivalent Circle', function () {
       const otherCircle = Circle.givenHyperbolicCenterRadius(
-        circle.getHyperbolicCenter(),
+        circle.getHyperbolicCenter() as Point,
         circle.getHyperbolicRadius(),
-      );
+      ) as Circle;
       assert(circle.equals(otherCircle));
     });
 
@@ -101,10 +101,7 @@ describe('Circle', function () {
     it('includes Point on its circumference', function () {
       const point = circle
         .getEuclideanCenter()
-        .euclideanDistantPoint(
-          circle.getEuclideanRadius(),
-          Angle.random(),
-        );
+        .euclideanDistantPoint(circle.getEuclideanRadius(), Angle.random());
       assert(circle.includesPoint(point));
     });
 
@@ -120,7 +117,7 @@ describe('Circle', function () {
 
     describe('when mapping angles from center to Points on edge', function () {
       let angle: number;
-      let point: InstanceType<typeof Point>;
+      let point: Point;
 
       describe('along Euclidean geodesics', function () {
         it('has angle from center towards Point', function () {
@@ -146,7 +143,7 @@ describe('Circle', function () {
 
         it('has Point on edge at given angle', function () {
           angle = Angle.random();
-          point = circle.hyperbolicPointAt(angle);
+          point = circle.hyperbolicPointAt(angle) as Point;
           assertIsA(point, Point);
 
           assertApproximate(circle.hyperbolicAngleAt(point), angle);
@@ -163,7 +160,7 @@ describe('Circle', function () {
       beforeEach(function () {
         euclideanCenter = circle.getEuclideanCenter();
         euclideanRadius = circle.getEuclideanRadius();
-        hyperbolicCenter = circle.getHyperbolicCenter();
+        hyperbolicCenter = circle.getHyperbolicCenter() as Point;
         hyperbolicRadius = circle.getHyperbolicRadius();
       });
 
@@ -411,10 +408,7 @@ describe('Circle', function () {
 
   describe('given Euclidean center and radius', function () {
     beforeEach(function () {
-      circle = Circle.givenEuclideanCenterRadius(
-        Point.random(),
-        Math.random(),
-      );
+      circle = Circle.givenEuclideanCenterRadius(Point.random(), Math.random());
     });
 
     it('is a Circle', function () {
@@ -437,10 +431,7 @@ describe('Circle', function () {
 
   describe('given two points', function () {
     beforeEach(function () {
-      circle = Circle.givenTwoPoints(
-        Point.random(),
-        Point.random(),
-      );
+      circle = Circle.givenTwoPoints(Point.random(), Point.random());
     });
 
     it('is a Circle', function () {
@@ -467,18 +458,13 @@ describe('Circle', function () {
     let c1: InstanceType<typeof Circle>;
 
     beforeEach(function () {
-      c0 = Circle.givenEuclideanCenterRadius(
-        Point.random(),
-        Math.random(),
-      );
+      c0 = Circle.givenEuclideanCenterRadius(Point.random(), Math.random());
     });
 
     describe('where Circles are too far apart to intersect', function () {
       beforeEach(function () {
         c1 = Circle.givenEuclideanCenterRadius(
-          c0
-            .getEuclideanCenter()
-            .euclideanDistantPoint(2, Angle.random()),
+          c0.getEuclideanCenter().euclideanDistantPoint(2, Angle.random()),
           1,
         );
       });
@@ -494,10 +480,7 @@ describe('Circle', function () {
         c1 = Circle.givenEuclideanCenterRadius(
           c0
             .getEuclideanCenter()
-            .euclideanDistantPoint(
-              (r / 2) * Math.random(),
-              Angle.random(),
-            ),
+            .euclideanDistantPoint((r / 2) * Math.random(), Angle.random()),
           (r / 2) * Math.random(),
         );
       });
@@ -511,15 +494,14 @@ describe('Circle', function () {
       beforeEach(function () {
         const center = c0
           .getEuclideanCenter()
-          .euclideanDistantPoint(
-            c0.getEuclideanRadius(),
-            Angle.random(),
-          );
+          .euclideanDistantPoint(c0.getEuclideanRadius(), Angle.random());
         c1 = Circle.givenEuclideanCenterRadius(center, c0.getEuclideanRadius());
       });
 
       it('is an Array of two Points', function () {
-        const intersects = Circle.intersects(c0, c1) as InstanceType<typeof Point>[];
+        const intersects = Circle.intersects(c0, c1) as InstanceType<
+          typeof Point
+        >[];
         assertIsA(intersects, Array);
         assert.strictEqual(intersects.length, 2);
         intersects.forEach(function (intersect) {
@@ -530,14 +512,8 @@ describe('Circle', function () {
 
     describe('where circles are coincident', function () {
       it('returns false', function () {
-        const c0 = Circle.givenEuclideanCenterRadius(
-          Point.ORIGIN,
-          0.5,
-        );
-        const c1 = Circle.givenEuclideanCenterRadius(
-          Point.ORIGIN,
-          0.5,
-        );
+        const c0 = Circle.givenEuclideanCenterRadius(Point.ORIGIN, 0.5);
+        const c1 = Circle.givenEuclideanCenterRadius(Point.ORIGIN, 0.5);
         assert.strictEqual(Circle.intersects(c0, c1), false);
       });
     });
@@ -553,14 +529,8 @@ describe('Circle', function () {
     });
 
     it('has Euclidean and hyperbolic center at origin', function () {
-      assert.strictEqual(
-        circle.getEuclideanCenter(),
-        Point.ORIGIN,
-      );
-      assert.strictEqual(
-        circle.getHyperbolicCenter(),
-        Point.ORIGIN,
-      );
+      assert.strictEqual(circle.getEuclideanCenter(), Point.ORIGIN);
+      assert.strictEqual(circle.getHyperbolicCenter(), Point.ORIGIN);
     });
 
     it('has Euclidean area of pi', function () {
@@ -589,9 +559,7 @@ describe('Circle', function () {
       assert(
         circle
           .euclideanPointAt(angle)
-          .equals(
-            Point.givenEuclideanPolarCoordinates(1, angle),
-          ),
+          .equals(Point.givenEuclideanPolarCoordinates(1, angle)),
       );
     });
 
@@ -619,11 +587,9 @@ describe('Circle', function () {
     it('calculates Point in direction of angle along hyperbolic geodesic', function () {
       const angle = Angle.random();
       assert(
-        circle
-          .hyperbolicPointAt(angle)
-          .equals(
-            Point.givenEuclideanPolarCoordinates(1, angle),
-          ),
+        (circle.hyperbolicPointAt(angle) as Point).equals(
+          Point.givenEuclideanPolarCoordinates(1, angle),
+        ),
       );
     });
   });

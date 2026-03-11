@@ -1,15 +1,11 @@
-import { describe, it, beforeEach } from 'node:test';
-import assert from 'node:assert';
 import { Point, Angle } from '../src/index.js';
 import type { Quadrant } from '../src/types.js';
-import {
-  assertApproximate,
-  assertIsRealNumber,
-  assertIsA,
-} from './helpers.js';
+import { assertApproximate, assertIsRealNumber, assertIsA } from './helpers.js';
+import assert from 'node:assert';
+import { describe, it, beforeEach } from 'node:test';
 
 describe('Point', function () {
-  let point: InstanceType<typeof Point>;
+  let point: Point;
 
   describe('generated at random on hyperbolic plane', function () {
     let quadrant: Quadrant;
@@ -66,10 +62,7 @@ describe('Point', function () {
         opposite.getEuclideanRadius(),
         point.getEuclideanRadius(),
       );
-      assertApproximate(
-        opposite.getAngle(),
-        Angle.opposite(point.getAngle()),
-      );
+      assertApproximate(opposite.getAngle(), Angle.opposite(point.getAngle()));
     });
 
     it('has Point rotated about origin', function () {
@@ -141,10 +134,7 @@ describe('Point', function () {
       it('is reversible', function () {
         assert(
           distantPoint
-            .euclideanDistantPoint(
-              distance,
-              Angle.opposite(direction),
-            )
+            .euclideanDistantPoint(distance, Angle.opposite(direction))
             .equals(point),
         );
       });
@@ -161,7 +151,10 @@ describe('Point', function () {
         });
 
         it('calculates location of distant point along hyperbolic geodesic', function () {
-          const distantPoint = point.hyperbolicDistantPoint(distance, direction);
+          const distantPoint = point.hyperbolicDistantPoint(
+            distance,
+            direction,
+          );
           assertIsA(distantPoint, Point);
           assert(distantPoint.isOnPlane());
 
@@ -169,7 +162,10 @@ describe('Point', function () {
         });
 
         it('stores instantaneous angle of travel at destination on distant Point', function () {
-          const distantPoint = point.hyperbolicDistantPoint(distance, direction);
+          const distantPoint = point.hyperbolicDistantPoint(
+            distance,
+            direction,
+          );
           assertIsRealNumber(distantPoint.getDirection());
         });
 
@@ -186,7 +182,10 @@ describe('Point', function () {
         });
 
         it('is reversible', function () {
-          const distantPoint0 = point.hyperbolicDistantPoint(distance, direction);
+          const distantPoint0 = point.hyperbolicDistantPoint(
+            distance,
+            direction,
+          );
           const distantPoint1 = distantPoint0.hyperbolicDistantPoint(
             distance,
             Angle.opposite(distantPoint0.getDirection()),
@@ -318,7 +317,7 @@ describe('Point', function () {
     beforeEach(function () {
       p0 = Point.random();
       p1 = Point.random();
-      point = Point.hyperbolicBetween(p0, p1);
+      point = Point.hyperbolicBetween(p0, p1) as Point;
     });
 
     it('is equidistant to other points at half total distance', function () {
@@ -428,9 +427,9 @@ describe('Point', function () {
   describe('given hyperbolic polar coordinates', function () {
     beforeEach(function () {
       point = Point.givenHyperbolicPolarCoordinates(
-      Math.random() * 10,
-      Angle.random(),
-    );
+        Math.random() * 10,
+        Angle.random(),
+      );
     });
 
     it('has angle and hyperbolic radius', function () {

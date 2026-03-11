@@ -3,15 +3,15 @@ import Line from './line.js';
 import Point from './point.js';
 
 export default class Polygon {
-  #vertices;
-  #lines;
+  #vertices: Point[];
+  #lines: Line[];
 
   constructor(options) {
     this.#vertices = options.vertices;
     this.#lines = options.lines;
   }
 
-  getLines() {
+  getLines(): Line[] {
     if (typeof this.#lines === 'undefined') {
       this.#lines = [];
       let vertices = this.getVertices();
@@ -25,11 +25,11 @@ export default class Polygon {
     return this.#lines;
   }
 
-  getVertices() {
+  getVertices(): Point[] {
     return this.#vertices;
   }
 
-  static givenAnglesOfIdealVertices(angles) {
+  static givenAnglesOfIdealVertices(angles: number[]): Polygon | false {
     if (angles.length < 3) {
       return false;
     }
@@ -43,7 +43,7 @@ export default class Polygon {
     return Polygon.givenVertices(vertices);
   }
 
-  static givenVertices(vertices) {
+  static givenVertices(vertices: Point[]): Polygon | false {
     if (vertices.length < 3) {
       return false;
     }
@@ -51,7 +51,12 @@ export default class Polygon {
     return new Polygon({ vertices: vertices });
   }
 
-  static givenEuclideanNCenterRadius(n, center, radius, rotation) {
+  static givenEuclideanNCenterRadius(
+    n: number,
+    center: Point,
+    radius: number,
+    rotation: number,
+  ): Polygon | false {
     if (n < 3) {
       return false;
     }
@@ -68,7 +73,12 @@ export default class Polygon {
     return new Polygon({ vertices: vertices });
   }
 
-  static givenHyperbolicNCenterRadius(n, center, radius, rotation) {
+  static givenHyperbolicNCenterRadius(
+    n: number,
+    center: Point,
+    radius: number,
+    rotation: number,
+  ): Polygon | false {
     if (n < 3) {
       return false;
     }

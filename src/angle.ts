@@ -3,34 +3,34 @@ import type { Quadrant } from './types.js';
 const DEGREES_TO_RADIANS = Math.PI / 180;
 
 export default class Angle {
-  static normalize(angle) {
-    if (angle < 0) {
-      return Math.abs(Math.floor(angle / Math.TAU)) * Math.TAU + angle;
-    } else if (angle >= Math.TAU) {
-      return angle % Math.TAU;
+  static normalize(radians: number): number {
+    if (radians < 0) {
+      return Math.abs(Math.floor(radians / Math.TAU)) * Math.TAU + radians;
+    } else if (radians >= Math.TAU) {
+      return radians % Math.TAU;
     } else {
-      return angle;
+      return radians;
     }
   }
 
-  static fromDegrees(degrees) {
+  static fromDegrees(degrees: number): number {
     return Angle.normalize(degrees * DEGREES_TO_RADIANS);
   }
 
-  static toDegrees(radians) {
+  static toDegrees(radians: number): number {
     return (radians / DEGREES_TO_RADIANS) % 360;
   }
 
-  static opposite(angle) {
-    return Angle.normalize(angle + Math.PI);
+  static opposite(radians: number): number {
+    return Angle.normalize(radians + Math.PI);
   }
 
-  static toSlope(angle) {
+  static toSlope(radians: number): number {
     // TODO should this return Infinity?
-    return Math.tan(angle);
+    return Math.tan(radians);
   }
 
-  static fromSlope(slope) {
+  static fromSlope(slope: number): number {
     return Math.atan(slope);
   }
 

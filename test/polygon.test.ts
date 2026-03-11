@@ -1,7 +1,7 @@
-import { describe, it, beforeEach } from 'node:test';
-import assert from 'node:assert';
 import { Angle, Line, Polygon, Point } from '../src/index.js';
 import { assertApproximate, assertIsA } from './helpers.js';
+import assert from 'node:assert';
+import { describe, it, beforeEach } from 'node:test';
 
 describe('Polygon', function () {
   let polygon: InstanceType<typeof Polygon>;
@@ -99,11 +99,10 @@ describe('Polygon', function () {
       });
 
       it('has first vertex at given rotation angle', function () {
-        const firstVertex = polygon.getVertices()[0] as InstanceType<typeof Point>;
-        assertApproximate(
-          firstVertex.euclideanAngleFrom(center),
-          rotation,
-        );
+        const firstVertex = polygon.getVertices()[0] as InstanceType<
+          typeof Point
+        >;
+        assertApproximate(firstVertex.euclideanAngleFrom(center), rotation);
       });
 
       it('has n lines of type Line', function () {
@@ -116,7 +115,7 @@ describe('Polygon', function () {
       });
 
       it('has lines of equal Euclidean length', function () {
-        const lengths = [];
+        const lengths: number[] = [];
         const lines = polygon.getLines() as InstanceType<typeof Line>[];
         lines.forEach(function (line) {
           lengths.push(line.getEuclideanLength());
@@ -149,11 +148,10 @@ describe('Polygon', function () {
       });
 
       it('has first vertex at given rotation angle', function () {
-        const firstVertex = polygon.getVertices()[0] as InstanceType<typeof Point>;
-        assertApproximate(
-          firstVertex.hyperbolicAngleFrom(center),
-          rotation,
-        );
+        const firstVertex = polygon.getVertices()[0] as InstanceType<
+          typeof Point
+        >;
+        assertApproximate(firstVertex.hyperbolicAngleFrom(center), rotation);
       });
 
       it('has n lines of type Line', function () {
@@ -166,7 +164,7 @@ describe('Polygon', function () {
       });
 
       it('has lines of equal hyperbolic length', function () {
-        const lengths = [];
+        const lengths: number[] = [];
         const lines = polygon.getLines() as InstanceType<typeof Line>[];
         lines.forEach(function (line) {
           lengths.push(line.getHyperbolicLength());

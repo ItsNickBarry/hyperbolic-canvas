@@ -5,15 +5,15 @@ import Point from './point.js';
 
 export default class Circle {
   static UNIT: Circle;
-  #euclideanCenter;
-  #euclideanRadius;
-  #hyperbolicCenter;
-  #hyperbolicRadius;
-  #euclideanArea;
-  #euclideanCircumference;
-  #hyperbolicArea;
-  #hyperbolicCircumference;
-  #unitCircleIntersects;
+  #euclideanCenter: Point;
+  #euclideanRadius: number;
+  #hyperbolicCenter: Point | false;
+  #hyperbolicRadius: number;
+  #euclideanArea: number;
+  #euclideanCircumference: number;
+  #hyperbolicArea: number;
+  #hyperbolicCircumference: number;
+  #unitCircleIntersects: Point[] | false;
 
   constructor(options) {
     this.#euclideanCenter = options.euclideanCenter;
@@ -30,39 +30,39 @@ export default class Circle {
     }
   }
 
-  getEuclideanArea() {
+  getEuclideanArea(): number {
     if (typeof this.#euclideanArea === 'undefined') {
       this.#euclideanArea = Math.PI * Math.pow(this.getEuclideanRadius(), 2);
     }
     return this.#euclideanArea;
   }
 
-  getEuclideanCenter() {
+  getEuclideanCenter(): Point {
     if (typeof this.#euclideanCenter === 'undefined') {
       this.#calculateEuclideanCenterRadius();
     }
     return this.#euclideanCenter;
   }
 
-  getEuclideanCircumference() {
+  getEuclideanCircumference(): number {
     if (typeof this.#euclideanCircumference === 'undefined') {
       this.#euclideanCircumference = Math.TAU * this.getEuclideanRadius();
     }
     return this.#euclideanCircumference;
   }
 
-  getEuclideanDiameter() {
+  getEuclideanDiameter(): number {
     return this.getEuclideanRadius() * 2;
   }
 
-  getEuclideanRadius() {
+  getEuclideanRadius(): number {
     if (typeof this.#euclideanRadius === 'undefined') {
       this.#calculateEuclideanCenterRadius();
     }
     return this.#euclideanRadius;
   }
 
-  getHyperbolicArea() {
+  getHyperbolicArea(): number {
     if (typeof this.#hyperbolicArea === 'undefined') {
       this.#hyperbolicArea =
         Math.TAU * (Math.cosh(this.getHyperbolicRadius()) - 1);
@@ -70,14 +70,14 @@ export default class Circle {
     return this.#hyperbolicArea;
   }
 
-  getHyperbolicCenter() {
+  getHyperbolicCenter(): Point | false {
     if (typeof this.#hyperbolicCenter === 'undefined') {
       this.#calculateHyperbolicCenterRadius();
     }
     return this.#hyperbolicCenter;
   }
 
-  getHyperbolicCircumference() {
+  getHyperbolicCircumference(): number {
     if (typeof this.#hyperbolicCircumference === 'undefined') {
       this.#hyperbolicCircumference =
         Math.TAU * Math.sinh(this.getHyperbolicRadius());
@@ -85,32 +85,32 @@ export default class Circle {
     return this.#hyperbolicCircumference;
   }
 
-  getHyperbolicDiameter() {
+  getHyperbolicDiameter(): number {
     return this.getHyperbolicRadius() * 2;
   }
 
-  getHyperbolicRadius() {
+  getHyperbolicRadius(): number {
     if (typeof this.#hyperbolicRadius === 'undefined') {
       this.#calculateHyperbolicCenterRadius();
     }
     return this.#hyperbolicRadius;
   }
 
-  getUnitCircleIntersects() {
+  getUnitCircleIntersects(): Point[] | false {
     if (typeof this.#unitCircleIntersects === 'undefined') {
       this.#unitCircleIntersects = Circle.intersects(this, Circle.UNIT);
     }
     return this.#unitCircleIntersects;
   }
 
-  clone() {
+  clone(): Circle {
     return Circle.givenEuclideanCenterRadius(
       this.getEuclideanCenter(),
       this.getEuclideanRadius(),
     );
   }
 
-  equals(otherCircle) {
+  equals(otherCircle: Circle): boolean {
     return (
       this.getEuclideanCenter().equals(otherCircle.getEuclideanCenter()) &&
       Math.abs(this.getEuclideanRadius() - otherCircle.getEuclideanRadius()) <
@@ -118,14 +118,14 @@ export default class Circle {
     );
   }
 
-  containsPoint(point) {
+  containsPoint(point: Point): boolean {
     return (
       this.getEuclideanRadius() >
       point.euclideanDistanceTo(this.getEuclideanCenter())
     );
   }
 
-  includesPoint(point) {
+  includesPoint(point: Point): boolean {
     return (
       Math.abs(
         this.getEuclideanRadius() -
@@ -134,13 +134,13 @@ export default class Circle {
     );
   }
 
-  euclideanAngleAt(p) {
-    let dx = p.getX() - this.getEuclideanCenter().getX();
-    let dy = p.getY() - this.getEuclideanCenter().getY();
+  euclideanAngleAt(point: Point): number {
+    let dx = point.getX() - this.getEuclideanCenter().getX();
+    let dy = point.getY() - this.getEuclideanCenter().getY();
     return Angle.normalize(Math.atan2(dy, dx));
   }
 
-  euclideanPointAt(angle) {
+  euclideanPointAt(angle: number): Point {
     return Point.givenCoordinates(
       this.getEuclideanRadius() * Math.cos(angle) +
         this.getEuclideanCenter().getX(),
@@ -149,18 +149,20 @@ export default class Circle {
     );
   }
 
-  hyperbolicAngleAt(p) {
-    return this.getHyperbolicCenter().hyperbolicAngleTo(p);
+  hyperbolicAngleAt(point: Point): number {
+    const hyperbolicCenter = this.getHyperbolicCenter();
+    return hyperbolicCenter && hyperbolicCenter.hyperbolicAngleTo(point);
   }
 
-  hyperbolicPointAt(angle) {
-    return this.getHyperbolicCenter().hyperbolicDistantPoint(
-      this.getHyperbolicRadius(),
-      angle,
+  hyperbolicPointAt(angle: number): Point | false {
+    const hyperbolicCenter = this.getHyperbolicCenter();
+    return (
+      hyperbolicCenter &&
+      hyperbolicCenter.hyperbolicDistantPoint(this.getHyperbolicRadius(), angle)
     );
   }
 
-  pointsAtX(x) {
+  pointsAtX(x: number): Point[] {
     let values = this.yAtX(x);
     let points = [];
     values.forEach(function (y) {
@@ -169,7 +171,7 @@ export default class Circle {
     return points;
   }
 
-  pointsAtY(y) {
+  pointsAtY(y: number): Point[] {
     let values = this.xAtY(y);
     let points = [];
     values.forEach(function (x) {
@@ -178,19 +180,19 @@ export default class Circle {
     return points;
   }
 
-  euclideanTangentAtAngle(angle) {
+  euclideanTangentAtAngle(angle: number): Line {
     return Line.givenPointSlope(
       this.euclideanPointAt(angle),
       -1 / Angle.toSlope(angle),
     );
   }
 
-  euclideanTangentAtPoint(p) {
+  euclideanTangentAtPoint(point: Point): Line {
     // not very mathematical; point is not necessarily on circle
-    return this.euclideanTangentAtAngle(this.euclideanAngleAt(p));
+    return this.euclideanTangentAtAngle(this.euclideanAngleAt(point));
   }
 
-  xAtY(y) {
+  xAtY(y: number): number[] {
     let center = this.getEuclideanCenter();
     let a = this.#pythagoreanTheorem(y - center.getY());
     if (a) {
@@ -202,7 +204,7 @@ export default class Circle {
     }
   }
 
-  yAtX(x) {
+  yAtX(x: number): number[] {
     let center = this.getEuclideanCenter();
     let a = this.#pythagoreanTheorem(x - center.getX());
     if (a) {
@@ -214,22 +216,25 @@ export default class Circle {
     }
   }
 
-  #pythagoreanTheorem(b) {
+  #pythagoreanTheorem(b: number): number {
     let c = this.getEuclideanRadius();
     let aSquared = Math.pow(c, 2) - Math.pow(b, 2);
     return Math.abs(aSquared) < ZERO ? 0 : Math.sqrt(aSquared);
   }
 
-  #calculateEuclideanCenterRadius() {
+  #calculateEuclideanCenterRadius(): void {
     let center = this.getHyperbolicCenter();
+    if (!center) throw 'TODO: verify not possible';
     let farPoint = this.hyperbolicPointAt(center.getAngle());
+    if (!farPoint) throw 'TODO: verify not possible';
     let nearPoint = this.hyperbolicPointAt(Angle.opposite(center.getAngle()));
+    if (!nearPoint) throw 'TODO: verify not possible';
     let diameter = Line.givenTwoPoints(farPoint, nearPoint);
     this.#euclideanCenter = diameter.getEuclideanMidpoint();
     this.#euclideanRadius = diameter.getEuclideanLength() / 2;
   }
 
-  #calculateHyperbolicCenterRadius() {
+  #calculateHyperbolicCenterRadius(): void {
     let center = this.getEuclideanCenter();
 
     if (center.getEuclideanRadius() + this.getEuclideanRadius() >= 1) {
@@ -250,7 +255,7 @@ export default class Circle {
     }
   }
 
-  static intersects(c0, c1) {
+  static intersects(c0: Circle, c1: Circle): Point[] | false {
     // this function adapted from a post on Stack Overflow by 01AutoMonkey
     // and licensed CC BY-SA 3.0:
     // https://creativecommons.org/licenses/by-sa/3.0/legalcode
@@ -321,18 +326,21 @@ export default class Circle {
     return p0.equals(p1) ? [p0] : [p0, p1];
   }
 
-  static givenEuclideanCenterRadius(center, radius) {
+  static givenEuclideanCenterRadius(center: Point, radius: number): Circle {
     return new Circle({ euclideanCenter: center, euclideanRadius: radius });
   }
 
-  static givenHyperbolicCenterRadius(center, radius) {
+  static givenHyperbolicCenterRadius(
+    center: Point,
+    radius: number,
+  ): Circle | false {
     if (!center.isOnPlane()) {
       return false;
     }
     return new Circle({ hyperbolicCenter: center, hyperbolicRadius: radius });
   }
 
-  static givenTwoPoints(p0, p1) {
+  static givenTwoPoints(p0: Point, p1: Point): Circle {
     let l = Line.givenTwoPoints(p0, p1);
     return new Circle({
       euclideanCenter: l.getEuclideanMidpoint(),
@@ -340,7 +348,7 @@ export default class Circle {
     });
   }
 
-  static givenThreePoints(p0, p1, p2) {
+  static givenThreePoints(p0: Point, p1: Point, p2: Point): Circle | false {
     if (!(p0 && p1 && p2)) {
       //not all points exist
       return false;
@@ -358,7 +366,7 @@ export default class Circle {
     let center = Line.euclideanIntersect(
       b0.euclideanPerpindicularBisector(),
       b1.euclideanPerpindicularBisector(),
-    );
+    ) as Point;
     let radius = Line.givenTwoPoints(p0, center).getEuclideanLength();
     return new Circle({ euclideanCenter: center, euclideanRadius: radius });
   }

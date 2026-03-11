@@ -1,17 +1,13 @@
-import { describe, it, beforeEach } from 'node:test';
-import assert from 'node:assert';
 import { Angle, Circle, Line, Point } from '../src/index.js';
-import {
-  assertApproximate,
-  assertIsRealNumber,
-  assertIsA,
-} from './helpers.js';
+import { assertApproximate, assertIsRealNumber, assertIsA } from './helpers.js';
+import assert from 'node:assert';
+import { describe, it, beforeEach } from 'node:test';
 
 describe('Line', function () {
-  let line: InstanceType<typeof Line>;
+  let line: Line;
 
   describe('in general', function () {
-    let point: InstanceType<typeof Point>;
+    let point: Point;
     let slope: number;
 
     describe('with random slope', function () {
@@ -49,18 +45,19 @@ describe('Line', function () {
         assert(line.euclideanIncludesPoint(line.getP0()));
         assert(line.euclideanIncludesPoint(line.getP1()));
         assert(
-          line.euclideanIncludesPoint(line.pointAtEuclideanX(Math.random())),
+          line.euclideanIncludesPoint(
+            line.pointAtEuclideanX(Math.random()) as Point,
+          ),
         );
         assert(
-          line.euclideanIncludesPoint(line.pointAtEuclideanY(Math.random())),
+          line.euclideanIncludesPoint(
+            line.pointAtEuclideanY(Math.random()) as Point,
+          ),
         );
       });
 
       it('is parallel to Line with same slope in Euclidean context', function () {
-        const otherLine = Line.givenPointSlope(
-          Point.random(),
-          line.getSlope(),
-        );
+        const otherLine = Line.givenPointSlope(Point.random(), line.getSlope());
         assert(line.isEuclideanParallelTo(otherLine));
       });
 
@@ -80,10 +77,7 @@ describe('Line', function () {
           perpindicularLine.getSlope(),
           line.euclideanPerpindicularSlope(),
         );
-        assertIsA(
-          Line.euclideanIntersect(line, perpindicularLine),
-          Point,
-        );
+        assertIsA(Line.euclideanIntersect(line, perpindicularLine), Point);
       });
 
       it('has a perpindicular bisector', function () {
@@ -93,35 +87,38 @@ describe('Line', function () {
           bisector.getSlope(),
           line.euclideanPerpindicularSlope(),
         );
-        const intersect = Line.euclideanIntersect(line, bisector) as InstanceType<typeof Point>;
+        const intersect = Line.euclideanIntersect(
+          line,
+          bisector,
+        ) as InstanceType<typeof Point>;
         assert(line.euclideanIncludesPoint(intersect));
         assert(bisector.euclideanIncludesPoint(intersect));
       });
 
       it('has Point for any x value', function () {
-        const p = line.pointAtEuclideanX(Math.random());
+        const p = line.pointAtEuclideanX(Math.random()) as Point;
         assertIsA(p, Point);
         assert(line.euclideanIncludesPoint(p));
       });
 
       it('has Point for any y value', function () {
-        const p = line.pointAtEuclideanY(Math.random());
+        const p = line.pointAtEuclideanY(Math.random()) as Point;
         assertIsA(p, Point);
         assert(line.euclideanIncludesPoint(p));
       });
 
       it('has x value for any y value', function () {
         const y = Math.random() * 2 - 1;
-        const x = line.euclideanXAtY(y);
+        const x = line.euclideanXAtY(y) as number;
         assertIsRealNumber(x);
-        assertApproximate(line.euclideanYAtX(x), y);
+        assertApproximate(line.euclideanYAtX(x) as number, y);
       });
 
       it('has y value for any x value', function () {
         const x = Math.random() * 2 - 1;
-        const y = line.euclideanYAtX(x);
+        const y = line.euclideanYAtX(x) as number;
         assertIsRealNumber(y);
-        assertApproximate(line.euclideanXAtY(y), x);
+        assertApproximate(line.euclideanXAtY(y) as number, x);
       });
     });
 
@@ -176,14 +173,8 @@ describe('Line', function () {
         beforeEach(function () {
           const angle = Angle.random();
           line = Line.givenTwoPoints(
-            Point.givenEuclideanPolarCoordinates(
-              Math.random(),
-              angle,
-            ),
-            Point.givenEuclideanPolarCoordinates(
-              Math.random() * -1,
-              angle,
-            ),
+            Point.givenEuclideanPolarCoordinates(Math.random(), angle),
+            Point.givenEuclideanPolarCoordinates(Math.random() * -1, angle),
           );
         });
 
@@ -222,14 +213,13 @@ describe('Line', function () {
           const circle = Circle.givenEuclideanCenterRadius(
             line
               .getP0()
-              .euclideanDistantPoint(
-                radius * Math.random(),
-                Angle.random(),
-              ),
+              .euclideanDistantPoint(radius * Math.random(), Angle.random()),
             radius + 1,
           );
 
-          const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
+          const intersects = line.euclideanIntersectsWithCircle(
+            circle,
+          ) as InstanceType<typeof Point>[];
 
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
@@ -243,14 +233,13 @@ describe('Line', function () {
           const circle = Circle.givenHyperbolicCenterRadius(
             line
               .getP0()
-              .hyperbolicDistantPoint(
-                radius * Math.random(),
-                Angle.random(),
-              ),
+              .hyperbolicDistantPoint(radius * Math.random(), Angle.random()),
             radius + 1,
-          );
+          ) as Circle;
 
-          const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
+          const intersects = line.hyperbolicIntersectsWithCircle(
+            circle,
+          ) as InstanceType<typeof Point>[];
 
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
@@ -269,7 +258,7 @@ describe('Line', function () {
         });
 
         it('has hyperbolic midpoint', function () {
-          const midpoint = line.getHyperbolicMidpoint();
+          const midpoint = line.getHyperbolicMidpoint() as Point;
           assertIsA(midpoint, Point);
           const angle0 = midpoint.hyperbolicAngleTo(line.getP0());
           const angle1 = Angle.opposite(
@@ -279,7 +268,9 @@ describe('Line', function () {
         });
 
         it('has ideal Points and Line', function () {
-          const idealPoints = line.getIdealPoints() as InstanceType<typeof Point>[];
+          const idealPoints = line.getIdealPoints() as InstanceType<
+            typeof Point
+          >[];
           const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
           assertIsA(idealPoints, Array);
           assert.strictEqual(idealPoints.length, 2);
@@ -292,7 +283,10 @@ describe('Line', function () {
         });
 
         it('has Euclidean unit circle intersects with opposite angles', function () {
-          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof Point>[];
+          const intersects =
+            line.getEuclideanUnitCircleIntersects() as InstanceType<
+              typeof Point
+            >[];
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
           assertApproximate(
@@ -336,14 +330,8 @@ describe('Line', function () {
         beforeEach(function () {
           const angle = Angle.random();
           line = Line.givenTwoPoints(
-            Point.givenEuclideanPolarCoordinates(
-              Math.random(),
-              angle,
-            ),
-            Point.givenEuclideanPolarCoordinates(
-              Math.random(),
-              angle,
-            ),
+            Point.givenEuclideanPolarCoordinates(Math.random(), angle),
+            Point.givenEuclideanPolarCoordinates(Math.random(), angle),
           );
         });
 
@@ -382,14 +370,13 @@ describe('Line', function () {
           const circle = Circle.givenEuclideanCenterRadius(
             line
               .getP0()
-              .euclideanDistantPoint(
-                radius * Math.random(),
-                Angle.random(),
-              ),
+              .euclideanDistantPoint(radius * Math.random(), Angle.random()),
             radius + 1,
           );
 
-          const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
+          const intersects = line.euclideanIntersectsWithCircle(
+            circle,
+          ) as InstanceType<typeof Point>[];
 
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
@@ -403,14 +390,13 @@ describe('Line', function () {
           const circle = Circle.givenHyperbolicCenterRadius(
             line
               .getP0()
-              .hyperbolicDistantPoint(
-                radius * Math.random(),
-                Angle.random(),
-              ),
+              .hyperbolicDistantPoint(radius * Math.random(), Angle.random()),
             radius + 1,
-          );
+          ) as Circle;
 
-          const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
+          const intersects = line.hyperbolicIntersectsWithCircle(
+            circle,
+          ) as InstanceType<typeof Point>[];
 
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
@@ -429,7 +415,7 @@ describe('Line', function () {
         });
 
         it('has hyperbolic midpoint', function () {
-          const midpoint = line.getHyperbolicMidpoint();
+          const midpoint = line.getHyperbolicMidpoint() as Point;
           assertIsA(midpoint, Point);
           const angle0 = midpoint.hyperbolicAngleTo(line.getP0());
           const angle1 = Angle.opposite(
@@ -439,7 +425,9 @@ describe('Line', function () {
         });
 
         it('has ideal Points and Line', function () {
-          const idealPoints = line.getIdealPoints() as InstanceType<typeof Point>[];
+          const idealPoints = line.getIdealPoints() as InstanceType<
+            typeof Point
+          >[];
           const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
           assertIsA(idealPoints, Array);
           assert.strictEqual(idealPoints.length, 2);
@@ -452,7 +440,10 @@ describe('Line', function () {
         });
 
         it('has Euclidean unit circle intersects with opposite angles', function () {
-          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof Point>[];
+          const intersects =
+            line.getEuclideanUnitCircleIntersects() as InstanceType<
+              typeof Point
+            >[];
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
           assertApproximate(
@@ -473,10 +464,7 @@ describe('Line', function () {
 
     describe('not along diameter', function () {
       beforeEach(function () {
-        line = Line.givenTwoPoints(
-          Point.random(),
-          Point.random(),
-        );
+        line = Line.givenTwoPoints(Point.random(), Point.random());
       });
 
       it('is on plane', function () {
@@ -514,14 +502,13 @@ describe('Line', function () {
         const circle = Circle.givenEuclideanCenterRadius(
           line
             .getP0()
-            .euclideanDistantPoint(
-              radius * Math.random(),
-              Angle.random(),
-            ),
+            .euclideanDistantPoint(radius * Math.random(), Angle.random()),
           radius,
         );
 
-        const intersects = line.euclideanIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
+        const intersects = line.euclideanIntersectsWithCircle(
+          circle,
+        ) as InstanceType<typeof Point>[];
 
         assertIsA(intersects, Array);
         assert.strictEqual(intersects.length, 2);
@@ -534,14 +521,13 @@ describe('Line', function () {
         const circle = Circle.givenHyperbolicCenterRadius(
           line
             .getP0()
-            .hyperbolicDistantPoint(
-              radius * Math.random(),
-              Angle.random(),
-            ),
+            .hyperbolicDistantPoint(radius * Math.random(), Angle.random()),
           radius + 1,
-        );
+        ) as Circle;
 
-        const intersects = line.hyperbolicIntersectsWithCircle(circle) as InstanceType<typeof Point>[];
+        const intersects = line.hyperbolicIntersectsWithCircle(
+          circle,
+        ) as InstanceType<typeof Point>[];
 
         assertIsA(intersects, Array);
         assert.strictEqual(intersects.length, 2);
@@ -560,17 +546,17 @@ describe('Line', function () {
       });
 
       it('has hyperbolic midpoint', function () {
-        const midpoint = line.getHyperbolicMidpoint();
+        const midpoint = line.getHyperbolicMidpoint() as Point;
         assertIsA(midpoint, Point);
         const angle0 = midpoint.hyperbolicAngleTo(line.getP0());
-        const angle1 = Angle.opposite(
-          midpoint.hyperbolicAngleTo(line.getP1()),
-        );
+        const angle1 = Angle.opposite(midpoint.hyperbolicAngleTo(line.getP1()));
         assertApproximate(angle0, angle1);
       });
 
       it('has ideal Points and Line', function () {
-        const idealPoints = line.getIdealPoints() as InstanceType<typeof Point>[];
+        const idealPoints = line.getIdealPoints() as InstanceType<
+          typeof Point
+        >[];
         const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
         assertIsA(idealPoints, Array);
         assert.strictEqual(idealPoints.length, 2);
@@ -583,7 +569,10 @@ describe('Line', function () {
       });
 
       it('has Euclidean unit circle intersects', function () {
-        const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof Point>[];
+        const intersects =
+          line.getEuclideanUnitCircleIntersects() as InstanceType<
+            typeof Point
+          >[];
         assertIsA(intersects, Array);
         assert.strictEqual(intersects.length, 2);
         intersects.forEach(function (intersect) {
@@ -620,10 +609,7 @@ describe('Line', function () {
     beforeEach(function () {
       line = Line.givenTwoPoints(
         Point.random(),
-        Point.givenEuclideanPolarCoordinates(
-          Math.random() + 1,
-          Angle.random(),
-        ),
+        Point.givenEuclideanPolarCoordinates(Math.random() + 1, Angle.random()),
       );
     });
 
@@ -660,10 +646,7 @@ describe('Line', function () {
 
   describe('given point and slope', function () {
     beforeEach(function () {
-      line = Line.givenPointSlope(
-        Point.random(),
-        Line.randomSlope(),
-      );
+      line = Line.givenPointSlope(Point.random(), Line.randomSlope());
     });
 
     it('has point and slope', function () {
@@ -679,10 +662,7 @@ describe('Line', function () {
   describe('given two points', function () {
     describe('on hyperbolic plane', function () {
       beforeEach(function () {
-        line = Line.givenTwoPoints(
-          Point.random(),
-          Point.random(),
-        );
+        line = Line.givenTwoPoints(Point.random(), Point.random());
       });
 
       it('has two points', function () {
@@ -700,9 +680,7 @@ describe('Line', function () {
         beforeEach(function () {
           line = Line.givenTwoPoints(
             Point.random(),
-            Point.givenIdealAngle(
-              Angle.random(),
-            ),
+            Point.givenIdealAngle(Angle.random()),
           );
         });
 
@@ -719,7 +697,9 @@ describe('Line', function () {
         });
 
         it('has ideal Points', function () {
-          const idealPoints = line.getIdealPoints() as InstanceType<typeof Point>[];
+          const idealPoints = line.getIdealPoints() as InstanceType<
+            typeof Point
+          >[];
           assertIsA(idealPoints, Array);
           assert.strictEqual(idealPoints.length, 2);
           idealPoints.forEach(function (point) {
@@ -729,7 +709,10 @@ describe('Line', function () {
         });
 
         it('has Euclidean unit circle intersects', function () {
-          const intersects = line.getEuclideanUnitCircleIntersects() as InstanceType<typeof Point>[];
+          const intersects =
+            line.getEuclideanUnitCircleIntersects() as InstanceType<
+              typeof Point
+            >[];
           assertIsA(intersects, Array);
           assert.strictEqual(intersects.length, 2);
           intersects.forEach(function (intersect) {
@@ -744,10 +727,7 @@ describe('Line', function () {
       describe('along diameter of plane', function () {
         beforeEach(function () {
           const p = Point.random();
-          line = Line.givenTwoPoints(
-            p,
-            Point.givenIdealAngle(p.getAngle()),
-          );
+          line = Line.givenTwoPoints(p, Point.givenIdealAngle(p.getAngle()));
         });
 
         it('is ideal', function () {
@@ -768,10 +748,7 @@ describe('Line', function () {
   describe('given angles of ideal points', function () {
     describe('generated at random', function () {
       beforeEach(function () {
-        line = Line.givenAnglesOfIdealPoints(
-          Angle.random(),
-          Angle.random(),
-        );
+        line = Line.givenAnglesOfIdealPoints(Angle.random(), Angle.random());
       });
 
       it('has two ideal points', function () {
@@ -800,10 +777,7 @@ describe('Line', function () {
     describe('along diameter of plane', function () {
       beforeEach(function () {
         const angle = Angle.random();
-        line = Line.givenAnglesOfIdealPoints(
-          angle,
-          Angle.opposite(angle),
-        );
+        line = Line.givenAnglesOfIdealPoints(angle, Angle.opposite(angle));
       });
 
       it('has two ideal points', function () {
@@ -834,18 +808,12 @@ describe('Line', function () {
     let otherLine: InstanceType<typeof Line>;
 
     beforeEach(function () {
-      line = Line.givenTwoPoints(
-        Point.random(),
-        Point.random(),
-      );
+      line = Line.givenTwoPoints(Point.random(), Point.random());
     });
 
     describe('of parallel lines', function () {
       beforeEach(function () {
-        otherLine = Line.givenPointSlope(
-          Point.random(),
-          line.getSlope(),
-        );
+        otherLine = Line.givenPointSlope(Point.random(), line.getSlope());
       });
 
       it('does not exist', function () {
@@ -855,17 +823,11 @@ describe('Line', function () {
 
     describe('of non-parallel lines', function () {
       beforeEach(function () {
-        otherLine = Line.givenPointSlope(
-          Point.random(),
-          Line.randomSlope(),
-        );
+        otherLine = Line.givenPointSlope(Point.random(), Line.randomSlope());
       });
 
       it('is Point', function () {
-        assertIsA(
-          Line.euclideanIntersect(line, otherLine),
-          Point,
-        );
+        assertIsA(Line.euclideanIntersect(line, otherLine), Point);
       });
     });
 
@@ -875,10 +837,7 @@ describe('Line', function () {
       });
 
       it('is Point', function () {
-        assertIsA(
-          Line.euclideanIntersect(line, otherLine),
-          Point,
-        );
+        assertIsA(Line.euclideanIntersect(line, otherLine), Point);
       });
     });
 
@@ -888,10 +847,7 @@ describe('Line', function () {
       });
 
       it('is Point', function () {
-        assertIsA(
-          Line.euclideanIntersect(line, otherLine),
-          Point,
-        );
+        assertIsA(Line.euclideanIntersect(line, otherLine), Point);
       });
     });
   });
@@ -900,10 +856,7 @@ describe('Line', function () {
     let otherLine: InstanceType<typeof Line>;
 
     beforeEach(function () {
-      line = Line.givenTwoPoints(
-        Point.random(),
-        Point.random(),
-      );
+      line = Line.givenTwoPoints(Point.random(), Point.random());
     });
 
     describe('of parallel lines', function () {
@@ -942,7 +895,10 @@ describe('Line', function () {
         });
 
         it('is Point on plane', function () {
-          const intersect = Line.hyperbolicIntersect(line, otherLine) as InstanceType<typeof Point>;
+          const intersect = Line.hyperbolicIntersect(
+            line,
+            otherLine,
+          ) as InstanceType<typeof Point>;
           assertIsA(intersect, Point);
           assert(intersect.isOnPlane());
           assert(intersect.equals(expectedIntersect));
@@ -959,7 +915,10 @@ describe('Line', function () {
         });
 
         it('is Point on plane', function () {
-          const intersect = Line.hyperbolicIntersect(line, otherLine) as InstanceType<typeof Point>;
+          const intersect = Line.hyperbolicIntersect(
+            line,
+            otherLine,
+          ) as InstanceType<typeof Point>;
           assertIsA(intersect, Point);
           assert(intersect.isOnPlane());
           assert(intersect.equals(expectedIntersect));
@@ -1018,7 +977,7 @@ describe('Line', function () {
       const x = Math.cos(angle);
       const y = Math.sin(angle);
       const p0 = Point.givenCoordinates(x, y);
-      const slope = -x / y;  // perpendicular to radius = tangent
+      const slope = -x / y; // perpendicular to radius = tangent
       const testLine = Line.givenPointSlope(p0, slope);
 
       const intersects = testLine.getEuclideanUnitCircleIntersects();

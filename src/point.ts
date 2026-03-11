@@ -7,12 +7,12 @@ import type { Quadrant } from './types.js';
 export default class Point {
   static ORIGIN: Point;
   static CENTER: Point;
-  #angle;
-  #euclideanRadius;
-  #direction;
-  #hyperbolicRadius;
-  #x;
-  #y;
+  #angle: number;
+  #euclideanRadius: number;
+  #direction: number;
+  #hyperbolicRadius: number;
+  #x: number;
+  #y: number;
 
   constructor(options) {
     this.#angle = options.angle;
@@ -23,14 +23,14 @@ export default class Point {
     this.#y = options.y;
   }
 
-  getAngle() {
+  getAngle(): number {
     if (typeof this.#angle === 'undefined') {
       this.#angle = Angle.normalize(Math.atan2(this.getY(), this.getX()));
     }
     return this.#angle;
   }
 
-  getDirection(direction?) {
+  getDirection(direction?: number): number {
     if (typeof direction !== 'undefined') {
       return Angle.normalize(direction);
     }
@@ -40,7 +40,7 @@ export default class Point {
     return this.getAngle();
   }
 
-  getEuclideanRadius() {
+  getEuclideanRadius(): number {
     if (typeof this.#euclideanRadius === 'undefined') {
       if (typeof this.#x === 'undefined' || typeof this.#y === 'undefined') {
         if (this.getHyperbolicRadius() === Infinity) {
@@ -62,7 +62,7 @@ export default class Point {
     return this.#euclideanRadius;
   }
 
-  getHyperbolicRadius() {
+  getHyperbolicRadius(): number {
     if (typeof this.#hyperbolicRadius === 'undefined') {
       if (this.isIdeal()) {
         this.#hyperbolicRadius = Infinity;
@@ -73,14 +73,14 @@ export default class Point {
     return this.#hyperbolicRadius;
   }
 
-  getX() {
+  getX(): number {
     if (typeof this.#x === 'undefined') {
       this.#x = this.getEuclideanRadius() * Math.cos(this.getAngle());
     }
     return this.#x;
   }
 
-  getY() {
+  getY(): number {
     if (typeof this.#y === 'undefined') {
       this.#y = this.getEuclideanRadius() * Math.sin(this.getAngle());
     }
@@ -105,11 +105,11 @@ export default class Point {
     });
   }
 
-  euclideanAngleFrom(otherPoint) {
+  euclideanAngleFrom(otherPoint: Point): number {
     return otherPoint.euclideanAngleTo(this);
   }
 
-  euclideanAngleTo(otherPoint) {
+  euclideanAngleTo(otherPoint: Point): number {
     return Angle.normalize(
       Math.atan2(
         otherPoint.getY() - this.getY(),
@@ -118,14 +118,14 @@ export default class Point {
     );
   }
 
-  euclideanDistanceTo(otherPoint) {
+  euclideanDistanceTo(otherPoint: Point): number {
     return Math.sqrt(
       Math.pow(this.getX() - otherPoint.getX(), 2) +
         Math.pow(this.getY() - otherPoint.getY(), 2),
     );
   }
 
-  euclideanDistantPoint(distance, direction?) {
+  euclideanDistantPoint(distance: number, direction?: number): Point {
     let bearing = this.getDirection(direction);
     let distantPoint = Point.givenCoordinates(
       this.getX() + Math.cos(bearing) * distance,
@@ -135,11 +135,11 @@ export default class Point {
     return distantPoint;
   }
 
-  hyperbolicAngleFrom(otherPoint) {
+  hyperbolicAngleFrom(otherPoint: Point): number {
     return otherPoint.hyperbolicAngleTo(this);
   }
 
-  hyperbolicAngleTo(otherPoint) {
+  hyperbolicAngleTo(otherPoint: Point): number {
     let geodesic = Line.givenTwoPoints(
       this,
       otherPoint,
@@ -157,7 +157,7 @@ export default class Point {
     return this.euclideanAngleTo(intersect);
   }
 
-  hyperbolicDistanceTo(otherPoint) {
+  hyperbolicDistanceTo(otherPoint: Point): number {
     if (this.isIdeal() || otherPoint.isIdeal()) {
       return Infinity;
     }
@@ -171,7 +171,7 @@ export default class Point {
     );
   }
 
-  hyperbolicDistantPoint(distance, direction?) {
+  hyperbolicDistantPoint(distance: number, direction?: number): Point {
     /*
     Hyperbolic Law of Cosines
     cosh(a) === cosh(b)cosh(c) - sinh(b)sinh(c)cos(alpha)
@@ -262,7 +262,7 @@ export default class Point {
     return distantPoint;
   }
 
-  isIdeal() {
+  isIdeal(): boolean {
     return (
       this.#euclideanRadius === 1 ||
       this.#hyperbolicRadius === Infinity ||
@@ -270,7 +270,7 @@ export default class Point {
     );
   }
 
-  isOnPlane() {
+  isOnPlane(): boolean {
     return (
       this.#euclideanRadius < 1 ||
       this.#hyperbolicRadius < Infinity ||
@@ -278,7 +278,7 @@ export default class Point {
     );
   }
 
-  opposite() {
+  opposite(): Point {
     return Point.givenEuclideanPolarCoordinates(
       this.getEuclideanRadius(),
       Angle.opposite(this.getAngle()),
@@ -289,25 +289,25 @@ export default class Point {
     return Math.floor(this.getAngle() / (Math.PI / 2) + 1) as Quadrant;
   }
 
-  rotateAboutOrigin(angle) {
+  rotateAboutOrigin(angle: number): Point {
     return Point.givenEuclideanPolarCoordinates(
       this.getEuclideanRadius(),
       this.getAngle() + angle,
     );
   }
 
-  #setDirection(direction) {
+  #setDirection(direction: number): void {
     this.#direction = Angle.normalize(direction);
   }
 
-  static euclideanBetween(p0, p1) {
+  static euclideanBetween(p0: Point, p1: Point): Point {
     return new Point({
       x: (p0.getX() + p1.getX()) / 2,
       y: (p0.getY() + p1.getY()) / 2,
     });
   }
 
-  static hyperbolicBetween(p0, p1) {
+  static hyperbolicBetween(p0: Point, p1: Point): Point | false {
     if (!(p0.isOnPlane() && p1.isOnPlane())) {
       return false;
     }
@@ -315,11 +315,11 @@ export default class Point {
     return p0.hyperbolicDistantPoint(d / 2, p0.hyperbolicAngleTo(p1));
   }
 
-  static givenCoordinates(x, y) {
+  static givenCoordinates(x: number, y: number): Point {
     return new Point({ x: x, y: y });
   }
 
-  static givenEuclideanPolarCoordinates(radius, angle) {
+  static givenEuclideanPolarCoordinates(radius: number, angle: number): Point {
     if (radius < 0) {
       angle += Math.PI;
       radius = Math.abs(radius);
@@ -331,7 +331,7 @@ export default class Point {
     });
   }
 
-  static givenHyperbolicPolarCoordinates(radius, angle) {
+  static givenHyperbolicPolarCoordinates(radius: number, angle: number): Point {
     // returns NaN coordinates at distance > 709
     // at angle 0, indistinguishable from limit at distance > 36
     if (radius < 0) {
@@ -345,11 +345,11 @@ export default class Point {
     });
   }
 
-  static givenIdealAngle(angle) {
+  static givenIdealAngle(angle: number): Point {
     return Point.givenEuclideanPolarCoordinates(1, angle);
   }
 
-  static random(quadrant?: Quadrant) {
+  static random(quadrant?: Quadrant): Point {
     return Point.givenEuclideanPolarCoordinates(
       Math.random(),
       Angle.random(quadrant),
