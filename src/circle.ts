@@ -3,6 +3,13 @@ import { TAU, ZERO } from './constants.js';
 import Line from './line.js';
 import Point from './point.js';
 
+interface CircleOptions {
+  euclideanCenter?: Point;
+  euclideanRadius?: number;
+  hyperbolicCenter?: Point;
+  hyperbolicRadius?: number;
+}
+
 export default class Circle {
   static UNIT: Circle;
   #euclideanCenter: Point;
@@ -15,7 +22,7 @@ export default class Circle {
   #hyperbolicCircumference: number;
   #unitCircleIntersects: Point[] | false;
 
-  constructor(options) {
+  constructor(options: CircleOptions) {
     this.#euclideanCenter = options.euclideanCenter;
     if (options.euclideanRadius < 0) {
       this.#euclideanRadius = Math.abs(options.euclideanRadius);

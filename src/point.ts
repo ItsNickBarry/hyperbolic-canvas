@@ -4,17 +4,26 @@ import { ZERO } from './constants.js';
 import Line from './line.js';
 import type { Quadrant } from './types.js';
 
+interface PointOptions {
+  x?: number;
+  y?: number;
+  angle?: number;
+  euclideanRadius?: number;
+  hyperbolicRadius?: number;
+  direction?: number;
+}
+
 export default class Point {
   static ORIGIN: Point;
   static CENTER: Point;
-  #angle: number;
-  #euclideanRadius: number;
-  #direction: number;
-  #hyperbolicRadius: number;
-  #x: number;
-  #y: number;
+  #angle?: number;
+  #euclideanRadius?: number;
+  #direction?: number;
+  #hyperbolicRadius?: number;
+  #x?: number;
+  #y?: number;
 
-  constructor(options) {
+  constructor(options: PointOptions) {
     this.#angle = options.angle;
     this.#euclideanRadius = options.euclideanRadius;
     this.#direction = options.direction;
@@ -87,7 +96,7 @@ export default class Point {
     return this.#y;
   }
 
-  equals(otherPoint) {
+  equals(otherPoint: Point) {
     return (
       Math.abs(this.getX() - otherPoint.getX()) < ZERO &&
       Math.abs(this.getY() - otherPoint.getY()) < ZERO
@@ -145,12 +154,12 @@ export default class Point {
       otherPoint,
     ).getHyperbolicGeodesic();
 
-    let intersect;
+    let intersect: Point;
 
     if (geodesic instanceof Circle) {
       const t0 = geodesic.euclideanTangentAtPoint(this);
       const t1 = geodesic.euclideanTangentAtPoint(otherPoint);
-      intersect = Line.euclideanIntersect(t0, t1);
+      intersect = Line.euclideanIntersect(t0, t1) as Point;
     } else {
       intersect = otherPoint;
     }
@@ -271,11 +280,7 @@ export default class Point {
   }
 
   isOnPlane(): boolean {
-    return (
-      this.#euclideanRadius < 1 ||
-      this.#hyperbolicRadius < Infinity ||
-      this.getEuclideanRadius() < 1
-    );
+    return this.getEuclideanRadius() < 1;
   }
 
   opposite(): Point {

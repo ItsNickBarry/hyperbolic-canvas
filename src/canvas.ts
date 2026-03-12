@@ -7,11 +7,11 @@ import Polygon from './polygon.js';
 // TODO store polygons and circles as hit regions
 
 export default class Canvas {
-  #ctx;
-  #diameter;
-  #radius;
+  #ctx: any;
+  #diameter: number;
+  #radius: number;
 
-  constructor(ctx) {
+  constructor(ctx: any) {
     this.#ctx = ctx;
     const canvas = ctx.canvas;
     const d = (this.#diameter =

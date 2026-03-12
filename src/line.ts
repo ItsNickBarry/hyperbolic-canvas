@@ -3,17 +3,25 @@ import Circle from './circle.js';
 import { INFINITY, ZERO } from './constants.js';
 import Point from './point.js';
 
+interface LineOptions {
+  p0: Point;
+  p1?: Point;
+  m?: number;
+  euclideanUnitCircleIntersects?: Point[];
+  idealPoints?: Point[];
+}
+
 export default class Line {
   #p0: Point;
-  #p1: Point;
-  #m: number;
-  #euclideanUnitCircleIntersects: Point[] | false;
-  #idealPoints: Point[] | false;
-  #geodesic: Circle | Line | false;
-  #euclideanLength: number;
-  #euclideanMidpoint: Point;
-  #hyperbolicLength: number;
-  #hyperbolicMidpoint: Point;
+  #p1?: Point;
+  #m?: number;
+  #euclideanUnitCircleIntersects?: Point[] | false;
+  #idealPoints?: Point[] | false;
+  #geodesic?: Circle | Line | false;
+  #euclideanLength?: number;
+  #euclideanMidpoint?: Point;
+  #hyperbolicLength?: number;
+  #hyperbolicMidpoint?: Point;
 
   // Lazy initialization of constants is required because they reference
   // Point.ORIGIN, which is defined in point.ts. Due to circular
@@ -23,7 +31,7 @@ export default class Line {
   static #xAxis?: Line;
   static #yAxis?: Line;
 
-  constructor(options) {
+  constructor(options: LineOptions) {
     this.#p0 = options.p0;
     this.#p1 = options.p1;
     this.#m = options.m === -Infinity ? Infinity : options.m;
@@ -55,7 +63,7 @@ export default class Line {
         this.#calculateGeodesicThroughOnePointOnPlane();
       }
     }
-    return this.#geodesic;
+    return this.#geodesic!;
   }
 
   getEuclideanLength(): number {

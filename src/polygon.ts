@@ -3,11 +3,16 @@ import { TAU } from './constants.js';
 import Line from './line.js';
 import Point from './point.js';
 
+interface PolygonOptions {
+  vertices: Point[];
+  lines?: Line[];
+}
+
 export default class Polygon {
   #vertices: Point[];
   #lines: Line[];
 
-  constructor(options) {
+  constructor(options: PolygonOptions) {
     this.#vertices = options.vertices;
     this.#lines = options.lines;
   }
