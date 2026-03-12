@@ -14,7 +14,7 @@ export default class Circle {
   static UNIT: Circle;
   #euclideanCenter: Point;
   #euclideanRadius: number;
-  #hyperbolicCenter: Point | false;
+  #hyperbolicCenter?: Point;
   #hyperbolicRadius: number;
   #euclideanArea: number;
   #euclideanCircumference: number;
@@ -76,11 +76,11 @@ export default class Circle {
     return this.#hyperbolicArea;
   }
 
-  getHyperbolicCenter(): Point | false {
+  getHyperbolicCenter(): Point {
     if (typeof this.#hyperbolicCenter === 'undefined') {
       this.#calculateHyperbolicCenterRadius();
     }
-    return this.#hyperbolicCenter;
+    return this.#hyperbolicCenter!;
   }
 
   getHyperbolicCircumference(): number {
@@ -171,11 +171,10 @@ export default class Circle {
     return hyperbolicCenter.hyperbolicAngleTo(point);
   }
 
-  hyperbolicPointAt(angle: number): Point | false {
-    const hyperbolicCenter = this.getHyperbolicCenter();
-    return (
-      hyperbolicCenter &&
-      hyperbolicCenter.hyperbolicDistantPoint(this.getHyperbolicRadius(), angle)
+  hyperbolicPointAt(angle: number): Point {
+    return this.getHyperbolicCenter().hyperbolicDistantPoint(
+      this.getHyperbolicRadius(),
+      angle,
     );
   }
 
@@ -254,16 +253,9 @@ export default class Circle {
   #calculateHyperbolicCenterRadius(): void {
     const center = this.getEuclideanCenter();
 
-    if (center.getEuclideanRadius() + this.getEuclideanRadius() >= 1) {
-      // TODO horocycles
-      if (this.equals(Circle.UNIT)) {
-        this.#hyperbolicCenter = center;
-        this.#hyperbolicRadius = Infinity;
-      } else {
-        this.#hyperbolicCenter = false;
-        this.#hyperbolicRadius = NaN;
-      }
-    } else {
+    // TODO horocycles
+
+    if (this.isOnPlane()) {
       const farPoint = this.euclideanPointAt(center.getAngle());
       const nearPoint = this.euclideanPointAt(
         Angle.opposite(center.getAngle()),
@@ -271,6 +263,11 @@ export default class Circle {
       const diameter = Line.givenTwoPoints(farPoint, nearPoint);
       this.#hyperbolicCenter = diameter.getHyperbolicMidpoint();
       this.#hyperbolicRadius = diameter.getHyperbolicLength() / 2;
+    } else if (this.equals(Circle.UNIT)) {
+      this.#hyperbolicCenter = center;
+      this.#hyperbolicRadius = Infinity;
+    } else {
+      throw new Error('Circle is not on hyperbolic plane');
     }
   }
 

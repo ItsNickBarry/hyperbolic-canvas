@@ -391,23 +391,23 @@ describe('Circle', function () {
     });
 
     it('does not have hyperbolic area', function () {
-      assert(Number.isNaN(circle.getHyperbolicArea()));
+      assert.throws(() => circle.getHyperbolicArea(), /Circle is not on hyperbolic plane/);
     });
 
     it('does not have hyperbolic center', function () {
-      assert.strictEqual(circle.getHyperbolicCenter(), false);
+      assert.throws(() => circle.getHyperbolicCenter(), /Circle is not on hyperbolic plane/);
     });
 
     it('does not have hyperbolic circumference', function () {
-      assert(Number.isNaN(circle.getHyperbolicCircumference()));
+      assert.throws(() => circle.getHyperbolicCircumference(), /Circle is not on hyperbolic plane/);
     });
 
     it('does not have hyperbolic diameter', function () {
-      assert(Number.isNaN(circle.getHyperbolicDiameter()));
+      assert.throws(() => circle.getHyperbolicDiameter(), /Circle is not on hyperbolic plane/);
     });
 
     it('does not have hyperbolic radius', function () {
-      assert(Number.isNaN(circle.getHyperbolicRadius()));
+      assert.throws(() => circle.getHyperbolicRadius(), /Circle is not on hyperbolic plane/);
     });
 
     it('is not on plane', function () {
