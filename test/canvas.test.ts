@@ -25,7 +25,7 @@ describe('Canvas', function () {
         canvas.getRadius() * Math.random(),
         canvas.getRadius() * Math.random(),
       ];
-      const point = canvas.at(coordinates);
+      const point = canvas.getPoint(coordinates);
       assertIsA(point, Point);
     });
   });
@@ -75,7 +75,7 @@ describe('Canvas', function () {
   describe('when converting a Point to canvas coordinates', function () {
     it('returns an Array with length of 2', function () {
       const point = Point.random();
-      const coordinates = canvas.at(point) as number[];
+      const coordinates = canvas.getCoordinates(point);
       assertIsA(coordinates, Array);
       assert.strictEqual(coordinates.length, 2);
       coordinates.forEach(function (n) {

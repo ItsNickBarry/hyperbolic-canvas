@@ -45,19 +45,19 @@ export default class Canvas {
     ctx[property] = value;
   }
 
-  at(loc) {
-    if (loc.__proto__ === Point.prototype) {
-      // scale up
-      const x = (loc.getX() + 1) * this.getRadius();
-      const y = (loc.getY() + 1) * this.getRadius();
-      return [x, this.getDiameter() - y];
-    } else if (loc.__proto__ === Array.prototype) {
-      // scale down
-      return new Point({
-        x: loc[0] / this.getRadius() - 1,
-        y: (this.getDiameter() - loc[1]) / this.getRadius() - 1,
-      });
-    }
+  getCoordinates(point) {
+    // scale up: convert Point to canvas coordinates [x, y]
+    const x = (point.getX() + 1) * this.getRadius();
+    const y = (point.getY() + 1) * this.getRadius();
+    return [x, this.getDiameter() - y];
+  }
+
+  getPoint(coordinates) {
+    // scale down: convert canvas coordinates [x, y] to Point
+    return new Point({
+      x: coordinates[0] / this.getRadius() - 1,
+      y: (this.getDiameter() - coordinates[1]) / this.getRadius() - 1,
+    });
   }
 
   clear() {
@@ -108,7 +108,7 @@ export default class Canvas {
     const r = this.getRadius();
     const difference = Math.TAU / n;
     for (let i = 0; i < n; i++) {
-      const idealPoint = this.at(Point.givenEuclideanPolarCoordinates(1, angle));
+      const idealPoint = this.getCoordinates(Point.givenEuclideanPolarCoordinates(1, angle));
       path.moveTo(r, r);
       path.lineTo(idealPoint[0], idealPoint[1]);
       angle += difference;
@@ -159,8 +159,8 @@ export default class Canvas {
   }
 
   #pathForCircle(c, path) {
-    const center = this.at(c.getEuclideanCenter());
-    const start = this.at(c.euclideanPointAt(0));
+    const center = this.getCoordinates(c.getEuclideanCenter());
+    const start = this.getCoordinates(c.euclideanPointAt(0));
 
     path.moveTo(start[0], start[1]);
 
@@ -175,10 +175,10 @@ export default class Canvas {
   }
 
   #pathForEuclideanLine(l, path, options) {
-    const p1 = this.at(l.getP1());
+    const p1 = this.getCoordinates(l.getP1());
 
     if (!options.connected) {
-      const p0 = this.at(l.getP0());
+      const p0 = this.getCoordinates(l.getP0());
       path.moveTo(p0[0], p0[1]);
     }
     path.lineTo(p1[0], p1[1]);
@@ -186,13 +186,13 @@ export default class Canvas {
   }
 
   #pathForEuclideanPoint(p, path) {
-    const point = this.at(p);
+    const point = this.getCoordinates(p);
     path.lineTo(point[0], point[1]);
     return path;
   }
 
   #pathForEuclideanPolygon(p, path) {
-    const start = this.at(p.getVertices()[0]);
+    const start = this.getCoordinates(p.getVertices()[0]);
     path.moveTo(start[0], start[1]);
 
     const lines = p.getLines();
@@ -206,8 +206,8 @@ export default class Canvas {
     const geodesic = l.getHyperbolicGeodesic();
 
     if (geodesic instanceof Circle) {
-      const p0 = this.at(l.getP0());
-      const p1 = this.at(l.getP1());
+      const p0 = this.getCoordinates(l.getP0());
+      const p1 = this.getCoordinates(l.getP1());
 
       if (options.connected) {
         // not clear why this is necessary
@@ -217,7 +217,7 @@ export default class Canvas {
         path.moveTo(p0[0], p0[1]);
       }
 
-      const control = this.at(
+      const control = this.getCoordinates(
         Line.euclideanIntersect(
           geodesic.euclideanTangentAtPoint(l.getP0()),
           geodesic.euclideanTangentAtPoint(l.getP1()),
@@ -245,7 +245,7 @@ export default class Canvas {
 
   #pathForHyperbolicPolygon(p, path, options) {
     const lines = p.getLines();
-    const start = this.at(p.getVertices()[0]);
+    const start = this.getCoordinates(p.getVertices()[0]);
     if (options.infinite) {
       for (let i = 0; i < lines.length; i++) {
         this.#pathForHyperbolicLine(lines[i].getIdealLine(), path, options);

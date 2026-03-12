@@ -351,11 +351,11 @@ Canvas.prototype.setContextProperty(property, value);
 // set the properties of the 2d context of the underlying HTML canvas
 // lineDash is also supported
 
-Canvas.prototype.at(coordinates);
-// generate a Point given an array of coordinates [x, y] relative to the HTML canvas
-
-Canvas.prototype.at(point);
+Canvas.prototype.getCoordinates(point);
 // generate an array of coordinates [x, y] relative to the HTML canvas given a Point
+
+Canvas.prototype.getPoint(coordinates);
+// generate a Point given an array of coordinates [x, y] relative to the HTML canvas
 
 Canvas.prototype.clear();
 // clear the canvas

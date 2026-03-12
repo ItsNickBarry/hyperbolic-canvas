@@ -15,7 +15,7 @@
     var render = function (event) {
       canvas.clear();
 
-      var point = canvas.at([event.clientX, event.clientY]);
+      var point = canvas.getPoint([event.clientX, event.clientY]);
 
       if (vertices.length >= 2) {
         vertices.push(point);
@@ -46,7 +46,7 @@
     };
 
     var addVertex = function (event) {
-      var point = canvas.at([event.clientX, event.clientY]);
+      var point = canvas.getPoint([event.clientX, event.clientY]);
       if (
         !(vertices.length > 0 && point.equals(vertices[vertices.length - 1]))
       ) {
