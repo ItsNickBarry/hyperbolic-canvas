@@ -1,4 +1,5 @@
 import Angle from './angle.js';
+import { TAU } from './constants.js';
 import Line from './line.js';
 import Point from './point.js';
 
@@ -62,7 +63,7 @@ export default class Polygon {
     }
     rotation = rotation ? Angle.normalize(rotation) : 0;
 
-    const increment = Math.TAU / n;
+    const increment = TAU / n;
     const vertices = [];
 
     for (let i = 0; i < n; i++) {
@@ -87,7 +88,7 @@ export default class Polygon {
     }
     rotation = rotation ? Angle.normalize(rotation) : 0;
 
-    const increment = Math.TAU / n;
+    const increment = TAU / n;
     const vertices = [];
 
     for (let i = 0; i < n; i++) {

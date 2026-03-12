@@ -267,19 +267,16 @@ describe('Line', function () {
           assertApproximate(angle0, angle1);
         });
 
-        it('has ideal Points and Line', function () {
+        it('has ideal Points', function () {
           const idealPoints = line.getIdealPoints() as InstanceType<
             typeof Point
           >[];
-          const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
           assertIsA(idealPoints, Array);
           assert.strictEqual(idealPoints.length, 2);
           idealPoints.forEach(function (point) {
             assertIsA(point, Point);
             assert(point.isIdeal());
           });
-          assert.strictEqual(idealLine.getP0(), idealPoints[0]);
-          assert.strictEqual(idealLine.getP1(), idealPoints[1]);
         });
 
         it('has Euclidean unit circle intersects with opposite angles', function () {
@@ -424,19 +421,16 @@ describe('Line', function () {
           assertApproximate(angle0, angle1);
         });
 
-        it('has ideal Points and Line', function () {
+        it('has ideal Points', function () {
           const idealPoints = line.getIdealPoints() as InstanceType<
             typeof Point
           >[];
-          const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
           assertIsA(idealPoints, Array);
           assert.strictEqual(idealPoints.length, 2);
           idealPoints.forEach(function (point) {
             assertIsA(point, Point);
             assert(point.isIdeal());
           });
-          assert.strictEqual(idealLine.getP0(), idealPoints[0]);
-          assert.strictEqual(idealLine.getP1(), idealPoints[1]);
         });
 
         it('has Euclidean unit circle intersects with opposite angles', function () {
@@ -553,19 +547,16 @@ describe('Line', function () {
         assertApproximate(angle0, angle1);
       });
 
-      it('has ideal Points and Line', function () {
+      it('has ideal Points', function () {
         const idealPoints = line.getIdealPoints() as InstanceType<
           typeof Point
         >[];
-        const idealLine = line.getIdealLine() as InstanceType<typeof Line>;
         assertIsA(idealPoints, Array);
         assert.strictEqual(idealPoints.length, 2);
         idealPoints.forEach(function (point) {
           assertIsA(point, Point);
           assert(point.isIdeal());
         });
-        assert.strictEqual(idealLine.getP0(), idealPoints[0]);
-        assert.strictEqual(idealLine.getP1(), idealPoints[1]);
       });
 
       it('has Euclidean unit circle intersects', function () {

@@ -1,4 +1,5 @@
 import { Angle, Line, Polygon, Point } from '../src/index.js';
+import { TAU } from '../src/constants.js';
 import { assertApproximate, assertIsA } from './helpers.js';
 import assert from 'node:assert';
 import { describe, it, beforeEach } from 'node:test';
@@ -56,7 +57,7 @@ describe('Polygon', function () {
       const angles = [];
       let currentAngle = 0;
       for (let i = 0; i < baseAngles.length; i++) {
-        const angle = (baseAngles[i] * Math.TAU) / total;
+        const angle = (baseAngles[i] * TAU) / total;
         angles.push((currentAngle += angle));
       }
       polygon = Polygon.givenAnglesOfIdealVertices(angles);

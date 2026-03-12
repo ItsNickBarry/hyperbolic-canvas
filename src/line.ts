@@ -14,7 +14,6 @@ export default class Line {
   #euclideanMidpoint: Point;
   #hyperbolicLength: number;
   #hyperbolicMidpoint: Point;
-  #idealLine: Line;
 
   // Lazy initialization of constants is required because they reference
   // Point.ORIGIN, which is defined in point.ts. Due to circular
@@ -95,16 +94,6 @@ export default class Line {
       }
     }
     return this.#hyperbolicMidpoint;
-  }
-
-  getIdealLine(): Line {
-    if (typeof this.#idealLine === 'undefined') {
-      this.#idealLine = Line.givenTwoPoints(
-        this.getIdealPoints()[0],
-        this.getIdealPoints()[1],
-      );
-    }
-    return this.#idealLine;
   }
 
   getIdealPoints(): Point[] | false {

@@ -1,5 +1,5 @@
 import Angle from './angle.js';
-import { ZERO } from './constants.js';
+import { TAU, ZERO } from './constants.js';
 import Line from './line.js';
 import Point from './point.js';
 
@@ -46,7 +46,7 @@ export default class Circle {
 
   getEuclideanCircumference(): number {
     if (typeof this.#euclideanCircumference === 'undefined') {
-      this.#euclideanCircumference = Math.TAU * this.getEuclideanRadius();
+      this.#euclideanCircumference = TAU * this.getEuclideanRadius();
     }
     return this.#euclideanCircumference;
   }
@@ -65,7 +65,7 @@ export default class Circle {
   getHyperbolicArea(): number {
     if (typeof this.#hyperbolicArea === 'undefined') {
       this.#hyperbolicArea =
-        Math.TAU * (Math.cosh(this.getHyperbolicRadius()) - 1);
+        TAU * (Math.cosh(this.getHyperbolicRadius()) - 1);
     }
     return this.#hyperbolicArea;
   }
@@ -80,7 +80,7 @@ export default class Circle {
   getHyperbolicCircumference(): number {
     if (typeof this.#hyperbolicCircumference === 'undefined') {
       this.#hyperbolicCircumference =
-        Math.TAU * Math.sinh(this.getHyperbolicRadius());
+        TAU * Math.sinh(this.getHyperbolicRadius());
     }
     return this.#hyperbolicCircumference;
   }
@@ -387,7 +387,7 @@ Circle.UNIT.getEuclideanCenter = Circle.UNIT.getHyperbolicCenter = function () {
 };
 
 Circle.UNIT.getEuclideanCircumference = function () {
-  return Math.TAU;
+  return TAU;
 };
 
 Circle.UNIT.getEuclideanDiameter = function () {

@@ -1,4 +1,5 @@
 import Circle from './circle.js';
+import { TAU } from './constants.js';
 import Line from './line.js';
 import Point from './point.js';
 import Polygon from './polygon.js';
@@ -69,7 +70,7 @@ export default class Canvas {
     const r = this.getRadius();
     ctx.save();
     ctx.beginPath();
-    ctx.arc(r, r, r, 0, Math.TAU);
+    ctx.arc(r, r, r, 0, TAU);
     ctx.clip();
   }
 
@@ -106,9 +107,11 @@ export default class Canvas {
     const path = this.#getPathOrContext(options || {});
     let angle = rotation || 0;
     const r = this.getRadius();
-    const difference = Math.TAU / n;
+    const difference = TAU / n;
     for (let i = 0; i < n; i++) {
-      const idealPoint = this.getCoordinates(Point.givenEuclideanPolarCoordinates(1, angle));
+      const idealPoint = this.getCoordinates(
+        Point.givenEuclideanPolarCoordinates(1, angle),
+      );
       path.moveTo(r, r);
       path.lineTo(idealPoint[0], idealPoint[1]);
       angle += difference;
@@ -169,7 +172,7 @@ export default class Canvas {
       center[1],
       c.getEuclideanRadius() * this.getRadius(),
       0,
-      Math.TAU,
+      TAU,
     );
     return path;
   }
@@ -246,16 +249,10 @@ export default class Canvas {
   #pathForHyperbolicPolygon(p, path, options) {
     const lines = p.getLines();
     const start = this.getCoordinates(p.getVertices()[0]);
-    if (options.infinite) {
-      for (let i = 0; i < lines.length; i++) {
-        this.#pathForHyperbolicLine(lines[i].getIdealLine(), path, options);
-      }
-    } else {
-      path.moveTo(start[0], start[1]);
+    path.moveTo(start[0], start[1]);
 
-      for (let i = 0; i < lines.length; i++) {
-        this.#pathForHyperbolicLine(lines[i], path, { connected: true });
-      }
+    for (let i = 0; i < lines.length; i++) {
+      this.#pathForHyperbolicLine(lines[i], path, { connected: true });
     }
     return path;
   }

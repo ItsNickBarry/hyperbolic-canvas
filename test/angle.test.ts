@@ -1,4 +1,5 @@
 import { Angle } from '../src/index.js';
+import { TAU } from '../src/constants.js';
 import type { Quadrant } from '../src/types.js';
 import {
   assertApproximate,
@@ -13,7 +14,7 @@ describe('Angle', function () {
     const radians = Angle.fromDegrees(degrees);
     assertIsRealNumber(radians);
     assert.strictEqual(radians, Angle.normalize(radians));
-    assertApproximate(radians / Math.TAU, degrees / 360);
+    assertApproximate(radians / TAU, degrees / 360);
   });
 
   it('finds the angle of a slope', function () {
@@ -24,7 +25,7 @@ describe('Angle', function () {
   it('normalizes angles to within 0 and TAU', function () {
     const angle = Angle.normalize((Math.random() - 0.5) * 100);
     assert(angle > 0);
-    assert(angle < Math.TAU);
+    assert(angle < TAU);
   });
 
   it('generates a random angle in a given quadrant', function () {
@@ -44,11 +45,11 @@ describe('Angle', function () {
     it('is between 0 and tau', function () {
       assertIsRealNumber(angle);
       assert(angle > 0);
-      assert(angle < Math.TAU);
+      assert(angle < TAU);
     });
 
     it('converts to degrees', function () {
-      assertApproximate(Angle.toDegrees(angle), (angle * 360) / Math.TAU);
+      assertApproximate(Angle.toDegrees(angle), (angle * 360) / TAU);
     });
 
     it('has opposite angle', function () {
