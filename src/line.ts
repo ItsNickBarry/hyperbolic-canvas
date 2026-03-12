@@ -13,7 +13,7 @@ export default class Line {
   #euclideanLength: number;
   #euclideanMidpoint: Point;
   #hyperbolicLength: number;
-  #hyperbolicMidpoint: Point | false;
+  #hyperbolicMidpoint: Point;
   #idealLine: Line;
 
   // Lazy initialization of constants is required because they reference
@@ -83,7 +83,7 @@ export default class Line {
     return this.#hyperbolicLength;
   }
 
-  getHyperbolicMidpoint(): Point | false {
+  getHyperbolicMidpoint(): Point {
     if (typeof this.#hyperbolicMidpoint === 'undefined') {
       if (this.isOnPlane()) {
         this.#hyperbolicMidpoint = this.getP0().hyperbolicDistantPoint(
@@ -91,7 +91,7 @@ export default class Line {
           this.getP0().hyperbolicAngleTo(this.getP1()),
         );
       } else {
-        this.#hyperbolicMidpoint = false;
+        throw new Error('Line must be on the hyperbolic plane');
       }
     }
     return this.#hyperbolicMidpoint;

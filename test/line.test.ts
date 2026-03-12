@@ -635,8 +635,10 @@ describe('Line', function () {
       assert(Number.isNaN(l));
     });
 
-    it('does not have hyperbolic midpoint', function () {
-      assert.strictEqual(line.getHyperbolicMidpoint(), false);
+    it('throws when getting hyperbolic midpoint', function () {
+      assert.throws(function () {
+        line.getHyperbolicMidpoint();
+      }, /Line must be on the hyperbolic plane/);
     });
 
     it('does not have ideal Points', function () {
