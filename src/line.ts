@@ -15,7 +15,7 @@ export default class Line {
   #p0: Point;
   #p1?: Point;
   #m?: number;
-  #euclideanUnitCircleIntersects?: Point[] | false;
+  #euclideanUnitCircleIntersects?: Point[];
   #idealPoints?: Point[] | false;
   #geodesic?: Circle | Line;
   #euclideanLength?: number;
@@ -50,7 +50,9 @@ export default class Line {
           this.#calculateGeodesicThroughOnePointOnPlane();
         }
       } else if (!this.isOnPlane()) {
-        throw new Error('Hyperbolic geodesic is undefined: line must be on the hyperbolic plane');
+        throw new Error(
+          'Hyperbolic geodesic is undefined: line must be on the hyperbolic plane',
+        );
       } else if (
         this.getP0().equals(Point.ORIGIN) ||
         this.getP1().equals(Point.ORIGIN)
@@ -151,7 +153,7 @@ export default class Line {
     return this.#m;
   }
 
-  getEuclideanUnitCircleIntersects(): Point[] | false {
+  getEuclideanUnitCircleIntersects(): Point[] {
     if (typeof this.#euclideanUnitCircleIntersects === 'undefined') {
       const m = this.getSlope();
 
@@ -176,7 +178,8 @@ export default class Line {
       const discriminant = b * b - 4 * a * c;
 
       if (discriminant < -ZERO) {
-        return false;
+        this.#euclideanUnitCircleIntersects = [];
+        return this.#euclideanUnitCircleIntersects;
       }
 
       // Treat near-zero discriminant as zero (tangent case)
@@ -186,7 +189,8 @@ export default class Line {
       const p0 = Point.givenCoordinates(x0, y0);
 
       if (Math.abs(discriminant) < ZERO) {
-        return [p0];
+        this.#euclideanUnitCircleIntersects = [p0];
+        return this.#euclideanUnitCircleIntersects;
       }
 
       const x1 = (-1 * b + Math.sqrt(discriminant)) / (2 * a);
@@ -197,7 +201,7 @@ export default class Line {
 
       this.#euclideanUnitCircleIntersects = [p0, p1];
     }
-    return this.#euclideanUnitCircleIntersects;
+    return this.#euclideanUnitCircleIntersects!;
   }
 
   clone(): Line {
@@ -400,7 +404,7 @@ export default class Line {
 
     // get the line through point on plane, which is perpindicular to origin
     // get intersects of that line with unit circle
-    let intersects;
+    let intersects: Point[];
 
     if (this.getP0().isIdeal()) {
       intersects = l1
@@ -412,10 +416,9 @@ export default class Line {
         .getEuclideanUnitCircleIntersects();
     }
 
-    if (!intersects || intersects.length < 2) {
+    if (intersects.length < 2) {
       // line is outside of or tangent to unit circle
-      this.#geodesic = false;
-      return;
+      throw 'TODO';
     }
 
     const t0 = Circle.UNIT.euclideanTangentAtPoint(intersects[0]);
@@ -424,8 +427,7 @@ export default class Line {
     const c = Line.euclideanIntersect(t0, t1);
 
     if (!c) {
-      this.#geodesic = false;
-      return;
+      throw 'TODO';
     }
 
     this.#geodesic = Circle.givenThreePoints(this.getP0(), this.getP1(), c);

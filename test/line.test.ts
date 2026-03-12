@@ -609,7 +609,9 @@ describe('Line', function () {
     });
 
     it('does not have hyperbolic geodesic', function () {
-      assert.strictEqual(line.getHyperbolicGeodesic(), false);
+      assert.throws(function () {
+        line.getHyperbolicGeodesic();
+      }, /line must be on the hyperbolic plane/);
     });
 
     it('has Euclidean length', function () {
@@ -633,7 +635,9 @@ describe('Line', function () {
     });
 
     it('does not have ideal Points', function () {
-      assert.strictEqual(line.getIdealPoints(), false);
+      assert.throws(function () {
+        line.getIdealPoints();
+      }, /line must be on the hyperbolic plane/);
     });
   });
 
@@ -979,6 +983,18 @@ describe('Line', function () {
       // Should return at least one point
       assert(intersects instanceof Array);
       assert(intersects.length >= 1);
+    });
+
+    it('returns empty array when line does not intersect unit circle', function () {
+      // Create a line completely outside the unit circle
+      const testLine = Line.givenPointSlope(
+        Point.givenCoordinates(2, 2),
+        0, // horizontal line at y = 2
+      );
+
+      const intersects = testLine.getEuclideanUnitCircleIntersects();
+      assert(Array.isArray(intersects));
+      assert.strictEqual(intersects.length, 0);
     });
   });
 });
