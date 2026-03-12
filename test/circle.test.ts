@@ -86,7 +86,7 @@ describe('Circle', function () {
     });
 
     it('does not have unit circle intersects', function () {
-      assert.strictEqual(circle.getUnitCircleIntersects(), false);
+      assert.strictEqual(Circle.intersects(circle, Circle.UNIT), false);
     });
 
     it('is on plane', function () {

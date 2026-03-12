@@ -111,7 +111,7 @@ export default class Line {
       if (g === this) {
         this.#idealPoints = this.getEuclideanUnitCircleIntersects();
       } else {
-        this.#idealPoints = (g as Circle).getUnitCircleIntersects();
+        this.#idealPoints = Circle.intersects(g as Circle, Circle.UNIT);
       }
     }
     return this.#idealPoints!;

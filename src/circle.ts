@@ -20,7 +20,6 @@ export default class Circle {
   #euclideanCircumference: number;
   #hyperbolicArea: number;
   #hyperbolicCircumference: number;
-  #unitCircleIntersects: Point[] | false;
 
   constructor(options: CircleOptions) {
     this.#euclideanCenter = options.euclideanCenter;
@@ -100,13 +99,6 @@ export default class Circle {
       this.#calculateHyperbolicCenterRadius();
     }
     return this.#hyperbolicRadius;
-  }
-
-  getUnitCircleIntersects(): Point[] | false {
-    if (typeof this.#unitCircleIntersects === 'undefined') {
-      this.#unitCircleIntersects = Circle.intersects(this, Circle.UNIT);
-    }
-    return this.#unitCircleIntersects;
   }
 
   clone(): Circle {
