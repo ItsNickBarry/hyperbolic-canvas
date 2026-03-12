@@ -91,10 +91,7 @@ describe('Canvas', function () {
   describe('when generating path', function () {
     let object: InstanceType<typeof Line>;
     beforeEach(function () {
-      object = Line.givenTwoPoints(
-        Point.random(),
-        Point.random(),
-      );
+      object = Line.givenTwoPoints(Point.random(), Point.random());
     });
 
     it('returns CanvasRenderingContext2D by default', function () {

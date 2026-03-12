@@ -1,5 +1,5 @@
-import type { Quadrant } from './types.js';
 import { TAU } from './constants.js';
+import type { Quadrant } from './types.js';
 
 const DEGREES_TO_RADIANS = Math.PI / 180;
 

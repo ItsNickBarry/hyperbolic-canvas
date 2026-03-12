@@ -64,8 +64,7 @@ export default class Circle {
 
   getHyperbolicArea(): number {
     if (typeof this.#hyperbolicArea === 'undefined') {
-      this.#hyperbolicArea =
-        TAU * (Math.cosh(this.getHyperbolicRadius()) - 1);
+      this.#hyperbolicArea = TAU * (Math.cosh(this.getHyperbolicRadius()) - 1);
     }
     return this.#hyperbolicArea;
   }
@@ -136,7 +135,8 @@ export default class Circle {
 
   isOnPlane(): boolean {
     return (
-      this.getEuclideanCenter().getEuclideanRadius() + this.getEuclideanRadius() <
+      this.getEuclideanCenter().getEuclideanRadius() +
+        this.getEuclideanRadius() <
       1
     );
   }
@@ -255,7 +255,9 @@ export default class Circle {
       }
     } else {
       const farPoint = this.euclideanPointAt(center.getAngle());
-      const nearPoint = this.euclideanPointAt(Angle.opposite(center.getAngle()));
+      const nearPoint = this.euclideanPointAt(
+        Angle.opposite(center.getAngle()),
+      );
       const diameter = Line.givenTwoPoints(farPoint, nearPoint);
       this.#hyperbolicCenter = diameter.getHyperbolicMidpoint();
       this.#hyperbolicRadius = diameter.getHyperbolicLength() / 2;
@@ -337,10 +339,7 @@ export default class Circle {
     return new Circle({ euclideanCenter: center, euclideanRadius: radius });
   }
 
-  static givenHyperbolicCenterRadius(
-    center: Point,
-    radius: number,
-  ): Circle {
+  static givenHyperbolicCenterRadius(center: Point, radius: number): Circle {
     if (!center.isOnPlane()) {
       throw new Error('Center must be on hyperbolic plane');
     }

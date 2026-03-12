@@ -1,5 +1,5 @@
-import { Angle, Line, Polygon, Point } from '../src/index.js';
 import { TAU } from '../src/constants.js';
+import { Angle, Line, Polygon, Point } from '../src/index.js';
 import { assertApproximate, assertIsA } from './helpers.js';
 import assert from 'node:assert';
 import { describe, it, beforeEach } from 'node:test';

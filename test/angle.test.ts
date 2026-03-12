@@ -1,10 +1,7 @@
-import { Angle } from '../src/index.js';
 import { TAU } from '../src/constants.js';
+import { Angle } from '../src/index.js';
 import type { Quadrant } from '../src/types.js';
-import {
-  assertApproximate,
-  assertIsRealNumber,
-} from './helpers.js';
+import { assertApproximate, assertIsRealNumber } from './helpers.js';
 import assert from 'node:assert';
 import { describe, it, beforeEach } from 'node:test';
 

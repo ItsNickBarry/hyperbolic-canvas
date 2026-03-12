@@ -1,6 +1,6 @@
+import { ZERO } from '../src/constants.js';
 import assert from 'node:assert';
 import seedrandom from 'seedrandom';
-import { ZERO } from '../src/constants.js';
 
 const seed = process.env.SEED || String(Date.now());
 seedrandom(seed, { global: true });
