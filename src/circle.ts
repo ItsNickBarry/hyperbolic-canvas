@@ -158,7 +158,10 @@ export default class Circle {
 
   hyperbolicAngleAt(point: Point): number {
     const hyperbolicCenter = this.getHyperbolicCenter();
-    return hyperbolicCenter && hyperbolicCenter.hyperbolicAngleTo(point);
+    if (!hyperbolicCenter) {
+      throw new Error('Circle must be on hyperbolic plane');
+    }
+    return hyperbolicCenter.hyperbolicAngleTo(point);
   }
 
   hyperbolicPointAt(angle: number): Point | false {
