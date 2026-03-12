@@ -3,6 +3,7 @@ import { TAU } from './constants.js';
 import Line from './line.js';
 import Point from './point.js';
 import Polygon from './polygon.js';
+import type { CartesianCoordinates } from './types.js';
 
 // TODO store polygons and circles as hit regions
 
@@ -46,14 +47,14 @@ export default class Canvas {
     ctx[property] = value;
   }
 
-  getCoordinates(point) {
+  getCoordinates(point: Point): CartesianCoordinates {
     // scale up: convert Point to canvas coordinates [x, y]
     const x = (point.getX() + 1) * this.getRadius();
     const y = (point.getY() + 1) * this.getRadius();
     return [x, this.getDiameter() - y];
   }
 
-  getPoint(coordinates) {
+  getPoint(coordinates: CartesianCoordinates) {
     // scale down: convert canvas coordinates [x, y] to Point
     return new Point({
       x: coordinates[0] / this.getRadius() - 1,
@@ -220,14 +221,13 @@ export default class Canvas {
         path.moveTo(p0[0], p0[1]);
       }
 
-      const control = this.getCoordinates(
-        Line.euclideanIntersect(
-          geodesic.euclideanTangentAtPoint(l.getP0()),
-          geodesic.euclideanTangentAtPoint(l.getP1()),
-        ),
+      const intersect = Line.euclideanIntersect(
+        geodesic.euclideanTangentAtPoint(l.getP0()),
+        geodesic.euclideanTangentAtPoint(l.getP1()),
       );
 
-      if (control) {
+      if (intersect) {
+        const control = this.getCoordinates(intersect);
         path.arcTo(
           control[0],
           control[1],

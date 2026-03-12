@@ -1,4 +1,4 @@
-import { Canvas, Point, Line } from '../src/index.js';
+import { Canvas, Point, Line, CartesianCoordinates } from '../src/index.js';
 import { assertIsRealNumber, assertIsA } from './helpers.js';
 import { createCanvas, CanvasRenderingContext2D } from 'canvas';
 import assert from 'node:assert';
@@ -21,7 +21,7 @@ describe('Canvas', function () {
 
   describe('when converting canvas coordinates to a Point', function () {
     it('returns a Point', function () {
-      const coordinates = [
+      const coordinates: CartesianCoordinates = [
         canvas.getRadius() * Math.random(),
         canvas.getRadius() * Math.random(),
       ];
