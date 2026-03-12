@@ -17,7 +17,7 @@ export default class Line {
   #m?: number;
   #euclideanUnitCircleIntersects?: Point[] | false;
   #idealPoints?: Point[] | false;
-  #geodesic?: Circle | Line | false;
+  #geodesic?: Circle | Line;
   #euclideanLength?: number;
   #euclideanMidpoint?: Point;
   #hyperbolicLength?: number;
@@ -39,7 +39,7 @@ export default class Line {
     this.#idealPoints = options.idealPoints;
   }
 
-  getHyperbolicGeodesic(): Circle | Line | false {
+  getHyperbolicGeodesic(): Circle | Line {
     if (typeof this.#geodesic === 'undefined') {
       if (this.getP0().isIdeal() || this.getP1().isIdeal()) {
         if (this.getP0().isIdeal() && this.getP1().isIdeal()) {
@@ -50,8 +50,7 @@ export default class Line {
           this.#calculateGeodesicThroughOnePointOnPlane();
         }
       } else if (!this.isOnPlane()) {
-        // either Point is not well defined, so geodesic is not defined
-        this.#geodesic = false;
+        throw new Error('Hyperbolic geodesic is undefined: line must be on the hyperbolic plane');
       } else if (
         this.getP0().equals(Point.ORIGIN) ||
         this.getP1().equals(Point.ORIGIN)
@@ -107,15 +106,13 @@ export default class Line {
   getIdealPoints(): Point[] | false {
     if (typeof this.#idealPoints === 'undefined') {
       const g = this.getHyperbolicGeodesic();
-      if (g === false) {
-        this.#idealPoints = false;
-      } else if (g === this) {
+      if (g === this) {
         this.#idealPoints = this.getEuclideanUnitCircleIntersects();
       } else {
         this.#idealPoints = (g as Circle).getUnitCircleIntersects();
       }
     }
-    return this.#idealPoints;
+    return this.#idealPoints!;
   }
 
   getP0(): Point {
