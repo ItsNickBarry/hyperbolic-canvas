@@ -1,4 +1,5 @@
 import { Angle, Circle, Line, Point } from '../src/index.js';
+import { TAU } from '../src/constants.js';
 import { assertApproximate, assertIsRealNumber, assertIsA } from './helpers.js';
 import assert from 'node:assert';
 import { describe, it, beforeEach } from 'node:test';
@@ -580,7 +581,7 @@ describe('Circle', function () {
     });
 
     it('has Euclidean circumference of tau', function () {
-      assert.strictEqual(circle.getEuclideanCircumference(), Math.TAU);
+      assert.strictEqual(circle.getEuclideanCircumference(), TAU);
     });
 
     it('has Euclidean radius of 1', function () {

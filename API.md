@@ -9,10 +9,12 @@ INFINITY;
 ZERO;
 ```
 
-The constant [Tau][manifesto] is defined on the Math object as `2 * Math.PI`:
+The constant [Tau][manifesto] is exported as `2 * Math.PI`:
 
 ```javascript
-Math.TAU;
+import { TAU } from 'hyperbolic-canvas';
+
+TAU;
 // 6.283185307179586
 // you're welcome
 ```

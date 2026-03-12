@@ -1,3 +1,4 @@
+import { TAU } from './constants.js';
 import Circle from './circle.js';
 import Line from './line.js';
 import Point from './point.js';
@@ -69,7 +70,7 @@ export default class Canvas {
     const r = this.getRadius();
     ctx.save();
     ctx.beginPath();
-    ctx.arc(r, r, r, 0, Math.TAU);
+    ctx.arc(r, r, r, 0, TAU);
     ctx.clip();
   }
 
@@ -106,7 +107,7 @@ export default class Canvas {
     const path = this.#getPathOrContext(options || {});
     let angle = rotation || 0;
     const r = this.getRadius();
-    const difference = Math.TAU / n;
+    const difference = TAU / n;
     for (let i = 0; i < n; i++) {
       const idealPoint = this.at(Point.givenEuclideanPolarCoordinates(1, angle));
       path.moveTo(r, r);
@@ -169,7 +170,7 @@ export default class Canvas {
       center[1],
       c.getEuclideanRadius() * this.getRadius(),
       0,
-      Math.TAU,
+      TAU,
     );
     return path;
   }
