@@ -246,16 +246,10 @@ export default class Canvas {
   #pathForHyperbolicPolygon(p, path, options) {
     const lines = p.getLines();
     const start = this.at(p.getVertices()[0]);
-    if (options.infinite) {
-      for (let i = 0; i < lines.length; i++) {
-        this.#pathForHyperbolicLine(lines[i].getIdealLine(), path, options);
-      }
-    } else {
-      path.moveTo(start[0], start[1]);
+    path.moveTo(start[0], start[1]);
 
-      for (let i = 0; i < lines.length; i++) {
-        this.#pathForHyperbolicLine(lines[i], path, { connected: true });
-      }
+    for (let i = 0; i < lines.length; i++) {
+      this.#pathForHyperbolicLine(lines[i], path, { connected: true });
     }
     return path;
   }
