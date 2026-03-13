@@ -61,6 +61,10 @@ describe('Line', function () {
         assert(line.isEuclideanParallelTo(otherLine));
       });
 
+      it('is parallel to itself in Euclidean context', function () {
+        assert(line.isEuclideanParallelTo(line));
+      });
+
       it('has a perpindicular slope', function () {
         assert.strictEqual(
           line.euclideanPerpindicularSlope(),
@@ -307,6 +311,10 @@ describe('Line', function () {
             referenceAngle + Math.PI * Math.random(),
           );
           assert(line.isHyperbolicParallelTo(otherLine));
+        });
+
+        it('is parallel to itself in hyperbolic context', function () {
+          assert(line.isHyperbolicParallelTo(line));
         });
 
         it('includes Points in hyperbolic context', function () {
@@ -582,6 +590,10 @@ describe('Line', function () {
         assert(line.isHyperbolicParallelTo(otherLine));
       });
 
+      it('is parallel to itself in hyperbolic context', function () {
+        assert(line.isHyperbolicParallelTo(line));
+      });
+
       it('includes Points in hyperbolic context', function () {
         assert(line.hyperbolicIncludesPoint(line.getP0()));
         assert(line.hyperbolicIncludesPoint(line.getP1()));
@@ -818,6 +830,16 @@ describe('Line', function () {
       });
     });
 
+    describe('of equal lines', function () {
+      beforeEach(function () {
+        otherLine = line.clone();
+      });
+
+      it('returns true', function () {
+        assert.strictEqual(Line.euclideanIntersect(line, otherLine), true);
+      });
+    });
+
     describe('of non-parallel lines', function () {
       beforeEach(function () {
         otherLine = Line.givenPointSlope(Point.random(), Line.randomSlope());
@@ -866,6 +888,16 @@ describe('Line', function () {
 
       it('does not exist', function () {
         assert.strictEqual(Line.hyperbolicIntersect(line, otherLine), false);
+      });
+    });
+
+    describe('of equal lines', function () {
+      beforeEach(function () {
+        otherLine = line.clone();
+      });
+
+      it('returns true', function () {
+        assert.strictEqual(Line.hyperbolicIntersect(line, otherLine), true);
       });
     });
 

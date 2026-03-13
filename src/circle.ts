@@ -263,7 +263,7 @@ export default class Circle {
     }
   }
 
-  static intersects(c0: Circle, c1: Circle): Point[] | false {
+  static intersects(c0: Circle, c1: Circle): Point[] | boolean {
     // this function adapted from a post on Stack Overflow by 01AutoMonkey
     // and licensed CC BY-SA 3.0:
     // https://creativecommons.org/licenses/by-sa/3.0/legalcode
@@ -296,8 +296,8 @@ export default class Circle {
       return false;
     }
     if (d < ZERO) {
-      /* circles are concentric (same center) */
-      return false;
+      // concentric circles: true if equal (all points intersect), false otherwise
+      return c0.equals(c1);
     }
 
     /* 'point 2' is the point where the line through the circle

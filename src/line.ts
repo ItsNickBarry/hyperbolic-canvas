@@ -111,7 +111,11 @@ export default class Line {
       if (g === this) {
         this.#idealPoints = this.getEuclideanUnitCircleIntersects();
       } else {
-        this.#idealPoints = Circle.intersects(g as Circle, Circle.UNIT);
+        const intersects = Circle.intersects(g as Circle, Circle.UNIT);
+        if (intersects === true) {
+          throw new Error('Invariant violated: hyperbolic geodesic cannot be the unit circle');
+        }
+        this.#idealPoints = intersects;
       }
     }
     return this.#idealPoints!;
@@ -291,7 +295,11 @@ export default class Line {
     const g = this.getHyperbolicGeodesic();
 
     if (g instanceof Circle) {
-      return Circle.intersects(g, circle);
+      const intersects = Circle.intersects(g, circle);
+      if (intersects === true) {
+        throw new Error('Invariant violated: circles cannot be equal in this context');
+      }
+      return intersects;
     } else if (g instanceof Line) {
       return this.euclideanIntersectsWithCircle(circle);
     } else {
@@ -329,7 +337,8 @@ export default class Line {
   }
 
   isHyperbolicParallelTo(otherLine: Line): boolean {
-    return Line.hyperbolicIntersect(this, otherLine) === false;
+    const intersect = Line.hyperbolicIntersect(this, otherLine);
+    return typeof intersect === 'boolean';
   }
 
   euclideanPerpindicularBisector(): Line {
@@ -426,14 +435,14 @@ export default class Line {
 
     const c = Line.euclideanIntersect(t0, t1);
 
-    if (!c) {
+    if (typeof c === 'boolean') {
       throw 'TODO';
     }
 
     this.#geodesic = Circle.givenThreePoints(this.getP0(), this.getP1(), c);
   }
 
-  static euclideanIntersect(l0: Line, l1: Line): Point | false {
+  static euclideanIntersect(l0: Line, l1: Line): Point | boolean {
     let x: number;
     let y: number;
 
@@ -442,8 +451,7 @@ export default class Line {
 
     if (l0m === l1m) {
       // lines are parallel; lines may also be the same line
-      // TODO: return true if lines are same line?
-      return false;
+      return l0.equals(l1);
     }
 
     const l0x = l0.getP0().getX();
@@ -470,7 +478,7 @@ export default class Line {
     return Point.givenCoordinates(x, y);
   }
 
-  static hyperbolicIntersect(l0: Line, l1: Line): Point | false {
+  static hyperbolicIntersect(l0: Line, l1: Line): Point | boolean {
     if (!(l0.isOnPlane() && l1.isOnPlane())) {
       return false;
     }
@@ -482,7 +490,11 @@ export default class Line {
 
     if (g0IsLine || g1IsLine) {
       if (g0IsLine && g1IsLine) {
-        return Point.ORIGIN;
+        // both geodesics are lines through origin
+        if (l0.hyperbolicEquals(l1)) {
+          return true; // same line
+        }
+        return Point.ORIGIN; // different diameters intersect at origin
       }
       const circle = (g0IsLine ? g1 : g0) as Circle;
       const line = (g0IsLine ? g0 : g1) as Line;
@@ -513,8 +525,8 @@ export default class Line {
     // TODO: cast is safe as long as geodesics are never false
     const intersects = Circle.intersects(g0 as Circle, g1 as Circle);
 
-    if (!intersects) {
-      return false;
+    if (typeof intersects === 'boolean') {
+      return intersects;
     }
 
     for (let i = 0; i < intersects.length; i++) {

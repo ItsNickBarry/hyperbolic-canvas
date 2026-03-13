@@ -554,10 +554,10 @@ describe('Circle', function () {
     });
 
     describe('where circles are coincident', function () {
-      it('returns false', function () {
+      it('returns true', function () {
         const c0 = Circle.givenEuclideanCenterRadius(Point.ORIGIN, 0.5);
         const c1 = Circle.givenEuclideanCenterRadius(Point.ORIGIN, 0.5);
-        assert.strictEqual(Circle.intersects(c0, c1), false);
+        assert.strictEqual(Circle.intersects(c0, c1), true);
       });
     });
   });

@@ -226,7 +226,7 @@ export default class Canvas {
         geodesic.euclideanTangentAtPoint(l.getP1()),
       );
 
-      if (intersect) {
+      if (intersect instanceof Point) {
         const control = this.getCoordinates(intersect);
         path.arcTo(
           control[0],
