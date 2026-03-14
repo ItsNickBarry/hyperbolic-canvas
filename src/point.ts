@@ -15,7 +15,6 @@ interface PointOptions {
 
 export default class Point {
   static ORIGIN: Point;
-  static CENTER: Point;
   #angle?: number;
   #euclideanRadius?: number;
   #direction?: number;
@@ -362,7 +361,7 @@ export default class Point {
   }
 }
 
-Point.ORIGIN = Point.CENTER = new Point({ x: 0, y: 0 });
+Point.ORIGIN = new Point({ x: 0, y: 0 });
 
 Point.ORIGIN.getAngle =
   Point.ORIGIN.getEuclideanRadius =

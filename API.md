@@ -59,7 +59,6 @@ Constants:
 
 ```javascript
 Point.ORIGIN;
-Point.CENTER;
 // the point at the center of the canvas, (0,0)
 ```
 
