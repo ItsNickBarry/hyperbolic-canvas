@@ -15,19 +15,6 @@
     ></script>
 
     <script type="text/javascript">
-      var getQueryVariable = function (variable) {
-        // https://css-tricks.com/snippets/javascript/get-url-variables/
-        var query = window.location.search.substring(1);
-        var vars = query.split('&');
-        for (var i = 0; i < vars.length; i++) {
-          var pair = vars[i].split('=');
-          if (pair[0] == variable) {
-            return pair[1];
-          }
-        }
-        return false;
-      };
-
       var ready = function (fn) {
         if (document.readyState != 'loading') {
           fn();
@@ -79,7 +66,8 @@
       };
 
       ready(function () {
-        var scriptName = getQueryVariable('script');
+        // Get script name from hash (e.g., #hexagons)
+        var scriptName = window.location.hash.substring(1);
         var script = document.createElement('script');
         script.onload = function () {
           var canvas = createCanvas('#hyperbolic-canvas');
