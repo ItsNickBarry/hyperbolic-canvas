@@ -29,12 +29,7 @@ jobs:
 
       - name: Build site
         run: |
-          mkdir -p _site
-          cp static/*.html _site/ 2>/dev/null || cp *.html _site/ 2>/dev/null || true
-          cp -r css _site/ 2>/dev/null || true
-          cp -r images _site/ 2>/dev/null || true
-          cp -r scripts _site/ 2>/dev/null || true
-          cp -r dist _site/ 2>/dev/null || true
+          cp -r static _site
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
