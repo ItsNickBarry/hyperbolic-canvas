@@ -10,7 +10,7 @@ interface PolygonOptions {
 
 export default class Polygon {
   #vertices: Point[];
-  #lines: Line[];
+  #lines?: Line[];
 
   constructor(options: PolygonOptions) {
     this.#vertices = options.vertices;
@@ -40,7 +40,7 @@ export default class Polygon {
       throw new Error('At least 3 angles are required');
     }
 
-    const vertices = [];
+    const vertices: Point[] = [];
 
     angles.forEach(function (angle) {
       vertices.push(Point.givenIdealAngle(angle));
@@ -69,7 +69,7 @@ export default class Polygon {
     rotation = rotation ? Angle.normalize(rotation) : 0;
 
     const increment = TAU / n;
-    const vertices = [];
+    const vertices: Point[] = [];
 
     for (let i = 0; i < n; i++) {
       vertices.push(center.euclideanDistantPoint(radius, rotation));
@@ -94,7 +94,7 @@ export default class Polygon {
     rotation = rotation ? Angle.normalize(rotation) : 0;
 
     const increment = TAU / n;
-    const vertices = [];
+    const vertices: Point[] = [];
 
     for (let i = 0; i < n; i++) {
       vertices.push(center.hyperbolicDistantPoint(radius, rotation));

@@ -12,27 +12,25 @@ interface CircleOptions {
 
 export default class Circle {
   static UNIT: Circle;
-  #euclideanCenter: Point;
-  #euclideanRadius: number;
+  #euclideanCenter?: Point;
+  #euclideanRadius!: number;
   #hyperbolicCenter?: Point;
-  #hyperbolicRadius: number;
-  #euclideanArea: number;
-  #euclideanCircumference: number;
-  #hyperbolicArea: number;
-  #hyperbolicCircumference: number;
+  #hyperbolicRadius!: number;
+  #euclideanArea!: number;
+  #euclideanCircumference!: number;
+  #hyperbolicArea!: number;
+  #hyperbolicCircumference!: number;
 
   constructor(options: CircleOptions) {
-    this.#euclideanCenter = options.euclideanCenter;
-    if (options.euclideanRadius < 0) {
+    if (options.euclideanCenter) {
+      this.#euclideanCenter = options.euclideanCenter;
+    }
+    if (options.euclideanRadius !== undefined) {
       this.#euclideanRadius = Math.abs(options.euclideanRadius);
-    } else {
-      this.#euclideanRadius = options.euclideanRadius;
     }
     this.#hyperbolicCenter = options.hyperbolicCenter;
-    if (options.hyperbolicRadius < 0) {
+    if (options.hyperbolicRadius !== undefined) {
       this.#hyperbolicRadius = Math.abs(options.hyperbolicRadius);
-    } else {
-      this.#hyperbolicRadius = options.hyperbolicRadius;
     }
   }
 
@@ -47,7 +45,7 @@ export default class Circle {
     if (typeof this.#euclideanCenter === 'undefined') {
       this.#calculateEuclideanCenterRadius();
     }
-    return this.#euclideanCenter;
+    return this.#euclideanCenter!;
   }
 
   getEuclideanCircumference(): number {
@@ -172,7 +170,7 @@ export default class Circle {
 
   pointsAtX(x: number): Point[] {
     const values = this.yAtX(x);
-    const points = [];
+    const points: Point[] = [];
     values.forEach(function (y) {
       points.push(Point.givenCoordinates(x, y));
     });
@@ -181,7 +179,7 @@ export default class Circle {
 
   pointsAtY(y: number): Point[] {
     const values = this.xAtY(y);
-    const points = [];
+    const points: Point[] = [];
     values.forEach(function (x) {
       points.push(Point.givenCoordinates(x, y));
     });
