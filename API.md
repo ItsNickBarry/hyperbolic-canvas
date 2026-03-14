@@ -2,23 +2,19 @@
 
 ## Exposed Variables and Constants
 
-An object containing all Canvas objects is exposed through the `HyperbolicCanvas` namespace.
-
-```javascript
-HyperbolicCanvas.canvases;
-```
-
 Approximations of `Infinity` and `0` are defined for use in internal comparisons:
 
 ```javascript
-HyperbolicCanvas.INFINITY;
-HyperbolicCanvas.ZERO;
+INFINITY;
+ZERO;
 ```
 
-The constant [Tau][manifesto] is defined on the Math object as `2 * Math.PI`:
+The constant [Tau][manifesto] is exported as `2 * Math.PI`:
 
 ```javascript
-Math.TAU;
+import { TAU } from 'hyperbolic-canvas';
+
+TAU;
 // 6.283185307179586
 // you're welcome
 ```
@@ -63,7 +59,6 @@ Constants:
 
 ```javascript
 Point.ORIGIN;
-Point.CENTER;
 // the point at the center of the canvas, (0,0)
 ```
 
@@ -343,19 +338,6 @@ The canvas class is used to draw hyperbolic lines and shapes.
 Instance functions:
 
 ```javascript
-Canvas.prototype.getUnderlayElement();
-// return the div behind the canvas element, which is used to visually delineate
-// the hyperbolic plane
-
-Canvas.prototype.getContainerElement();
-// return the element which contains all Hyperbolic Canvas elements
-
-Canvas.prototype.getCanvasElement();
-// return the HTML canvas element
-
-Canvas.prototype.getBackdropElement();
-// return the div which is the direct parent of the canvas element
-
 Canvas.prototype.getContext();
 // return the CanvasRenderingContext2D of the underlying canvas
 
@@ -370,11 +352,11 @@ Canvas.prototype.setContextProperty(property, value);
 // set the properties of the 2d context of the underlying HTML canvas
 // lineDash is also supported
 
-Canvas.prototype.at(coordinates);
-// generate a Point given an array of coordinates [x, y] relative to the HTML canvas
-
-Canvas.prototype.at(point);
+Canvas.prototype.getCoordinates(point);
 // generate an array of coordinates [x, y] relative to the HTML canvas given a Point
+
+Canvas.prototype.getPoint(coordinates);
+// generate a Point given an array of coordinates [x, y] relative to the HTML canvas
 
 Canvas.prototype.clear();
 // clear the canvas

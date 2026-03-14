@@ -1,0 +1,318 @@
+import Circle from './circle.js';
+import { TAU } from './constants.js';
+import Line from './line.js';
+import Point from './point.js';
+import Polygon from './polygon.js';
+import type { CartesianCoordinates } from './types.js';
+
+// TODO store polygons and circles as hit regions
+
+export default class Canvas {
+  #ctx: any;
+  #diameter: number;
+  #radius: number;
+
+  constructor(ctx: any) {
+    this.#ctx = ctx;
+    const canvas = ctx.canvas;
+    const d = (this.#diameter =
+      canvas.width > canvas.height ? canvas.height : canvas.width);
+    this.#radius = d / 2;
+    this.#clip();
+  }
+
+  getContext() {
+    return this.#ctx;
+  }
+
+  getRadius() {
+    return this.#radius;
+  }
+
+  getDiameter() {
+    return this.#diameter;
+  }
+
+  setContextProperties(options) {
+    for (let attribute in options) {
+      this.setContextProperty(attribute, options[attribute]);
+    }
+  }
+
+  setContextProperty(property, value) {
+    const ctx = this.getContext();
+    if (property === 'lineDash') {
+      ctx.setLineDash(value);
+    }
+    ctx[property] = value;
+  }
+
+  getCoordinates(point: Point): CartesianCoordinates {
+    // scale up: convert Point to canvas coordinates [x, y]
+    const x = (point.getX() + 1) * this.getRadius();
+    const y = (point.getY() + 1) * this.getRadius();
+    return [x, this.getDiameter() - y];
+  }
+
+  getPoint(coordinates: CartesianCoordinates) {
+    // scale down: convert canvas coordinates [x, y] to Point
+    return new Point({
+      x: coordinates[0] / this.getRadius() - 1,
+      y: (this.getDiameter() - coordinates[1]) / this.getRadius() - 1,
+    });
+  }
+
+  clear() {
+    this.getContext().clearRect(0, 0, this.getDiameter(), this.getDiameter());
+  }
+
+  #clip() {
+    const ctx = this.getContext();
+    const r = this.getRadius();
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(r, r, r, 0, TAU);
+    ctx.clip();
+  }
+
+  fill(path) {
+    if (path && typeof Path2D !== 'undefined' && path instanceof Path2D) {
+      this.getContext().fill(path);
+    } else {
+      path = path || this.getContext();
+      path.fill();
+    }
+  }
+
+  fillAndStroke(path) {
+    if (path && typeof Path2D !== 'undefined' && path instanceof Path2D) {
+      this.getContext().fill(path);
+      this.getContext().stroke(path);
+    } else {
+      path = path || this.getContext();
+      path.fill();
+      path.stroke();
+    }
+  }
+
+  stroke(path) {
+    if (path && typeof Path2D !== 'undefined' && path instanceof Path2D) {
+      this.getContext().stroke(path);
+    } else {
+      path = path || this.getContext();
+      path.stroke();
+    }
+  }
+
+  pathForReferenceAngles(n, rotation, options) {
+    const path = this.#getPathOrContext(options || {});
+    let angle = rotation || 0;
+    const r = this.getRadius();
+    const difference = TAU / n;
+    for (let i = 0; i < n; i++) {
+      const idealPoint = this.getCoordinates(
+        Point.givenEuclideanPolarCoordinates(1, angle),
+      );
+      path.moveTo(r, r);
+      path.lineTo(idealPoint[0], idealPoint[1]);
+      angle += difference;
+    }
+    return path;
+  }
+
+  pathForReferenceGrid(n, options) {
+    const path = this.#getPathOrContext(options || {});
+    for (let i = 1; i < n; i++) {
+      // x axis
+      path.moveTo((this.getDiameter() * i) / n, 0);
+      path.lineTo((this.getDiameter() * i) / n, this.getDiameter());
+      // y axis
+      path.moveTo(0, (this.getDiameter() * i) / n);
+      path.lineTo(this.getDiameter(), (this.getDiameter() * i) / n);
+    }
+    return path;
+  }
+
+  pathForReferenceRings(n, r, options) {
+    const path = this.#getPathOrContext(options || {});
+    for (let i = 0; i < n; i++) {
+      this.#pathForCircle(
+        Circle.givenHyperbolicCenterRadius(Point.ORIGIN, r * (i + 1)),
+        path,
+      );
+    }
+    return path;
+  }
+
+  pathForEuclidean(object, options?) {
+    options = options || {};
+    return this.#pathFunctionForEuclidean(object)(
+      object,
+      this.#getPathOrContext(options),
+      options,
+    );
+  }
+
+  pathForHyperbolic(object, options?) {
+    options = options || {};
+    return this.#pathFunctionForHyperbolic(object)(
+      object,
+      this.#getPathOrContext(options),
+      options,
+    );
+  }
+
+  #pathForCircle(c, path) {
+    const center = this.getCoordinates(c.getEuclideanCenter());
+    const start = this.getCoordinates(c.euclideanPointAt(0));
+
+    path.moveTo(start[0], start[1]);
+
+    path.arc(
+      center[0],
+      center[1],
+      c.getEuclideanRadius() * this.getRadius(),
+      0,
+      TAU,
+    );
+    return path;
+  }
+
+  #pathForEuclideanLine(l, path, options) {
+    const p1 = this.getCoordinates(l.getP1());
+
+    if (!options.connected) {
+      const p0 = this.getCoordinates(l.getP0());
+      path.moveTo(p0[0], p0[1]);
+    }
+    path.lineTo(p1[0], p1[1]);
+    return path;
+  }
+
+  #pathForEuclideanPoint(p, path) {
+    const point = this.getCoordinates(p);
+    path.lineTo(point[0], point[1]);
+    return path;
+  }
+
+  #pathForEuclideanPolygon(p, path) {
+    const start = this.getCoordinates(p.getVertices()[0]);
+    path.moveTo(start[0], start[1]);
+
+    const lines = p.getLines();
+    for (let i = 0; i < lines.length; i++) {
+      this.#pathForEuclideanLine(lines[i], path, { connected: true });
+    }
+    return path;
+  }
+
+  #pathForHyperbolicLine(l, path, options) {
+    const geodesic = l.getHyperbolicGeodesic();
+
+    if (geodesic instanceof Circle) {
+      const p0 = this.getCoordinates(l.getP0());
+      const p1 = this.getCoordinates(l.getP1());
+
+      if (options.connected) {
+        // not clear why this is necessary
+        path.lineTo(p0[0], p0[1]);
+      } else {
+        // do not connect line to previous point on path
+        path.moveTo(p0[0], p0[1]);
+      }
+
+      const intersect = Line.euclideanIntersect(
+        geodesic.euclideanTangentAtPoint(l.getP0()),
+        geodesic.euclideanTangentAtPoint(l.getP1()),
+      );
+
+      if (intersect instanceof Point) {
+        const control = this.getCoordinates(intersect);
+        path.arcTo(
+          control[0],
+          control[1],
+          p1[0],
+          p1[1],
+          geodesic.getEuclideanRadius() * this.getRadius(),
+        );
+      } else {
+        path.lineTo(p1[0], p1[1]);
+      }
+      return path;
+    } else if (geodesic instanceof Line) {
+      return this.#pathForEuclideanLine(geodesic, path, options);
+    } else {
+      return false;
+    }
+  }
+
+  #pathForHyperbolicPolygon(p, path, options) {
+    const lines = p.getLines();
+    const start = this.getCoordinates(p.getVertices()[0]);
+    path.moveTo(start[0], start[1]);
+
+    for (let i = 0; i < lines.length; i++) {
+      this.#pathForHyperbolicLine(lines[i], path, { connected: true });
+    }
+    return path;
+  }
+
+  #pathFunctionForEuclidean(object) {
+    let fn;
+    switch (object.__proto__) {
+      case Line.prototype:
+        fn = this.#pathForEuclideanLine;
+        break;
+      case Circle.prototype:
+        fn = this.#pathForCircle;
+        break;
+      case Polygon.prototype:
+        fn = this.#pathForEuclideanPolygon;
+        break;
+      case Point.prototype:
+        fn = this.#pathForEuclideanPoint;
+        break;
+      default:
+        fn = function () {
+          return false;
+        };
+        break;
+    }
+    return fn.bind(this);
+  }
+
+  #pathFunctionForHyperbolic(object) {
+    let fn;
+    switch (object.__proto__) {
+      case Circle.prototype:
+        fn = this.#pathForCircle;
+        break;
+      case Line.prototype:
+        fn = this.#pathForHyperbolicLine;
+        break;
+      case Polygon.prototype:
+        fn = this.#pathForHyperbolicPolygon;
+        break;
+      default:
+        fn = function () {
+          return false;
+        };
+        break;
+    }
+    return fn.bind(this);
+  }
+
+  #getPathOrContext(options) {
+    // options:
+    //   path2D: [boolean] -> use Path2D instead of CanvasRenderingContext2D
+    //   path:   [Path2D]  -> Path2D to add to
+    if (options.path) {
+      return options.path;
+    } else if (options.path2D && typeof Path2D !== 'undefined') {
+      return new Path2D();
+    } else {
+      this.getContext().beginPath();
+      return this.getContext();
+    }
+  }
+}

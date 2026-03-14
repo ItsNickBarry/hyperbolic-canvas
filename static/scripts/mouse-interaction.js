@@ -56,7 +56,7 @@
         x = event.clientX;
         y = event.clientY;
       }
-      location = canvas.at([x, y]);
+      location = canvas.getPoint([x, y]);
     };
 
     var incrementN = function () {

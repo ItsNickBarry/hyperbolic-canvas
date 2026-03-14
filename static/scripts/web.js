@@ -44,7 +44,7 @@
         x = event.clientX;
         y = event.clientY;
       }
-      var point = canvas.at([x, y]);
+      var point = canvas.getPoint([x, y]);
       location = point.isOnPlane ? point : null;
     };
 

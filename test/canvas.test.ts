@@ -1,19 +1,16 @@
-const { describe, it, beforeEach } = require('node:test');
-const assert = require('node:assert');
-const { createCanvas, CanvasRenderingContext2D } = require('canvas');
-const {
-  HyperbolicCanvas,
-  assertIsRealNumber,
-  assertIsA,
-} = require('./helpers.js');
+import { Canvas, Point, Line, CartesianCoordinates } from '../src/index.js';
+import { assertIsRealNumber, assertIsA } from './helpers.js';
+import { createCanvas, CanvasRenderingContext2D } from 'canvas';
+import assert from 'node:assert';
+import { describe, it, beforeEach } from 'node:test';
 
 describe('Canvas', function () {
-  let canvas;
+  let canvas: InstanceType<typeof Canvas>;
 
   beforeEach(function () {
-    let diameter = 200;
-    let ctx = createCanvas(diameter, diameter).getContext('2d');
-    canvas = new HyperbolicCanvas.Canvas(ctx);
+    const diameter = 200;
+    const ctx = createCanvas(diameter, diameter).getContext('2d');
+    canvas = new Canvas(ctx);
   });
 
   it('has a radius and diameter', function () {
@@ -24,18 +21,18 @@ describe('Canvas', function () {
 
   describe('when converting canvas coordinates to a Point', function () {
     it('returns a Point', function () {
-      let coordinates = [
+      const coordinates: CartesianCoordinates = [
         canvas.getRadius() * Math.random(),
         canvas.getRadius() * Math.random(),
       ];
-      let point = canvas.at(coordinates);
-      assertIsA(point, HyperbolicCanvas.Point);
+      const point = canvas.getPoint(coordinates);
+      assertIsA(point, Point);
     });
   });
 
   it('sets multiple context properties', function () {
-    let ctx = canvas.getContext();
-    let properties = {
+    const ctx = canvas.getContext();
+    const properties: Partial<CanvasRenderingContext2D> = {
       lineJoin: 'round',
       lineWidth: 2,
       shadowBlur: 20,
@@ -45,14 +42,17 @@ describe('Canvas', function () {
     };
     canvas.setContextProperties(properties);
 
-    for (let property in properties) {
-      assert.strictEqual(ctx[property], properties[property]);
+    for (const property in properties) {
+      assert.strictEqual(
+        ctx[property as keyof CanvasRenderingContext2D],
+        properties[property as keyof typeof properties],
+      );
     }
   });
 
   it('sets single context property', function () {
-    let ctx = canvas.getContext();
-    let properties = {
+    const ctx = canvas.getContext();
+    const properties: Partial<CanvasRenderingContext2D> = {
       lineJoin: 'round',
       lineWidth: 2,
       shadowBlur: 20,
@@ -60,16 +60,22 @@ describe('Canvas', function () {
       strokeStyle: '#dd4814',
       fillStyle: '#333333',
     };
-    for (let property in properties) {
-      canvas.setContextProperty(property, properties[property]);
-      assert.strictEqual(ctx[property], properties[property]);
+    for (const property in properties) {
+      canvas.setContextProperty(
+        property,
+        properties[property as keyof typeof properties],
+      );
+      assert.strictEqual(
+        ctx[property],
+        properties[property as keyof typeof properties],
+      );
     }
   });
 
   describe('when converting a Point to canvas coordinates', function () {
     it('returns an Array with length of 2', function () {
-      let point = HyperbolicCanvas.Point.random();
-      let coordinates = canvas.at(point);
+      const point = Point.random();
+      const coordinates = canvas.getCoordinates(point);
       assertIsA(coordinates, Array);
       assert.strictEqual(coordinates.length, 2);
       coordinates.forEach(function (n) {
@@ -83,12 +89,9 @@ describe('Canvas', function () {
   });
 
   describe('when generating path', function () {
-    let object;
+    let object: InstanceType<typeof Line>;
     beforeEach(function () {
-      object = HyperbolicCanvas.Line.givenTwoPoints(
-        HyperbolicCanvas.Point.random(),
-        HyperbolicCanvas.Point.random(),
-      );
+      object = Line.givenTwoPoints(Point.random(), Point.random());
     });
 
     it('returns CanvasRenderingContext2D by default', function () {
@@ -97,15 +100,15 @@ describe('Canvas', function () {
     });
 
     it('returns input path if given', function () {
-      let ctx = canvas.getContext();
-      let options = { path2D: false, path: ctx };
+      const ctx = canvas.getContext();
+      const options = { path2D: false, path: ctx };
       assert.strictEqual(canvas.pathForEuclidean(object, options), ctx);
       assert.strictEqual(canvas.pathForHyperbolic(object, options), ctx);
     });
 
     // TODO: test Path2D behavior once path2d polyfill is added as a dependency
     it('returns CanvasRenderingContext2D if Path2D is requested but unavailable', function () {
-      let options = { path2D: true, path: false };
+      const options = { path2D: true, path: false };
       assertIsA(
         canvas.pathForEuclidean(object, options),
         CanvasRenderingContext2D,

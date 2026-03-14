@@ -94,7 +94,7 @@
         x = event.clientX;
         y = event.clientY;
       }
-      location = canvas.at([x, y]);
+      location = canvas.getPoint([x, y]);
       if (!location.isOnPlane()) {
         location = HyperbolicCanvas.Point.givenEuclideanPolarCoordinates(
           0.9999,
